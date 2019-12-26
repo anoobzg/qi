@@ -1,0 +1,6 @@
+bin/
+lib/
+src/glew/build/
+src/jupiterwangq/build/
+src/lua/build/
+src/zlib/build/
