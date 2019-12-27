@@ -1,0 +1,9 @@
+PROJECT(qcustomplot)
+
+set( QCUSTOMPLOT_HEADERS qcustomplot.h )
+set( QCUSTOMPLOT_SOURCES qcustomplot.cpp )
+
+add_library(${PROJECT_NAME} STATIC ${QCUSTOMPLOT_HEADERS} ${QCUSTOMPLOT_SOURCES} )
+#####
+AddTarget(${PROJECT_NAME})
+#####
