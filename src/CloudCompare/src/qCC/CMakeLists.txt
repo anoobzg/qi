@@ -15,7 +15,10 @@ include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/db_tree )
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/ui_templates )
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../libs/qxt )
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../libs/qcustomplot )
+
+qi_include(qcustomplot)
+#include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../libs/qcustomplot )
+
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
 
 file( GLOB header_list *.h db_tree/*.h ${QXT_HEADERS} )
@@ -56,6 +59,7 @@ elseif( APPLE )
 else()
 	add_executable( ${PROJECT_NAME} ${header_list} ${source_list} ${generated_ui_list} ${generated_qrc_list} ${rc_list} ${txt_list} )
 endif()
+set_target_properties (${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS "QCUSTOMPLOT_USE_LIBRARY")
 
 #####
 AddTarget(${PROJECT_NAME})
@@ -66,8 +70,9 @@ target_link_libraries( ${PROJECT_NAME} CC_CORE_LIB )
 target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
 target_link_libraries( ${PROJECT_NAME} QCC_IO_LIB )
 target_link_libraries( ${PROJECT_NAME} QCC_GL_LIB )
-target_link_libraries( ${PROJECT_NAME} qcustomplot )
-
+#target_link_libraries( ${PROJECT_NAME} qcustomplot )
+qi_lib(${PROJECT_NAME} qcustomplot)
+  
 # Qt
 qt5_use_modules(${PROJECT_NAME} Core Gui Widgets OpenGL PrintSupport)
 if (WIN32)

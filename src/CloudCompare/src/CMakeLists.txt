@@ -95,7 +95,7 @@ add_subdirectory( libs/CCFbo )
 add_subdirectory( libs/qCC_db ) # must always be included after CCFbo (dependency)
 add_subdirectory( libs/qCC_io ) # must always be included after qCC_db (dependency)
 add_subdirectory( libs/qCC_glWindow ) # must always be included after qCC_db (dependency)
-add_subdirectory( libs/qcustomplot )
+#add_subdirectory( libs/qcustomplot )
 
 #load plugins (potentially used by qCC and ccViewer)
 add_subdirectory( plugins )
