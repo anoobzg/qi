@@ -1,0 +1,39 @@
+language: cpp
+compiler: gcc
+sudo: required
+dist: trusty
+
+git:
+  depth: false
+
+matrix:
+  include:
+    - os: linux
+      env: BINARY_TYPE=AppImage
+    - os: linux
+      env: BINARY_TYPE=deb
+      services: docker
+    - os: linux
+      env: BINARY_TYPE=rpm
+      services: docker
+    - os: windows
+      env: BINARY_TYPE=exe
+    - os: osx
+      env: BINARY_TYPE=app
+
+before_install:
+  - source ci/scripts/bootstrap.sh
+
+install:
+  - source ci/scripts/setup.sh
+
+script:
+  - source ci/scripts/build.sh
+
+after_success:
+  - source ci/scripts/upload.sh
+
+branches:
+  except:
+    - # Do not build tags that we create when we upload to GitHub Releases
+    - /^(?i:continuous)/

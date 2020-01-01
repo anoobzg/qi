@@ -1,0 +1,37 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/icons">
+    <file>ksnip.svg</file>
+
+    <file>light/bold.svg</file>
+    <file>light/italic.svg</file>
+    <file>light/underline.svg</file>
+    <file>light/clock.svg</file>
+    <file>light/crop.svg</file>
+    <file>light/save.svg</file>
+    <file>light/copy.svg</file>
+    <file>light/undo.svg</file>
+    <file>light/redo.svg</file>
+    <file>light/currentScreen.svg</file>
+    <file>light/drawRect.svg</file>
+    <file>light/lastRect.svg</file>
+    <file>light/activeWindow.svg</file>
+    <file>light/windowUnderCursor.svg</file>
+    <file>light/fullScreen.svg</file>
+
+    <file>dark/bold.svg</file>
+    <file>dark/italic.svg</file>
+    <file>dark/underline.svg</file>
+    <file>dark/clock.svg</file>
+    <file>dark/crop.svg</file>
+    <file>dark/save.svg</file>
+    <file>dark/copy.svg</file>
+    <file>dark/undo.svg</file>
+    <file>dark/redo.svg</file>
+    <file>dark/currentScreen.svg</file>
+    <file>dark/drawRect.svg</file>
+    <file>dark/lastRect.svg</file>
+    <file>dark/activeWindow.svg</file>
+    <file>dark/windowUnderCursor.svg</file>
+    <file>dark/fullScreen.svg</file>
+</qresource>
+</RCC>
