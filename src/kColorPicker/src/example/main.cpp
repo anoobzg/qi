@@ -27,10 +27,11 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
     auto widget = new QWidget();
-    widget->setFixedWidth(200);
-    widget->setFixedHeight(200);
+    widget->setFixedWidth(1000);
+    widget->setFixedHeight(600);
     auto layout = new QVBoxLayout();
     auto colorPicker = new KColorPicker();
+    colorPicker->setFixedSize(QSize(100, 100));
     colorPicker->setColor(QColor(Qt::red));
     layout->addWidget(colorPicker);
     widget->setLayout(layout);

@@ -1,16 +1,18 @@
 #include <QApplication>
 #include <QWidget>
+#include <QMainwindow>
+#include <QMenuBar>
+
 int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
-	QWidget w;
-	w.resize(400, 400);
-	w.showNormal();
+	
+	QMainWindow main_window;
+	main_window.resize(500, 500);
+	main_window.showNormal();
 
-	QWidget w2;
-	w2.move(0, 0);
-	w2.resize(100, 100);
-	w2.showNormal();
+	QMenuBar* menu_bar = main_window.menuBar();
+	QMenu* menu = menu_bar->addMenu("FILE");
 	int result = app.exec();
 	return result;
 } 
