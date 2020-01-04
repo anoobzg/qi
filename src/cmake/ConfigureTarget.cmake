@@ -3,6 +3,7 @@ set(BIN_PLUGINS_OUTPUT_DIR "${CMAKE_BINARY_DIR}/../../../bin/plugins")
 set(LIB_OUTPUT_DIR "${CMAKE_BINARY_DIR}/../../../lib")
 set(ALL_TARGETS)
 set(ALL_PLUGIN_TARGETS)
+set(ALL_OSG_PLUGIN_TARGETS)
 
 macro(ConfigureTarget TARGET_NAME)
 set_target_properties(${TARGET_NAME} PROPERTIES
@@ -22,6 +23,16 @@ set_target_properties(${TARGET_NAME} PROPERTIES
 					LIBRARY_OUTPUT_DIRECTORY_RELEASE "${LIB_OUTPUT_DIR}/Release/plugins"
 					ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${LIB_OUTPUT_DIR}/Release/plugins"
 					RUNTIME_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}/Release/plugins"
+					)
+endmacro()
+macro(ConfigureOSGPluginTarget TARGET_NAME)
+set_target_properties(${TARGET_NAME} PROPERTIES
+					LIBRARY_OUTPUT_DIRECTORY_DEBUG "${LIB_OUTPUT_DIR}/Debug/osgPlugins-3.6.5"
+					ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${LIB_OUTPUT_DIR}/Debug/osgPlugins-3.6.5"
+					RUNTIME_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}/Debug/osgPlugins-3.6.5"
+					LIBRARY_OUTPUT_DIRECTORY_RELEASE "${LIB_OUTPUT_DIR}/Release/osgPlugins-3.6.5"
+					ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${LIB_OUTPUT_DIR}/Release/osgPlugins-3.6.5"
+					RUNTIME_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}/Release/osgPlugins-3.6.5"
 					)
 endmacro()
 
@@ -46,6 +57,11 @@ list(APPEND ALL_PLUGIN_TARGETS ${TARGET_NAME})
 set(ALL_PLUGIN_TARGETS ${ALL_PLUGIN_TARGETS} CACHE STRING INTERNAL FORCE)
 #endif()
 endmacro()
+macro(AddOSGPluginTarget TARGET_NAME)
+list(APPEND ALL_OSG_PLUGIN_TARGETS ${TARGET_NAME})
+set(ALL_OSG_PLUGIN_TARGETS ${ALL_OSG_PLUGIN_TARGETS} CACHE STRING INTERNAL FORCE)
+#endif()
+endmacro()
 
 macro(ConfigureAll)
 foreach(target ${ALL_TARGETS})
@@ -55,6 +71,10 @@ endforeach()
 foreach(target ${ALL_PLUGIN_TARGETS})
 #message(STATUS ${target})
 ConfigurePluginTarget(${target})
+endforeach()
+foreach(target ${ALL_OSG_PLUGIN_TARGETS})
+#message(STATUS ${target})
+ConfigureOSGPluginTarget(${target})
 endforeach()
 endmacro()
 
