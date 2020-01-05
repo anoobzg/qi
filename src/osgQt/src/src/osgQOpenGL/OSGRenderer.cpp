@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Mike Krus
+﻿// Copyright (C) 2017 Mike Krus
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License as
@@ -34,6 +34,8 @@
 #include <QWheelEvent>
 
 #include <QThread>
+
+#include <iostream>
 
 namespace
 {
@@ -463,6 +465,9 @@ void OSGRenderer::frame(double simulationTime)
     _lastFrameStartTime.setStartTick();
     // make frame
 
+	//int x, y, w, h;
+	//m_osgWinEmb->getWindowRectangle(x, y, w, h);
+	//std::cout << w << " " << h << std::endl;
 #if 1
     osgViewer::Viewer::frame(simulationTime);
 #else
