@@ -1,0 +1,10 @@
+macro(IncludeOSG)
+include_directories("${CMAKE_SOURCE_DIR}/../../OpenSceneGraph/src/include/")
+include_directories("${CMAKE_BINARY_DIR}/../../OpenSceneGraph/build/include/")
+endmacro()
+
+macro(LinkOSG target)
+foreach(lib OpenThreads osg osgDB osgGA osgUtil osgViewer)
+	target_link_libraries(${target} debug "${LIB_DEBUG_PATH}/${lib}d.lib" optimized "${LIB_RELEASE_PATH}/${lib}.lib")
+endforeach()
+endmacro()

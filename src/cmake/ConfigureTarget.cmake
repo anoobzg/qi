@@ -1,6 +1,8 @@
 set(BIN_OUTPUT_DIR "${CMAKE_BINARY_DIR}/../../../bin")
 set(BIN_PLUGINS_OUTPUT_DIR "${CMAKE_BINARY_DIR}/../../../bin/plugins")
 set(LIB_OUTPUT_DIR "${CMAKE_BINARY_DIR}/../../../lib")
+set(LIB_DEBUG_PATH "${LIB_OUTPUT_DIR}/Debug/")
+set(LIB_RELEASE_PATH "${LIB_OUTPUT_DIR}/Release/")
 set(ALL_TARGETS)
 set(ALL_PLUGIN_TARGETS)
 set(ALL_OSG_PLUGIN_TARGETS)
