@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../../cmake/")
 include(ConfigureTarget)
+include(LinkkColorPicker)
 
 project(kImageAnnotator LANGUAGES CXX VERSION 0.2.0)
 
@@ -19,7 +20,7 @@ find_package(Qt5 ${QT_MIN_VERSION} REQUIRED Widgets Test)
 
 set(BASEPATH "${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories("${BASEPATH}")
-include_directories("${BIN_OUTPUT_DIR}/../src/kColorPicker/src/include/")
+IncludekColorPicker()
 
 add_subdirectory(src)
 add_subdirectory(example)
@@ -40,14 +41,12 @@ target_include_directories(kImageAnnotator
 						   )
 
 if (UNIX)
-	target_link_libraries(kImageAnnotator PUBLIC Qt5::Widgets X11)
+	target_link_libraries(kImageAnnotator Qt5::Widgets X11)
 else ()
-	target_link_libraries(kImageAnnotator PUBLIC Qt5::Widgets
-						debug "${LIB_OUTPUT_DIR}/Debug/kColorPicker.lib" optimized "${LIB_OUTPUT_DIR}/Release/kColorPicker.lib")
+	target_link_libraries(kImageAnnotator Qt5::Widgets)
 endif ()
 
-#qi_lib(kImageAnnotator kColorPicker)
-
+LinkkColorPicker(kImageAnnotator)
 target_compile_definitions(kImageAnnotator PRIVATE KIMAGEANNOTATOR_LIB)
 
 TopAddTarget(kImageAnnotator)

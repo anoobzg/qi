@@ -33,7 +33,7 @@ public:
 	void setValueSilent(int value);
 
 signals:
-	void valueChanged(int) const;
+	void valueChangedEx(int) const;
 };
 
 } // namespace kImageAnnotator

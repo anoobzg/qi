@@ -23,7 +23,7 @@ namespace kImageAnnotator {
 
 kImageAnnotator::CustomSpinBox::CustomSpinBox(QWidget *parent) : QSpinBox(parent)
 {
-	connect(this, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &CustomSpinBox::valueChanged);
+	connect(this, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &CustomSpinBox::valueChangedEx);
 }
 
 void CustomSpinBox::setValueSilent(int value)

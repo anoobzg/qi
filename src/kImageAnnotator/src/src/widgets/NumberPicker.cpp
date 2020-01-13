@@ -25,7 +25,7 @@ NumberPicker::NumberPicker(const QIcon &icon, const QString &tooltip)
 {
 	initGui(icon, tooltip);
 
-	connect(mSpinBox, &CustomSpinBox::valueChanged, this, &NumberPicker::selectionChanged);
+	connect(mSpinBox, &CustomSpinBox::valueChangedEx, this, &NumberPicker::selectionChanged);
 }
 
 NumberPicker::~NumberPicker()

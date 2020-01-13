@@ -76,7 +76,7 @@ void ScaleDialog::initGui()
 	mWidthPixelSpinBox->setMaximum(4000);
 	mWidthPixelSpinBox->setValueSilent(mSizeHandler.size().width());
 	mWidthPixelSpinBox->setWrapping(false);
-	connect(mWidthPixelSpinBox, &CustomSpinBox::valueChanged, &mSizeHandler, &ScaleSizeHandler::setWidthPixel);
+	connect(mWidthPixelSpinBox, &CustomSpinBox::valueChangedEx, &mSizeHandler, &ScaleSizeHandler::setWidthPixel);
 	connect(&mSizeHandler, &ScaleSizeHandler::widthPixelChanged, mWidthPixelSpinBox, &CustomSpinBox::setValueSilent);
 
 	mHeightPixelSpinBox = new CustomSpinBox(this);
@@ -85,7 +85,7 @@ void ScaleDialog::initGui()
 	mHeightPixelSpinBox->setMaximum(4000);
 	mHeightPixelSpinBox->setValueSilent(mSizeHandler.size().height());
 	mHeightPixelSpinBox->setWrapping(false);
-	connect(mHeightPixelSpinBox, &CustomSpinBox::valueChanged, &mSizeHandler, &ScaleSizeHandler::setHeightPixel);
+	connect(mHeightPixelSpinBox, &CustomSpinBox::valueChangedEx, &mSizeHandler, &ScaleSizeHandler::setHeightPixel);
 	connect(&mSizeHandler, &ScaleSizeHandler::heightPixelChanged, mHeightPixelSpinBox, &CustomSpinBox::setValueSilent);
 
 	mWidthPercentSpinBox = new CustomSpinBox(this);
@@ -94,7 +94,7 @@ void ScaleDialog::initGui()
 	mWidthPercentSpinBox->setMaximum(400);
 	mWidthPercentSpinBox->setValueSilent(100);
 	mWidthPercentSpinBox->setWrapping(false);
-	connect(mWidthPercentSpinBox, &CustomSpinBox::valueChanged, &mSizeHandler, &ScaleSizeHandler::setWidthPercent);
+	connect(mWidthPercentSpinBox, &CustomSpinBox::valueChangedEx, &mSizeHandler, &ScaleSizeHandler::setWidthPercent);
 	connect(&mSizeHandler, &ScaleSizeHandler::widthPercentChanged, mWidthPercentSpinBox, &CustomSpinBox::setValueSilent);
 
 	mHeightPercentSpinBox = new CustomSpinBox(this);
@@ -103,7 +103,7 @@ void ScaleDialog::initGui()
 	mHeightPercentSpinBox->setMaximum(400);
 	mHeightPercentSpinBox->setValueSilent(100);
 	mHeightPercentSpinBox->setWrapping(false);
-	connect(mHeightPercentSpinBox, &CustomSpinBox::valueChanged, &mSizeHandler, &ScaleSizeHandler::setHeightPercent);
+	connect(mHeightPercentSpinBox, &CustomSpinBox::valueChangedEx, &mSizeHandler, &ScaleSizeHandler::setHeightPercent);
 	connect(&mSizeHandler, &ScaleSizeHandler::heightPercentChanged, mHeightPercentSpinBox, &CustomSpinBox::setValueSilent);
 
 	mOkButton = new QPushButton;
