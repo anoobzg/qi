@@ -3,8 +3,14 @@ cmake_minimum_required(VERSION 2.6)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../../cmake/")
 include(ConfigureTarget)
 include(LinkZlib)
+include(LinkQuaZip)
 
 project(QuaZip)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED Widgets Gui NetWork Test)
 
 # CMP0042: Explicitly acknowledge MACOSX_RPATH
 # (introduced in CMake 2.8.12, enabled by default in CMake 3.0,
@@ -54,6 +60,7 @@ else()
     #    message("Please specify a valid zlib include dir")
     #endif()
 	IncludeZlib()
+	IncludeQuaZip()
 endif()
 
 # All build libraries are moved to this directory
@@ -66,6 +73,7 @@ set(QUAZIP_LIB_TARGET_NAME quazip${QUAZIP_LIB_VERSION_SUFFIX} CACHE
     INTERNAL "Target name of libquazip" FORCE)
 
 add_subdirectory(quazip)
+add_subdirectory(qztest)
 
 install(FILES QuaZipConfig.cmake DESTINATION ${LIB_DESTINATION}/cmake/QuaZip${QUAZIP_LIB_VERSION_SUFFIX} RENAME QuaZip${QUAZIP_LIB_VERSION_SUFFIX}Config.cmake)
 ConfigureAll()
