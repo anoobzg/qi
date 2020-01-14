@@ -24,7 +24,7 @@
 
 #include <QWidget>
 #include "GraphDraw/exportpreview.h"
-#include "Windows/rangeadjustments.h"
+#include "Widgets/rangeadjustments.h"
 
 namespace Ui {
     class Export;

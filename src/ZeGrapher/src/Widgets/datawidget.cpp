@@ -22,6 +22,7 @@
 
 #include "Widgets/datawidget.h"
 #include "ui_datawidget.h"
+#include "structures.h"
 
 DataWidget::DataWidget(int num, Information *info, QWidget *parent) :
     QWidget(parent),
@@ -34,7 +35,7 @@ DataWidget::DataWidget(int num, Information *info, QWidget *parent) :
     style.drawLines = false;
     style.drawPoints = true;
     style.lineStyle = Qt::SolidLine;
-    style.pointStyle = Rhombus;
+    style.pointStyle = PointStyle::Rhombus;
     style.draw = true;
 
     info->setDataStyle(num, style);
@@ -53,7 +54,7 @@ DataWidget::DataWidget(int num, Information *info, QWidget *parent) :
     ui->pointStyleCombo->addItem(QIcon(":/icons/trianglePoint.png"), "");
     ui->pointStyleCombo->addItem(QIcon(":/icons/crossPoint.png"), "");
 
-    pointStyleMap << Rhombus << Disc << Square << Triangle << Cross;
+    pointStyleMap << PointStyle::Rhombus << PointStyle::Disc << PointStyle::Square << PointStyle::Triangle << PointStyle::Cross;
 
     ui->linesStyleCombo->setIconSize(ui->linesStyleCombo->size());
     ui->linesStyleCombo->addItem(QIcon(":/icons/solidLine.png"), "");
