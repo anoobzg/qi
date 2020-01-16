@@ -16,11 +16,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(QT_MIN_VERSION "5.6.1")
 
+add_definitions("-DSCINTILLA_QT")
+
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED Widgets PrintSupport)
 
 include_directories("${CMAKE_SOURCE_DIR}/include/")
 include_directories("${CMAKE_SOURCE_DIR}/src/")
 include_directories("${CMAKE_SOURCE_DIR}/lexlib/")
 add_subdirectory(Qt4Qt5)
-
+add_subdirectory(example-Qt4Qt5)
 ConfigureAll()

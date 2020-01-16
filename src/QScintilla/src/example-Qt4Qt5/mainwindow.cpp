@@ -37,12 +37,19 @@
 #include <QToolBar>
 
 #include <Qsci/qsciscintilla.h>
+#include <Qsci/qscilexercpp.h>
+#include <Qsci/qscilexerpython.h>
 
 #include "mainwindow.h"
 
 MainWindow::MainWindow()
 {
     textEdit = new QsciScintilla;
+    QsciLexerPython* textLexer = new QsciLexerPython(textEdit);
+    //textLexer->setColor(QColor(Qt::red), QsciLexerCPP::Operator);
+    textEdit->setLexer(textLexer);
+    textEdit->setCaretLineBackgroundColor(QColor(Qt::red));
+
     setCentralWidget(textEdit);
 
     createActions();
