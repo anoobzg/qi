@@ -17,6 +17,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(QT_MIN_VERSION "5.6.1")
 
 add_definitions("-DSCINTILLA_QT")
+add_definitions("-DSCI_LEXER")
 
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED Widgets PrintSupport)
 
