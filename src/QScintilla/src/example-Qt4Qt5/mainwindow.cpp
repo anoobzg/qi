@@ -46,10 +46,10 @@ MainWindow::MainWindow()
 {
     textEdit = new QsciScintilla;
     QsciLexerPython* textLexer = new QsciLexerPython(textEdit);
-    textEdit->setLexer(textLexer);
-    textEdit->setCaretLineBackgroundColor(QColor(Qt::red));
 
     textLexer->setColor(QColor(Qt::red), QsciLexerPython::Keyword);
+    textEdit->setLexer(textLexer);
+    textEdit->setCaretLineBackgroundColor(QColor(Qt::red));
 
     setCentralWidget(textEdit);
 
