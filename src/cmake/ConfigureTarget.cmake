@@ -86,3 +86,22 @@ endmacro()
 macro(qi_lib target lib)
 target_link_libraries(${target} debug "${LIB_OUTPUT_DIR}/Debug/${lib}.lib" optimized "${LIB_OUTPUT_DIR}/Release/${lib}.lib")
 endmacro()
+
+# Use the static C library for all build types to a target
+# MSVC编译时对指定的target设置'/MT'选项连接static c/c++ library
+function (with_mt_if_msvc target)
+if(MSVC) 
+  # Generator expressions
+  get_target_property(_type ${target} TYPE)
+  if(_type STREQUAL "STATIC_LIBRARY")
+    # 静态库将/MT选项加入INTERFACE_COMPILE_OPTIONS
+	target_compile_options(${target} PUBLIC "/MT$<$<STREQUAL:$<CONFIGURATION>,Debug>:d>")
+    #target_compile_options( ${target} PUBLIC "${_options}")
+  endif()
+  #message(STATUS ${_options})
+  # Cleanup temporary variables.
+  #unset(_mt)
+  #unset(_options)
+  message(STATUS "target ${target} use static runtime /MT")
+endif(MSVC)
+endfunction()

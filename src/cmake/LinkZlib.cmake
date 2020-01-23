@@ -6,3 +6,7 @@ endmacro()
 macro(LinkZlib target)
 	target_link_libraries(${target} debug "${LIB_DEBUG_PATH}/zlibd.lib" optimized "${LIB_RELEASE_PATH}/zlib.lib")
 endmacro()
+
+macro(LinkStaticZlib target)
+	target_link_libraries(${target} debug "${LIB_DEBUG_PATH}/zlibstaticd.lib" optimized "${LIB_RELEASE_PATH}/zlibstatic.lib")
+endmacro()
