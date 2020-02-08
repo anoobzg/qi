@@ -95,10 +95,14 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR})
 # zlib
 #============================================================================
 
+set(ZIP_CONTRI)
 set(ZLIB_PUBLIC_HDRS
     ${CMAKE_CURRENT_BINARY_DIR}/zconf.h
     zlib.h
+	${ZIP_CONTRI}zip.h
+	${ZIP_CONTRI}unzip.h
 )
+
 set(ZLIB_PRIVATE_HDRS
     crc32.h
     deflate.h
@@ -109,6 +113,9 @@ set(ZLIB_PRIVATE_HDRS
     inftrees.h
     trees.h
     zutil.h
+	${ZIP_CONTRI}ioapi.h
+	${ZIP_CONTRI}iowin32.h
+	${ZIP_CONTRI}crypt.h
 )
 set(ZLIB_SRCS
     adler32.c
@@ -126,6 +133,10 @@ set(ZLIB_SRCS
     trees.c
     uncompr.c
     zutil.c
+	${ZIP_CONTRI}ioapi.c
+	${ZIP_CONTRI}iowin32.c
+	${ZIP_CONTRI}zip.c
+	${ZIP_CONTRI}unzip.c
 )
 
 if(NOT MINGW)
@@ -245,6 +256,10 @@ add_test(zlib_example zlib_example)
 add_executable(zlib_minigzip test/minigzip.c)
 target_link_libraries(zlib_minigzip zlib)
 
+#include_directories(${CMAKE_SOURCE_DIR}/contrib/minizip/)
+add_executable(zlib_testzip test/testzip.c)
+target_link_libraries(zlib_testzip zlib)
+	
 if(HAVE_OFF64_T)
     add_executable(zlib_example64 test/example.c)
     target_link_libraries(zlib_example64 zlib)
@@ -254,18 +269,24 @@ if(HAVE_OFF64_T)
     add_executable(zlib_minigzip64 test/minigzip.c)
     target_link_libraries(zlib_minigzip64 zlib)
     set_target_properties(zlib_minigzip64 PROPERTIES COMPILE_FLAGS "-D_FILE_OFFSET_BITS=64")
+	
+	add_executable(zlib_testzip64 test/testzip.c)
+    target_link_libraries(zlib_testzip64 zlib)
+    set_target_properties(zlib_testzip64 PROPERTIES COMPILE_FLAGS "-D_FILE_OFFSET_BITS=64")
 endif()
 
-
+#add_subdirectory(contrib)
 
 #### ZG
 TopAddTarget(zlib)
 TopAddTarget(zlibstatic)
 TopAddTarget(zlib_example)
 TopAddTarget(zlib_minigzip)
+TopAddTarget(zlib_testzip)
 if(HAVE_OFF64_T)
 TopAddTarget(zlib_example64)
 TopAddTarget(zlib_minigzip64)
+TopAddTarget(zlib_testzip64)
 endif()
 ConfigureAll()
 ####
