@@ -41,9 +41,11 @@ endif(WITH_CUDA)
 
 # --- Eigen ---
 if(WITH_EIGEN AND NOT HAVE_EIGEN)
-  find_package(Eigen3 QUIET)
+  #find_package(Eigen3 QUIET)
 
   if(Eigen3_FOUND)
+  
+	message(STATUS "EIGEN3 FIND ++++++++++++++++++++++++++++++++++")
     if(TARGET Eigen3::Eigen)
       # Use Eigen3 imported target if possible
       list(APPEND OPENCV_LINKER_LIBS Eigen3::Eigen)
@@ -74,6 +76,7 @@ if(WITH_EIGEN AND NOT HAVE_EIGEN)
     if(NOT EIGEN_INCLUDE_PATH OR NOT EXISTS "${EIGEN_INCLUDE_PATH}")
       set(__find_paths "")
       set(__find_path_extra_options "")
+	  list(APPEND __find_paths "${CMAKE_SOURCE_DIR}/../../Eigen/src/")
       if(NOT CMAKE_CROSSCOMPILING)
         list(APPEND __find_paths /opt)
       endif()
@@ -85,7 +88,7 @@ if(WITH_EIGEN AND NOT HAVE_EIGEN)
       endif()
       find_path(EIGEN_INCLUDE_PATH "Eigen/Core"
                 PATHS ${__find_paths}
-                PATH_SUFFIXES include/eigen3 include/eigen2 Eigen/include/eigen3 Eigen/include/eigen2
+                #PATH_SUFFIXES include/eigen3 include/eigen2 Eigen/include/eigen3 Eigen/include/eigen2
                 DOC "The path to Eigen3/Eigen2 headers"
                 ${__find_path_extra_options}
       )
@@ -100,6 +103,7 @@ if(HAVE_EIGEN)
   if(EIGEN_INCLUDE_PATH AND EXISTS "${EIGEN_INCLUDE_PATH}")
     ocv_include_directories(SYSTEM ${EIGEN_INCLUDE_PATH})
   endif()
+  message(STATUS "EIGEN INCLUDE DIR ${EIGEN_INCLUDE_PATH}")
 endif()
 
 # --- Clp ---

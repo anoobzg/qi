@@ -4,5 +4,6 @@ include(ConfigureTarget)
 
 project(tester)
 add_subdirectory(svd)
+add_subdirectory(zip)
 
 ConfigureAll()
