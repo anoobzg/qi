@@ -1,0 +1,34 @@
+language: cpp
+
+#osx_image: xcode7.2
+
+os:
+ - osx
+
+env: MACOSX_DEPLOYMENT_TARGET=10.11
+
+compiler:
+ - clang
+# - gcc
+
+before_install:
+ - brew update
+ - brew install cmake || brew outdated cmake || brew upgrade cmake
+ - brew install ffmpeg
+ - brew upgrade python
+ - brew install sdl2
+ - brew install libsndfile
+ - brew install jack
+ - brew install fftw
+ - sudo pip3 install numpy
+# - sudo apt-get update -qq
+# - sudo apt-get install -qq python3-all-dev python3-numpy libopenal-dev libsdl2-dev libsndfile1-dev libavcodec-ffmpeg-dev libavformat-ffmpeg-dev libavutil-ffmpeg-dev libjack-dev
+
+before_script:
+ - mkdir build
+ - cd build
+ - cmake -DPYTHON_INCLUDE_DIR=$(find /usr/local/Cellar/python3/3.*/Frameworks/Python.framework/Versions/3.*/include/ -name "python3.*m") -DPYTHON_LIBRARY=$(find /usr/local/Cellar/python3/3.*/Frameworks/Python.framework/Versions/3.*/lib -name "libpython3.*.dylib") -DPython_FRAMEWORKS=$(find /usr/local/Cellar/python3/3.*/Frameworks -name "Python.framework") ..
+
+script:
+ - make
+

@@ -204,6 +204,8 @@ add_library(zlib SHARED ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_DLL_SRCS} ${ZLIB_PUBLIC
 add_library(zlibstatic STATIC ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
 with_mt_if_msvc(zlibstatic)
 
+add_library(zlib_static_md STATIC ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
+
 set_target_properties(zlib PROPERTIES DEFINE_SYMBOL ZLIB_DLL)
 set_target_properties(zlib PROPERTIES SOVERSION 1)
 
@@ -283,6 +285,7 @@ endif()
 #### ZG
 TopAddTarget(zlib)
 TopAddTarget(zlibstatic)
+TopAddTarget(zlib_static_md)
 TopAddTarget(zlib_example)
 TopAddTarget(zlib_minigzip)
 TopAddTarget(zlib_testzip)
