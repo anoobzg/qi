@@ -28,7 +28,7 @@
 // For now, let a prior set of OIIO_USE_FMT=0 cause us to fall back to
 // tinyformat and/or disable its functionality. Use with caution!
 #ifndef OIIO_USE_FMT
-#    define OIIO_USE_FMT 1
+#    define OIIO_USE_FMT 0
 #endif
 
 #if OIIO_GNUC_VERSION >= 70000

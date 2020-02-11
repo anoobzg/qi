@@ -8,10 +8,10 @@
 
 
 // Versioning of the OpenImageIO software
-#define OIIO_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
-#define OIIO_VERSION_MINOR @PROJECT_VERSION_MINOR@
-#define OIIO_VERSION_PATCH @PROJECT_VERSION_PATCH@
-#define OIIO_VERSION_RELEASE_TYPE @PROJECCT_VERSION_RELEASE_TYPE@
+#define OIIO_VERSION_MAJOR 1
+#define OIIO_VERSION_MINOR 8
+#define OIIO_VERSION_PATCH 13
+#define OIIO_VERSION_RELEASE_TYPE
 
 #define OIIO_VERSION (10000 * OIIO_VERSION_MAJOR + \
                         100 * OIIO_VERSION_MINOR + \
@@ -30,15 +30,15 @@
 
 
 // Establish the name spaces
-namespace @PROJ_NAMESPACE_V@ { }
-namespace @PROJ_NAME@ = @PROJ_NAMESPACE_V@;
+namespace OpenImageIO_v1_8 { }
+namespace OIIO = OpenImageIO_v1_8;
 
 // Macros to use in each file to enter and exit the right name spaces.
-#define @PROJ_NAME@_NAMESPACE @PROJ_NAMESPACE_V@
-#define @PROJ_NAME@_NAMESPACE_STRING "@PROJ_NAMESPACE_V@"
-#define @PROJ_NAME@_NAMESPACE_BEGIN namespace @PROJ_NAMESPACE_V@ {
-#define @PROJ_NAME@_NAMESPACE_END }
-#define @PROJ_NAME@_NAMESPACE_USING using namespace @PROJ_NAME@;
+#define OIIO_NAMESPACE OpenImageIO_v1_8
+#define OIIO_NAMESPACE_STRING "OpenImageIO_v1_8"
+#define OIIO_NAMESPACE_BEGIN namespace OpenImageIO_v1_8 {
+#define OIIO_NAMESPACE_END }
+#define OIIO_NAMESPACE_USING using namespace OIIO;
 
 
 /// Each imageio DSO/DLL should include this statement:
@@ -92,13 +92,13 @@ namespace @PROJ_NAME@ = @PROJ_NAMESPACE_V@;
 #endif
 
 // Which CPP standard (11, 14, etc.) was this copy of OIIO *built* with?
-#define OIIO_BUILD_CPP @CMAKE_CXX_STANDARD@
+#define OIIO_BUILD_CPP 11
 
 // DEPRECATED(2.1): old macros separately giving compatibility.
-#define OIIO_BUILD_CPP11 (@CMAKE_CXX_STANDARD@ >= 11)
-#define OIIO_BUILD_CPP14 (@CMAKE_CXX_STANDARD@ >= 14)
-#define OIIO_BUILD_CPP17 (@CMAKE_CXX_STANDARD@ >= 17)
-#define OIIO_BUILD_CPP20 (@CMAKE_CXX_STANDARD@ >= 20)
+#define OIIO_BUILD_CPP11 (11 >= 11)
+#define OIIO_BUILD_CPP14 (11 >= 14)
+#define OIIO_BUILD_CPP17 (11 >= 17)
+#define OIIO_BUILD_CPP20 (11 >= 20)
 
 #endif
 
