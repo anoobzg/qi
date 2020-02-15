@@ -347,15 +347,21 @@ namespace StructureSynth {
 			}
 		}
 
-		void MainWindow::keyReleaseEvent(QKeyEvent* ev) {
-			if (ev->key() == Qt::Key_Escape) {
+		void MainWindow::keyReleaseEvent(QKeyEvent* event)
+		{
+			bool fullscreen_check = m_fullscreen_action->isChecked();
+			if (event->key() == Qt::Key_Escape)
+			{
 				toggleFullScreen();
-			} else if (ev->key() == Qt::Key_F5 && fullScreenEnabled) {
+			} else if (event->key() == Qt::Key_F5 && fullscreen_check)
+			{
 				render();
-			} else if (ev->key() == Qt::Key_F6 && fullScreenEnabled) {
+			} else if (event->key() == Qt::Key_F6 && fullscreen_check)
+			{
 				templateExport();
-			} else {
-				ev->ignore();
+			} else
+			{
+				event->ignore();
 			}
 		};
 
@@ -425,10 +431,6 @@ namespace StructureSynth {
 			setAttribute(Qt::WA_DeleteOnClose);
 			setMouseTracking(true);
 
-			oldDirtyPosition = -1;
-			fullScreenEnabled = false;
-			probeDepth = false;
-
 			QSplitter*	splitter = new QSplitter(this);
 			splitter->setObjectName(QString::fromUtf8("splitter"));
 			splitter->setOrientation(Qt::Horizontal);
@@ -496,6 +498,8 @@ namespace StructureSynth {
 			INFO("Please report bugs and feature requests at the SourceForge forums (weblink at the Help Menu). Enjoy.");
 			//WARNING("This is an experimental SVN checkout build. For stability use the package releases.");
 
+			oldDirtyPosition = -1;
+			probeDepth = false;
 
 			createActions();
 			createOpenGLContextMenu();
@@ -518,33 +522,19 @@ namespace StructureSynth {
 			connect(probeDepthAction, SIGNAL(triggered()), this, SLOT(toggleProbeDepth()));
 			openGLContextMenu->addAction(probeDepthAction);
 
-			openGLContextMenu->addAction(fullScreenAction);
+			openGLContextMenu->addAction(m_fullscreen_action);
 			openGLContextMenu->addAction(screenshotAction);
 			openGLContextMenu->addAction(resetViewAction);
 			engine->setContextMenu(openGLContextMenu);
 		}
 
 
-		void MainWindow::toggleFullScreen() {
-			if (fullScreenEnabled) {
-				m_frame_layout->setMargin(4);
-				showNormal();
-				fullScreenEnabled = false;
-				fullScreenAction->setChecked(false);
-				m_stacked_text_edits->show();
-				m_log_dock->show();
-				menuBar()->show();
-				statusBar()->show();
-				fileToolBar->show();
-				editToolBar->show();
-				renderToolBar->show();
-				m_tab_bar->show();
-				randomToolBar->show();
-			} else {
+		void MainWindow::toggleFullScreen()
+		{
+			bool fullscreen_check = m_fullscreen_action->isChecked();
+			if (fullscreen_check)
+			{
 				m_frame_layout->setMargin(0);
-				fullScreenAction->setChecked(true);
-				fullScreenEnabled = true;
-
 				m_tab_bar->hide();
 				m_stacked_text_edits->hide();
 				m_log_dock->hide();
@@ -555,6 +545,19 @@ namespace StructureSynth {
 				renderToolBar->hide();
 				randomToolBar->hide();
 				showFullScreen();
+			} else 
+			{
+				m_frame_layout->setMargin(4);
+				showNormal();
+				m_stacked_text_edits->show();
+				m_log_dock->show();
+				menuBar()->show();
+				statusBar()->show();
+				fileToolBar->show();
+				editToolBar->show();
+				renderToolBar->show();
+				m_tab_bar->show();
+				randomToolBar->show();
 			}
 		}
 
@@ -565,10 +568,11 @@ namespace StructureSynth {
 
 		void MainWindow::createActions()
 		{
-			fullScreenAction = new QAction(tr("F&ullscreen"), this);
-			fullScreenAction->setShortcut(tr("Ctrl+F"));
-			fullScreenAction->setCheckable(true);
-			connect(fullScreenAction, SIGNAL(triggered()), this, SLOT(toggleFullScreen()));
+			m_fullscreen_action = new QAction(tr("F&ullscreen"), this);
+			m_fullscreen_action->setShortcut(tr("Ctrl+F"));
+			m_fullscreen_action->setCheckable(true);
+			m_fullscreen_action->setChecked(false);
+			connect(m_fullscreen_action, SIGNAL(triggered()), this, SLOT(toggleFullScreen()));
 
 			fastRotateAction = new QAction(tr("Fast Rotate"), this);
 			fastRotateAction->setCheckable(true);
@@ -710,7 +714,7 @@ namespace StructureSynth {
 			renderMenu->addAction(raytraceProgressiveAction);
 			renderMenu->addAction(raytraceFinalAction);
 			renderMenu->addSeparator();
-			renderMenu->addAction(fullScreenAction);
+			renderMenu->addAction(m_fullscreen_action);
 			renderMenu->addAction(resetViewAction);
 			renderMenu->addSeparator();
 			
@@ -1138,8 +1142,9 @@ namespace StructureSynth {
 
 		void MainWindow::tabChanged(int index)
 		{
-			if (index > tabInfo.size()) return;
-			if (index < 0) return;
+			int size = (int)tabInfo.size();
+			if (index >= size || index < 0)
+				return;
 
 			TabInfo t = tabInfo[index];
 			QString tabTitle = QString("%1%3").arg(strippedName(t.filename)).arg(t.unsaved ? "*" : "");
@@ -1151,15 +1156,21 @@ namespace StructureSynth {
 		void MainWindow::closeTab()
 		{
 			int index = m_tab_bar->currentIndex();
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return;
+			}
 			closeTab(index);
 		}
 
-		void MainWindow::closeTab(int index) {		
+		void MainWindow::closeTab(int index)
+		{		
 			TabInfo t = tabInfo[index];
 			if (t.unsaved) {
 				int answer = QMessageBox::warning(this, QString("Unsaved changes"), "Close this tab without saving changes?", "OK", "Cancel");
-				if (answer == 1) return;
+				if (answer == 1)
+					return;
 			}
 
 			tabInfo.remove(index);

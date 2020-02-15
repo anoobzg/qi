@@ -71,8 +71,6 @@ namespace StructureSynth {
 
 			void disableAllExcept(QWidget* w);
 			void enableAll();
-			
-		
 		protected:
 			void dragEnterEvent(QDragEnterEvent *ev);
 			void dropEvent(QDropEvent *ev);
@@ -84,8 +82,6 @@ namespace StructureSynth {
 			void showCoordinateSystemChanged();
 			void templateExport();
 			void toggleProbeDepth();
-			
-			void closeTab(int id);
 			void cut();
 			void copy();
 			void paste();
@@ -117,6 +113,7 @@ namespace StructureSynth {
 
 			void tabChanged(int index);
 			void closeTab();
+			void closeTab(int index);
 		private:
 			QList<QWidget *> disabledWidgets;
 			
@@ -143,7 +140,6 @@ namespace StructureSynth {
 			QAction* probeDepthAction ;
 			QAction* fastRotateAction;
 			QAction* showCoordinateSystemAction;
-			QAction* fullScreenAction;
 			QAction* insertCameraSettingsAction;
 			QAction* screenshotAction;
 			QAction* sfHomeAction;
@@ -176,7 +172,6 @@ namespace StructureSynth {
 			SyntopiaCore::GLEngine::EngineWidget* engine;
 
 			QMenu* openGLContextMenu;
-			bool fullScreenEnabled;
 
 			QVector<TabInfo> tabInfo;
 
@@ -187,6 +182,9 @@ namespace StructureSynth {
 			bool probeDepth;
 			SyntopiaCore::GLEngine::ProgressBox* progressBox;
 
+			///////////actions
+			QAction* m_fullscreen_action;
+			
 			///////////
 			QVBoxLayout* m_frame_layout;
 
