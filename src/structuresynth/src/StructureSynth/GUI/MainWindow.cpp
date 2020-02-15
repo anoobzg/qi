@@ -1,4 +1,3 @@
-
 #include <QtGui>
 #include <QDir>
 #include <QClipboard>
@@ -17,6 +16,8 @@
 #include <QStatusBar>
 #include <QMenuBar>
 #include <QSplitter>
+
+#include "SyntopiaCore/Misc/MiscDataCenter.h"
 
 #include "MainWindow.h"
 #include "VariableEditor.h"
@@ -290,16 +291,21 @@ namespace StructureSynth {
 		MainWindow::MainWindow()
 		{
 			init();
-			loadFile(QDir(getExamplesDir()).absoluteFilePath("Default.es"));
+			loadFile(QDir(EXAMPLEDIR).absoluteFilePath("Default.es"));
 			tabChanged(0); // to update title.
 		}
 
 		MainWindow::MainWindow(const QString &fileName)
 		{
-			QDir::setCurrent(QCoreApplication::applicationDirPath ()); // Otherwise we cannot find examples + templates
+			QDir::setCurrent(QCoreApplication::applicationDirPath()); // Otherwise we cannot find examples + templates
 			init();
 			loadFile(fileName);
 			tabChanged(0); // to update title.
+		}
+
+		MainWindow::~MainWindow()
+		{
+
 		}
 
 		void MainWindow::closeEvent(QCloseEvent *ev)
@@ -356,7 +362,7 @@ namespace StructureSynth {
 
 		bool MainWindow::save()
 		{
-			int index = tabBar->currentIndex();
+			int index = m_tab_bar->currentIndex();
 			if (index == -1) { WARNING("No open tab"); return false; } 
 			TabInfo t = tabInfo[index];
 
@@ -369,7 +375,7 @@ namespace StructureSynth {
 
 		bool MainWindow::saveAs()
 		{
-			int index = tabBar->currentIndex();
+			int index = m_tab_bar->currentIndex();
 			if (index == -1) { WARNING("No open tab"); return false; } 
 
 			TabInfo t = tabInfo[index];
@@ -385,9 +391,10 @@ namespace StructureSynth {
 
 		void MainWindow::about()
 		{
-
-			QFile file(getMiscDir() + QDir::separator() + "about.html");
-			if (!file.open(QFile::ReadOnly | QFile::Text)) {
+			QString about_file = MISCDIR + QDir::separator() + "about.html";
+			QFile file(about_file);
+			if (!file.open(QFile::ReadOnly | QFile::Text))
+			{
 				WARNING("Could not open about.html...");
 				return;
 			}
@@ -395,105 +402,92 @@ namespace StructureSynth {
 			QTextStream in(&file);
 			QString text = in.readAll();
 
-			text.replace("$VERSION$", version.toLongString());
+			text.replace("$VERSION$", VERSION.toLongString());
 
-			QMessageBox mb(this);
-			mb.setText(text);
-			mb.setWindowTitle("About Structure Synth");
-			mb.setIconPixmap(getMiscDir() + QDir::separator() + "icon.jpg");
-			mb.setMinimumWidth(800);
-			mb.exec();
-
+			QMessageBox message_box(this);
+			message_box.setText(text);
+			message_box.setWindowTitle("About Structure Synth");
+			message_box.setIconPixmap(MISCDIR + QDir::separator() + "icon.jpg");
+			message_box.setMinimumWidth(800);
+			message_box.exec();
 		}
 
 		void MainWindow::documentWasModified()
 		{
-			tabInfo[tabBar->currentIndex()].unsaved = true;
-			tabChanged(tabBar->currentIndex());
+			tabInfo[m_tab_bar->currentIndex()].unsaved = true;
+			tabChanged(m_tab_bar->currentIndex());
 		}
 
 		void MainWindow::init()
 		{
 			setAcceptDrops(true);
-
-			hasBeenResized = true;
+			setFocusPolicy(Qt::StrongFocus);
+			setAttribute(Qt::WA_DeleteOnClose);
+			setMouseTracking(true);
 
 			oldDirtyPosition = -1;
-			setFocusPolicy(Qt::StrongFocus);
-
-			version = SyntopiaCore::Misc::Version(1, 5, 0, -1, " (\"Hinxton\")");
-			setAttribute(Qt::WA_DeleteOnClose);
+			fullScreenEnabled = false;
+			probeDepth = false;
 
 			QSplitter*	splitter = new QSplitter(this);
 			splitter->setObjectName(QString::fromUtf8("splitter"));
 			splitter->setOrientation(Qt::Horizontal);
+			m_stacked_text_edits = new QStackedWidget(splitter);
+			engine = new SyntopiaCore::GLEngine::EngineWidget(this, splitter);
 
-			stackedTextEdits = new QStackedWidget(splitter);
+			m_tab_bar = new QTabBar(this);
+			m_tab_bar->setTabsClosable(true);
+			connect(m_tab_bar, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+			connect(m_tab_bar, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 
-			engine = new SyntopiaCore::GLEngine::EngineWidget(this,splitter);
-
-			tabBar = new QTabBar(this);
-
-#if QT_VERSION >= 0x040500
-			tabBar->setTabsClosable(true);
-			connect(tabBar, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
-#endif 
-
-			QFrame* f = new QFrame(this);
-			frameMainWindow = new QVBoxLayout();
-			frameMainWindow->setSpacing(0);
-			frameMainWindow->setMargin(4);
-			f->setLayout(frameMainWindow);
-			f->layout()->addWidget(tabBar);
-			f->layout()->addWidget(splitter);
-			setCentralWidget(f);
+			QFrame* frame = new QFrame(this);
+			m_frame_layout = new QVBoxLayout();
+			m_frame_layout->setSpacing(0);
+			m_frame_layout->setMargin(4);
+			frame->setLayout(m_frame_layout);
+			frame->layout()->addWidget(m_tab_bar);
+			frame->layout()->addWidget(splitter);
+			setCentralWidget(frame);
 
 			QList<int> l; l.append(100); l.append(400);
 			splitter->setSizes(l);
 
-			createActions();
-			
-			QDir d(getExamplesDir());
-
 			// Log widget (in dockable window)
-			dockLog = new QDockWidget(this);
-			dockLog->setWindowTitle("Log");
-			dockLog->setObjectName(QString::fromUtf8("dockWidget"));
-			dockLog->setAllowedAreas(Qt::BottomDockWidgetArea);
-			QWidget* dockLogContents = new QWidget(dockLog);
-			dockLogContents->setObjectName(QString::fromUtf8("dockWidgetContents"));
-			QVBoxLayout* vboxLayout1 = new QVBoxLayout(dockLogContents);
-			vboxLayout1->setObjectName(QString::fromUtf8("vboxLayout1"));
-			vboxLayout1->setContentsMargins(0, 0, 0, 0);
+			m_log_dock = new QDockWidget(this);
+			m_log_dock->setWindowTitle("Log");
+			m_log_dock->setObjectName(QString::fromUtf8("logdockwidget"));
+			m_log_dock->setAllowedAreas(Qt::BottomDockWidgetArea);
+			QWidget* log_dock_content = new QWidget(m_log_dock);
+			log_dock_content->setObjectName(QString::fromUtf8("logdockcontent"));
+			QVBoxLayout* log_dock_content_layout = new QVBoxLayout(log_dock_content);
+			log_dock_content_layout->setObjectName(QString::fromUtf8("log_dock_content_layout"));
+			log_dock_content_layout->setContentsMargins(0, 0, 0, 0);
 
-			ListWidgetLogger* logger = new ListWidgetLogger(dockLog);
-			vboxLayout1->addWidget(logger->getListWidget());
-			dockLog->setWidget(dockLogContents);
-			addDockWidget(static_cast<Qt::DockWidgetArea>(8), dockLog);
+			ListWidgetLogger* logger = new ListWidgetLogger(m_log_dock);
+			log_dock_content_layout->addWidget(logger);
+			m_log_dock->setWidget(log_dock_content);
+			addDockWidget(Qt::BottomDockWidgetArea, m_log_dock);
 
 			// Variable editor (in dockable window)
-			editorDockWidget = new QDockWidget(this);
-			editorDockWidget->setMinimumWidth(250);
-			editorDockWidget->setWindowTitle("Variables");
-			editorDockWidget->setObjectName(QString::fromUtf8("editorDockWidget"));
-			editorDockWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-			QWidget* editorLogContents = new QWidget(dockLog);
-			editorLogContents->setObjectName(QString::fromUtf8("editorLogContents"));
-			QVBoxLayout* vboxLayout2 = new QVBoxLayout(editorLogContents);
-			vboxLayout2->setObjectName(QString::fromUtf8("vboxLayout2"));
-			vboxLayout2->setContentsMargins(0, 0, 0, 0);
+			m_editor_dock = new QDockWidget(this);
+			m_editor_dock->setMinimumWidth(250);
+			m_editor_dock->setWindowTitle("Variables");
+			m_editor_dock->setObjectName(QString::fromUtf8("editordock"));
+			m_editor_dock->setAllowedAreas(Qt::RightDockWidgetArea);
+			QWidget* editor_dock_contents = new QWidget(m_editor_dock);
+			editor_dock_contents->setObjectName(QString::fromUtf8("editor_dock_contents"));
+			QVBoxLayout* editor_dock_contents_layout = new QVBoxLayout(editor_dock_contents);
+			editor_dock_contents_layout->setObjectName(QString::fromUtf8("editor_dock_contents_layout"));
+			editor_dock_contents_layout->setContentsMargins(0, 0, 0, 0);
 
-			variableEditor = new VariableEditor(editorDockWidget);
+			variableEditor = new VariableEditor(m_editor_dock);
 			variableEditor->setMinimumWidth(250);
-			vboxLayout2->addWidget(variableEditor);
-			editorDockWidget->setWidget(editorLogContents);
-			addDockWidget(Qt::RightDockWidgetArea, editorDockWidget);
+			editor_dock_contents_layout->addWidget(variableEditor);
+			m_editor_dock->setWidget(editor_dock_contents);
+			addDockWidget(Qt::RightDockWidgetArea, m_editor_dock);
+			m_editor_dock->setHidden(true);
 
-			editorDockWidget->setHidden(true);
-			setMouseTracking(true);
-			probeDepth = false;
-
-			INFO(QString("Welcome to Structure Synth version %1. A Syntopia Project.").arg(version.toLongString()));
+			INFO(QString("Welcome to Structure Synth version %1. A Syntopia Project.").arg(VERSION.toLongString()));
 			INFO("");
 			INFO("Zoom by pressing both mouse buttons, holding SHIFT+left mouse button, or using scroll wheel. Translate using right mouse button. Hold 'ALT' for fast rotate (quick draw mode).");
 			INFO("Press 'Reset View' if you get lost in the 3D view.");
@@ -502,15 +496,11 @@ namespace StructureSynth {
 			INFO("Please report bugs and feature requests at the SourceForge forums (weblink at the Help Menu). Enjoy.");
 			//WARNING("This is an experimental SVN checkout build. For stability use the package releases.");
 
-			fullScreenEnabled = false;
+
+			createActions();
 			createOpenGLContextMenu();
 
-			connect(this->tabBar, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
-
 			readSettings();
-
-			//m->addMenu(createPopupMenu());
-
 			createToolBars();
 			createStatusBar();
 			createMenus();
@@ -537,27 +527,27 @@ namespace StructureSynth {
 
 		void MainWindow::toggleFullScreen() {
 			if (fullScreenEnabled) {
-				frameMainWindow->setMargin(4);
+				m_frame_layout->setMargin(4);
 				showNormal();
 				fullScreenEnabled = false;
 				fullScreenAction->setChecked(false);
-				stackedTextEdits->show();
-				dockLog->show();
+				m_stacked_text_edits->show();
+				m_log_dock->show();
 				menuBar()->show();
 				statusBar()->show();
 				fileToolBar->show();
 				editToolBar->show();
 				renderToolBar->show();
-				tabBar->show();
+				m_tab_bar->show();
 				randomToolBar->show();
 			} else {
-				frameMainWindow->setMargin(0);
+				m_frame_layout->setMargin(0);
 				fullScreenAction->setChecked(true);
 				fullScreenEnabled = true;
 
-				tabBar->hide();
-				stackedTextEdits->hide();
-				dockLog->hide();
+				m_tab_bar->hide();
+				m_stacked_text_edits->hide();
+				m_log_dock->hide();
 				menuBar()->hide();
 				statusBar()->hide();
 				fileToolBar->hide();
@@ -742,7 +732,7 @@ namespace StructureSynth {
 			QStringList filters;
 			QMenu* examplesMenu = menuBar()->addMenu(tr("&Examples"));
 			// Scan examples dir...
-			QDir d(getExamplesDir());
+			QDir d(EXAMPLEDIR);
 			filters.clear();
 			filters << "*.es";
 			d.setNameFilters(filters);
@@ -753,7 +743,7 @@ namespace StructureSynth {
 			} else {
 				// we will recurse the dirs...
 				QStack<QString> pathStack;
-				pathStack.append(QDir(getExamplesDir()).absolutePath());
+				pathStack.append(QDir(EXAMPLEDIR).absolutePath());
 
 				QMap< QString , QMenu* > menuMap;
 				while (!pathStack.isEmpty()) {
@@ -922,7 +912,7 @@ namespace StructureSynth {
 
 		bool MainWindow::saveFile(const QString &fileName)
 		{
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return false; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return false; }
 
 			QFile file(fileName);
 			if (!file.open(QFile::WriteOnly | QFile::Text)) {
@@ -938,10 +928,10 @@ namespace StructureSynth {
 			out << getTextEdit()->toPlainText();
 			QApplication::restoreOverrideCursor();
 
-			tabInfo[tabBar->currentIndex()].hasBeenSavedOnce = true;
-			tabInfo[tabBar->currentIndex()].unsaved = false;
-			tabInfo[tabBar->currentIndex()].filename = fileName;
-			tabChanged(tabBar->currentIndex()); // to update displayed name;
+			tabInfo[m_tab_bar->currentIndex()].hasBeenSavedOnce = true;
+			tabInfo[m_tab_bar->currentIndex()].unsaved = false;
+			tabInfo[m_tab_bar->currentIndex()].filename = fileName;
+			tabChanged(m_tab_bar->currentIndex()); // to update displayed name;
 
 			statusBar()->showMessage(tr("File saved"), 2000);
 			setRecentFile(fileName);
@@ -959,7 +949,7 @@ namespace StructureSynth {
 
 		void MainWindow::updateRandom() {
 
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
 
 			seedSpinBox->blockSignals(true);
 			setSeed((getSeed()+1) % 32768);
@@ -967,7 +957,7 @@ namespace StructureSynth {
 			INFO(QString("Auto-incremented random seed: %1").arg(getSeed()));
 
 			// Should we try something like below?
-			if (tabInfo[tabBar->currentIndex()].unsaved) {
+			if (tabInfo[m_tab_bar->currentIndex()].unsaved) {
 				// Current tab is unsaved, we will not change the random seed.
 			} else {
 				// We will auto-increment random seed.
@@ -977,14 +967,14 @@ namespace StructureSynth {
 		}
 
 		void MainWindow::render() {
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
 
 			if (getTextEdit()->toPlainText().startsWith("#javascript", Qt::CaseInsensitive)) {
 				// This is javascript...
 				QString text = getTextEdit()->toPlainText();
 				text = text.remove("#javascript", Qt::CaseInsensitive);
 
-				TabInfo t = tabInfo[tabBar->currentIndex()];
+				TabInfo t = tabInfo[m_tab_bar->currentIndex()];
 				QString dir;
 				if (t.hasBeenSavedOnce) {
 					dir = QFileInfo(t.filename).absolutePath();
@@ -1012,7 +1002,7 @@ namespace StructureSynth {
 				QString out = pp.Process(getTextEdit()->toPlainText(), getSeed());
 				bool showGUI = false;
 				out = variableEditor->updateFromPreprocessor(&pp, out, &showGUI);
-				editorDockWidget->setHidden(!showGUI);
+				m_editor_dock->setHidden(!showGUI);
 
 				Tokenizer tokenizer(out);
 				EisenParser e(&tokenizer);
@@ -1065,44 +1055,12 @@ namespace StructureSynth {
 
 		}
 
-		namespace {
-			// Returns the first valid directory.
-			QString findDirectory(QStringList guesses) {
-				QStringList invalid;
-				for (int i = 0; i < guesses.size(); i++) {
-					if (QFile::exists(guesses[i])) return guesses[i];
-					invalid.append(QFileInfo(guesses[i]).absoluteFilePath());
-				}
-
-				// not found.
-				WARNING("Could not locate directory in: " + invalid.join(",") + ".");
-				return "[not found]";
-			}
-		}
-
-		// Mac needs to step two directies up, when debugging in XCode...
-		QString MainWindow::getExamplesDir() {
-			QStringList examplesDir;
-			examplesDir << "Examples" << "../../Examples";
-			return findDirectory(examplesDir);
-		}
-
-		QString MainWindow::getMiscDir() {
-			QStringList miscDir;
-			miscDir << "Misc" << "../../Misc";
-			return findDirectory(miscDir);
-		}
-
-		QString MainWindow::getTemplateDir() {
-			return getMiscDir();
-		}
-
 		void MainWindow::resetView() {
 			engine->reset();
 		}
 
 		QTextEdit* MainWindow::getTextEdit() {
-			return (stackedTextEdits->currentWidget() ? (QTextEdit*)stackedTextEdits->currentWidget() : 0);
+			return (m_stacked_text_edits->currentWidget() ? (QTextEdit*)m_stacked_text_edits->currentWidget() : 0);
 		}
 
 		void MainWindow::cursorPositionChanged() {
@@ -1162,7 +1120,7 @@ namespace StructureSynth {
 				displayName = suggestedName;
 			}
 
-			stackedTextEdits->addWidget(textEdit);
+			m_stacked_text_edits->addWidget(textEdit);
 
 			if (loadingSucceded) {
 				tabInfo.append(TabInfo(displayName, textEdit, false, true));
@@ -1173,25 +1131,27 @@ namespace StructureSynth {
 			}
 
 			QString tabTitle = QString("%1%3").arg(strippedName(displayName)).arg(!loadingSucceded? "*" : "");
-			tabBar->setCurrentIndex(tabBar->addTab(strippedName(tabTitle)));
+			m_tab_bar->setCurrentIndex(m_tab_bar->addTab(strippedName(tabTitle)));
 
 			connect(textEdit->document(), SIGNAL(contentsChanged()), this, SLOT(documentWasModified()));
 		}
 
-		void MainWindow::tabChanged(int index) {
+		void MainWindow::tabChanged(int index)
+		{
 			if (index > tabInfo.size()) return;
 			if (index < 0) return;
 
 			TabInfo t = tabInfo[index];
 			QString tabTitle = QString("%1%3").arg(strippedName(t.filename)).arg(t.unsaved ? "*" : "");
 			setWindowTitle(QString("%1 - %2").arg(tabTitle).arg("Structure Synth"));
-			stackedTextEdits->setCurrentWidget(t.textEdit);
-			tabBar->setTabText(tabBar->currentIndex(), tabTitle);
+			m_stacked_text_edits->setCurrentWidget(t.textEdit);
+			m_tab_bar->setTabText(m_tab_bar->currentIndex(), tabTitle);
 		}
 
-		void MainWindow::closeTab() {
-			int index = tabBar->currentIndex();
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return; } 
+		void MainWindow::closeTab()
+		{
+			int index = m_tab_bar->currentIndex();
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
 			closeTab(index);
 		}
 
@@ -1203,9 +1163,9 @@ namespace StructureSynth {
 			}
 
 			tabInfo.remove(index);
-			tabBar->removeTab(index);
+			m_tab_bar->removeTab(index);
 
-			stackedTextEdits->removeWidget(t.textEdit);
+			m_stacked_text_edits->removeWidget(t.textEdit);
 			delete(t.textEdit); // ?
 		}
 
@@ -1272,7 +1232,7 @@ namespace StructureSynth {
 		};
 
 		void MainWindow::insertCameraSettings() {
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
 
 
 			getTextEdit()->insertPlainText(getCameraSettings());
@@ -1283,7 +1243,7 @@ namespace StructureSynth {
 
 
 		QString MainWindow::getScriptWithSettings(QString filename) {
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return ""; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return ""; }
 
 			QString s = "// Autogenerated script for file: " + filename + "\n";
 			s += "// Generated " + QDateTime::currentDateTime().toString("MMMM dd yyyy hh:mm:ss") + "\n";
@@ -1326,18 +1286,18 @@ namespace StructureSynth {
 
 		void MainWindow::templateRender()
 		{
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
 
 			templateRender(""); // Renders to clip board when file name is empty.
 		}
 
 		void MainWindow::templateRender(const QString& fileName)
 		{
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
 
 			QAction *action = qobject_cast<QAction *>(sender());
 			if (action) {
-				QDir d(getTemplateDir());
+				QDir d(TEMPLATEDIR);
 				QString templateFileName = d.absoluteFilePath(action->data().toString());
 				INFO("Starting Template Renderer: " + fileName);
 				try {
@@ -1377,7 +1337,7 @@ namespace StructureSynth {
 				QString out = pp.Process(inputText, getSeed());
 				bool showGUI = false;
 				out = variableEditor->updateFromPreprocessor(&pp, out, &showGUI);
-				editorDockWidget->setHidden(!showGUI);
+				m_editor_dock->setHidden(!showGUI);
 
 				Tokenizer tokenizer(out);
 				EisenParser e(&tokenizer);
@@ -1464,18 +1424,18 @@ namespace StructureSynth {
 		}
 
 		void MainWindow::copy() {
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
 			getTextEdit()->copy();
 		}
 
 
 		void MainWindow::cut() {
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
 			getTextEdit()->cut();
 		}
 
 		void MainWindow::paste() {
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
 			getTextEdit()->paste();
 		}
 
@@ -1501,7 +1461,7 @@ namespace StructureSynth {
 		}
 
 		void MainWindow::templateExport() {
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
 
 			// We must parse first...
 			RuleSet* rs = 0;
@@ -1511,7 +1471,7 @@ namespace StructureSynth {
 				QString out = pp.Process(getTextEdit()->toPlainText(), getSeed());
 				bool showGUI = false;
 				out = variableEditor->updateFromPreprocessor(&pp, out, &showGUI);
-				editorDockWidget->setHidden(!showGUI);
+				m_editor_dock->setHidden(!showGUI);
 
 				Tokenizer tokenizer(out);
 				EisenParser e(&tokenizer);
@@ -1528,7 +1488,7 @@ namespace StructureSynth {
 
 			TemplateExportDialog dialog(this, primitives);
 			dialog.setDefaultSize(engine->width(), engine->height());
-			dialog.setTemplatePath(getTemplateDir());
+			dialog.setTemplatePath(TEMPLATEDIR);
 			dialog.exec();
 		}
 
@@ -1724,14 +1684,14 @@ namespace StructureSynth {
 		}
 
 		void MainWindow::insertText() {
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
 
 			QString text = ((QAction*)sender())->text();
 			getTextEdit()->insertPlainText(text.section("//",0,0)); // strip comments
 		}
 		void MainWindow::exportToObj()
 		{
-			if (tabBar->currentIndex() == -1) { WARNING("No open tab"); return; } 
+			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
 
 			ObjDialog od(this);
 			if (od.exec() == QDialog::Rejected) return;
@@ -1756,7 +1716,7 @@ namespace StructureSynth {
 				QString out = pp.Process(inputText, getSeed());
 				bool showGUI = false;
 				out = variableEditor->updateFromPreprocessor(&pp, out, &showGUI);
-				editorDockWidget->setHidden(!showGUI);
+				m_editor_dock->setHidden(!showGUI);
 
 				Tokenizer tokenizer(out);
 				EisenParser e(&tokenizer);

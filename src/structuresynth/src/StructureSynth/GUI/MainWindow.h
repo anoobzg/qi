@@ -54,15 +54,14 @@ namespace StructureSynth {
 		public:
 			MainWindow();
 			MainWindow(const QString &fileName);
+			virtual ~MainWindow();
+
 			void setSeed(int randomSeed);
 			int getSeed();
 			void templateRender(const QString& fileName, Model::Rendering::Template* myTemplate, QString inputText, int width = 0, int height = 0, bool postModify = false);
 		
 
 			SyntopiaCore::GLEngine::EngineWidget* getEngine() { return engine; };
-			static QString getExamplesDir();
-			static QString getMiscDir();
-			static QString getTemplateDir();
 			void saveImage(QImage im);
 			
 			QString getCameraSettings();
@@ -93,9 +92,6 @@ namespace StructureSynth {
 			void insertCameraSettings();
 			void cursorPositionChanged();
 			void seedChanged();
-			void tabChanged(int index);
-			void makeScreenshot();
-			void closeTab();
 			void launchSfHome();
 			void fastRotateChanged();
 			void raytraceProgressive();
@@ -117,8 +113,10 @@ namespace StructureSynth {
 			void render();
 			void resetView();
 			void toggleFullScreen();
-			
+			void makeScreenshot();
 
+			void tabChanged(int index);
+			void closeTab();
 		private:
 			QList<QWidget *> disabledWidgets;
 			
@@ -139,11 +137,9 @@ namespace StructureSynth {
 			QString strippedName(const QString &fullFileName);
 			void createOpenGLContextMenu();
 
-			bool hasBeenResized;
 			QSpinBox* seedSpinBox;
 			QCheckBox* autoIncrementCheckbox;
 
-			QDockWidget* dockLog;
 			QAction* probeDepthAction ;
 			QAction* fastRotateAction;
 			QAction* showCoordinateSystemAction;
@@ -178,26 +174,29 @@ namespace StructureSynth {
 			QAction *exportAction;
 			QAction *resetViewAction;
 			SyntopiaCore::GLEngine::EngineWidget* engine;
-			QTabBar* tabBar;
-
-			SyntopiaCore::Misc::Version version;
 
 			QMenu* openGLContextMenu;
 			bool fullScreenEnabled;
-			QStackedWidget *stackedTextEdits;
 
 			QVector<TabInfo> tabInfo;
 
 			int oldDirtyPosition;
 
-			QVBoxLayout* frameMainWindow;
-			VariableEditor* variableEditor;
-			QDockWidget* editorDockWidget;
-
 			QVector<QAction*> recentFileActions;
 			QAction* recentFileSeparator;
 			bool probeDepth;
 			SyntopiaCore::GLEngine::ProgressBox* progressBox;
+
+			///////////
+			QVBoxLayout* m_frame_layout;
+
+			QTabBar* m_tab_bar;
+
+			QStackedWidget* m_stacked_text_edits;
+
+			QDockWidget* m_log_dock;
+			VariableEditor* variableEditor;
+			QDockWidget* m_editor_dock;
 		};
 
 		class PreviewWindow : public QDialog {

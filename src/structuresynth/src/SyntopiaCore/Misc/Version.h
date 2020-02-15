@@ -1,16 +1,17 @@
 #pragma once
-
 #include <QString>
 #include <QList>
 
 
-namespace SyntopiaCore {
-	namespace Misc {	
-
+namespace SyntopiaCore
+{
+	namespace Misc
+	{	
 		/// For keeping track of versions
 		/// Having a formalized version object, can
 		/// be helpful when checking the internet for updates.
-		class Version {
+		class Version
+		{
 		public:
 			/// Constructor.
 			/// Settings revision or build to -1 indicates they are not in use.
@@ -26,6 +27,8 @@ namespace SyntopiaCore {
 			/// Todo: Implement
 			QList<Version> GetNewVersions(QString url) const;
 
+			static const Version& Ver();
+
 			/// Comparisons
 			bool operator<(const Version &rhs);
 			bool operator>(const Version &rhs);
@@ -37,10 +40,12 @@ namespace SyntopiaCore {
 			int revision;
 			int build;
 			QString codename;
+
+			static Version version;
 		};
-
-
 	}
 }
+
+#define VERSION SyntopiaCore::Misc::Version::Ver()
 
 

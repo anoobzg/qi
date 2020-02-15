@@ -5,23 +5,30 @@
 #include <QTime>
 #include <QStack>
 
-namespace SyntopiaCore {
-	namespace Logging {	
+namespace SyntopiaCore 
+{
+	namespace Logging 
+	{	
 		/// Predefined logging levels
 		enum LogLevel { NoneLevel, DebugLevel, TimingLevel, InfoLevel, WarningLevel, CriticalLevel, AllLevel };
 
 		/// Abstract base class for all loggers
-		class Logger {
+		class Logger
+		{
 		public:
 			/// The destructors and constructors automatically add to the list of installed loggers.
-			Logger() { 
+			Logger()
+			{ 
 				loggers.append(this); 
 			}
 
-			virtual ~Logger() { 
+			virtual ~Logger()
+			{ 
 				// Remove from list of available loggers.
-				for (int i = loggers.size()-1; i >= 0; i--) {
-					if (loggers[i] == this) loggers.remove(i);
+				for (int i = loggers.size()-1; i >= 0; i--)
+				{
+					if (loggers[i] == this)
+						loggers.remove(i);
 				}
 			}
 

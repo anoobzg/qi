@@ -15,6 +15,7 @@
 #include <QFileInfo>
 #include <QProcess>
 
+#include "SyntopiaCore/Misc/MiscDataCenter.h"
 #include "SyntopiaCore/Logging/Logging.h"
 #include "../../SyntopiaCore/GLEngine/Sphere.h"
 #include "../../SyntopiaCore/GLEngine/Raytracer/RayTracer.h"
@@ -182,7 +183,7 @@ namespace StructureSynth {
 			if (!overwrite && QFileInfo(fileName).exists()) {
 				throw Exception("File already exists: " + fileName + ". Set 'overwrite' argument to true or use another filename.");
 			}
-			QDir d(mainWindow->getTemplateDir());
+			QDir d(TEMPLATEDIR);
 			QString templateFileName = d.absoluteFilePath(templateName);
 			INFO("Starting Template Renderer: " + fileName);
 			try {
