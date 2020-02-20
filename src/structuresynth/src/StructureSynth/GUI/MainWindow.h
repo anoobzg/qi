@@ -1,14 +1,14 @@
-#pragma once
+﻿#pragma once
 
 #include <QMainWindow>
 #include <QTabBar>
 #include <QStackedWidget>
-
+#include <QTextEdit>
+#include <QCheckBox>
 
 #include "../../SyntopiaCore/GLEngine/EngineWidget.h"
 #include "../../SyntopiaCore/Misc/Version.h"
 #include "VariableEditor.h"
-#include "TemplateExportDialog.h"
 #include "../Model/Rendering/TemplateRenderer.h"
 #include "../Model/Builder.h"
 
@@ -44,13 +44,10 @@ namespace StructureSynth {
 				void insertText();
 		};
 		
-
-
 		/// The main window of the application.
 		class MainWindow : public QMainWindow
 		{
 			Q_OBJECT
-
 		public:
 			MainWindow();
 			MainWindow(const QString &fileName);
@@ -59,132 +56,140 @@ namespace StructureSynth {
 			void setSeed(int randomSeed);
 			int getSeed();
 			void templateRender(const QString& fileName, Model::Rendering::Template* myTemplate, QString inputText, int width = 0, int height = 0, bool postModify = false);
-		
 
 			SyntopiaCore::GLEngine::EngineWidget* getEngine() { return engine; };
 			void saveImage(QImage im);
 			
-			QString getCameraSettings();
 			QString getScriptWithSettings(QString filename);
 			
-			SyntopiaCore::GLEngine::ProgressBox* getProgressBox() { return progressBox; };
+			SyntopiaCore::GLEngine::ProgressBox* getProgressBox() { return m_progress_box; };
 
-			void disableAllExcept(QWidget* w);
+			void disableAllExcept(QWidget* widget);
 			void enableAll();
+			void disableExceptProgressBox();
 		protected:
-			void dragEnterEvent(QDragEnterEvent *ev);
-			void dropEvent(QDropEvent *ev);
-			void closeEvent(QCloseEvent* ev);
-			void keyReleaseEvent(QKeyEvent* ev);
+			void dragEnterEvent(QDragEnterEvent* event);
+			void dropEvent(QDropEvent* event);
+			void closeEvent(QCloseEvent* event);
+			void keyReleaseEvent(QKeyEvent* event);
 
 		private slots:
-			void insertText();
-			void showCoordinateSystemChanged();
 			void templateExport();
 			void toggleProbeDepth();
-			void cut();
-			void copy();
-			void paste();
-			void insertCameraSettings();
-			void cursorPositionChanged();
 			void seedChanged();
-			void launchSfHome();
-			void fastRotateChanged();
 			void raytraceProgressive();
-			void launchGallery();
-			void launchReferenceHome();
 			void templateRender();
 			void templateRenderToFile();
-			void templateRender(const QString& fileName);
-			
-			void openFile();
-			void exportToObj();
+			void templateRender(const QString& fileName);		
 			void raytrace();
+			void documentWasModified();
+			void render();
+			void resetView();
+
+			void exportToObj();
+			void makeScreenshot();
+
 			void newFile();
 			void open();
 			bool save();
 			bool saveAs();
-			void about();
-			void documentWasModified();
-			void render();
-			void resetView();
-			void toggleFullScreen();
-			void makeScreenshot();
 
+			void cut();
+			void copy();
+			void paste();
+			void insertCameraSettings();
+			void insertText();
+
+			void showCoordinateSystemChanged();
+			void fastRotateChanged();
+			void toggleFullScreen();
+			void cursorPositionChanged();
+
+			void about();
+			void launchSfHome();
+			void launchGallery();
+			void launchReferenceHome();
+
+			void openFile();
 			void tabChanged(int index);
 			void closeTab();
 			void closeTab(int index);
 		private:
-			QList<QWidget *> disabledWidgets;
-			
-			void setRecentFile(const QString &fileName);
-			void parseJavaScript(QString scripture, QString dir);
 			void insertTabPage(QString filename);
-			QTextEdit* getTextEdit();
+			void loadFile(const QString &fileName);
+			bool saveFile(const QString &fileName);
+		private:
+			void parseJavaScript(QString scripture, QString dir);
+
+			void setRecentFile(const QString& fileName);
+			QTextEdit* getTextEdit();  //获取当前的QTextEdit
+		protected:
 			void init();
 			void createActions();
 			void createMenus();
 			void createToolBars();
 			void createStatusBar();
+
 			void readSettings();
 			void writeSettings();
+		protected:
 			void updateRandom();
-			void loadFile(const QString &fileName);
-			bool saveFile(const QString &fileName);
 			QString strippedName(const QString &fullFileName);
 			void createOpenGLContextMenu();
 
-			QSpinBox* seedSpinBox;
-			QCheckBox* autoIncrementCheckbox;
-
-			QAction* probeDepthAction ;
-			QAction* fastRotateAction;
-			QAction* showCoordinateSystemAction;
-			QAction* insertCameraSettingsAction;
-			QAction* screenshotAction;
-			QAction* sfHomeAction;
-			QAction* referenceAction;
-			QAction* galleryAction;
-			QMenu *fileMenu;
-			QMenu *editMenu;
-			QMenu *renderMenu;
-			QMenu *helpMenu;
-			QToolBar *fileToolBar;
-			QToolBar *renderToolBar;
-			QToolBar *editToolBar;
-			QToolBar *randomToolBar;
-			QAction *newAction;
-			QAction *raytraceFinalAction;
-			QAction *raytraceProgressiveAction;
-			QAction *openAction;
-			QAction *saveAction;
-			QAction *saveAsAction;
-			QAction *closeAction;
-			QAction *exitAction;
-			QAction *cutAction;
-			QAction *copyAction;
-			QAction *pasteAction;
-			QAction *aboutAction;
-
-			QAction *renderAction;
-			QAction *exportAction;
-			QAction *resetViewAction;
 			SyntopiaCore::GLEngine::EngineWidget* engine;
-
-			QMenu* openGLContextMenu;
 
 			QVector<TabInfo> tabInfo;
 
 			int oldDirtyPosition;
-
-			QVector<QAction*> recentFileActions;
-			QAction* recentFileSeparator;
 			bool probeDepth;
-			SyntopiaCore::GLEngine::ProgressBox* progressBox;
+			
+			SyntopiaCore::GLEngine::ProgressBox* m_progress_box;
+			QSpinBox* m_seed_spinbox;
+			QCheckBox* m_autoincrement_checkbox;
+			///////////Menu
+			QMenu *m_file_menu;
+			QMenu *m_edit_menu;
+			QMenu *m_help_menu;
+
+			///////////Toolbar
+			QToolBar *m_file_toolbar;
+			QToolBar *m_render_toolbar;
+			QToolBar *m_edit_toolbar;
+			QToolBar *m_random_toolbar;
 
 			///////////actions
 			QAction* m_fullscreen_action;
-			
+			QAction *m_new_action;
+			QAction *m_open_action;
+			QAction *m_save_action;
+			QAction *m_save_as_action;
+			QAction *m_close_action;
+			QAction* m_exit_action;
+
+			QVector<QAction*> m_recentfile_actions;
+
+			QAction* m_cut_action;
+			QAction* m_copy_action;
+			QAction* m_paste_action;
+			QAction* m_insert_camera_settings_action;
+
+			QAction* m_render_action;
+			QAction* m_reset_view_action;
+
+			QAction* m_probe_depth_action;
+			QAction* m_fast_rotate_action;
+			QAction* m_show_coordinate_system_action;
+			QAction* m_raytrace_final_action;
+			QAction* m_raytrace_progressive_action;
+
+			QAction* m_export_action;
+			QAction* m_screenshot_action;
+
+			QAction* m_about_action;
+			QAction* m_sfhome_action;
+			QAction* m_reference_action;
+			QAction* m_gallery_action;
 			///////////
 			QVBoxLayout* m_frame_layout;
 
@@ -195,6 +200,9 @@ namespace StructureSynth {
 			QDockWidget* m_log_dock;
 			VariableEditor* variableEditor;
 			QDockWidget* m_editor_dock;
+
+			///////////
+			QList<QWidget*> m_disabled_widgets;
 		};
 
 		class PreviewWindow : public QDialog {

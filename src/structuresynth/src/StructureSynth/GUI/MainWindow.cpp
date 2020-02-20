@@ -1,4 +1,4 @@
-#include <QtGui>
+﻿#include <QtGui>
 #include <QDir>
 #include <QClipboard>
 #include <QDesktopServices>
@@ -16,6 +16,8 @@
 #include <QStatusBar>
 #include <QMenuBar>
 #include <QSplitter>
+
+#include "TemplateExportDialog.h"
 
 #include "SyntopiaCore/Misc/MiscDataCenter.h"
 
@@ -50,15 +52,14 @@ using namespace SyntopiaCore::GLEngine;
 namespace StructureSynth {
 	namespace GUI {
 
-		namespace {
+		namespace 
+		{
 			int MaxRecentFiles = 5;
-
-		
 		}
 
 		namespace {
-
-			void createCommandHelpMenu(QMenu* menu, QWidget* textEdit) {
+			void createCommandHelpMenu(QMenu* menu, QWidget* textEdit)
+			{
 				QMenu *raytraceMenu = new QMenu("Raytracer Commands", 0);
 				raytraceMenu->addAction("set raytracer::ambient-occlusion-samples 0 // turn off AO", textEdit , SLOT(insertText()));
 				raytraceMenu->addAction("set raytracer::samples 4 // for anti-alias and DOF", textEdit , SLOT(insertText()));
@@ -147,7 +148,9 @@ namespace StructureSynth {
 				p2Menu->addAction("Builder.setSize(640,0);", textEdit , SLOT(insertText()));
 				
 				QAction* before = 0;
-				if (menu->actions().count() > 0) before = menu->actions()[0];
+				if (menu->actions().count() > 0)
+					before = menu->actions()[0];
+
 				menu->insertMenu(before, modifierMenu);
 				menu->insertMenu(before, transformationMenu);
 				menu->insertMenu(before, setMenu);
@@ -161,6 +164,7 @@ namespace StructureSynth {
 
 			}
 		}
+
 		void TextEdit::contextMenuEvent(QContextMenuEvent *event)
 		{	
 			QMenu *menu = createStandardContextMenu();
@@ -310,15 +314,18 @@ namespace StructureSynth {
 
 		void MainWindow::closeEvent(QCloseEvent *ev)
 		{
-
 			bool modification = false;
-			for (int i = 0; i < tabInfo.size(); i++) {
-				if (tabInfo[i].unsaved) modification = true;
+			for (int i = 0; i < tabInfo.size(); i++)
+			{
+				if (tabInfo[i].unsaved)
+					modification = true;
 			}
 
-			if (modification) {
+			if (modification)
+			{
 				int i = QMessageBox::warning(this, "Unsaved changed", "There are tabs with unsaved changes.\r\nContinue and loose changes?", QMessageBox::Ok, QMessageBox::Cancel);
-				if (i == QMessageBox::Ok) {
+				if (i == QMessageBox::Ok)
+				{
 					// OK
 					ev->accept();
 					return;
@@ -342,7 +349,8 @@ namespace StructureSynth {
 		{
 			QString filter = "EisenScript (*.es);;All Files (*.*)";
 			QString fileName = QFileDialog::getOpenFileName(this, QString(), QString(), filter);
-			if (!fileName.isEmpty()) {
+			if (!fileName.isEmpty())
+			{
 				loadFile(fileName);
 			}
 		}
@@ -365,16 +373,21 @@ namespace StructureSynth {
 			}
 		};
 
-
 		bool MainWindow::save()
 		{
 			int index = m_tab_bar->currentIndex();
-			if (index == -1) { WARNING("No open tab"); return false; } 
+			if (index == -1)
+			{
+				WARNING("No open tab");
+				return false;
+			} 
 			TabInfo t = tabInfo[index];
 
-			if (t.hasBeenSavedOnce) {
+			if (t.hasBeenSavedOnce)
+			{
 				return saveFile(t.filename);
-			} else {
+			} else
+			{
 				return saveAs();
 			}
 		}
@@ -382,7 +395,11 @@ namespace StructureSynth {
 		bool MainWindow::saveAs()
 		{
 			int index = m_tab_bar->currentIndex();
-			if (index == -1) { WARNING("No open tab"); return false; } 
+			if (index == -1)
+			{
+				WARNING("No open tab");
+				return false;
+			} 
 
 			TabInfo t = tabInfo[index];
 
@@ -508,24 +525,22 @@ namespace StructureSynth {
 			createToolBars();
 			createStatusBar();
 			createMenus();
-			
 		}
 
+		void MainWindow::createOpenGLContextMenu()
+		{
+			QMenu* opengL_context_menu = new QMenu();			
+			opengL_context_menu->addAction(m_insert_camera_settings_action);
 
+			m_probe_depth_action = new QAction(tr("Show 3D Object Information"), this);
+			m_probe_depth_action->setCheckable(true);
+			connect(m_probe_depth_action, SIGNAL(triggered()), this, SLOT(toggleProbeDepth()));
+			opengL_context_menu->addAction(m_probe_depth_action);
 
-		void MainWindow::createOpenGLContextMenu() {
-			openGLContextMenu = new QMenu();			
-			openGLContextMenu->addAction(insertCameraSettingsAction);
-
-			probeDepthAction  = new QAction(tr("Show 3D Object Information"), this);
-			probeDepthAction->setCheckable(true);
-			connect(probeDepthAction, SIGNAL(triggered()), this, SLOT(toggleProbeDepth()));
-			openGLContextMenu->addAction(probeDepthAction);
-
-			openGLContextMenu->addAction(m_fullscreen_action);
-			openGLContextMenu->addAction(screenshotAction);
-			openGLContextMenu->addAction(resetViewAction);
-			engine->setContextMenu(openGLContextMenu);
+			opengL_context_menu->addAction(m_fullscreen_action);
+			opengL_context_menu->addAction(m_screenshot_action);
+			opengL_context_menu->addAction(m_reset_view_action);
+			engine->setContextMenu(opengL_context_menu);
 		}
 
 
@@ -540,10 +555,10 @@ namespace StructureSynth {
 				m_log_dock->hide();
 				menuBar()->hide();
 				statusBar()->hide();
-				fileToolBar->hide();
-				editToolBar->hide();
-				renderToolBar->hide();
-				randomToolBar->hide();
+				m_file_toolbar->hide();
+				m_edit_toolbar->hide();
+				m_render_toolbar->hide();
+				m_random_toolbar->hide();
 				showFullScreen();
 			} else 
 			{
@@ -553,16 +568,17 @@ namespace StructureSynth {
 				m_log_dock->show();
 				menuBar()->show();
 				statusBar()->show();
-				fileToolBar->show();
-				editToolBar->show();
-				renderToolBar->show();
+				m_file_toolbar->show();
+				m_edit_toolbar->show();
+				m_render_toolbar->show();
 				m_tab_bar->show();
-				randomToolBar->show();
+				m_random_toolbar->show();
 			}
 		}
 
 
-		void MainWindow::toggleProbeDepth() {
+		void MainWindow::toggleProbeDepth()
+		{
 			getEngine()->toggleShowDepth();
 		}
 
@@ -574,109 +590,110 @@ namespace StructureSynth {
 			m_fullscreen_action->setChecked(false);
 			connect(m_fullscreen_action, SIGNAL(triggered()), this, SLOT(toggleFullScreen()));
 
-			fastRotateAction = new QAction(tr("Fast Rotate"), this);
-			fastRotateAction->setCheckable(true);
-			connect(fastRotateAction, SIGNAL(triggered()), this, SLOT(fastRotateChanged()));
+			m_fast_rotate_action = new QAction(tr("Fast Rotate"), this);
+			m_fast_rotate_action->setCheckable(true);
+			connect(m_fast_rotate_action, SIGNAL(triggered()), this, SLOT(fastRotateChanged()));
 
-			showCoordinateSystemAction = new QAction(tr("Show Coordinate System"), this);
-			showCoordinateSystemAction->setCheckable(true);
-			connect(showCoordinateSystemAction, SIGNAL(triggered()), this, SLOT(showCoordinateSystemChanged()));
+			m_show_coordinate_system_action = new QAction(tr("Show Coordinate System"), this);
+			m_show_coordinate_system_action->setCheckable(true);
+			connect(m_show_coordinate_system_action, SIGNAL(triggered()), this, SLOT(showCoordinateSystemChanged()));
 
 
-			insertCameraSettingsAction  = new QAction(tr("&Copy Camera Settings to EisenScript Window"), this);
-			connect(insertCameraSettingsAction, SIGNAL(triggered()), this, SLOT(insertCameraSettings()));
+			m_insert_camera_settings_action = new QAction(tr("&Copy Camera Settings to EisenScript Window"), this);
+			connect(m_insert_camera_settings_action, SIGNAL(triggered()), this, SLOT(insertCameraSettings()));
 
-			screenshotAction = new QAction(tr("&Save as Bitmap..."), this);
-			connect(screenshotAction, SIGNAL(triggered()), this, SLOT(makeScreenshot()));
+			m_raytrace_final_action = new QAction(tr("&Raytrace (Final)"), this);
+			connect(m_raytrace_final_action, SIGNAL(triggered()), this, SLOT(raytrace()));
 
-			raytraceFinalAction = new QAction(tr("&Raytrace (Final)"), this);
-			connect(raytraceFinalAction, SIGNAL(triggered()), this, SLOT(raytrace()));
+			m_raytrace_progressive_action = new QAction(tr("&Raytrace (in Window)"), this);
+			connect(m_raytrace_progressive_action, SIGNAL(triggered()), this, SLOT(raytraceProgressive()));
 
-			raytraceProgressiveAction = new QAction(tr("&Raytrace (in Window)"), this);
-			connect(raytraceProgressiveAction, SIGNAL(triggered()), this, SLOT(raytraceProgressive()));
+			m_new_action = new QAction(QIcon(":/images/new.png"), tr("&New"), this);
+			m_new_action->setShortcut(tr("Ctrl+N"));
+			m_new_action->setStatusTip(tr("Create a new file"));
+			connect(m_new_action, SIGNAL(triggered()), this, SLOT(newFile()));
 
-			newAction = new QAction(QIcon(":/images/new.png"), tr("&New"), this);
-			newAction->setShortcut(tr("Ctrl+N"));
-			newAction->setStatusTip(tr("Create a new file"));
-			connect(newAction, SIGNAL(triggered()), this, SLOT(newFile()));
+			m_open_action = new QAction(QIcon(":/images/open.png"), tr("&Open..."), this);
+			m_open_action->setShortcut(tr("Ctrl+O"));
+			m_open_action->setStatusTip(tr("Open an existing file"));
+			connect(m_open_action, SIGNAL(triggered()), this, SLOT(open()));
 
-			openAction = new QAction(QIcon(":/images/open.png"), tr("&Open..."), this);
-			openAction->setShortcut(tr("Ctrl+O"));
-			openAction->setStatusTip(tr("Open an existing file"));
-			connect(openAction, SIGNAL(triggered()), this, SLOT(open()));
+			m_save_action = new QAction(QIcon(":/images/save.png"), tr("&Save"), this);
+			m_save_action->setShortcut(tr("Ctrl+S"));
+			m_save_action->setStatusTip(tr("Save the script to disk"));
+			connect(m_save_action, SIGNAL(triggered()), this, SLOT(save()));
 
-			saveAction = new QAction(QIcon(":/images/save.png"), tr("&Save"), this);
-			saveAction->setShortcut(tr("Ctrl+S"));
-			saveAction->setStatusTip(tr("Save the script to disk"));
-			connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
+			m_save_as_action = new QAction(QIcon(":/images/filesaveas.png"), tr("Save &As..."), this);
+			m_save_as_action->setStatusTip(tr("Save the script under a new name"));
+			connect(m_save_as_action, SIGNAL(triggered()), this, SLOT(saveAs()));
 
-			saveAsAction = new QAction(QIcon(":/images/filesaveas.png"), tr("Save &As..."), this);
-			saveAsAction->setStatusTip(tr("Save the script under a new name"));
-			connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveAs()));
+			m_close_action = new QAction(QIcon(":/images/fileclose.png"), tr("&Close Tab"), this);
+			m_close_action->setShortcut(tr("Ctrl+W"));
+			m_close_action->setStatusTip(tr("Close this tab"));
+			connect(m_close_action, SIGNAL(triggered()), this, SLOT(closeTab()));
 
-			closeAction = new QAction(QIcon(":/images/fileclose.png"), tr("&Close Tab"), this);
-			closeAction->setShortcut(tr("Ctrl+W"));
-			closeAction->setStatusTip(tr("Close this tab"));
-			connect(closeAction, SIGNAL(triggered()), this, SLOT(closeTab()));
+			m_exit_action = new QAction(QIcon(":/images/exit.png"), tr("E&xit Application"), this);
+			m_exit_action->setShortcut(tr("Ctrl+Q"));
+			m_exit_action->setStatusTip(tr("Exit the application"));
+			connect(m_exit_action, SIGNAL(triggered()), this, SLOT(close()));
 
-			exitAction = new QAction(QIcon(":/images/exit.png"), tr("E&xit Application"), this);
-			exitAction->setShortcut(tr("Ctrl+Q"));
-			exitAction->setStatusTip(tr("Exit the application"));
-			connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
-
-			cutAction = new QAction(QIcon(":/images/cut.png"), tr("Cu&t"), this);
-			cutAction->setShortcut(tr("Ctrl+X"));
-			cutAction->setStatusTip(tr("Cut the current selection's contents to the "
+			m_cut_action = new QAction(QIcon(":/images/cut.png"), tr("Cu&t"), this);
+			m_cut_action->setShortcut(tr("Ctrl+X"));
+			m_cut_action->setStatusTip(tr("Cut the current selection's contents to the "
 				"clipboard"));
-			connect(cutAction, SIGNAL(triggered()), this, SLOT(cut()));
+			connect(m_cut_action, SIGNAL(triggered()), this, SLOT(cut()));
 
-			copyAction = new QAction(QIcon(":/images/copy.png"), tr("&Copy"), this);
-			copyAction->setShortcut(tr("Ctrl+C"));
-			copyAction->setStatusTip(tr("Copy the current selection's contents to the "
+			m_copy_action = new QAction(QIcon(":/images/copy.png"), tr("&Copy"), this);
+			m_copy_action->setShortcut(tr("Ctrl+C"));
+			m_copy_action->setStatusTip(tr("Copy the current selection's contents to the "
 				"clipboard"));
-			connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
+			connect(m_copy_action, SIGNAL(triggered()), this, SLOT(copy()));
 
-			pasteAction = new QAction(QIcon(":/images/paste.png"), tr("&Paste"), this);
-			pasteAction->setShortcut(tr("Ctrl+V"));
-			pasteAction->setStatusTip(tr("Paste the clipboard's contents into the current "
+			m_paste_action = new QAction(QIcon(":/images/paste.png"), tr("&Paste"), this);
+			m_paste_action->setShortcut(tr("Ctrl+V"));
+			m_paste_action->setStatusTip(tr("Paste the clipboard's contents into the current "
 				"selection"));
-			connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
+			connect(m_paste_action, SIGNAL(triggered()), this, SLOT(paste()));
 
-			renderAction = new QAction(QIcon(":/images/render.png"), tr("&Build System"), this);
-			renderAction->setShortcut(tr("F5"));
-			renderAction->setStatusTip(tr("Render the current ruleset"));
-			connect(renderAction, SIGNAL(triggered()), this, SLOT(render()));
+			m_render_action = new QAction(QIcon(":/images/render.png"), tr("&Build System"), this);
+			m_render_action->setShortcut(tr("F5"));
+			m_render_action->setStatusTip(tr("Render the current ruleset"));
+			connect(m_render_action, SIGNAL(triggered()), this, SLOT(render()));
 
-			exportAction = new QAction(tr("&Template Export..."), this);
-			exportAction->setShortcut(tr("F6"));
-			exportAction->setStatusTip(tr("Export the structure using a template."));
-			connect(exportAction, SIGNAL(triggered()), this, SLOT(templateExport()));
+			m_export_action = new QAction(tr("&Template Export..."), this);
+			m_export_action->setShortcut(tr("F6"));
+			m_export_action->setStatusTip(tr("Export the structure using a template."));
+			connect(m_export_action, SIGNAL(triggered()), this, SLOT(templateExport()));
 
-			resetViewAction = new QAction("Reset View", this);
-			resetViewAction->setStatusTip(tr("Resets the viewport"));
-			connect(resetViewAction, SIGNAL(triggered()), this, SLOT(resetView()));
+			m_screenshot_action = new QAction(tr("&Save as Bitmap..."), this);
+			connect(m_screenshot_action, SIGNAL(triggered()), this, SLOT(makeScreenshot()));
 
-			aboutAction = new QAction(QIcon(":/images/documentinfo.png"), tr("&About"), this);
-			aboutAction->setStatusTip(tr("Show the About box"));
-			connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
+			m_reset_view_action = new QAction("Reset View", this);
+			m_reset_view_action->setStatusTip(tr("Resets the viewport"));
+			connect(m_reset_view_action, SIGNAL(triggered()), this, SLOT(resetView()));
 
-			sfHomeAction = new QAction(QIcon(":/images/agt_internet.png"), tr("&Project Homepage (web link)"), this);
-			sfHomeAction->setStatusTip(tr("Open the SourceForge project page in a browser."));
-			connect(sfHomeAction, SIGNAL(triggered()), this, SLOT(launchSfHome()));
+			m_about_action = new QAction(QIcon(":/images/documentinfo.png"), tr("&About"), this);
+			m_about_action->setStatusTip(tr("Show the About box"));
+			connect(m_about_action, SIGNAL(triggered()), this, SLOT(about()));
 
-			referenceAction = new QAction(QIcon(":/images/agt_internet.png"), tr("&Structure Synth Reference (web link)"), this);
-			referenceAction->setStatusTip(tr("Open a Structure Synth reference web page in a browser."));
-			connect(referenceAction, SIGNAL(triggered()), this, SLOT(launchReferenceHome()));
+			m_sfhome_action = new QAction(QIcon(":/images/agt_internet.png"), tr("&Project Homepage (web link)"), this);
+			m_sfhome_action->setStatusTip(tr("Open the SourceForge project page in a browser."));
+			connect(m_sfhome_action, SIGNAL(triggered()), this, SLOT(launchSfHome()));
 
-			galleryAction = new QAction(QIcon(":/images/agt_internet.png"), tr("&Flickr Structure Synth Group (web link)"), this);
-			galleryAction->setStatusTip(tr("Opens the main Flickr group for Structure Synth creations."));
-			connect(galleryAction, SIGNAL(triggered()), this, SLOT(launchGallery()));
+			m_reference_action = new QAction(QIcon(":/images/agt_internet.png"), tr("&Structure Synth Reference (web link)"), this);
+			m_reference_action->setStatusTip(tr("Open a Structure Synth reference web page in a browser."));
+			connect(m_reference_action, SIGNAL(triggered()), this, SLOT(launchReferenceHome()));
 
-			for (int i = 0; i < MaxRecentFiles; ++i) {
-				QAction* a = new QAction(this);
-				a->setVisible(false);
-				connect(a, SIGNAL(triggered()),	this, SLOT(openFile()));
-				recentFileActions.append(a);				
+			m_gallery_action = new QAction(QIcon(":/images/agt_internet.png"), tr("&Flickr Structure Synth Group (web link)"), this);
+			m_gallery_action->setStatusTip(tr("Opens the main Flickr group for Structure Synth creations."));
+			connect(m_gallery_action, SIGNAL(triggered()), this, SLOT(launchGallery()));
+
+			for (int i = 0; i < MaxRecentFiles; ++i)
+			{
+				QAction* action = new QAction(this);
+				action->setVisible(false);
+				connect(action, SIGNAL(triggered()), this, SLOT(openFile()));
+				m_recentfile_actions.append(action);
 			}
 
 			qApp->setWindowIcon(QIcon(":/images/structuresynth.png"));
@@ -685,196 +702,208 @@ namespace StructureSynth {
 		void MainWindow::createMenus()
 		{
 			// -- File Menu --
-			fileMenu = menuBar()->addMenu(tr("&File"));
-			fileMenu->addAction(newAction);
-			fileMenu->addAction(openAction);
-			fileMenu->addAction(saveAction);
-			fileMenu->addAction(saveAsAction);
-			recentFileSeparator = fileMenu->addSeparator();
-			for (int i = 0; i < MaxRecentFiles; ++i) fileMenu->addAction(recentFileActions[i]);
-			fileMenu->addSeparator();
-			fileMenu->addAction(closeAction);
-			fileMenu->addAction(exitAction);
+			m_file_menu = menuBar()->addMenu(tr("&File"));
+			m_file_menu->addAction(m_new_action);
+			m_file_menu->addAction(m_open_action);
+			m_file_menu->addAction(m_save_action);
+			m_file_menu->addAction(m_save_as_action);
+
+			for (int i = 0; i < MaxRecentFiles; ++i)
+				m_file_menu->addAction(m_recentfile_actions[i]);
+
+			m_file_menu->addSeparator();
+			m_file_menu->addAction(m_close_action);
+			m_file_menu->addAction(m_exit_action);
 
 			// -- Edit Menu --
-			editMenu = menuBar()->addMenu(tr("&Edit"));
-			editMenu->addAction(cutAction);
-			editMenu->addAction(copyAction);
-			editMenu->addAction(pasteAction);
-			editMenu->addSeparator();
-			editMenu->addAction(insertCameraSettingsAction);
-			QMenu* m = editMenu->addMenu("Insert Command");
-			createCommandHelpMenu(m, this);
-
+			m_edit_menu = menuBar()->addMenu(tr("&Edit"));
+			m_edit_menu->addAction(m_cut_action);
+			m_edit_menu->addAction(m_copy_action);
+			m_edit_menu->addAction(m_paste_action);
+			m_edit_menu->addSeparator();
+			m_edit_menu->addAction(m_insert_camera_settings_action);
+			QMenu* command_menu = m_edit_menu->addMenu("Insert Command");
+			createCommandHelpMenu(command_menu, this);
 
 			// -- Render Menu --
-			renderMenu = menuBar()->addMenu(tr("&Render"));
-			renderMenu->addAction(renderAction);
-			renderMenu->addSeparator();
-			renderMenu->addAction(raytraceProgressiveAction);
-			renderMenu->addAction(raytraceFinalAction);
-			renderMenu->addSeparator();
-			renderMenu->addAction(m_fullscreen_action);
-			renderMenu->addAction(resetViewAction);
-			renderMenu->addSeparator();
+			QMenu* render_menu = menuBar()->addMenu(tr("&Render"));
+			render_menu->addAction(m_render_action);
+			render_menu->addSeparator();
+			render_menu->addAction(m_raytrace_progressive_action);
+			render_menu->addAction(m_raytrace_final_action);
+			render_menu->addSeparator();
+			render_menu->addAction(m_fullscreen_action);
+			render_menu->addAction(m_reset_view_action);
+			render_menu->addSeparator();
 			
-			renderMenu->addAction(fastRotateAction);
-			renderMenu->addAction(showCoordinateSystemAction);
-			renderMenu->addAction(probeDepthAction);
+			render_menu->addAction(m_fast_rotate_action);
+			render_menu->addAction(m_show_coordinate_system_action);
+			render_menu->addAction(m_probe_depth_action);
 			
-
 			// -- Export --
-			renderMenu = menuBar()->addMenu(tr("&Export"));
-			renderMenu->addAction(exportAction);
-			renderMenu->addAction("Obj Export...", this, SLOT(exportToObj()));
-			renderMenu->addAction(screenshotAction);
-
-		
+			QMenu* export_menu = menuBar()->addMenu(tr("&Export"));
+			export_menu->addAction(m_export_action);
+			export_menu->addAction("Obj Export...", this, SLOT(exportToObj()));
+			export_menu->addAction(m_screenshot_action);
 			//menuBar()->addSeparator();
 
 			// -- Examples Menu --
 			QStringList filters;
-			QMenu* examplesMenu = menuBar()->addMenu(tr("&Examples"));
+			QMenu* examples_menu = menuBar()->addMenu(tr("&Examples"));
 			// Scan examples dir...
-			QDir d(EXAMPLEDIR);
+			QDir dir(EXAMPLEDIR);
 			filters.clear();
 			filters << "*.es";
-			d.setNameFilters(filters);
-			if (!d.exists()) {
-				QAction* a = new QAction("Unable to locate: "+d.absolutePath(), this);
+			dir.setNameFilters(filters);
+			if (!dir.exists())
+			{
+				QAction* a = new QAction("Unable to locate: "+dir.absolutePath(), this);
 				a->setEnabled(false);
-				examplesMenu->addAction(a);
-			} else {
+				examples_menu->addAction(a);
+			} else
+			{
 				// we will recurse the dirs...
-				QStack<QString> pathStack;
-				pathStack.append(QDir(EXAMPLEDIR).absolutePath());
+				QStack<QString> path_stack;
+				path_stack.append(QDir(EXAMPLEDIR).absolutePath());
 
-				QMap< QString , QMenu* > menuMap;
-				while (!pathStack.isEmpty()) {
+				QMap< QString , QMenu* > menu_map;
+				while (!path_stack.isEmpty())
+				{
+					QMenu* current_menu = examples_menu;
+					QString path = path_stack.pop();
+					if (menu_map.contains(path))
+						current_menu = menu_map[path];
 
-					QMenu* currentMenu = examplesMenu;
-					QString path = pathStack.pop();
-					if (menuMap.contains(path)) currentMenu = menuMap[path];
-					QDir dir(path);
-
-					QStringList sl = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-					for (int i = 0; i < sl.size(); i++) {
-						QMenu* menu = new QMenu(sl[i]);
-						QString absPath = QDir(path + QDir::separator() +  sl[i]).absolutePath();
-						menuMap[absPath] = menu;
-						currentMenu->addMenu(menu);
+					QDir current_dir(path);
+					QStringList file_lists = current_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+					for (int i = 0; i < (int)file_lists.size(); i++)
+					{
+						QMenu* menu = new QMenu(file_lists[i]);
+						QString absPath = QDir(path + QDir::separator() + file_lists[i]).absolutePath();
+						menu_map[absPath] = menu;
+						current_menu->addMenu(menu);
 						menu->setIcon(QIcon(":/images/folder.png"));
-						pathStack.push(absPath);
+						path_stack.push(absPath);
 					}
 
-					dir.setNameFilters(filters);
+					current_dir.setNameFilters(filters);
 
-					sl = dir.entryList();
-					for (int i = 0; i < sl.size(); i++) {
-						QAction* a = new QAction(sl[i], this);
-						a->setIcon(QIcon(":/images/mail_new.png"));
-
-
-						QString absPath = QDir(path ).absoluteFilePath(sl[i]);
-
-						a->setData(absPath);
-						connect(a, SIGNAL(triggered()), this, SLOT(openFile()));
-						currentMenu->addAction(a);
+					file_lists = current_dir.entryList();
+					for (int i = 0; i < (int)file_lists.size(); i++)
+					{
+						QAction* action = new QAction(file_lists[i], this);
+						action->setIcon(QIcon(":/images/mail_new.png"));
+						QString absPath = QDir(path ).absoluteFilePath(file_lists[i]);
+						action->setData(absPath);
+						connect(action, SIGNAL(triggered()), this, SLOT(openFile()));
+						current_menu->addAction(action);
 					}
 				}
-
-
 			}
 
-			QMenu* mc = createPopupMenu();
-			mc->setTitle("Windows");
-			menuBar()->addMenu(mc);
+			QMenu* window_menu = createPopupMenu();
+			window_menu->setTitle("Windows");
+			menuBar()->addMenu(window_menu);
 
-
-			helpMenu = menuBar()->addMenu(tr("&Help"));
-			helpMenu->addAction(aboutAction);
-			helpMenu->addSeparator();
-			helpMenu->addAction(sfHomeAction);
-			helpMenu->addAction(referenceAction);
-			helpMenu->addAction(galleryAction);
+			m_help_menu = menuBar()->addMenu(tr("&Help"));
+			m_help_menu->addAction(m_about_action);
+			m_help_menu->addSeparator();
+			m_help_menu->addAction(m_sfhome_action);
+			m_help_menu->addAction(m_reference_action);
+			m_help_menu->addAction(m_gallery_action);
 		}
 
 		void MainWindow::createToolBars()
 		{
-			fileToolBar = addToolBar(tr("File Toolbar"));
-			fileToolBar->addAction(newAction);
-			fileToolBar->addAction(openAction);
-			fileToolBar->addAction(saveAction);
+			m_file_toolbar = addToolBar(tr("File Toolbar"));
+			m_file_toolbar->addAction(m_new_action);
+			m_file_toolbar->addAction(m_open_action);
+			m_file_toolbar->addAction(m_save_action);
 
-			editToolBar = addToolBar(tr("Edit Toolbar"));
-			editToolBar->addAction(cutAction);
-			editToolBar->addAction(copyAction);
-			editToolBar->addAction(pasteAction);
+			m_edit_toolbar = addToolBar(tr("Edit Toolbar"));
+			m_edit_toolbar->addAction(m_cut_action);
+			m_edit_toolbar->addAction(m_copy_action);
+			m_edit_toolbar->addAction(m_paste_action);
 
-			randomToolBar = addToolBar(tr("Random Toolbar"));
+			m_random_toolbar = addToolBar(tr("Random Toolbar"));
 
 			QLabel* randomSeed = new QLabel("Seed:"); 
-			randomToolBar->addWidget(randomSeed);
-			seedSpinBox = new QSpinBox();
-			seedSpinBox->setRange(1,32768);
-			seedSpinBox->setValue(1);
-			randomToolBar->addWidget(seedSpinBox);
-			autoIncrementCheckbox = new QCheckBox("Auto Increment", randomToolBar);
-			randomToolBar->addWidget(autoIncrementCheckbox);
-			autoIncrementCheckbox->setChecked(true);
+			m_random_toolbar->addWidget(randomSeed);
+			m_seed_spinbox = new QSpinBox();
+			m_seed_spinbox->setRange(1,32768);
+			m_seed_spinbox->setValue(1);
+			m_random_toolbar->addWidget(m_seed_spinbox);
+			m_autoincrement_checkbox = new QCheckBox("Auto Increment", m_random_toolbar);
+			m_random_toolbar->addWidget(m_autoincrement_checkbox);
+			m_autoincrement_checkbox->setChecked(true);
 
-			renderToolBar = addToolBar(tr("Render Toolbar"));
-			renderToolBar->addAction(renderAction);
-			renderToolBar->addWidget(new QLabel("Build    ", this));
-			QPushButton* pb = new QPushButton(this);
-			pb->setText("Reset View");
-			renderToolBar->addWidget(pb);
-			connect(pb, SIGNAL(clicked()), this, SLOT(resetView()));
+			m_render_toolbar = addToolBar(tr("Render Toolbar"));
+			m_render_toolbar->addAction(m_render_action);
+			m_render_toolbar->addWidget(new QLabel("Build    ", this));
+			QPushButton* reset_view_button = new QPushButton(this);
+			reset_view_button->setText("Reset View");
+			m_render_toolbar->addWidget(reset_view_button);
+			connect(reset_view_button, SIGNAL(clicked()), this, SLOT(resetView()));
 			
-			progressBox = new ProgressBox(this);
-			renderToolBar->addWidget(progressBox);
-			connect(progressBox, SIGNAL(startPressed()), this, SLOT(raytraceProgressive()));
-			progressBox->setValue(0);
-			connect(seedSpinBox, SIGNAL(valueChanged(int)), this, SLOT(seedChanged()));
+			m_progress_box = new SyntopiaCore::GLEngine::ProgressBox(this);
+			m_render_toolbar->addWidget(m_progress_box);
+			connect(m_progress_box, SIGNAL(startPressed()), this, SLOT(raytraceProgressive()));
+			m_progress_box->setValue(0);
+			connect(m_seed_spinbox, SIGNAL(valueChanged(int)), this, SLOT(seedChanged()));
 		}
 
-		void MainWindow::fastRotateChanged() {
-			engine->setFastRotate(fastRotateAction->isChecked());
+		void MainWindow::fastRotateChanged()
+		{
+			engine->setFastRotate(m_fast_rotate_action->isChecked());
 		}
 
-		void MainWindow::showCoordinateSystemChanged() {
-			engine->setShowCoordinateSystem(showCoordinateSystemAction->isChecked());
-			if (showCoordinateSystemAction->isChecked()) {
+		void MainWindow::showCoordinateSystemChanged()
+		{
+			engine->setShowCoordinateSystem(m_show_coordinate_system_action->isChecked());
+			if (m_show_coordinate_system_action->isChecked())
+			{
 				INFO("X,Y,Z axis is colored red,green, and blue respectively. Axis length is 10 units.");
 			}
 			engine->requireRedraw();
 		}
 
-		void MainWindow::disableAllExcept(QWidget* w) {
-			disabledWidgets.clear();
-			disabledWidgets = findChildren<QWidget *>("");
-			while (w) { disabledWidgets.removeAll(w); w=w->parentWidget(); }
-			foreach (QWidget* w, disabledWidgets) w->setEnabled(false);
+		void MainWindow::disableAllExcept(QWidget* w)
+		{
+			m_disabled_widgets.clear();
+			m_disabled_widgets = findChildren<QWidget *>("");
+			while (w) 
+			{
+				m_disabled_widgets.removeAll(w);
+				w = w->parentWidget();
+			}
+			foreach (QWidget* w, m_disabled_widgets)
+				w->setEnabled(false);
 			qApp->processEvents();
 		}
 
-		void MainWindow::enableAll() {
-			foreach (QWidget* w, disabledWidgets) w->setEnabled(true);
+		void MainWindow::enableAll()
+		{
+			foreach (QWidget* w, m_disabled_widgets)
+				w->setEnabled(true);
+		}
+
+		void MainWindow::disableExceptProgressBox()
+		{
+
 		}
 		
-		void MainWindow::raytraceProgressive() {
-			disableAllExcept(progressBox);
-			RayTracer rt(engine, progressBox,true);
+		void MainWindow::raytraceProgressive()
+		{
+			disableAllExcept(m_progress_box);
+			RayTracer rt(engine, m_progress_box, true);
 			QImage im = rt.calculateImage(engine->width(),engine->height());
 			engine->setImage(im);
 			enableAll();
 		}
 
-
-
-
-		void MainWindow::seedChanged() {
-			autoIncrementCheckbox->setChecked(false);
+		void MainWindow::seedChanged() 
+		{
+			m_autoincrement_checkbox->setChecked(false);
 		}
 
 		void MainWindow::createStatusBar()
@@ -898,13 +927,14 @@ namespace StructureSynth {
 			settings.setValue("size", size());
 		}
 
-
 		void MainWindow::openFile()
 		{
 			QAction *action = qobject_cast<QAction *>(sender());
-			if (action) {
+			if (action)
+			{
 				loadFile(action->data().toString());
-			} else {
+			} else
+			{
 				WARNING("No data!");
 			}
 		}
@@ -916,10 +946,15 @@ namespace StructureSynth {
 
 		bool MainWindow::saveFile(const QString &fileName)
 		{
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return false; }
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return false;
+			}
 
 			QFile file(fileName);
-			if (!file.open(QFile::WriteOnly | QFile::Text)) {
+			if (!file.open(QFile::WriteOnly | QFile::Text))
+			{
 				QMessageBox::warning(this, tr("Structure Synth"),
 					tr("Cannot write file %1:\n%2.")
 					.arg(fileName)
@@ -939,25 +974,25 @@ namespace StructureSynth {
 
 			statusBar()->showMessage(tr("File saved"), 2000);
 			setRecentFile(fileName);
-
 			return true;
 		}
-
-
 
 		QString MainWindow::strippedName(const QString &fullFileName)
 		{
 			return QFileInfo(fullFileName).fileName();
 		}
 
+		void MainWindow::updateRandom()
+		{
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return;
+			}
 
-		void MainWindow::updateRandom() {
-
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
-
-			seedSpinBox->blockSignals(true);
+			m_seed_spinbox->blockSignals(true);
 			setSeed((getSeed()+1) % 32768);
-			seedSpinBox->blockSignals(false);
+			m_seed_spinbox->blockSignals(false);
 			INFO(QString("Auto-incremented random seed: %1").arg(getSeed()));
 
 			// Should we try something like below?
@@ -970,17 +1005,24 @@ namespace StructureSynth {
 			RandomStreams::SetSeed(getSeed());
 		}
 
-		void MainWindow::render() {
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
+		void MainWindow::render()
+		{
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return;
+			}
 
-			if (getTextEdit()->toPlainText().startsWith("#javascript", Qt::CaseInsensitive)) {
+			if (getTextEdit()->toPlainText().startsWith("#javascript", Qt::CaseInsensitive))
+			{
 				// This is javascript...
 				QString text = getTextEdit()->toPlainText();
 				text = text.remove("#javascript", Qt::CaseInsensitive);
 
 				TabInfo t = tabInfo[m_tab_bar->currentIndex()];
 				QString dir;
-				if (t.hasBeenSavedOnce) {
+				if (t.hasBeenSavedOnce)
+				{
 					dir = QFileInfo(t.filename).absolutePath();
 				} else {
 					dir = ""; // we will use the default dir.
@@ -991,21 +1033,23 @@ namespace StructureSynth {
 			}
 
 			setEnabled(false);
-			if (autoIncrementCheckbox->isChecked()) updateRandom();
+			if (m_autoincrement_checkbox->isChecked())
+				updateRandom();
+			
 			RandomStreams::SetSeed(getSeed());
 			INFO(QString("Random seed: %1").arg(getSeed()));
 
 			engine->setDisabled(true);
 
-			try {
-
+			try 
+			{
 				Rendering::OpenGLRenderer renderTarget(engine);
 				renderTarget.begin(); // we clear before parsing...
 
-				Preprocessor pp;
-				QString out = pp.Process(getTextEdit()->toPlainText(), getSeed());
+				Preprocessor preprocessor;
+				QString out = preprocessor.Process(getTextEdit()->toPlainText(), getSeed());
 				bool showGUI = false;
-				out = variableEditor->updateFromPreprocessor(&pp, out, &showGUI);
+				out = variableEditor->updateFromPreprocessor(&preprocessor, out, &showGUI);
 				m_editor_dock->setHidden(!showGUI);
 
 				Tokenizer tokenizer(out);
@@ -1039,7 +1083,8 @@ namespace StructureSynth {
 				delete(rs); 
 				rs = 0;
 
-			} catch (ParseError& pe) {
+			} catch (ParseError& pe)
+			{
 				WARNING(pe.getMessage());
 				int pos = pe.getPosition();
 				INFO(QString("Found at character %1.").arg(pos));	
@@ -1056,25 +1101,31 @@ namespace StructureSynth {
 			setEnabled(true);
 
 			engine->setDisabled(false);
-
 		}
 
-		void MainWindow::resetView() {
+		void MainWindow::resetView()
+		{
 			engine->reset();
 		}
 
-		QTextEdit* MainWindow::getTextEdit() {
-			return (m_stacked_text_edits->currentWidget() ? (QTextEdit*)m_stacked_text_edits->currentWidget() : 0);
+		QTextEdit* MainWindow::getTextEdit()
+		{
+			return (m_stacked_text_edits->currentWidget() ?
+				(QTextEdit*)m_stacked_text_edits->currentWidget() : nullptr);
 		}
 
-		void MainWindow::cursorPositionChanged() {
-			if (!this->getTextEdit()) return;
+		void MainWindow::cursorPositionChanged()
+		{
+			if (!this->getTextEdit())
+				return;
+
 			int pos = this->getTextEdit()->textCursor().position();
 			int blockNumber = this->getTextEdit()->textCursor().blockNumber();
-			statusBar()->showMessage(QString("Position: %1, Line: %2").arg(pos).arg(blockNumber+1), 5000);
+			statusBar()->showMessage(QString("Position: %1, Line: %2").arg(pos).arg(blockNumber + 1), 5000);
 		}
 
-		void MainWindow::insertTabPage(QString filename) {
+		void MainWindow::insertTabPage(QString filename)
+		{
 			QTextEdit* textEdit = new TextEdit();
 			connect(textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
 
@@ -1086,12 +1137,15 @@ namespace StructureSynth {
 			textEdit->setText(s);
 
 			bool loadingSucceded = false;
-			if (!filename.isEmpty()) {
+			if (!filename.isEmpty())
+			{
 				INFO(QString("Loading file: %1").arg(filename));
 				QFile file(filename);
-				if (!file.open(QFile::ReadOnly | QFile::Text)) {
+				if (!file.open(QFile::ReadOnly | QFile::Text))
+				{
 					textEdit->setPlainText(QString("Cannot read file %1:\n%2.").arg(filename).arg(file.errorString()));
-				} else {
+				} else
+				{
 					QTextStream in(&file);
 					QApplication::setOverrideCursor(Qt::WaitCursor);
 					textEdit->setPlainText(in.readAll());
@@ -1101,16 +1155,17 @@ namespace StructureSynth {
 				}
 			}
 
-
 			QString displayName = filename;
-			if (displayName.isEmpty()) {
+			if (displayName.isEmpty())
+			{
 				// Find a new name
 				displayName = "Unnamed";
 				QString suggestedName = displayName;
 
 				bool unique = false;
 				int counter = 1;
-				while (!unique) {
+				while (!unique)
+				{
 					unique = true;
 					for (int i = 0; i < tabInfo.size(); i++) {
 						if (tabInfo[i].filename == suggestedName) {
@@ -1125,18 +1180,17 @@ namespace StructureSynth {
 			}
 
 			m_stacked_text_edits->addWidget(textEdit);
-
-			if (loadingSucceded) {
+			if (loadingSucceded) 
+			{
 				tabInfo.append(TabInfo(displayName, textEdit, false, true));
 				setRecentFile(filename);
-
-			} else {
+			} else 
+			{
 				tabInfo.append(TabInfo(displayName, textEdit, true));
 			}
 
 			QString tabTitle = QString("%1%3").arg(strippedName(displayName)).arg(!loadingSucceded? "*" : "");
 			m_tab_bar->setCurrentIndex(m_tab_bar->addTab(strippedName(tabTitle)));
-
 			connect(textEdit->document(), SIGNAL(contentsChanged()), this, SLOT(documentWasModified()));
 		}
 
@@ -1180,109 +1234,110 @@ namespace StructureSynth {
 			delete(t.textEdit); // ?
 		}
 
-		void MainWindow::launchSfHome() {
+		void MainWindow::launchSfHome()
+		{
 			INFO("Launching web browser...");
 			bool s = QDesktopServices::openUrl(QUrl("http://structuresynth.sourceforge.net/"));
 			if (!s) WARNING("Failed to open browser...");
 		}
 
-		void MainWindow::launchReferenceHome() {
+		void MainWindow::launchReferenceHome()
+		{
 			INFO("Launching web browser...");
 			bool s = QDesktopServices::openUrl(QUrl("http://structuresynth.sourceforge.net/reference.php"));
 			if (!s) WARNING("Failed to open browser...");
 		}
 
-		void MainWindow::launchGallery() {
+		void MainWindow::launchGallery()
+		{
 			INFO("Launching web browser...");
 			bool s = QDesktopServices::openUrl(QUrl("http://flickr.com/groups/structuresynth/"));
 			if (!s) WARNING("Failed to open browser...");
 		}
 
-		void MainWindow::saveImage(QImage image) {
-			QList<QByteArray> a = QImageWriter::supportedImageFormats();
+		void MainWindow::saveImage(QImage image)
+		{
+			QList<QByteArray> formats = QImageWriter::supportedImageFormats();
 			QStringList allowedTypesFilter;
 			QStringList allowedTypes;
-			for (int i = 0; i < a.count(); i++) {
-				allowedTypesFilter.append("*."+a[i]);
-				allowedTypes.append(a[i]);
+			for (int i = 0; i < formats.count(); i++)
+			{
+				allowedTypesFilter.append("*." + formats[i]);
+				allowedTypes.append(formats[i]);
 			}
-			QString filter = "Image Files (" + allowedTypesFilter.join(" ")+")";
+			QString filter = "Image Files (" + allowedTypesFilter.join(" ") + ")";
 
 			QString filename = QFileDialog::getSaveFileName(this, "Save Screenshot As...", QString(), filter);
-			if (filename.isEmpty()) {
+			if (filename.isEmpty())
+			{
 				INFO("User cancelled save...");
 				return;
 			}
 
 			QString ext = filename.section(".", -1).toLower();
-			if (!allowedTypes.contains(ext)) {
+			if (!allowedTypes.contains(ext))
+			{
 				WARNING("Invalid image extension.");
 				WARNING("File must be one of the following types: " + allowedTypes.join(","));
 				return;
 			}
 
 			bool succes = image.save(filename);
-			if (succes) {
+			if (succes)
+			{
 				INFO("Saved screenshot as: " + filename);
-			} else {
+			} else
+			{
 				WARNING("Save failed! Filename: " + filename);
 			}
 		}
 
-		void MainWindow::makeScreenshot() {
+		void MainWindow::makeScreenshot()
+		{
 			QImage image = engine->getScreenShot();
 			saveImage(image);
 		}
 
-		void MainWindow::setSeed(int randomSeed) {
-			seedSpinBox->setValue(randomSeed);
+		void MainWindow::setSeed(int randomSeed)
+		{
+			m_seed_spinbox->setValue(randomSeed);
 		}
 
-		int MainWindow::getSeed() {
-			return seedSpinBox->value();
+		int MainWindow::getSeed()
+		{
+			return m_seed_spinbox->value();
 		};
 
-		void MainWindow::insertCameraSettings() {
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
+		void MainWindow::insertCameraSettings()
+		{
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return;
+			}
 
-
-			getTextEdit()->insertPlainText(getCameraSettings());
+			getTextEdit()->insertPlainText(engine->getCameraSettings());
 			INFO("Camera settings are now pasted into the script window.");
 			INFO("Remember to clear previous 'set' commands if necessary.");
 		}
 
-
-
-		QString MainWindow::getScriptWithSettings(QString filename) {
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return ""; }
+		QString MainWindow::getScriptWithSettings(QString filename)
+		{
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return "";
+			}
 
 			QString s = "// Autogenerated script for file: " + filename + "\n";
 			s += "// Generated " + QDateTime::currentDateTime().toString("MMMM dd yyyy hh:mm:ss") + "\n";
 			s += QString("// Original window size: %1x%2").arg(engine->width()).arg(engine->height()) + "\n\n";
-			s += getCameraSettings() + "\n";
+			s += engine->getCameraSettings() + "\n";
 			s += QString("Set seed %1\n\n").arg(getSeed());
 			s += QString("// Original script:\n\n");
 			s += getTextEdit()->toPlainText();
 			return s;
 		}
-
-		QString MainWindow::getCameraSettings() {
-
-			Vector3f translation = engine->getTranslation();
-			Matrix4f rotation = engine->getRotation();
-			Vector3f pivot = engine->getPivot();
-			double scale = engine->getScale();
-
-			QStringList sl;
-			sl << "// Camera settings. Place these before first rule call." 
-				<< QString("set translation %1").arg(translation.toString())
-				<< QString("set rotation %1").arg(rotation.toStringAs3x3())
-				<< QString("set pivot %1").arg(pivot.toString())
-				<< QString("set scale %1").arg(scale);
-			return sl.join("\n");
-
-		}
-
 
 		void MainWindow::templateRenderToFile()
 		{
@@ -1297,7 +1352,11 @@ namespace StructureSynth {
 
 		void MainWindow::templateRender()
 		{
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return;
+			}
 
 			templateRender(""); // Renders to clip board when file name is empty.
 		}
@@ -1420,59 +1479,80 @@ namespace StructureSynth {
 
 				delete(rs);
 				rs = 0;
-
-
 			} catch (Exception& er) {
 				WARNING(er.getMessage());
 			}
-
 		}
-
 
 		void MainWindow::parseJavaScript(QString scripture, QString dir) {
 			JavaScriptParser jsp(this, statusBar());
 			jsp.parse(scripture, dir);
 		}
 
-		void MainWindow::copy() {
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
+		void MainWindow::copy()
+		{
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return;
+			}
 			getTextEdit()->copy();
 		}
 
-
-		void MainWindow::cut() {
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
+		void MainWindow::cut()
+		{
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return;
+			}
 			getTextEdit()->cut();
 		}
 
-		void MainWindow::paste() {
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
+		void MainWindow::paste()
+		{
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return;
+			}
 			getTextEdit()->paste();
 		}
 
-		void MainWindow::dragEnterEvent(QDragEnterEvent *ev)
+		void MainWindow::dragEnterEvent(QDragEnterEvent* event)
 		{
-			if (ev->mimeData()->hasUrls()) {
-				ev->acceptProposedAction();
-			} else {
-				INFO("Cannot accept MIME object: " + ev->mimeData()->formats().join(" - "));
+			if (event->mimeData()->hasUrls())
+			{
+				event->acceptProposedAction();
+			} else
+			{
+				INFO("Cannot accept MIME object: " + event->mimeData()->formats().join(" - "));
 			}
 		}
 
-		void MainWindow::dropEvent(QDropEvent *ev) {
-			if (ev->mimeData()->hasUrls()) {
-				QList<QUrl> urls = ev->mimeData()->urls();
-				for (int i = 0; i < urls.size() ; i++) {
+		void MainWindow::dropEvent(QDropEvent* event)
+		{
+			if (event->mimeData()->hasUrls())
+			{
+				QList<QUrl> urls = event->mimeData()->urls();
+				for (int i = 0; i < urls.size() ; i++)
+				{
 					INFO("Loading: " + urls[i].toLocalFile());
 					loadFile(urls[i].toLocalFile());
 				}
-			} else {
-				INFO("Cannot accept MIME object: " + ev->mimeData()->formats().join(" - "));
+			} else
+			{
+				INFO("Cannot accept MIME object: " + event->mimeData()->formats().join(" - "));
 			}
 		}
 
-		void MainWindow::templateExport() {
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
+		void MainWindow::templateExport()
+		{
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return;
+			}
 
 			// We must parse first...
 			RuleSet* rs = 0;
@@ -1506,92 +1586,33 @@ namespace StructureSynth {
 		void MainWindow::setRecentFile(const QString &fileName)
 		{
 			QSettings settings;
-
 			QStringList files = settings.value("recentFileList").toStringList();
 			files.removeAll(fileName);
 			files.prepend(fileName);
-			while (files.size() > MaxRecentFiles) files.removeLast();
+			while (files.size() > MaxRecentFiles)
+				files.removeLast();
 
 			settings.setValue("recentFileList", files);
-
 			int numRecentFiles = qMin(files.size(), (int)MaxRecentFiles);
 
-			for (int i = 0; i < numRecentFiles; ++i) {
+			for (int i = 0; i < numRecentFiles; ++i)
+			{
 				QString text = tr("&%1 %2").arg(i + 1).arg(QFileInfo(files[i]).fileName());
-				recentFileActions[i]->setText(text);
-				QString absPath = QFileInfo(files[i]).absoluteFilePath();
-				recentFileActions[i]->setData(absPath);
-				recentFileActions[i]->setVisible(true);
+				m_recentfile_actions[i]->setText(text);
+				QString abs_path = QFileInfo(files[i]).absoluteFilePath();
+				m_recentfile_actions[i]->setData(abs_path);
+				m_recentfile_actions[i]->setVisible(true);
 			}
 
-			for (int j = numRecentFiles; j < MaxRecentFiles; ++j) recentFileActions[j]->setVisible(false);
-
-			recentFileSeparator->setVisible(numRecentFiles > 0);
+			for (int j = numRecentFiles; j <  MaxRecentFiles; ++j)
+				m_recentfile_actions[j]->setVisible(false);
 		}
 
-		namespace {
-			// Very simple complex numbers.
-			class Complex {
-			public:
-				Complex(double r, double i) : r(r), i(i) {};
-				Complex() : r(0), i(0) {};
-
-				Complex operator*(const double& rhs) const { return Complex(r*rhs, i*rhs); }
-				Complex operator*(const Complex& rhs) const { return Complex(r*rhs.r-i*rhs.i,r*rhs.i+i*rhs.r); }
-				Complex operator+(const Complex& rhs) const { return Complex(r+rhs.r,i+rhs.i); }
-				double sqrLength() const { return r*r+i*i; } 
-				double length2() const { return fabs(r)>fabs(i) ? fabs(r) : fabs(i); } 
-				Complex raisedTo(Complex power) const {
-					double a = r; double b = i;
-					double c = power.r; double d = power.i;
-					double p = sqrt(a*a + b*b);
-					double t = atan2(b,a); // is this correct quadrant?
-					double factor = pow(p,c)*exp(-d*t);
-					double r = factor*cos(c*t + d*log(p));
-					double i = factor*sin(c*t + d*log(p));
-					return Complex(r,i);
-				}
-				QString toString() { return QString("(%1,%2)").arg(r).arg(i); } 
-
-				double r;
-				double i;
-			};
-		}
-
-		namespace {
-			// Could we make a match("Syntax: %1, %2, %3").arg(double*).arg(int*).arg();
-			int match(QString s, QString m, double* a, double* b = 0, double* c = 0, double* d = 0) {
-				m.replace("(", "\\(");
-				m.replace(")", "\\)");
-				m.replace("^", "\\^");
-				m.replace("*", "\\*");
-				m.replace("@", "([-+]?[0-9]*\\.?[0-9]+)"); // 
-				QRegExp rx("^" + m + "$");
-				int i = rx.indexIn(s);
-				if (i >= 0) {
-					QStringList list = rx.capturedTexts();
-					if (list.count()>1 && a) (*a) = list[1].toDouble();
-					if (list.count()>2 && b) (*b) = list[2].toDouble();
-					if (list.count()>3 && c) (*c) = list[3].toDouble();
-					if (list.count()>4 && d) (*d) = list[4].toDouble();
-					//INFO(QString("Captured %1 on %2, %3").arg(list.count()).arg(m).arg(s));
-					return list.count()-1;
-				} 
-				return -1;
-			}
-
-			struct Term {
-				Term() {};
-				Term(Complex f, Complex e) : factor(f), exponent(e) {};
-				Complex factor;
-				Complex exponent;
-			};
-		}
-
-		void MainWindow::raytrace() {
+		void MainWindow::raytrace()
+		{
 			INFO("Hint: use the 'set raytracer::size [0x800]' command to set the dimensions. use 'set raytracer::samples 10' to control quality."); 
-			disableAllExcept(progressBox);
-			RayTracer rt(engine, progressBox, false);
+			disableAllExcept(m_progress_box);
+			RayTracer rt(engine, m_progress_box, false);
 			QImage im = rt.calculateImage(0,0);
 			enableAll();
 			PreviewWindow pd(this, im);
@@ -1694,23 +1715,36 @@ namespace StructureSynth {
 			};
 		}
 
-		void MainWindow::insertText() {
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
+		void MainWindow::insertText()
+		{
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return;
+			}
 
 			QString text = ((QAction*)sender())->text();
 			getTextEdit()->insertPlainText(text.section("//",0,0)); // strip comments
 		}
+
 		void MainWindow::exportToObj()
 		{
-			if (m_tab_bar->currentIndex() == -1) { WARNING("No open tab"); return; }
+			if (m_tab_bar->currentIndex() == -1)
+			{
+				WARNING("No open tab");
+				return;
+			}
 
-			ObjDialog od(this);
-			if (od.exec() == QDialog::Rejected) return;
-			int dt = od.spinBox1->value();
-			int dp = od.spinBox2->value();
+			ObjDialog obj_dialog(this);
+			if (obj_dialog.exec() == QDialog::Rejected)
+				return;
+
+			int dt = obj_dialog.spinBox1->value();
+			int dp = obj_dialog.spinBox2->value();
 
 			QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"), "output.obj");
-			if (fileName.isEmpty()) {
+			if (fileName.isEmpty())
+			{
 				INFO("User cancelled.");
 				return;
 			}
@@ -1720,7 +1754,7 @@ namespace StructureSynth {
 
 			INFO(QString("Random seed: %1").arg(getSeed()));
 			try {
-				ObjRenderer renderer(dt,dp, od.groupByTaggingCheckBox->isChecked(), od.groupByColorCheckBox->isChecked() );
+				ObjRenderer renderer(dt,dp, obj_dialog.groupByTaggingCheckBox->isChecked(), obj_dialog.groupByColorCheckBox->isChecked() );
 				renderer.begin(); 
 
 				Preprocessor pp;
@@ -1743,7 +1777,8 @@ namespace StructureSynth {
 
 				QFile file(fileName);
 				INFO("Writing to file: " + QFileInfo(file).absoluteFilePath());
-				if (!file.open(QFile::WriteOnly | QFile::Text)) {
+				if (!file.open(QFile::WriteOnly | QFile::Text))
+				{
 					QMessageBox::warning(this, tr("Structure Synth"),
 						tr("Cannot write file %1:\n%2.")
 						.arg(fileName)
@@ -1757,14 +1792,11 @@ namespace StructureSynth {
 				QApplication::restoreOverrideCursor();
 				INFO("File saved.");
 				delete(rs);
-			} catch (Exception& er) {
+			} catch (Exception& er)
+			{
 				WARNING(er.getMessage());
 			}
-
 		}
-
-
 	}
-
 }
 

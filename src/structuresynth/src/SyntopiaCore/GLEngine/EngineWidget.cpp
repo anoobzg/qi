@@ -61,10 +61,13 @@ namespace SyntopiaCore {
 				//return grabFrameBuffer();
 		}
 
-		void EngineWidget::paintEvent(QPaintEvent * ev) {
-			if (staticImage.isNull()) {
-				QOpenGLWidget::paintEvent(ev);
-			} else {
+		void EngineWidget::paintEvent(QPaintEvent * event)
+		{
+			if (staticImage.isNull())
+			{
+				QOpenGLWidget::paintEvent(event);
+			} else 
+			{
 				setAutoFillBackground(false);
 				glDisable( GL_CULL_FACE );
 				glDisable( GL_LIGHTING );
@@ -80,12 +83,10 @@ namespace SyntopiaCore {
 				p.begin(this);
 				p.drawImage(QPoint(0,0), staticImage);
 				p.end();
-				ev->accept();
+				event->accept();
 				pendingRedraws = 0;
-				
 			}
 		}
-
 
 		void EngineWidget::setFastRotate(bool enabled) {
 			fastRotate = enabled;
@@ -179,7 +180,24 @@ namespace SyntopiaCore {
 			INFO("Shader setup complete!");
 		}
 
-		double EngineWidget::getDepthAt(int x,int y) {
+		QString EngineWidget::getCameraSettings()
+		{
+			Vector3f translation = getTranslation();
+			Matrix4f rotation = getRotation();
+			Vector3f pivot = getPivot();
+			double scale = getScale();
+
+			QStringList sl;
+			sl << "// Camera settings. Place these before first rule call."
+				<< QString("set translation %1").arg(translation.toString())
+				<< QString("set rotation %1").arg(rotation.toStringAs3x3())
+				<< QString("set pivot %1").arg(pivot.toString())
+				<< QString("set scale %1").arg(scale);
+			return sl.join("\n");
+		}
+
+		double EngineWidget::getDepthAt(int x,int y)
+		{
 			RayInfo ri;
 			Vector3f front = screenTo3D(x, y, 0);
 			Vector3f back = screenTo3D(x, y, 1);
@@ -188,11 +206,14 @@ namespace SyntopiaCore {
 
 			double dist = -1;
 			Object3D* obj = 0;
-			for (int i = 0; i < objects.count(); i++) {
-				if (objects[i]->intersectsRay(&ri)) {
-					if (ri.intersection<dist || dist ==-1) {
+			for (int i = 0; i < m_objects.count(); i++)
+			{
+				if (m_objects[i]->intersectsRay(&ri))
+				{
+					if (ri.intersection<dist || dist ==-1)
+					{
 						dist = ri.intersection;
-						obj = objects[i];
+						obj = m_objects[i];
 					}
 				}
 			}
@@ -219,7 +240,8 @@ namespace SyntopiaCore {
 		}
 
 
-		void EngineWidget::paintGL() {
+		void EngineWidget::paintGL()
+		{
 			if (!staticImage.isNull()) {
 				return;
 			}
@@ -319,50 +341,17 @@ namespace SyntopiaCore {
 
 			}
 
-			if (QApplication::keyboardModifiers() == Qt::AltModifier || (doingRotate && fastRotate && ( objects.size()>1000))) {
-				
-				
-				/*
-				glDisable (GL_LIGHTING);
-				glPointSize(3);
-				glColor4f(1,1,1,1);
-				glBegin(GL_POINTS);
-				double stepX = 1.0/160.0;
-				Math::RandomNumberGenerator rg;
-				static int seeder = 0;
-				//rg.setSeed(seeder++);
-				for (double uz1 = 0; uz1 <=1; uz1+=stepX)
-				{
-					for (double uz2 = 0; uz2 <=1; uz2+=stepX)
-					{
-						double u1 = rg.getDouble(0,1);
-						double u2 = rg.getDouble(0,1);
-						u1 = uz1;
-						u2 = uz2;
-						double z = 1.0 - 2.0*u1;
-						double r = r = sqrt(1.0-z*z);
-						double phi = 2.0 * 3.1415926 * u2;
-						double x = r * cos(phi);
-						double y = r * sin(phi);
-						//glVertex3d(x,y,z);
-						glVertex3d(cos(2*3.1415*u1)*sqrt(u2),sin(2*3.1415*u1)*sqrt(u2),0);
-					}
-				}
-				glEnd();
-				glEnable (GL_LIGHTING);
-
-				*/
-				
-
+			if (QApplication::keyboardModifiers() == Qt::AltModifier || (doingRotate && fastRotate && (m_objects.size()>1000)))
+			{	
 				// Fast-draw
-				int objs =  objects.size();
+				int objs = m_objects.size();
 				int step = objs/5000;
 				if (step < 1) step = 1;
 				if (count >= step) count = 0;
 
 				//qglColor(getVisibleForegroundColor());
-				for (int i = count; i < objects.size(); i+=step) {
-					objects[i]->draw();
+				for (int i = count; i < m_objects.size(); i+=step) {
+					m_objects[i]->draw();
 				}
 
 				glEnable (GL_LIGHTING);
@@ -381,14 +370,16 @@ namespace SyntopiaCore {
 				glDisable (GL_BLEND);
 
 				QVector<Object3D*> transparentObjects;
-				for (int i = 0; i < objects.size(); i++) {
-					if (objects[i]->getColor()[3]==1.0) {
-						objects[i]->draw();
+				for (int i = 0; i < m_objects.size(); i++)
+				{
+					if (m_objects[i]->getColor()[3] == 1.0)
+					{
+						m_objects[i]->draw();
 					} else {
-						transparentObjects.append(objects[i]);
-						float d = -Vector3f::dot(objects[i]->getCenter()-cameraPosition,
+						transparentObjects.append(m_objects[i]);
+						float d = -Vector3f::dot(m_objects[i]->getCenter()-cameraPosition,
 							cameraTarget-cameraPosition);
-						objects[i]->setDepth(d);
+						m_objects[i]->setDepth(d);
 					}
 				}
 
@@ -398,16 +389,15 @@ namespace SyntopiaCore {
 				//glDisable(GL_DEPTH_TEST); 
 				//glEnable(GL_CULL_FACE); 
 				qSort(transparentObjects.begin(), transparentObjects.end(), depthSorter);
-				for (int i = 0; i < transparentObjects.size(); i++) {
+				for (int i = 0; i < transparentObjects.size(); i++)
+				{
 					transparentObjects[i]->draw();
 				}
 			}
-			//renderText(10, 20, infoText);
-
-
 		};
 
-		void EngineWidget::resizeGL( int /* width */, int /* height */) {
+		void EngineWidget::resizeGL( int /* width */, int /* height */)
+		{
 			// When resizing the perspective must be recalculated
 			requireRedraw();
 			updatePerspective();
@@ -618,13 +608,16 @@ namespace SyntopiaCore {
 		}
 
 
-		void EngineWidget::clearWorld() {
-			for (int i = 0; i < objects.size(); i++) delete(objects[i]);
-			objects.clear();
+		void EngineWidget::clearWorld()
+		{
+			for (int i = 0; i < m_objects.size(); i++)
+				delete(m_objects[i]);
+			m_objects.clear();
 		}
 
-		void EngineWidget::addObject(Object3D* object) {
-			objects.append(object);
+		void EngineWidget::addObject(Object3D* object)
+		{
+			m_objects.append(object);
 		}
 
 		SyntopiaCore::Math::Vector3f EngineWidget::getCameraPosition() {
@@ -651,12 +644,20 @@ namespace SyntopiaCore {
 			return QColor(r,g,b);
 		}
 
-		void EngineWidget::getBoundingBox(SyntopiaCore::Math::Vector3f& from, SyntopiaCore::Math::Vector3f& to) const {
+		void EngineWidget::getBoundingBox(SyntopiaCore::Math::Vector3f& from, SyntopiaCore::Math::Vector3f& to) const
+		{
 			from = Vector3f(0,0,0);
 			to = Vector3f(0,0,0);
-			for (int i = 0; i < objects.count(); i++) {
-				if (i == 0) { objects[i]->getBoundingBox(from,to); }
-				else { objects[i]->expandBoundingBox(from,to);  }
+			for (int i = 0; i < m_objects.count(); i++)
+			{
+				if (i == 0)
+				{
+					m_objects[i]->getBoundingBox(from,to);
+				}
+				else 
+				{
+					m_objects[i]->expandBoundingBox(from,to);
+				}
 			}
 		}
 

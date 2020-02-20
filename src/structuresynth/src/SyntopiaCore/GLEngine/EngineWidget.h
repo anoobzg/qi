@@ -88,7 +88,8 @@ namespace SyntopiaCore {
 
 
 		/// Widget for the mini OpenGL engine.
-		class EngineWidget : public QOpenGLWidget {
+		class EngineWidget : public QOpenGLWidget
+		{
 		public:
 			/// Constructor
 			EngineWidget(QMainWindow* mainWindow, QWidget* parent);
@@ -105,10 +106,10 @@ namespace SyntopiaCore {
 			void toggleShowDepth() { showDepth = !showDepth; };
 			void clearWorld();
 			void reset();
+
 			void addObject(Object3D* object);
-			QList<Object3D*> getObjects() { return objects; };
-			
-			int objectCount() const { return objects.size(); }
+			QList<Object3D*> getObjects() { return m_objects; };
+			int objectCount() const { return m_objects.size(); }
 
 			SyntopiaCore::Math::Vector3f getPivot() { return pivot; }
 			SyntopiaCore::Math::Matrix4f getRotation() { return rotation; }
@@ -156,6 +157,8 @@ namespace SyntopiaCore {
 			void setImage(QImage im);
 
 			void setShowCoordinateSystem(bool val) { showCoordinateSystem = val; }
+
+			QString getCameraSettings();
 		protected:
 			void mouseMoveEvent(QMouseEvent* ev) ; 
 			void contextMenuEvent (QContextMenuEvent* ev);
@@ -201,7 +204,6 @@ namespace SyntopiaCore {
 			SyntopiaCore::Math::Vector3f pivot;
 			SyntopiaCore::Math::Matrix4f rotation;
 
-			QList<Object3D*> objects;
 			QString infoText;
 
 			QMenu* contextMenu;
@@ -223,6 +225,8 @@ namespace SyntopiaCore {
 
 			QMainWindow* mainWindow;
 			QImage staticImage;
+
+			QList<Object3D*> m_objects;
 		};
 	};
 

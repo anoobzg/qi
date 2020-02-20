@@ -94,9 +94,7 @@ namespace SyntopiaCore {
 
 			PrimitiveClass* primitiveClass;
 			GLfloat depth;
-
 		};
-
 	}
 }
 

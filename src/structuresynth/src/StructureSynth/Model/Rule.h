@@ -3,15 +3,16 @@
 #include "Rendering/Renderer.h"
 #include "State.h"
 
-namespace StructureSynth {
-	namespace Model {	
-
-		
+namespace StructureSynth
+{
+	namespace Model
+	{		
 		class RuleRef; // forward decl.
 		class Builder; // forward decl.
 
 		/// (Abstract) Base class for rules.
-		class Rule {
+		class Rule
+		{
 		public:
 			/// Every rule must have a name.
 			Rule(QString name) : name(name) { maxDepth = -1; };
