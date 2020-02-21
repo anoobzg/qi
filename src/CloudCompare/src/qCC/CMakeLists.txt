@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.0)
 
 project( CloudCompare VERSION 2.8.1 )
 
+include(LinkQcustomPlot)
+
 include_directories( ${CC_FBO_LIB_SOURCE_DIR}/include )
 include_directories( ${CC_CORE_LIB_SOURCE_DIR}/include )
 include_directories( ${QCC_DB_LIB_SOURCE_DIR} )
@@ -16,7 +18,9 @@ include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/db_tree )
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/ui_templates )
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../libs/qxt )
 
-qi_include(qcustomplot)
+IncludeQCustomPlot()
+
+#qi_include(qcustomplot)
 #include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../libs/qcustomplot )
 
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
@@ -61,6 +65,7 @@ else()
 endif()
 set_target_properties (${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS "QCUSTOMPLOT_USE_LIBRARY")
 
+LinkStaticQCustomPlot(${PROJECT_NAME})
 #####
 AddTarget(${PROJECT_NAME})
 #####
@@ -71,7 +76,7 @@ target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
 target_link_libraries( ${PROJECT_NAME} QCC_IO_LIB )
 target_link_libraries( ${PROJECT_NAME} QCC_GL_LIB )
 #target_link_libraries( ${PROJECT_NAME} qcustomplot )
-qi_lib(${PROJECT_NAME} qcustomplot)
+#qi_lib(${PROJECT_NAME} qcustomplot)
   
 # Qt
 qt5_use_modules(${PROJECT_NAME} Core Gui Widgets OpenGL PrintSupport)
