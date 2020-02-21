@@ -1053,15 +1053,14 @@ namespace StructureSynth {
 				m_editor_dock->setHidden(!showGUI);
 
 				Tokenizer tokenizer(out);
-				EisenParser e(&tokenizer);
+				EisenParser parser(&tokenizer);
 				INFO("Started Eisenstein engine...");
-				RuleSet* rs = e.parseRuleset();
+				RuleSet* rule_set = parser.parseRuleset();
 
-				rs->resolveNames();
+				rule_set->resolveNames();
+				rule_set->dumpInfo();
 
-				rs->dumpInfo();
-
-				Builder b(&renderTarget, rs, true);
+				Builder b(&renderTarget, rule_set, true);
 				b.build();
 				renderTarget.end();
 
@@ -1080,9 +1079,8 @@ namespace StructureSynth {
 				engine->setRaytracerCommands(b.getRaytracerCommands());
 				INFO(QString("Setting %1 raytracer commands.").arg(b.getRaytracerCommands().count()));
 
-				delete(rs); 
-				rs = 0;
-
+				delete(rule_set);
+				rule_set = 0;
 			} catch (ParseError& pe)
 			{
 				WARNING(pe.getMessage());
@@ -1099,7 +1097,6 @@ namespace StructureSynth {
 				engine->requireRedraw();
 			} 
 			setEnabled(true);
-
 			engine->setDisabled(false);
 		}
 

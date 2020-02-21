@@ -102,40 +102,40 @@ namespace StructureSynth {
 
 
 		/// Resolve symbolic names into pointers
-		QStringList RuleSet::resolveNames() {
-
+		QStringList RuleSet::resolveNames()
+		{
 			// build map
 			QMap<QString, Rule*> map;
-			for (int i = 0; i < rules.size(); i++) map[rules[i]->getName()] = rules[i];
+			for (int i = 0; i < rules.size(); i++)
+				map[rules[i]->getName()] = rules[i];
 
 			QStringList usedPrimitives;
-			
-
-
 			// resolve rules.
-			for (int i = 0; i < rules.size(); i++) {
-
+			for (int i = 0; i < rules.size(); i++)
+			{
 				QList<RuleRef*> refs = rules[i]->getRuleRefs();
-
-
-				for (int j = 0; j < refs.size(); j++) {
+				for (int j = 0; j < refs.size(); j++) 
+				{
 					QString name = refs[j]->getReference();
-					if (!map.contains(name)) {
+					if (!map.contains(name))
+					{
 						// We could not resolve the name.
 						// Check if it has a class specifier.
 						QStringList sl = name.split("::");
-						if (sl.size() == 2) {
+						if (sl.size() == 2)
+						{
 							QString baseName = sl[0];
 							QString classID = sl[1];
 
-							if (!map.contains(baseName)) {
+							if (!map.contains(baseName))
+							{
 								throw Exception(QString("Unable to resolve base rule name: %1 for rule %2").arg(baseName).arg(name));
 							}
 					
 							// Now we have to create a new instance of this rule.
 							Rule* r = map[baseName];
-
-							if (typeid(*r) != typeid(PrimitiveRule)) {
+							if (typeid(*r) != typeid(PrimitiveRule))
+							{
 								throw Exception(QString("Only primitive rules (box, sphere, ...) may have a class specifier: %1 is invalid").arg(name));
 							}
 
@@ -144,62 +144,65 @@ namespace StructureSynth {
 							newRule->setClass(getPrimitiveClass(classID));
 							
 							map[name] = newRule;
-							
 							//INFO("Created new class for rule: " + name);
 						} else {
 							// The Polygons rules (i.e. Triangle[x,y,z]) are special rules, each created on the fly.
 							QRegExp r("triangle\\[(.*)\\]");
-							if (r.exactMatch(name)) {
+							if (r.exactMatch(name))
+							{
 								// Check the arguments.
 								INFO("Found:" + r.cap(1));
 								QVector<Vector3f> v;
 								QStringList l = r.cap(1).split(";");
-								if (l.size() != 3) {
+								if (l.size() != 3)
+								{
 									throw Exception(QString("Unable to parse Triangle definition - must be triangle(p1;p2;p3) - found : %1").arg(name));
 								}
 
-								for (unsigned int i = 0; i < 3; i++) {
+								for (unsigned int i = 0; i < 3; i++)
+								{
 									QStringList l2 = l[i].split(",");
-									if (l2.size() != 3) {
-											throw Exception(QString("Unable to parse Triangle definition - coordinates must be like '0.1,0.2,0.3' - found : %1").arg(l[i]));
+									if (l2.size() != 3)
+									{
+										throw Exception(QString("Unable to parse Triangle definition - coordinates must be like '0.1,0.2,0.3' - found : %1").arg(l[i]));
 									}
 									bool ok = false;
 									float f1 = l2[0].toFloat(&ok);
-									if (!ok) throw Exception(QString("Unable to parse Triangle definition - error in first coordinate - found in : %1").arg(name));
+									if (!ok)
+										throw Exception(QString("Unable to parse Triangle definition - error in first coordinate - found in : %1").arg(name));
 									float f2 = l2[1].toFloat(&ok);
-									if (!ok) throw Exception(QString("Unable to parse Triangle definition - error in second coordinate - found in : %1").arg(name));
+									if (!ok)
+										throw Exception(QString("Unable to parse Triangle definition - error in second coordinate - found in : %1").arg(name));
 									float f3 = l2[2].toFloat(&ok);
-									if (!ok) throw Exception(QString("Unable to parse Triangle definition - error in third coordinate - found in : %1").arg(name));
+									if (!ok)
+										throw Exception(QString("Unable to parse Triangle definition - error in third coordinate - found in : %1").arg(name));
 									v.append(Vector3f(f1,f2,f3));
 								}	
 
-
-								map[name] = new TriangleRule(v[0], v[1], v[2], defaultClass);
-							
-							} else {
+								map[name] = new TriangleRule(v[0], v[1], v[2], defaultClass);							
+							} else 
+							{
 								throw Exception(QString("Unable to resolve rule: %1").arg(name));
 							}
 						}
 					}
-					if ( dynamic_cast<PrimitiveRule*>(map[name]) ) {
-						if (!usedPrimitives.contains(name)) usedPrimitives.append(name);
+					if ( dynamic_cast<PrimitiveRule*>(map[name]))
+					{
+						if (!usedPrimitives.contains(name))
+							usedPrimitives.append(name);
 					}
 					refs[j]->setRef(map[name]);
 				}
 
 			}
-
-			
 			return usedPrimitives;
-
 		}
 
 		///
-		QStringList RuleSet::getUnreferencedNames() {
-
+		QStringList RuleSet::getUnreferencedNames()
+		{
 			WARNING("RuleSet::getUnreferencedNames(): Not implemented yet!");
 			return QStringList();
-
 		};
 
 		Rule* RuleSet::getStartRule() const {
@@ -207,23 +210,27 @@ namespace StructureSynth {
 		};
 
 		/// For debug
-		void  RuleSet::dumpInfo() const {
+		void  RuleSet::dumpInfo() const
+		{
 			int custom = 0;
 			int ambi = 0;
 			int primitive = 0;
 			int rulesCount = 0;
 
-			for (int i = 0; i < rules.size(); i++) {
+			for (int i = 0; i < rules.size(); i++)
+			{
 				rulesCount++; 
-
 				CustomRule* cr = dynamic_cast<CustomRule*>(rules[i]);
-				if (cr) custom++;
+				if (cr)
+					custom++;
 
 				AmbiguousRule* ar = dynamic_cast<AmbiguousRule*>(rules[i]);
-				if (ar) ambi++;
+				if (ar)
+					ambi++;
 
 				PrimitiveRule* pr = dynamic_cast<PrimitiveRule*>(rules[i]);
-				if (pr) primitive++;
+				if (pr)
+					primitive++;
 			}
 
 			/*

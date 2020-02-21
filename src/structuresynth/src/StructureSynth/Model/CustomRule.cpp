@@ -17,26 +17,30 @@ namespace StructureSynth {
 			//delete (retirementRule);
 		}
 
-		void CustomRule::apply(Builder* b) const {
-
+		void CustomRule::apply(Builder* builder) const
+		{
 			int newDepth = -1;
 			/// If there is a maxdepth set for this object check it.
-			if (getMaxDepth() != -1) {
-				if (!b->getState().maxDepths.contains(this)) {
+			if (getMaxDepth() != -1)
+			{
+				if (!builder->getState().maxDepths.contains(this))
+				{
 					/// We will add a new maxdepth for this rule to the state.
 					newDepth = getMaxDepth()-1;
-					
-				} else {
-					int depth = b->getState().maxDepths[this];
-					if (depth <= 0) {
+				} else 
+				{
+					int depth = builder->getState().maxDepths[this];
+					if (depth <= 0)
+					{
 						/// This rule is retired.
-						if (retirementRule) {
-							b->getState().maxDepths[this] = maxDepth;
-							retirementRule->rule()->apply(b);
-							
+						if (retirementRule)
+						{
+							builder->getState().maxDepths[this] = maxDepth;
+							retirementRule->rule()->apply(builder);
 						} 
 						return;
-					} else {
+					} else 
+					{
 						/// Decrease depth.
 						newDepth = depth-1;
 					}
@@ -44,11 +48,14 @@ namespace StructureSynth {
 			}
 
 			/// Apply all actions.
-			for (int i = 0; i < actions.size(); i++) {
-				if (getMaxDepth() != -1) {
-					actions[i].apply(b, this, newDepth);
-				} else {
-					actions[i].apply(b, 0 ,0);
+			for (int i = 0; i < actions.size(); i++)
+			{
+				if (getMaxDepth() != -1)
+				{
+					actions[i].apply(builder, this, newDepth);
+				} else 
+				{
+					actions[i].apply(builder, 0 ,0);
 				}
 			}
 		}

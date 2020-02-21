@@ -8,22 +8,25 @@ using namespace SyntopiaCore::Logging;
 
 namespace StructureSynth {
 	namespace Model {	
-		void Action::apply(Builder* b, const Rule* callingRule, int ruleDepth) const {
+		void Action::apply(Builder* b, const Rule* callingRule, int ruleDepth) const
+		{
 			bool rememberPreviousMatrix = true; // at some point we might make this optional -> only needed for grid meshes...
 
-			if (set != 0) {
+			if (set != 0)
+			{
 				b->setCommand(set->key, set->value);
 				return;
 			}
 
 			State s = b->getState();
-			
-			
 			QList<int> counters;
-			for (int i = 0; i < loops.size(); i++) counters.append(1);
+			for (int i = 0; i < loops.size(); i++)
+				counters.append(1);
 
-			if (counters.size() == 0) {
-				if (callingRule) {
+			if (counters.size() == 0)
+			{
+				if (callingRule)
+				{
 					s.maxDepths[callingRule] = ruleDepth;
 				}
 				b->getNextStack().append(RuleState(rule->rule(), s));
@@ -31,41 +34,49 @@ namespace StructureSynth {
 			}
 
 			bool done = false;
-			while (!done) {
-
+			while (!done)
+			{
 				// create state
 				State s0 = s;
-				if (rememberPreviousMatrix) {
+				if (rememberPreviousMatrix)
+				{
 					// Copy the old matrix...
 					s0.setPreviousState(s.matrix, s.hsv, s.alpha);
 				}
-				for (int i = 0; i < counters.size(); i++) {
-					for (int j = 0; j < counters[i]; j++) {
+				for (int i = 0; i < counters.size(); i++)
+				{
+					for (int j = 0; j < counters[i]; j++)
+					{
 						s0 = loops[i].transformation.apply(s0, b->getColorPool());
 					}
 				}
-				if (callingRule) {
+				if (callingRule)
+				{
 					s0.maxDepths[callingRule] = ruleDepth;
 				}
 				b->getNextStack().append(RuleState(rule->rule(), s0));
 
 				// increase lowest counter...
 				counters[0]++;
-				for (int i = 0; i < counters.size(); i++) {
-					if (counters[i] > loops[i].repetitions) {
-						if (i == counters.size()-1) {
+				for (int i = 0; i < counters.size(); i++)
+				{
+					if (counters[i] > loops[i].repetitions)
+					{
+						if (i == counters.size() - 1)
+						{
 							done = true;
-						} else {
+						} else
+						{
 							counters[i] = 1;
 							counters[i+1]++;
 						}
 					}
 				}
-
 			}
 		}
 
-		Action::Action(QString key, QString value) {
+		Action::Action(QString key, QString value)
+		{
 			set = new SetAction();
 			set->key = key;
 			set->value = value;

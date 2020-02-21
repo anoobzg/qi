@@ -103,32 +103,40 @@ namespace StructureSynth {
 		}
 
 
-		void Builder::recurseBreadthFirst(QProgressDialog& progressDialog, int& maxTerminated, int& minTerminated, int& generationCounter) {
+		void Builder::recurseBreadthFirst(QProgressDialog& progressDialog, int& maxTerminated, int& minTerminated, int& generationCounter)
+		{
 			int syncSeed = 0;
-			if (syncRandom) {
+			if (syncRandom)
+			{
 				syncSeed = RandomStreams::Geometry()->getInt();
 			}
 
 			int lastValue = 0;
-
-			while (stack.size() != 0 && generationCounter < maxGenerations && objects < maxObjects && stack.size() < maxObjects) {
-
-
-				
+			while (stack.size() != 0 && generationCounter < maxGenerations && objects < maxObjects && stack.size() < maxObjects)
+			{	
 				syncSeed = RandomStreams::Geometry()->getInt();
-
 				double p = 0;
-				if (maxObjects>0) { p = objects/(double)maxObjects; }
+				if (maxObjects > 0)
+				{
+					p = objects/(double)maxObjects;
+				}
 
 				double p2 = 0;
-				if (maxGenerations>0) {	p2 = generationCounter/(double)maxGenerations; }
+				if (maxGenerations > 0) 
+				{
+					p2 = generationCounter/(double)maxGenerations;
+				}
 
 				double progress = p;
 				if (p2 > p) progress = p2;
 
-				if (maxObjects<=0 && maxGenerations<=0) { progress = (generationCounter%9)/9.0; }
+				if (maxObjects <= 0 && maxGenerations <= 0)
+				{
+					progress = (generationCounter%9)/9.0;
+				}
 
-				if (lastValue != (int)(progress*100.0)) {
+				if (lastValue != (int)(progress*100.0))
+				{
 					progressDialog.setValue((int)(progress*100.0));
 					progressDialog.setLabelText(
 						QString("Building objects...\r\n\r\nGeneration: %1\r\nObjects: %2\r\nPending rules: %3")
@@ -138,36 +146,48 @@ namespace StructureSynth {
 
 				lastValue = (int)(progress*100.0);
 
-				if (progressDialog.wasCanceled()) {
+				if (progressDialog.wasCanceled())
+				{
 					userCancelled = true;
 					break;
 				}
-				
-
+			
 				generationCounter++;
-
 				// Now iterate though all RuleState's on stack and create next generation.
 				//INFO(QString("Executing generation %1 with %2 individuals").arg(generationCounter).arg(stack.size()));
 				nextStack.clear();
-				for (int i = 0; i < stack.size(); i++) {
+				for (int i = 0; i < stack.size(); i++)
+				{
 					//	INFO("Executing: " + stack[i].rule->getName());
 					currentState = &stack[i].state;
-					if (currentState->seed != 0) {
+					if (currentState->seed != 0)
+					{
 						RandomStreams::SetSeed(currentState->seed);
 						currentState->seed = RandomStreams::Geometry()->getInt();	
 					}
+
 					state = stack[i].state; 
-
-
 					// if we are synchronizing random numbers every state must get the same rands
-					if (syncRandom) { RandomStreams::SetSeed(syncSeed); }
+					if (syncRandom)
+					{
+						RandomStreams::SetSeed(syncSeed);
+					}
 
 					// Check the dimensions against the min and max limits.
-					if (maxDim != 0 || minDim != 0) {
+					if (maxDim != 0 || minDim != 0)
+					{
 						Vector3f s = state.matrix * Vector3f(1,1,1) - state.matrix * Vector3f(0,0,0);
 						double l = s.length();
-						if (maxDim && l > maxDim) {	maxTerminated++; continue; }
-						if (minDim && l < minDim) {	minTerminated++; continue; }				
+						if (maxDim && l > maxDim)
+						{
+							maxTerminated++;
+							continue;
+						}
+						if (minDim && l < minDim)
+						{
+							minTerminated++;
+							continue;
+						}				
 					}
 
 					stack[i].rule->apply(this);
@@ -176,7 +196,8 @@ namespace StructureSynth {
 			}
 		}
 
-		void Builder::build() {
+		void Builder::build() 
+		{
 			objects = 0;
 			if (verbose) INFO("Starting builder...");
 
@@ -186,59 +207,67 @@ namespace StructureSynth {
 
 			QProgressDialog progressDialog("Building objects...", "Cancel", 0, 100, 0);
 			progressDialog.setWindowModality(Qt::WindowModal);
-			if (verbose) {
+			if (verbose)
+			{
 				progressDialog.setMinimumDuration(0);
-				progressDialog.show();
-				
-			} else {
+				progressDialog.show();	
+			} else 
+			{
 				progressDialog.setMinimumDuration(4000);
 			}
 			progressDialog.setValue(0);
-
 			int maxTerminated = 0;
 			int minTerminated = 0;
 
-			if (ruleSet->recurseDepthFirst()) {
+			if (ruleSet->recurseDepthFirst())
+			{
 				recurseDepthFirst(progressDialog, maxTerminated, minTerminated, generationCounter);
-			} else {
+			} else
+			{
 				recurseBreadthFirst(progressDialog, maxTerminated, minTerminated, generationCounter);
 			}
 	
 			progressDialog.setValue(100); 
 			progressDialog.hide();
 
-
-			if (verbose) {
-				if (progressDialog.wasCanceled()) {
+			if (verbose)
+			{
+				if (progressDialog.wasCanceled())
+				{
 					userCancelled = true;
 					INFO("User terminated.");
 				}
 
-				if (objects >= maxObjects) {
+				if (objects >= maxObjects)
+				{
 					INFO(QString("Terminated because maximum number of objects reached (%1).").arg(maxObjects));
 					INFO(QString("Use 'Set MaxObjects' command to increase this number."));
 				}
 
-				if (stack.size() >= objects) {
+				if (stack.size() >= objects)
+				{
 					INFO(QString("Terminated because the number of pending rules reached (%1).").arg(maxObjects));
 					INFO(QString("Use 'Set MaxObjects' command to run for longer time."));
 				}
 
-				if (generationCounter == maxGenerations) {
+				if (generationCounter == maxGenerations)
+				{
 					INFO(QString("Terminated because maximum number of generations reached (%1).").arg(maxGenerations));
 					INFO(QString("Use 'Set Maxdepth' command to increase this number."));
 				}
 
-				if (maxTerminated != 0) {
+				if (maxTerminated != 0)
+				{
 					INFO(QString("Terminated %1 branches, because the dimension was greater than max size (%2)").arg(maxTerminated).arg(maxDim));
 				}
-				if (minTerminated != 0) {
+
+				if (minTerminated != 0)
+				{
 					INFO(QString("Terminated %1 branches, because the dimension was less than min size (%2)").arg(minTerminated).arg(minDim));
 				}
 
 				//INFO("Done building...");
-			}
-			
+			}		
 		}
 
 		void Builder::setCommand(QString command, QString param) {
@@ -386,7 +415,8 @@ namespace StructureSynth {
 			}
 		}
 
-		ExecutionStack& Builder::getNextStack() {
+		ExecutionStack& Builder::getNextStack()
+		{
 			return nextStack;
 		}
 

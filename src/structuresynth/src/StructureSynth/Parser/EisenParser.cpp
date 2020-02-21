@@ -56,12 +56,15 @@ namespace StructureSynth {
 		};
 
 
-		void EisenParser::getSymbol() {
+		void EisenParser::getSymbol()
+		{
 			symbol = tokenizer->getSymbol();
 		};
 
-		bool EisenParser::accept(Symbol::SymbolType st) {
-			if (symbol.type == st) {
+		bool EisenParser::accept(Symbol::SymbolType symbol_type)
+		{
+			if (symbol.type == symbol_type)
+			{
 				getSymbol();
 				return true;
 			}
@@ -102,22 +105,25 @@ namespace StructureSynth {
 			}
 		}
 
-		Rule* EisenParser::rule() {
+		Rule* EisenParser::rule() 
+		{
 			// rule = 'RULE' ,  rule_name, '{', { set | action }  , '}' ;
-		
-			if (!accept(Symbol::Rule)) throw (ParseError("Unexpected: trying to parse Rule not starting with rule identifier. Found: " + symbol.text, symbol.pos));
+			if (!accept(Symbol::Rule))
+				throw (ParseError("Unexpected: trying to parse Rule not starting with rule identifier. Found: " + symbol.text, symbol.pos));
 			
 			QString ruleName = symbol.text;
-			if (!accept(Symbol::UserString)) throw (ParseError("After rule identifier a rule name is expected. Found: " + symbol.text, symbol.pos));
+			if (!accept(Symbol::UserString))
+				throw (ParseError("After rule identifier a rule name is expected. Found: " + symbol.text, symbol.pos));
 			CustomRule* customRule = new CustomRule(ruleName);
 
-			if (symbol.type != Symbol::LeftBracket) {
+			if (symbol.type != Symbol::LeftBracket)
+			{
 				// This must be a rule_modifier list.
 				ruleModifierList(customRule);
 			}
 
-
-			if (!accept(Symbol::LeftBracket)) throw (ParseError("After rule name a left bracket is expected. Found: " + symbol.text, symbol.pos));
+			if (!accept(Symbol::LeftBracket))
+				throw (ParseError("After rule name a left bracket is expected. Found: " + symbol.text, symbol.pos));
 				
 			// TODO: implement rest of types:
 			// Possible actions:
@@ -126,9 +132,10 @@ namespace StructureSynth {
 			//   { yaw 20 size 0.1 } rulename
 			//   20 * { forward 10 } rulename
 			while (symbol.type == Symbol::LeftBracket || symbol.type == Symbol::UserString ||
-				symbol.type == Symbol::Number || symbol.type == Symbol::Set) {    
-				
-				if (symbol.type == Symbol::Set) {
+				symbol.type == Symbol::Number || symbol.type == Symbol::Set) 
+			{    	
+				if (symbol.type == Symbol::Set)
+				{
 					Action a = setAction(); 
 					customRule->appendAction(a);
 				} else {
@@ -137,13 +144,14 @@ namespace StructureSynth {
 				}
 			}
 
-			if (!accept(Symbol::RightBracket)) throw (ParseError("A rule definition must end with a right bracket. Found: "+symbol.text, symbol.pos));
-
+			if (!accept(Symbol::RightBracket))
+				throw (ParseError("A rule definition must end with a right bracket. Found: "+ symbol.text, symbol.pos));
 			return customRule;
 		}
 
-		double degreeToRad(double degrees) {
-			return degrees*3.14159265/180.0;
+		double degreeToRad(double degrees)
+		{
+			return degrees * 3.14159265 / 180.0;
 		}
 
 		Transformation EisenParser::transformation() {
@@ -261,34 +269,37 @@ namespace StructureSynth {
 			return t;
 		}
 
-		Action EisenParser::action() {
+		Action EisenParser::action()
+		{
 			// There are 3 types of action statements:
 			//  { rx 20 ry 30 rz 20 } rulename
 			//  rulename
 			//  20 * { x 10 } 10 * { y 10 } rulename
-			
-			if (symbol.type == Symbol::LeftBracket) {
+			if (symbol.type == Symbol::LeftBracket)
+			{
 				Transformation t = transformationList();
 				QString ruleName = symbol.text.trimmed();
-				if (!accept(Symbol::UserString)) throw (ParseError("Expected a rule name after the transformation list. Found: " + symbol.text, symbol.pos));
+				if (!accept(Symbol::UserString))
+					throw (ParseError("Expected a rule name after the transformation list. Found: " + symbol.text, symbol.pos));
 				return Action(t, ruleName);
-			} else if (symbol.type == Symbol::UserString) {
+			} else if (symbol.type == Symbol::UserString)
+			{
 				QString ruleName = symbol.text.trimmed();
 				accept(Symbol::UserString);
 				return Action(ruleName);
-			} else if (symbol.type == Symbol::Number) {
-
+			} else if (symbol.type == Symbol::Number)
+			{
 				Action action;
-
-				while (symbol.type == Symbol::Number) {
+				while (symbol.type == Symbol::Number)
+				{
 					// number of loops...
-					if (!symbol.isInteger) throw (ParseError("Expected an integer count in the transformation loop. Found: " + symbol.text, symbol.pos));
+					if (!symbol.isInteger)
+						throw (ParseError("Expected an integer count in the transformation loop. Found: " + symbol.text, symbol.pos));
 					int count = symbol.intValue;
 					getSymbol(); 
-
 					// '*'
-					if (!accept(Symbol::Multiply)) throw (ParseError("Expected a '*' after the transformation count. Found: " + symbol.text, symbol.pos));
-					
+					if (!accept(Symbol::Multiply))
+						throw (ParseError("Expected a '*' after the transformation count. Found: " + symbol.text, symbol.pos));
 					// transformation list
 					Transformation t = transformationList();
 					action.addTransformationLoop(TransformationLoop(count, t));
@@ -296,56 +307,68 @@ namespace StructureSynth {
 				
 				// Rule reference
 				QString ruleName = symbol.text.trimmed();
-				if (!accept(Symbol::UserString)) throw (ParseError("Expected a rule name or a new loop after the transformation list. Found: " + symbol.text, symbol.pos));
+				if (!accept(Symbol::UserString))
+					throw (ParseError("Expected a rule name or a new loop after the transformation list. Found: " + symbol.text, symbol.pos));
 				action.setRule(ruleName);
-
 				return action;
-
-			} else {
+			} else 
+			{
 				throw (ParseError("A rule action must start with either a number, a rule name or a left bracket. Found: "+symbol.text, symbol.pos));	
 			}
 		}
 
-		Action EisenParser::setAction() {
-				accept(Symbol::Set);
-				
-				QString key = symbol.text;
-				if (symbol.type == Symbol::Operator && key == "maxdepth") {
-					getSymbol();
-				} else if (!accept(Symbol::UserString)) throw (ParseError("Expected a valid setting name. Found: " + symbol.text, symbol.pos));
-				QString value = symbol.text; 
-				getSymbol(); // We will accept everything here! 
+		Action EisenParser::setAction()
+		{
+			accept(Symbol::Set);
+			QString key = symbol.text;
 
-				if (key == "recursion" && value == "depth") recurseDepth = true;
-				
-				return Action(key,value);
+			if (symbol.type == Symbol::Operator && key == "maxdepth")
+			{
+				getSymbol();
+			} else if (!accept(Symbol::UserString))
+				throw (ParseError("Expected a valid setting name. Found: " + symbol.text, symbol.pos));
+
+			QString value = symbol.text; 
+			getSymbol(); // We will accept everything here! 
+
+			if (key == "recursion" && value == "depth")
+				recurseDepth = true;
+
+			return Action(key,value);
 		}
 
-		RuleSet* EisenParser::ruleset() {
-			RuleSet*  rs = new RuleSet();
+		RuleSet* EisenParser::ruleset()
+		{
+			RuleSet*  rule_set = new RuleSet();
 			getSymbol();
 	
 			while (symbol.type == Symbol::Rule || symbol.type == Symbol::Set
-				    || symbol.type == Symbol::LeftBracket || symbol.type == Symbol::UserString || symbol.type == Symbol::Number) {    
-				if (symbol.type == Symbol::Rule) {
-					Rule* r = rule(); 
-					rs->addRule(r);
-				} else if (symbol.type == Symbol::Set) {
-					Action a = setAction(); 
-					rs->getTopLevelRule()->appendAction(a);
-				} else {
-					Action a = action(); 
-					rs->getTopLevelRule()->appendAction(a);
+				    || symbol.type == Symbol::LeftBracket || symbol.type == Symbol::UserString || symbol.type == Symbol::Number)
+			{    
+				if (symbol.type == Symbol::Rule)
+				{
+					Rule* _rule = rule(); 
+					rule_set->addRule(_rule);
+				} else if (symbol.type == Symbol::Set)
+				{
+					Action _action = setAction(); 
+					rule_set->getTopLevelRule()->appendAction(_action);
+				} else 
+				{
+					Action _action = action(); 
+					rule_set->getTopLevelRule()->appendAction(_action);
 				}
 			}
 
-			if (!accept(Symbol::End)) throw (ParseError("Unexpected symbol found. At this scope only RULE and SET statements are allowed. Found: " + symbol.text, symbol.pos));
-			if (recurseDepth) rs->setRecurseDepthFirst(true);
-			return rs;
+			if (!accept(Symbol::End))
+				throw (ParseError("Unexpected symbol found. At this scope only RULE and SET statements are allowed. Found: " + symbol.text, symbol.pos));
+			if (recurseDepth)
+				rule_set->setRecurseDepthFirst(true);
+			return rule_set;
 		}
 
-
-		RuleSet* EisenParser::parseRuleset() {
+		RuleSet* EisenParser::parseRuleset()
+		{
 			return ruleset();
 		}
 	}
