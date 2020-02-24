@@ -1,16 +1,6 @@
 bin/
 lib/
-src/lua/build/
-src/zlib/build/
-src/CloudCompare/build/
-src/qcustomplot/build/
-src/kColorPicker/build/
-src/kImageAnnotator/build/
-src/ksnip/build/
-src/clapack/build/
-src/qtsourceseeker/build/
 src/OpenCASCADE/
 src/blender/
 src/OpenCOLLADA/
 src/pcl/src/
-src/sdlpal/src/
