@@ -60,7 +60,7 @@ if(WITH_IK_ITASC)
 endif()
 
 if(WITH_CYCLES)
-  add_subdirectory(cycles)
+  #add_subdirectory(cycles)
 endif()
 
 if(WITH_INTERNATIONAL)

@@ -1730,7 +1730,7 @@ endif()
 #-----------------------------------------------------------------------------
 # Blender Application
 if(WITH_BLENDER)
-  #add_subdirectory(source/creator)
+  add_subdirectory(source/creator)
 endif()
 
 
