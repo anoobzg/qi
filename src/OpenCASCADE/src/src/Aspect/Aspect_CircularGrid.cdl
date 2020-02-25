@@ -1,0 +1,100 @@
+-- Created on: 1995-03-17
+-- Created by: Mister rmi
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class CircularGrid from Aspect
+
+inherits Grid from Aspect
+
+
+uses
+    PlaneAngle, Length from Quantity
+
+raises 
+    NegativeValue,NullValue,NumericError from Standard
+
+is 
+
+    Create(aRadiusStep: Length from Quantity;
+	       aDivisionNumber: Integer from Standard;
+               XOrigin: Length from Quantity = 0;
+	       anYOrigin: Length from Quantity = 0;
+               aRotationAngle: PlaneAngle from Quantity = 0)
+    returns mutable CircularGrid from Aspect;
+    ---Purpose: creates a new grid. By default this grid is not
+    --          active.
+    
+---Category: grid definition methods
+
+
+    SetRadiusStep(me: mutable; aStep: Length from Quantity) 
+    ---Purpose: defines the x step of the grid.
+    raises NegativeValue,NullValue from Standard
+    ---Warning: raises an exception if <aStep> is not strictly positive.
+    is static;
+
+    SetDivisionNumber(me: mutable; aNumber: Integer from Standard)
+    ---Purpose: defines the step of the grid.
+    raises NegativeValue,NullValue from Standard
+    ---Warning: raises an exception if <aNumber> is not strictly positive.
+    is static;
+
+    SetGridValues(me: mutable; XOrigin, YOrigin: Length from Quantity;
+                               RadiusStep: Length from Quantity;
+                               DivisionNumber: Integer from Standard;
+                               RotationAngle: PlaneAngle from Quantity)
+    raises NegativeValue,NullValue from Standard
+    ---Warning: raises an exception if <RadiusStep> is not strictly positive.
+    ---Warning: raises an exception if <DivisionNumber> is not strictly positive.
+    is static;
+ 
+   
+---Category: Pick methods
+--           
+    Compute(me; X,Y: Length from Quantity; gridX, gridY : out Length from Quantity)
+    ---Purpose: returns the point of the grid the closest to the point X,Y
+    is static;
+    
+
+    
+---Category: inquire methods
+
+    RadiusStep(me) returns Length from Quantity
+    ---Purpose: returns the x step of the grid.
+    is static;
+
+    DivisionNumber(me) returns Integer from Standard
+    ---Purpose: returns the x step of the grid.
+    is static;
+    
+---Category: private methods.
+
+    
+    Init(me: mutable)
+    is redefined static;
+    
+fields
+
+    myRadiusStep: Length from Quantity;
+    myDivisionNumber: Integer from Standard;
+    myAlpha: Real from Standard;
+    myA1,myB1: Real from Standard;
+    
+end CircularGrid from Aspect;

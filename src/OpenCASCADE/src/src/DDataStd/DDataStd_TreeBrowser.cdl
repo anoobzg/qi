@@ -1,0 +1,84 @@
+-- Created by: DAUTRY Philippe
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+--      	--------------------
+
+---Version:	0.0
+--Version	Date		Purpose
+--		0.0	Nov 27 1997	Creation
+
+class TreeBrowser from DDataStd inherits Drawable3D from Draw
+
+	---Purpose: Browses a TreeNode from TDataStd.
+	--          =================================
+
+uses
+
+    Label               from TDF,
+    TreeNode            from TDataStd,
+    Interpretor         from Draw,
+    Display             from Draw,
+    AsciiString         from TCollection
+
+is
+
+    Create  (root : Label from TDF)
+    returns mutable TreeBrowser from DDataStd;
+    
+    DrawOn (me; dis : in out Display);
+    
+    Copy (me) 
+    returns mutable Drawable3D from Draw
+    is redefined;
+
+    Dump (me; S : in out OStream) 
+    is redefined;
+
+    Whatis (me; I : in out Interpretor from Draw)
+    is redefined;
+
+    ---Purpose: Specific methods
+    --          ================
+
+    Label (me : mutable; root : Label from TDF);
+    
+    Label (me) 
+    returns Label from TDF;
+
+    OpenRoot (me)
+    ---Purpose: Returns   a   string composed with  the   TreeNode  of
+    --          <myLabel>.
+     returns AsciiString from TCollection;
+
+    OpenNode (me; L : Label from TDF)
+    ---Purpose:  Returns a string composed   with the sub-TreeNodes of
+    --          <L>
+    returns AsciiString from TCollection;
+
+    OpenNode (me; aTreeNode :        TreeNode    from TDataStd;
+    	    	  aList     : in out AsciiString from TCollection)  
+    ---Purpose: Returns a string composed with the sub-TreeNodes
+    --          of <aTreeNode>. Used to implement other methods.
+    is private;
+
+fields
+
+    myRoot : Label from TDF;
+
+end TreeBrowser;

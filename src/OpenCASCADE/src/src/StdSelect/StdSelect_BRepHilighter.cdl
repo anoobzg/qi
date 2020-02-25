@@ -1,0 +1,108 @@
+-- Created on: 1995-03-22
+-- Created by: Robert COUBLANC
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class BRepHilighter from StdSelect 
+
+	---Purpose: Tool to manage hilight of BRepOwners  during the selection process
+	--          -> Built with a ViewSelector3d.
+	--          -> Can hilight all the detected elements at the mouse position or
+	--                 just the closest one.
+	--          How Use It:         
+	--          TheSelector -> SelectPix (Xmouse,YMouse);
+	--          TheBRepHilighter->Process ();
+	--          
+	--          When good choice 
+	--          
+	--          toto = TheSelector->LastPicked();
+
+uses
+    NameOfColor       from Quantity,
+    ViewerSelector3d  from StdSelect,
+    Viewer            from V3d,
+    View              from V3d,
+    Drawer            from Prs3d,
+    MapOfInteger      from TColStd,
+    IndexedDataMapOfOwnerPrs,
+    TypeOfResult      from StdSelect,
+    OStream,
+    TransientManager from Visual3d
+is
+
+    Create returns BRepHilighter;
+
+    Create (aSelector : ViewerSelector3d from StdSelect;
+    	    aViewer   : Viewer       from V3d;
+    	    acolor    : NameOfColor  from Quantity = Quantity_NOC_INDIANRED3;
+    	    aType     : TypeOfResult from StdSelect = StdSelect_TOR_SIMPLE)
+    returns BRepHilighter;
+    
+    Set(me:in out; aSelector : ViewerSelector3d from StdSelect) is static;
+    
+    Set(me:in out; aViewer : Viewer from V3d) is static;
+    
+    Set(me:in out; acolor    : NameOfColor  from Quantity) is static;
+
+    Set(me:in out; atype     : TypeOfResult from StdSelect) is static;
+    
+    Process(me        : in out) is static;
+    	---Purpose: updates the viewer with the selection. 
+
+    Process(me:in out; aView : View from V3d; DoubleBuffer: Boolean = Standard_False) is static;
+    	---Purpose: updates only the view with the selection. 
+    	--          The updating will be made using immediate drawing which is far quicker.
+
+    Clear(me:in out ) is static;
+    	---Level: Public
+    	---Purpose: Clears the hilight structures
+    	--          which were created during the selection action;
+    	--          must me called after each selection loop;
+    	--          
+
+    Update(me:in out) is static private;
+
+    Update(me:in out; aView : View from V3d; DoubleBuffer: Boolean = Standard_False) is static private;
+
+
+    ---Category: Internal Methods
+    --           
+    --           
+
+    Drawer(me)
+    	---C++: return const &
+    returns any Drawer from Prs3d;
+    
+fields
+
+    myselector   : ViewerSelector3d  from StdSelect;
+    myviewer     : Viewer            from V3d;
+    mycolor      : NameOfColor       from Quantity;
+    mydrwr       : Drawer            from Prs3d;
+    mytype       : TypeOfResult      from StdSelect;
+    
+    myold        : MapOfInteger      from TColStd;
+    mynew        : MapOfInteger      from TColStd;
+    myhimap      : IndexedDataMapOfOwnerPrs;
+    
+    mynbpick     : Integer;
+    mylastindex  : Integer;
+    myManager    : TransientManager from Visual3d;
+end BRepHilighter;

@@ -1,0 +1,100 @@
+-- Created on: 2018-03-15
+-- Created by: Stephan GARNAUD (ARM)
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+-- Modified:
+---     Stephane Routelous ( stephane.routelous@altavista.net ) : 
+--                   add ShowWindow flag to allow show/hide of the window ( only used on WNT )
+
+
+class Process from OSD
+
+   ---Purpose: A set of system process tools
+
+uses Date from Quantity, Error, Path, File, AsciiString from TCollection
+raises OSDError
+
+is
+
+ Create returns Process;
+   ---Purpose: Initializes the object and prepare for a possible dump
+   ---Level: Advanced
+
+ Spawn (me : in out; cmd : AsciiString; ShowWindow : Boolean from Standard = Standard_True) is static;
+   ---Purpose: Issues a shell command
+   --- ShowWindow : flag to allow show/hide of the window ( only used on WNT )
+   ---Level: Advanced
+
+ TerminalType (me : in out; Name : out AsciiString) is static;
+   ---Purpose: Returns the terminal used (vt100, vt200 ,sun-cmd ...)
+   ---Level: Advanced
+
+ SystemDate (me :  out) returns Date is static;
+   ---Purpose: Gets system date.
+   ---Level: Advanced
+
+ UserId (me : in out) returns Integer is static;
+   ---Purpose: Returns the 'User Id'.
+   ---Level: Advanced
+
+ UserName (me : in out) returns AsciiString is static;
+   ---Purpose: Returns the user name.
+   ---Level: Advanced
+
+ IsSuperUser (me: in out) returns Boolean is static;
+   ---Purpose: Returns True if the process user is the super-user.
+   ---Level: Advanced
+
+ ProcessId ( me : in out ) returns Integer is static;
+   ---Purpose: Returns the 'Process Id'
+   ---Level: Advanced
+
+ CurrentDirectory (me : in out) returns Path is static;
+   ---Purpose: Returns the current path where the process is.
+   ---Level: Advanced
+ 
+ SetCurrentDirectory (me : in out; where : Path) is static;
+   ---Purpose: Changes the current process directory.
+   ---Level: Advanced
+
+ Failed (me) returns Boolean is static;
+   ---Purpose: Returns TRUE if an error occurs
+   ---Level: Advanced
+
+ Reset (me : in out) is static;
+   ---Purpose: Resets error counter to zero
+   ---Level: Advanced
+      
+ Perror (me : in out)
+   ---Purpose: Raises OSD_Error
+   ---Level: Advanced
+   raises OSDError is static;
+
+ Error (me) returns Integer is static;
+   ---Purpose: Returns error number if 'Failed' is TRUE.
+   ---Level: Advanced
+
+fields
+
+ myError : Error;
+end Process from OSD;
+
+

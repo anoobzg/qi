@@ -1,0 +1,57 @@
+-- Created on: 1992-08-26
+-- Created by: Remi GILET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class MakeRotation2d
+
+from gce
+
+    ---Purpose: Implements an elementary construction algorithm for
+    -- a rotation in 2D space. The result is a gp_Trsf2d transformation.
+    -- A MakeRotation2d object provides a framework for:
+    -- -   defining the construction of the transformation,
+    -- -   implementing the construction algorithm, and
+    -- -   consulting the result.
+        
+uses Pnt2d  from gp,
+     Trsf2d from gp,
+     Real   from Standard
+
+is
+
+Create(Point : Pnt2d from gp      ;
+       Angle : Real  from Standard) returns MakeRotation2d;
+    ---Purpose: Constructs a rotation through angle Angle about the center Point.
+        
+Value(me) returns Trsf2d from gp
+    is static;
+    ---C++: return const&
+    ---Purpose: Returns the constructed transformation.
+    
+Operator(me) returns Trsf2d from gp
+    is static;
+    ---C++: return const&
+    ---C++: alias "Standard_EXPORT operator gp_Trsf2d() const;"
+
+fields
+
+    TheRotation2d : Trsf2d from gp;
+
+end MakeRotation2d;

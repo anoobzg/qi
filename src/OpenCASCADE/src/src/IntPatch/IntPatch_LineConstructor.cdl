@@ -1,0 +1,85 @@
+-- Created on: 1996-11-07
+-- Created by: Laurent BUCHARD
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class LineConstructor from IntPatch
+
+    ---Purpose: The intersections  algorithms compute the intersection
+    --          on two surfaces and  return the intersections lines as
+    --          IntPatch_Line.  
+
+    --	        a  IntPatch   Line contains  a   geometrical part  and
+    --	        several topological informations (the    intersections
+    --	        between the intersection curve and the restrictions of
+    --	        the faces.) 
+    --	        
+    --	          The LineConstructor algorithm takes an IntPatch_Line
+    --	          and compute on this object the sections which belong
+    --	          to the two  faces (which are inside the restrictions
+    --	          of the faces)
+    --	          
+
+uses 
+    HSurface       from Adaptor3d,
+    TopolTool      from Adaptor3d,
+    SequenceOfLine from IntPatch,
+    Line           from  IntPatch,
+    SurfaceType    from GeomAbs
+
+is   
+
+    Create(mode  :  Integer  from  Standard) 
+     
+     
+     	--Purpose: ***** THE ONLY MODE SUPPORTED IS MODE=2 *****
+        --Purpose: mode = 0 .... Nothing is done  
+        --          
+        --         mode = 1 .... Only cuts the line. 
+        --         
+        --         mode = 2 .... Cuts the line and keep the valid lines
+        --         
+    	returns  LineConstructor  from  IntPatch; 
+	 
+    Perform(me:  in  out; 
+    	    SL :  SequenceOfLine from IntPatch;
+            L  :  Line         from  IntPatch;     
+            S1 :  HSurface from Adaptor3d; 
+            D1 :  TopolTool from Adaptor3d; 
+            S2 :  HSurface from Adaptor3d; 
+	    D2 :  TopolTool from Adaptor3d;
+            Tol:  Real        from Standard)
+       is  static; 
+        
+    NbLines(me) 
+     
+          returns  Integer  from  Standard 
+	  is  static; 
+	   
+    Line(me;  index:  Integer  from  Standard) 
+     	 
+	  returns  Line  from  IntPatch
+          is  static;
+
+fields
+
+    slin       : SequenceOfLine from IntPatch;
+
+end LineConstructor;

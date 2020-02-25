@@ -1,0 +1,59 @@
+-- Created on: 1993-12-08
+-- Created by: Isabelle GRIGNON
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package ChFiKPart  
+
+	---Purpose: Fonctions de remplissage pour une SurfData, dans
+	--          les cas particulers de conges/chanfreins suivants :
+	--          - cylindre/plan entre 2 surfaces planes,
+	--          - tore/sphere/cone entre un plan et un cylindre othogonal,
+	--          - tore/sphere/cone entre un plan et un cone othogonal,
+	--          - tore/sphere/cone entre un plan et un tore othogonal,
+	--          - tore/cone entre un plan et une sphere.
+
+uses 
+    ChFiDS, 
+    TopOpeBRepDS,
+    Adaptor2d,
+    Adaptor3d,
+    TopoDS,
+    TopAbs,
+    gp,
+    TCollection,
+    TColStd,
+    Standard
+
+is
+
+    class RstMap instantiates DataMap from TCollection 
+    	(Integer from Standard, 
+    	 HCurve2d from Adaptor2d, 
+    	 MapIntegerHasher  from  TColStd);
+
+    class ComputeData;
+    ---Purpose: Contient toutes  les   methodes de classe  destinees a
+    --          remplir  une SurfData   dans  les  cas  particuliers
+    --          enumeres ci-dessus.
+
+end ChFiKPart;
+
+

@@ -1,0 +1,75 @@
+-- Created on: 1990-12-19
+-- Created by: Christophe MARION
+-- Copyright (c) 1990-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+package TopLoc 
+
+    ---Level : Public. 
+    --  All methods of all  classes will be public.
+
+    ---Purpose: The TopLoc package gives ressources to handle 3D local
+    --          coordinate systems called Locations.
+    --          
+    --          A Location  is a composition of  elementary coordinate
+    --          systems,  each one is  called a  Datum.   The Location
+    --          keeps track of  this composition.
+    --          
+    
+uses
+    Standard,
+    MMgt,
+    TCollection,
+    gp
+
+is
+    pointer TrsfPtr to Trsf from gp;
+    class Datum3D;
+	---Purpose: An elementary 3D coordinate system.
+    
+    private class ItemLocation;
+	---Purpose: Used to implement  the Location. A  Datum3D with a
+	--          power elevation.
+	
+    private class SListOfItemLocation instantiates 
+    	SList from TCollection(ItemLocation from TopLoc);
+	---Purpose: Used to implement the Location.
+    
+    class Location;
+	---Purpose: A  Local Coordinate System.   A list of elementary
+	--          Datums.
+
+    class MapLocationHasher instantiates
+    	  MapHasher from TCollection(Location from TopLoc); 
+	  
+    class MapOfLocation instantiates
+    	  Map from TCollection(Location          from TopLoc,
+	    	    	       MapLocationHasher from TopLoc);
+    	
+    class IndexedMapOfLocation instantiates
+    	  IndexedMap from TCollection(Location          from TopLoc,
+	    	 		      MapLocationHasher from TopLoc);
+    	
+end TopLoc;
+
+
+
+

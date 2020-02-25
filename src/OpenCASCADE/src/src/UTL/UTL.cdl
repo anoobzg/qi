@@ -1,0 +1,70 @@
+-- Created on: 1997-11-21
+-- Created by: Mister rmi
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+package UTL
+uses Resource, TCollection,Storage, OSD
+is
+
+    xgetenv(aCString: CString from Standard)
+    returns ExtendedString from TCollection;
+    
+    OpenFile(aFile: in out BaseDriver from Storage; aName: ExtendedString from TCollection; aMode : OpenMode from Storage)
+    returns Error from Storage;
+    
+    AddToUserInfo(aData: mutable Data from Storage; anInfo: ExtendedString from TCollection);
+    
+    Path(aFileName: ExtendedString from TCollection) returns Path from OSD;
+
+    Disk(aPath: Path from OSD) returns ExtendedString from TCollection;
+    Trek(aPath: Path from OSD) returns ExtendedString from TCollection;
+    Name(aPath: Path from OSD) returns ExtendedString from TCollection;
+    Extension(aPath: Path from OSD) returns ExtendedString from TCollection;
+
+    FileIterator(aPath: Path from OSD; aMask:ExtendedString from TCollection) returns FileIterator from OSD;
+   
+    Extension(aFileName: ExtendedString from TCollection) returns ExtendedString from TCollection;
+    
+    LocalHost returns ExtendedString from TCollection;
+    
+    ExtendedString(anAsciiString: AsciiString from TCollection) 
+    returns ExtendedString from TCollection;
+
+
+    GUID(anXString: ExtendedString from TCollection)
+    returns GUID from Standard;
+
+    Find(aResourceManager: Manager from Resource; aResourceName: ExtendedString from TCollection)
+    returns Boolean from Standard;
+    
+    Value(aResourceManager: Manager from Resource; aResourceName: ExtendedString from TCollection)
+    returns ExtendedString from TCollection;
+    
+
+    IntegerValue(anExtendedString: ExtendedString from TCollection)
+    returns Integer from Standard;
+    
+    CString(anExtendedString: ExtendedString from TCollection)
+    returns CString from Standard;
+
+    IsReadOnly(aFileName: ExtendedString from TCollection)
+    returns Boolean from Standard;
+    
+end UTL;

@@ -1,0 +1,58 @@
+-- Created on: 1996-12-25
+-- Created by: Alexander BRIVIN
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Cube from Vrml 
+
+	---Purpose: defines a Cube node of VRML specifying geometry shapes.
+    	-- This  node  represents  a  cuboid aligned with  the coordinate  axes. 
+        -- By  default ,  the  cube  is  centred  at  (0,0,0) and  measures  2  units
+	-- in  each  dimension, from -1  to  +1. 
+    	-- A cube's width is its extent along its object-space X axis, its height is  
+    	-- its extent along the object-space Y axis, and its depth is its extent along its
+	-- object-space Z axis. 
+is
+
+    Create ( aWidth  : Real from Standard = 2;
+    	     aHeight : Real from Standard = 2;
+	     aDepth  : Real from Standard = 2 )
+        returns Cube from Vrml;
+    
+    SetWidth ( me : in out; aWidth : Real from Standard );
+    Width ( me  )  returns Real  from  Standard;
+    
+    SetHeight ( me : in out; aHeight : Real from Standard );
+    Height ( me  )  returns Real  from  Standard;
+    
+    SetDepth ( me : in out; aDepth : Real from Standard );
+    Depth ( me )  returns Real  from  Standard;
+
+    Print  ( me;  anOStream: in out OStream from Standard) returns OStream from Standard;
+    ---C++:  return  & 
+
+fields
+
+    myWidth  : Real from Standard;  -- Size in x dimension
+    myHeight : Real from Standard;  -- Size in y dimension
+    myDepth  : Real from Standard;  -- Size in z dimension
+
+end Cube;
+

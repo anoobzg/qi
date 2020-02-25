@@ -1,0 +1,95 @@
+// Created on: 2002-11-20
+// Created by: Vladimir ANIKIN
+// Copyright (c) 2002-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+//=======================================================================
+//function : GetUndoLimit
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer
+  TDocStd_MultiTransactionManager::GetUndoLimit() const
+{
+  return myUndoLimit;
+}
+
+//=======================================================================
+//function : GetAvailableUndos
+//purpose  : 
+//=======================================================================
+
+inline const TDocStd_SequenceOfApplicationDelta&
+  TDocStd_MultiTransactionManager::GetAvailableUndos() const
+{
+  return myUndos;
+}
+
+//=======================================================================
+//function : GetAvailableRedos
+//purpose  : 
+//=======================================================================
+
+inline const TDocStd_SequenceOfApplicationDelta&
+  TDocStd_MultiTransactionManager::GetAvailableRedos() const
+{
+  return myRedos;
+}
+
+//=======================================================================
+//function : Documents
+//purpose  : 
+//=======================================================================
+
+inline const TDocStd_SequenceOfDocument&
+  TDocStd_MultiTransactionManager::Documents() const
+{
+  return myDocuments;
+}
+
+//=======================================================================
+//function : IsNestedTransactionMode
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean
+  TDocStd_MultiTransactionManager::IsNestedTransactionMode () const
+{
+  return myIsNestedTransactionMode;
+}
+
+//=======================================================================
+//function : HasOpenCommand
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean
+  TDocStd_MultiTransactionManager::HasOpenCommand () const
+{
+  return myOpenTransaction;
+}
+
+//=======================================================================
+//function : ModificationMode
+//purpose  : returns True if changes allowed only inside transactions
+//=======================================================================
+
+inline Standard_Boolean TDocStd_MultiTransactionManager::ModificationMode() const
+{
+  return myOnlyTransactionModification;
+}

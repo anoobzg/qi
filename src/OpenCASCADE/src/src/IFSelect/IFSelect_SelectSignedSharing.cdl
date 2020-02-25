@@ -1,0 +1,71 @@
+-- Created on: 1996-09-25
+-- Created by: Christian CAILLET
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SelectSignedSharing  from IFSelect  inherits SelectExplore
+
+    ---Purpose : In the graph, explore the sharings of the input entities,
+    --           until it encounters some which match a given Signature
+    --           (for a limited level, filters the returned list)
+    --           By default, fitted for any level
+
+uses AsciiString, Transient,  Graph, EntityIterator, Signature
+
+is
+
+    Create (matcher : Signature;
+            signtext : CString;
+            exact : Boolean = Standard_True;
+   	    level : Integer = 0)  returns mutable SelectSignedSharing;
+    ---Purpose : Creates a SelectSignedSharing, defaulted for any level
+    --           with a given Signature and text to match
+
+    Signature (me) returns mutable Signature;
+    ---Purpose : Returns the used Signature, then it is possible to access it,
+    --           modify it as required
+
+    SignatureText (me) returns AsciiString from TCollection;
+    ---Purpose : Returns Text used to Sort Entity on its Signature
+    ---C++ : return const &
+
+    IsExact (me) returns Boolean;
+    ---Purpose : Returns True if match must be exact
+
+    Explore (me; level : Integer; ent : Transient; G : Graph;
+    	     explored : in out EntityIterator)
+    	returns Boolean;
+    ---Purpose : Explores an entity : its sharing entities
+    --           <ent> to take if it matches the Signature
+    --           At level max, filters the result. Else gives all sharings
+
+
+    ExploreLabel (me) returns AsciiString from TCollection;
+    ---Purpose : Returns a text defining the criterium.
+    --           (it refers to the text and exact flag to be matched, and is
+    --           qualified by the Name provided by the Signature)
+
+fields
+ 
+    thematcher  : Signature;
+    thesigntext : AsciiString from TCollection;
+    theexact    : Boolean;
+
+end SelectSignedSharing;

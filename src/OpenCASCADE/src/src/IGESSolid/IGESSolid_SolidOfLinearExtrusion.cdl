@@ -1,0 +1,85 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( SIVA )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class SolidOfLinearExtrusion from IGESSolid  inherits IGESEntity
+
+        ---Purpose: defines SolidOfLinearExtrusion, Type <164> Form Number <0>
+        --          in package IGESSolid
+        --          Solid of linear extrusion is defined by translatin an
+        --          area determined by a planar curve
+
+uses
+
+        Dir             from gp,
+        XYZ             from gp
+
+is
+
+        Create returns mutable SolidOfLinearExtrusion;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me         : mutable;
+              aCurve     : IGESEntity;
+              aLength    : Real;
+              aDirection : XYZ);
+        ---Purpose : This method is used to set the fields of the class
+        --           SolidOfLinearExtrusion
+        --       - aCurve     : the planar curve that is to be translated
+        --       - aLength    : the length of extrusion
+        --       - aDirection : the vector specifying the direction of extrusion
+        --                      default (0,0,1)
+
+        Curve (me) returns IGESEntity;
+        ---Purpose : returns the planar curve that is to be translated
+
+        ExtrusionLength (me) returns Real;
+        ---Purpose : returns the Extrusion Length
+
+        ExtrusionDirection (me) returns Dir;
+        ---Purpose : returns the Extrusion direction
+
+        TransformedExtrusionDirection (me) returns Dir;
+        ---Purpose : returns ExtrusionDirection after applying TransformationMatrix
+
+fields
+
+--
+-- Class    : IGESSolid_SolidOfLinearExtrusion
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class SolidOfLinearExtrusion.
+--
+-- Reminder : A SolidOfLinearExtrusion instance is defined by :
+--            a planar curve(Curve) that is translated by a distance(Length)
+--            in the direction specified by a vector(I1,J1,K1).
+--
+
+        theCurve     : IGESEntity;
+            --  the planar curve
+
+        theLength    : Real;
+            -- the length of the extrusion
+
+        theDirection : XYZ;
+            -- the vector defining the direction of the extrusion
+
+end SolidOfLinearExtrusion;

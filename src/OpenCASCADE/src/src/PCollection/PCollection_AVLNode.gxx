@@ -1,0 +1,171 @@
+// Created on: 1991-05-24
+// Created by: Annick PANCHER
+// Copyright (c) 1991-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+// Updated:     Jean-Pierre TIRAULT Apr,6 1992, Mireille MERCIEN
+
+#include <PCollection_Side.hxx>
+typedef PCollection_Side Side;
+typedef PCollection_AVLNode Node;
+typedef Handle(PCollection_AVLNode) Handle(Node);
+
+//---------------------------------------------------------------------------
+// Create
+// --------------------------------------------------------------------------
+PCollection_AVLNode::PCollection_AVLNode(const Item& theItem) 
+{
+  MyItem = theItem;
+  Count  = 1;
+  MyRightChild.Nullify();
+  MyLeftChild.Nullify();
+}
+
+// -------------------------- READING ---------------------------------------
+
+//----------------------------------------------------------------------------
+// RightChild
+// --------------------------------------------------------------------------
+Handle(Node)  PCollection_AVLNode::RightChild () const 
+{
+  return MyRightChild;
+}
+
+//---------------------------------------------------------------------------
+// LeftChild
+// --------------------------------------------------------------------------
+Handle(Node) PCollection_AVLNode::LeftChild () const 
+{
+  return MyLeftChild;
+}
+
+//--------------------------------------------------------------------------
+// Value
+// --------------------------------------------------------------------------
+Item PCollection_AVLNode::Value () const 
+{
+  return MyItem;
+}
+
+//---------------------------------------------------------------------------
+// GetMultiplicity
+// --------------------------------------------------------------------------
+Integer PCollection_AVLNode::GetMultiplicity () const 
+{
+  return Count;
+}
+// -------------------- WRITING ---------------------------------------------
+
+//--------------------------------------------------------------------------
+// Setvalue
+// --------------------------------------------------------------------------
+void PCollection_AVLNode::SetValue(const Item& theValue) 
+{
+  MyItem = theValue;
+}
+
+//---------------------------------------------------------------------------
+// SetRightChild
+// --------------------------------------------------------------------------
+void PCollection_AVLNode::
+               SetRightChild(const Handle(Node)& theNode) 
+{
+  MyRightChild = theNode;
+}
+
+
+//--------------------------------------------------------------------------
+// SetLeftChild
+// --------------------------------------------------------------------------
+void PCollection_AVLNode::
+                   SetLeftChild(const Handle(Node)& theNode) 
+{
+  MyLeftChild = theNode;
+}
+
+//---------------------------------------------------------------------------
+// SetChild
+// --------------------------------------------------------------------------
+void PCollection_AVLNode::SetChild
+             ( const Handle(Node)& theNode, const Side theSide) 
+{
+  if (theSide == PCollection_Left) {       
+    MyLeftChild = theNode;
+  }
+  else {
+    MyRightChild = theNode;
+  }
+}
+
+
+//--------------------------------------------------------------------------
+// SetMultiplicity
+// --------------------------------------------------------------------------
+void PCollection_AVLNode::SetMultiplicity(const Integer theCount) 
+{
+  Count = theCount;
+}
+
+//----------------------------------------------------------------------------
+// Copy
+//-----------------------------------------------------------------------------
+Handle(Node) PCollection_AVLNode::Copy() const 
+{
+  Handle(Node) newNode = new Node(MyItem);
+  newNode->SetMultiplicity(Count);
+  if (!MyLeftChild.IsNull()) newNode->SetLeftChild(MyLeftChild->Copy());
+  if (!MyRightChild.IsNull()) newNode->SetRightChild(MyRightChild->Copy());
+  return newNode;
+}
+
+// ------------  REDEFINED
+
+// --------------------------------------------------------------------------
+// ShallowCopy
+// --------------------------------------------------------------------------
+Handle(Standard_Persistent) PCollection_AVLNode::ShallowCopy() const
+{
+   Handle(Node) TheCopy;
+   TheCopy = new Node(MyItem);
+   TheCopy->SetMultiplicity (Count);
+   TheCopy->SetValue        (MyItem);
+   TheCopy->SetRightChild   (MyRightChild);
+   TheCopy->SetLeftChild    (MyLeftChild);
+   return TheCopy;
+
+}
+
+//---------------------------------------------------------------------------
+// ShallowDump
+// ----------------------------------------------------------------------------
+void PCollection_AVLNode::ShallowDump(Standard_OStream& S) const
+{
+  S << "begin class AVLNode "<< endl;
+//  MyItem->ShallowDump(S) ;
+  S << "Count      : "<< Count << "times." << endl;
+  MyLeftChild->ShallowDump(S);
+  MyRightChild->ShallowDump(S);
+  S << "end class AVLNode" << endl;
+}
+
+   
+
+
+
+
+

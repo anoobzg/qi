@@ -1,0 +1,67 @@
+-- Created on: 1994-06-01
+-- Created by: Christian CAILLET
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class AutoCorrect  from IGESSelect  inherits ModelModifier from IGESSelect
+
+    ---Purpose : Does the absolutely effective corrections on IGES Entity.
+    --           That is to say : regarding the norm in details, some values
+    --           have mandatory values, or set of values with constraints.
+    --           When such values/constraints are univoque, they can be forced.
+    --           Also nullifies items of Directory Part, Associativities, and
+    --           Properties, which are not (or not longer) in <target> Model.
+    --           
+    --           Works by calling a BasicEditor from IGESData
+    --           Works with the specific IGES Services : DirChecker which
+    --           allows to correct data in "Directory Part" of Entities (such
+    --           as required values for status, or references to be null), and
+    --           the specific IGES service OwnCorrect, which is specialised for
+    --           each type of entity.
+    --           
+    --           Remark : this does not comprise the computation of use flag or
+    --           subordinate status according references, which is made by
+    --           the ModelModifier class ComputeStatus.
+    --           
+    --           The Input Selection, when present, designates the entities to
+    --           be corrected. If it is not present, all the entities of the
+    --           model are corrected.
+
+uses AsciiString from TCollection,
+     CopyTool, IGESModel, ContextModif,
+     GeneralLib, SpecificLib, IGESEntity
+
+is
+
+    Create returns mutable AutoCorrect;
+    ---Purpose : Creates an AutoCorrect.
+
+    Performing (me; ctx : in out ContextModif;
+    	        target  : mutable IGESModel;
+                TC      : in out CopyTool);
+    ---Purpose : Specific action : corrects entities when it is absolutely
+    --           obvious, i.e. non equivoque (by DirChecker and specific
+    --           service OwnCorrect) : works with a protocol.
+
+    Label (me) returns AsciiString from TCollection;
+    ---Purpose : Returns a text which is
+    --           "Auto-correction of IGES Entities"
+
+end AutoCorrect;

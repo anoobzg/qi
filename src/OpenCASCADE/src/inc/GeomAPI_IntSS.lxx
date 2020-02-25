@@ -1,0 +1,87 @@
+// Created on: 1995-03-14
+// Created by: Jacques GOUSSARD
+// Copyright (c) 1995-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+
+//=======================================================================
+//function : GeomAPI_IntSS
+//purpose  : 
+//=======================================================================
+
+inline GeomAPI_IntSS::GeomAPI_IntSS () {}
+
+
+//=======================================================================
+//function : GeomAPI_IntSS
+//purpose  : 
+//=======================================================================
+
+inline GeomAPI_IntSS::GeomAPI_IntSS (const Handle(Geom_Surface)& S1,
+				     const Handle(Geom_Surface)& S2,
+				     const Standard_Real Tol) :
+	myIntersec(S1,S2,Tol,Standard_True)
+{}
+
+
+//=======================================================================
+//function : Perform
+//purpose  : 
+//=======================================================================
+
+inline void GeomAPI_IntSS::Perform(const Handle(Geom_Surface)& S1,
+				   const Handle(Geom_Surface)& S2,
+				   const Standard_Real Tol)
+{
+  myIntersec.Perform(S1,S2,Tol,Standard_True);
+}
+
+
+//=======================================================================
+//function : IsDone
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean GeomAPI_IntSS::IsDone () const
+{
+  return myIntersec.IsDone();
+}
+
+
+//=======================================================================
+//function : NbLines
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer GeomAPI_IntSS::NbLines () const
+{
+  return myIntersec.NbLines();
+}
+
+
+//=======================================================================
+//function : Line
+//purpose  : 
+//=======================================================================
+
+inline const Handle(Geom_Curve)& 
+        GeomAPI_IntSS::Line(const Standard_Integer I) const
+{
+  return myIntersec.Line(I);
+}

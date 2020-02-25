@@ -1,0 +1,84 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( TCD )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class OffsetSurface from IGESGeom  inherits IGESEntity
+
+        ---Purpose: defines IGESOffsetSurface, Type <140> Form <0>
+        --          in package IGESGeom
+        --          An offset surface is a surface defined in terms of an
+        --          already existing surface.If S(u, v) is a parametrised
+        --          regular surface and N(u, v) is a differential field of
+        --          unit normal vectors defined on the whole surface, and
+        --          "d" a fixed non zero real number, then offset surface
+        --          to S is a parametrised surface S(u, v) given by
+        --          O(u, v) = S(u, v) + d * N(u, v);
+        --          u1 <= u <= u2; v1 <= v <= v2;
+
+uses
+
+        Vec from gp,
+        XYZ from gp
+
+is
+
+        Create returns mutable OffsetSurface;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me          : mutable;
+              anIndicatoR : XYZ;
+              aDistance   : Real;
+              aSurface    : IGESEntity);
+        ---Purpose : This method is used to set the fields of the class
+        --           OffsetSurface
+        --       - anIndicator : Offset indicator
+        --       - aDistance   : Offset distance
+        --       - aSurface    : Surface that is offset
+
+        OffsetIndicator (me) returns Vec;
+        ---Purpose : returns the offset indicator
+
+        TransformedOffsetIndicator (me) returns Vec;
+        ---Purpose : returns the offset indicator after applying Transf. Matrix
+
+        Distance (me) returns Real;
+        ---Purpose : returns the distance by which surface is offset
+
+        Surface (me) returns IGESEntity;
+        ---Purpose : returns the surface that has been offset
+
+fields
+
+--
+-- Class    : IGESGeom_OffsetSurface
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class OffsetSurface.
+--
+-- Reminder : A OffsetSurface instance is defined by :
+--            The coordinates of offset indicator, the offset distance
+--            and the surface to be offset.
+
+        theIndicator : XYZ;
+        theDistance  : Real;
+        theSurface   : IGESEntity;
+
+end OffsetSurface;

@@ -1,0 +1,86 @@
+-- Created on: 1997-08-22
+-- Created by: Prestataire Mary FABIEN
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class EdgeConnector from BRepAlgo inherits TShared from MMgt
+
+    ---Purpose: Used by DSAccess to reconstruct an EdgeSet of connected edges. The result produced by
+    --           MakeBlock is a list of non-standard TopoDS_wire,
+    --          which  can present connexions of edge  of  order > 2 
+    --           in certain  vertex. The method  IsWire
+    --            indicates standard/non-standard character of  all wire produced.
+
+uses
+
+    ListOfShape    from TopTools,
+    MapOfShape from TopTools,
+    Shape from TopoDS,
+    Edge from TopoDS,
+    HDataStructure from TopOpeBRepDS,
+    ShapeSet from TopOpeBRepBuild,
+    BlockBuilder from TopOpeBRepBuild,
+    DataMapOfShapeBoolean from BRepAlgo
+    
+is
+
+    Create returns EdgeConnector from BRepAlgo;
+    
+    Add(me : mutable; e : Edge from TopoDS);
+    ---Purpose: 
+    
+    Add(me : mutable; LOEdge : in out ListOfShape from TopTools);
+    ---Purpose: 
+    
+    AddStart(me : mutable; e : Shape from TopoDS);
+    ---Purpose: 
+    
+    AddStart(me : mutable; LOEdge : in out ListOfShape from TopTools);
+    ---Purpose: 
+
+    ClearStartElement(me : mutable);
+    
+    MakeBlock(me : mutable)
+    ---Purpose: returns a list of wire non standard
+    ---C++: return &
+    returns ListOfShape from TopTools;
+    
+    Done(me : mutable);
+
+    IsDone(me)
+    ---Purpose: NYI
+    ---Purpose: returns true if proceeded  to MakeBlock()
+    returns Boolean from Standard;
+
+    IsWire(me : mutable; W : Shape from TopoDS) 
+    ---Purpose: NYI
+    ---Purpose: returns true if W is  a Wire standard.
+    --          W must belong  to the list returned  by MakeBlock.
+    returns Boolean from Standard;
+
+fields
+
+    myListeOfEdge : ListOfShape from TopTools;
+    myListeOfStartEdge : ListOfShape from TopTools;
+    myResultMap : DataMapOfShapeBoolean from BRepAlgo;
+    myResultList : ListOfShape from TopTools;
+    myBlockB : BlockBuilder from TopOpeBRepBuild;
+    myIsDone : Boolean from Standard;
+    
+end EdgeConnector from BRepAlgo;

@@ -1,0 +1,64 @@
+-- Created on: 1994-06-24
+-- Created by: Frederic MAUPAS
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class MakeShellBasedSurfaceModel from TopoDSToStep inherits
+    Root from TopoDSToStep
+
+    ---Purpose: This class implements the mapping between classes 
+    --          Face, Shell or Solid from TopoDS and ShellBasedSurfaceModel
+    --          from StepShape. All the topology and geometry comprised 
+    --          into the shape are taken into account and translated.
+  
+uses Face  from TopoDS,
+     Shell from TopoDS,
+     Solid from TopoDS,
+     ShellBasedSurfaceModel from StepShape,
+     FinderProcess from Transfer
+          
+raises NotDone from StdFail
+     
+is 
+
+Create ( F  : Face from TopoDS;
+         FP : mutable FinderProcess from Transfer)
+        returns MakeShellBasedSurfaceModel;
+
+Create ( S           : Shell from TopoDS;
+         FP          : mutable FinderProcess from Transfer)
+        returns MakeShellBasedSurfaceModel;
+
+Create ( S  : Solid from TopoDS;
+         FP : mutable FinderProcess from Transfer)
+        returns MakeShellBasedSurfaceModel;
+
+Value (me) returns ShellBasedSurfaceModel from StepShape
+    raises NotDone
+    is static;
+    ---C++: return const&
+
+fields
+
+    theShellBasedSurfaceModel : ShellBasedSurfaceModel from StepShape;
+
+    	-- The solution from StepShape
+    	
+end MakeShellBasedSurfaceModel;
+

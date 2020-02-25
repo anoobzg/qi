@@ -1,0 +1,125 @@
+-- Created on: 2007-05-29
+-- Created by: Vlad Romashko
+-- Copyright (c) 2007-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ExtStringList from TDataStd inherits Attribute from TDF
+
+    ---Purpose: Contains a list of ExtendedString.
+
+uses 
+
+    Attribute from TDF,
+    GUID from Standard,
+    Label from TDF,
+    RelocationTable from TDF,
+    ExtendedString from TCollection,
+    ListOfExtendedString from TDataStd
+
+is 
+
+    ---Purpose: Static methods
+    --          ==============
+
+    GetID (myclass)   
+    ---C++: return const & 
+    ---Purpose: Returns the ID of the list of strings attribute.
+    returns GUID from Standard;
+
+    Set (myclass; label : Label from TDF)
+    ---Purpose: Finds or creates a list of string values attribute.
+    returns ExtStringList from TDataStd;
+
+    
+    ---Category: ExtStringList methods
+    --           =====================
+
+    Create
+    returns mutable ExtStringList from TDataStd; 
+
+    IsEmpty (me)
+    returns Boolean from Standard;
+    
+    Extent (me)
+    returns Integer from Standard;
+    
+    Prepend (me : mutable;
+    	     value : ExtendedString from TCollection);
+	     
+    Append (me : mutable;
+    	    value : ExtendedString from TCollection);
+	    
+    InsertBefore (me : mutable;
+    	    	  value : ExtendedString from TCollection;
+		  before_value : ExtendedString from TCollection)
+    ---Purpose: Inserts the <value> before the first meet of <before_value>.
+    returns Boolean from Standard;
+
+    InsertAfter (me : mutable;
+    	    	 value : ExtendedString from TCollection;
+		 after_value : ExtendedString from TCollection)
+    ---Purpose: Inserts the <value> after the first meet of <after_value>.
+    returns Boolean from Standard;
+
+    Remove (me : mutable;
+    	    value : ExtendedString from TCollection)
+    ---Purpose: Removes the first meet of the <value>.
+    returns Boolean from Standard;
+    
+    Clear (me : mutable);
+    
+    First (me)
+    ---C++: return const &
+    returns ExtendedString from TCollection;
+    
+    Last (me)
+    ---C++: return const &
+    returns ExtendedString from TCollection;
+
+    List (me)
+    ---C++: return const &
+    returns ListOfExtendedString from TDataStd;
+    
+    
+    ---Category: Methodes of TDF_Attribute
+    --           =========================
+    
+    ID (me)
+    ---C++: return const & 
+    returns GUID from Standard;
+
+    Restore (me: mutable; With : Attribute from TDF);
+
+    NewEmpty (me)
+    returns mutable Attribute from TDF;
+
+    Paste (me; Into : mutable Attribute from TDF;
+	       RT   : mutable RelocationTable from TDF);    
+    
+    Dump(me; anOS : in out OStream from Standard)
+    returns OStream from Standard
+    is redefined;
+    ---C++: return &
+
+
+fields
+
+    myList : ListOfExtendedString from TDataStd;
+
+
+end ExtStringList;

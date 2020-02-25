@@ -1,0 +1,77 @@
+-- Created on: 1993-04-22
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class HGraph  from Interface  inherits TShared
+
+    ---Purpose : This class allows to store a redefinable Graph, via a Handle
+    --           (usefull for an Object which can work on several successive
+    --           Models, with the same general conditions)
+
+uses Graph, InterfaceModel, GeneralLib, Protocol, GTool
+
+raises DomainError
+
+is
+
+    Create (agraph : Graph) returns mutable HGraph;
+    ---Purpose : Creates an HGraph directly from a Graph.
+    --           Remark that the starting Graph is duplicated
+    
+    Create (amodel : InterfaceModel; lib : GeneralLib;
+     theModeStats : Boolean = Standard_True) returns mutable HGraph;
+    ---Purpose : Creates an HGraph with a Graph created from <amodel> and <lib>
+
+    Create (amodel : InterfaceModel; protocol : Protocol from Interface;
+     theModeStats : Boolean = Standard_True)
+    	returns mutable HGraph;
+    ---Purpose : Creates an HGraph with a graph itself created from <amodel>
+    --           and <protocol>
+
+    Create (amodel : InterfaceModel; gtool : GTool from Interface;
+     theModeStats : Boolean = Standard_True)
+    	returns mutable HGraph;
+    ---Purpose : Creates an HGraph with a graph itself created from <amodel>
+    --           and <protocol>
+
+    Create (amodel : InterfaceModel;
+     theModeStats : Boolean = Standard_True) returns mutable HGraph
+    ---Purpose : Same a above, but works with the GTool in the model
+    	raises DomainError;
+    --           Error if no Active Protocol is defined
+
+    Graph (me) returns Graph;
+    ---Purpose : Returns the Graph contained in <me>, for Read Only Operations
+    --           Remark that it is returns as "const &"
+    --           Getting it in a new variable instead of a reference would be
+    --           a pitty, because all the graph's content would be duplicated
+    ---C++ : return const &
+
+    CGraph (me : mutable) returns Graph;
+    ---Purpose : Same as above, but for Read-Write Operations
+    --           Then, The Graph will be modified in the HGraph itself
+    ---C++ : return &
+
+fields
+
+    thegraph : Graph;
+
+end HGraph;

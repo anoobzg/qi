@@ -1,0 +1,90 @@
+-- Created on: 1993-10-08
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+private class UnitsLexicon from Units 
+
+inherits
+
+    Lexicon from Units
+	---Purpose: This class defines a lexicon useful to analyse and
+	--          recognize the different key  words  included  in a
+	--          sentence. The  lexicon is stored  in a sequence of
+	--          tokens.
+
+uses
+
+    HAsciiString from TCollection,
+    AsciiString  from TCollection
+
+
+is
+
+    Create returns mutable UnitsLexicon from Units;
+    
+    ---Level: Internal 
+    
+    ---Purpose: Returns an empty instance of UnitsLexicon
+    
+    Creates(me : mutable ; afilename1 , afilename2 : CString ;
+                 amode : Boolean = Standard_True)
+    
+    ---Level: Internal 
+    
+    ---Purpose: Reads  the files  <afilename1>  and  <afilename2>   to
+    --          create     a   sequence     of    tokens   stored   in
+    --          <thesequenceoftokens>.
+    
+    is static;
+    
+    FileName2(me) returns AsciiString from TCollection
+    
+    ---Level: Internal 
+    
+    ---Purpose: Returns in a AsciiString from TCollection the name of the file.
+    
+    is static;
+    
+    UpToDate(me) returns Boolean
+    
+    ---Level: Internal 
+    
+    ---Purpose: Returns true if  the  file has not  changed  since the
+    --          creation   of   the  Lexicon   object.   Returns false
+    --          otherwise.
+    
+    is redefined;
+    
+    Dump(me)
+    
+    ---Level: Internal 
+    
+    ---C++: inline
+    ---Purpose: Useful for debugging.
+    
+    is redefined;
+
+fields
+
+    thefilename     : HAsciiString from TCollection;
+    thetime         : Time from Standard;
+
+end UnitsLexicon;

@@ -1,0 +1,57 @@
+-- Created on: 1992-10-13
+-- Created by: Ramin BARRETO, CLE (1994 Standard Light)
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+deferred class TShared from MMgt
+
+inherits Transient from Standard
+
+  ---Purpose: 
+-- The abstract class TShared is the root class of
+-- managed objects. TShared objects are managed
+-- by a memory manager based on reference
+-- counting. They have handle semantics. In other
+-- words, the reference counter is transparently
+-- incremented and decremented according to the
+-- scope of handles. When all handles, which
+-- reference a single object are out of scope, the
+-- reference counter becomes null and the object is
+-- automatically deleted. The deallocated memory is
+-- not given back to the system though. It is
+-- reclaimed for new objects of the same size.
+-- Warning
+-- This memory management scheme does not
+-- work for cyclic data structures. In such cases
+-- (with back pointers for example), you should
+-- interrupt the cycle in a class by using a full C++
+-- pointer instead of a handle.  
+
+uses  
+   Integer from Standard
+
+raises  
+    OutOfMemory from Standard
+  
+is
+
+    Delete(me) is redefined;
+
+end TShared from MMgt;
+
+

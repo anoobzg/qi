@@ -1,0 +1,86 @@
+-- Created on: 1997-03-12
+-- Created by: Alexander BRIVIN
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ShadingAspect from VrmlConverter inherits TShared from MMgt
+
+	---Purpose: qualifies the aspect properties for  
+	--          the VRML conversation of ShadedShape . 
+
+uses 
+
+    Material    from   Vrml,
+    ShapeHints  from   Vrml
+
+is
+ 
+    Create
+    ---Purpose: create a default ShadingAspect.
+    returns mutable ShadingAspect from VrmlConverter;
+ 
+    SetFrontMaterial(me: mutable; aMaterial: Material from Vrml)
+    is static;
+ 
+    FrontMaterial(me) returns mutable Material from Vrml 
+    is  static; 
+    
+--    SetBackMaterial(me: mutable; aMaterial: Material from Vrml)
+--    is static;
+
+    SetShapeHints ( me : mutable; aShapeHints  :  ShapeHints  from  Vrml  ) 
+    is static;
+ 
+    ShapeHints ( me )  returns  ShapeHints  from  Vrml;
+
+    SetHasNormals (me: mutable; OnOff: Boolean from Standard)
+    ---Purpose: defines necessary of  a  calculation  of  normals for  ShadedShape  to  more  
+    --          accurately  display  curved  surfaces,  pacticularly  when  smoooth  or  phong   
+    --          shading  is  used  in  VRML  viewer. 
+    --          By default False  -  the normals are not calculated, 
+    --          True  -  the normals are calculated. 
+    --          Warning: If  normals  are  calculated  the  resulting  VRML  file  will   
+    --          be  substantially  lager.
+    is static;
+    
+    HasNormals(me) returns Boolean from Standard 
+    ---Purpose: returns True if the normals are calculating 
+    is static;
+ 
+    SetHasMaterial(me: mutable; OnOff: Boolean from Standard)
+    ---Purpose: defines necessary of writing  Material from Vrml into  output  OStream. 
+    --          By default False  -  the material is not writing into OStream, 
+    --          True  -  the material is writing. 
+    is  static; 
+
+    HasMaterial(me) returns Boolean from Standard 
+    ---Purpose: returns True if the  materials is  writing into OStream.
+    is static;
+
+
+fields
+     
+    myFrontMaterial		:	Material    from   Vrml;
+--    myBackMaterial		:	Material    from   Vrml;
+    myShapeHints                :       ShapeHints  from   Vrml;  
+    myHasNormals                :       Boolean  from  Standard;
+    myHasMaterial               :       Boolean  from  Standard;
+
+end ShadingAspect;

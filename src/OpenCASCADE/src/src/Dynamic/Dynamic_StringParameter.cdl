@@ -1,0 +1,91 @@
+-- Created on: 1993-02-03
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class StringParameter from Dynamic
+
+inherits
+
+    Parameter from Dynamic
+
+
+	---Purpose: This inherited class  from Parameter describes all
+	--          the  parameters,  which   are  characterized by  a
+	--          string value.
+
+uses
+
+    OStream from Standard,
+    CString from Standard,
+    HAsciiString from TCollection,
+    AsciiString  from TCollection
+
+is
+
+    Create(aparameter : CString from Standard )
+    
+    ---Level: Public 
+    
+    ---Purpose: Creates a StringParameter with <aparameter> as name.
+    
+    returns mutable StringParameter from Dynamic;
+
+    Create(aparameter : CString from Standard ; astring : CString from Standard) 
+    
+    ---Level: Public 
+    
+    ---Purpose: With  the name of  the  Parameter <aparameter> and the
+    --          string    <astring>,   creates    an    instance    of
+    --          StringParameter.
+    
+    returns mutable StringParameter from Dynamic;
+    
+    Value(me) returns AsciiString from TCollection
+    
+    ---Level: Public 
+    
+    ---Purpose: Returns the value    of  the parameter which     is an
+    --          AsciiString.
+    
+    is static;
+
+    Value (me : mutable ; avalue : CString from Standard)
+    
+    ---Level: Public 
+    
+    --- Purpose: Sets the string <avalue> in <me>.
+
+    is static;
+    
+    Dump(me ; astream : in out OStream from Standard)
+    
+    ---Level: Internal 
+    
+    ---Purpose: Useful for debugging.
+
+    is redefined;
+
+fields
+
+    thestring : HAsciiString from TCollection;
+
+end StringParameter;

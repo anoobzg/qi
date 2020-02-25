@@ -1,0 +1,55 @@
+-- Created on: 1993-07-08
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class HBoxTool from TopOpeBRepTool inherits TShared from MMgt
+
+uses
+
+    Box from Bnd,
+    Shape from TopoDS,
+    ShapeEnum from TopAbs,
+    IndexedDataMapOfShapeBox from TopOpeBRepTool
+    
+is
+    
+    Create returns mutable HBoxTool from TopOpeBRepTool;
+    Clear(me:mutable);
+    AddBoxes(me:mutable;S:Shape;TS:ShapeEnum;TA:ShapeEnum=TopAbs_SHAPE);
+    AddBox(me:mutable;S:Shape);
+
+    ComputeBox(myclass;S:Shape;B:out Box from Bnd);
+    ComputeBoxOnVertices(myclass;S:Shape;B:out Box from Bnd);
+    DumpB(myclass;B:Box from Bnd);
+
+    Box(me:mutable;S:Shape) returns Box from Bnd;---C++: return const &
+    Box(me; I:Integer) returns Box from Bnd;---C++: return const &
+    HasBox(me; S:Shape) returns Boolean;
+    Shape(me; I:Integer) returns Shape;---C++: return const &
+    Index(me; S:Shape) returns Integer;
+    Extent(me) returns Integer;
+    ChangeIMS(me:mutable) returns IndexedDataMapOfShapeBox;---C++:return &
+    IMS(me) returns IndexedDataMapOfShapeBox;---C++:return const &
+    
+fields
+
+    myIMS:IndexedDataMapOfShapeBox from TopOpeBRepTool;
+
+end HBoxTool;

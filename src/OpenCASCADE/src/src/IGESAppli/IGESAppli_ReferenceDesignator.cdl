@@ -1,0 +1,70 @@
+-- Created on: 1993-01-11
+-- Created by: CKY / Contract Toubro-Larsen ( Arun MENON )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ReferenceDesignator from IGESAppli  inherits IGESEntity
+
+        ---Purpose: defines ReferenceDesignator, Type <406> Form <7>
+        --          in package IGESAppli
+        --          Used to attach a text string containing the value of
+        --          a component reference designator to an entity being
+        --          used to represent a component.
+
+uses
+
+        HAsciiString from TCollection
+
+is
+
+        Create returns mutable ReferenceDesignator;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me        : mutable; 
+              nbPropVal : Integer; 
+              aText     : HAsciiString);
+        ---Purpose : This method is used to set the fields of the class
+        --           ReferenceDesignator
+        --       - nbPropVal : Number of property values = 1
+        --       - aText     : Reference designator text
+
+        NbPropertyValues (me) returns Integer;
+        ---Purpose : returns the number of property values
+        -- is always 1
+
+        RefDesignatorText (me) returns HAsciiString from TCollection;
+        ---Purpose : returns the Reference designator text
+
+fields
+
+--
+-- Class    : IGESAppli_ReferenceDesignator
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class ReferenceDesignator.
+--
+-- Reminder : A ReferenceDesignator instance is defined by :
+--            - Number of property values (always = 1)
+--            - Reference designator text
+
+        theNbPropertyValues : Integer;
+        theRefDesigText     : HAsciiString;
+
+end ReferenceDesignator;

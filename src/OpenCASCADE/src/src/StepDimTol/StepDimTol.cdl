@@ -1,0 +1,79 @@
+-- Created on: 2003-06-02
+-- Created by: EXPRESS->CDL V0.2 Translator
+-- Copyright (c) 2003-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+package StepDimTol
+
+
+    ---Purpose :Collects definition of STEP GD&T entities TR12J
+    	
+
+uses    TCollection,
+     	StepRepr, 
+    	StepShape,
+    	StepVisual,
+	StepBasic,
+    	TColStd, 
+    	StepData, 
+    	Interface, 
+    	MMgt
+
+is 
+
+enumeration LimitCondition is 
+   MaximumMaterialCondition,
+   LeastMaterialCondition,
+   RegardlessOfFeatureSize
+end;
+    
+    class ShapeToleranceSelect;
+    class AngularityTolerance;
+    class CircularRunoutTolerance;
+    class ConcentricityTolerance;
+    class CylindricityTolerance;
+    class CoaxialityTolerance;
+    class FlatnessTolerance;
+    class LineProfileTolerance;
+    class ParallelismTolerance;
+    class PerpendicularityTolerance;
+    class PositionTolerance;
+    class RoundnessTolerance;
+    class StraightnessTolerance;
+    class SurfaceProfileTolerance;
+    class SymmetryTolerance;
+    class TotalRunoutTolerance;
+    
+    class GeometricTolerance;
+    class GeometricToleranceRelationship;
+    class GeometricToleranceWithDatumReference;
+    class ModifiedGeometricTolerance;
+     
+    class Datum;
+    class DatumFeature;
+    class DatumReference;
+    class CommonDatum;
+    class DatumTarget;
+    class PlacedDatumTargetFeature;
+
+    class GeoTolAndGeoTolWthDatRefAndModGeoTolAndPosTol;
+
+    class Array1OfDatumReference instantiates Array1 from TCollection (DatumReference);
+    class HArray1OfDatumReference instantiates HArray1 from TCollection (DatumReference,Array1OfDatumReference from StepDimTol);
+    
+end StepDimTol;

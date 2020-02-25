@@ -1,0 +1,87 @@
+-- Created on: 1999-04-30
+-- Created by: data exchange team
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ShapeDivideContinuity from ShapeUpgrade inherits ShapeDivide from ShapeUpgrade
+
+	---Purpose: 
+
+uses
+    
+    Shape from TopoDS,
+    Shape from GeomAbs,
+    FaceDivide from ShapeUpgrade
+
+is
+    Create returns ShapeDivideContinuity from ShapeUpgrade;
+    
+    Create (S: Shape from TopoDS)
+    returns ShapeDivideContinuity from ShapeUpgrade;
+    	---Purpose: Initialize by a Shape.
+    
+    SetTolerance(me: in out; Tol: Real);
+    	---Purpose: Sets tolerance.
+    
+    SetTolerance2d(me: in out; Tol: Real);
+    	---Purpose: Sets tolerance.
+    
+    SetBoundaryCriterion (me: in out; Criterion: Shape from GeomAbs = GeomAbs_C1);
+    	---Purpose: 
+        --  Defines a criterion of continuity for the boundary (all the
+        --  Wires)
+        --  
+        --  The possible values are C0, G1, C1, G2, C2, C3, CN The
+        --  default is C1 to respect the Cas.Cade Shape Validity.  G1
+        --  and G2 are not authorized.
+	
+    SetPCurveCriterion (me: in out; Criterion: Shape from GeomAbs = GeomAbs_C1);
+    	---Purpose: 
+        --  Defines a criterion of continuity for the boundary (all the
+        --  pcurves of Wires)
+        --  
+        --  The possible values are C0, G1, C1, G2, C2, C3, CN The
+        --  default is C1 to respect the Cas.Cade Shape Validity.  G1
+        --  and G2 are not authorized.
+    
+    SetSurfaceCriterion (me: in out; Criterion: Shape from GeomAbs = GeomAbs_C1);
+    	---Purpose: 
+        --  Defines a criterion of continuity for the boundary (all the
+        --  Wires)
+        --  
+        --  The possible values are C0, G1, C1, G2, C2, C3, CN The
+        --  default is C1 to respect the Cas.Cade Shape Validity.  G1
+        --  and G2 are not authorized.
+    
+    ---Level: Internal
+    
+    GetSplitFaceTool (me) returns FaceDivide from ShapeUpgrade
+    is redefined protected;
+    	---Purpose: Returns the tool for dividing faces.
+    
+fields
+
+    myCurve3dCriterion: Shape from GeomAbs;
+    myCurve2dCriterion: Shape from GeomAbs;
+    mySurfaceCriterion : Shape from GeomAbs;
+    myTolerance3d: Real;
+    myTolerance2d: Real;
+
+end ShapeDivideContinuity;

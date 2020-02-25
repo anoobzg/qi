@@ -1,0 +1,79 @@
+-- Created on: 1995-01-31
+-- Created by: Mister rmi
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+--Modified by   rob 11-mar-98 : Implement virtual methods from Graphic3d_Structure
+--                              to optimize HLR Display...
+
+class Prs from PrsMgr inherits Presentation from Prs3d
+
+uses
+    Array2OfReal          from TColStd,
+    StructureManager      from Graphic3d,
+    Structure             from Graphic3d,
+    DataStructureManager  from Graphic3d,
+    TypeOfPresentation3d  from PrsMgr,
+    Presentation3dPointer from PrsMgr
+    
+is
+    Create(aStructureManager     : StructureManager from Graphic3d; 
+    	   aPresentation         : Presentation3dPointer from PrsMgr; 
+           aTypeOfPresentation3d : TypeOfPresentation3d from PrsMgr)
+    returns mutable Prs from PrsMgr;
+    
+    Compute(me : mutable; aProjector: DataStructureManager from Graphic3d)
+    returns Structure from Graphic3d
+    is redefined static;
+
+    Compute ( me	: mutable;
+	      aProjector: DataStructureManager from Graphic3d;
+	      AMatrix	: Array2OfReal from TColStd )
+    returns Structure from Graphic3d is 
+    redefined static;
+    ---Purpose: the "degenerated" Structure is displayed with
+    --          a transformation defined by <AMatrix>
+    --          which is not a Pure Translation.
+    --          We have to take in account this Transformation
+    --          in the computation of hidden line removal...
+    --          returns a filled Graphic Structure.
+
+
+
+    Compute(me              : mutable; 
+    	    aProjector      : DataStructureManager from Graphic3d;
+	    ComputedStruct  : in out Structure from Graphic3d)
+    is redefined static;
+    ---Purpose: No need to return a structure, just to fill
+    --          <ComputedStruct> ....
+
+
+    Compute ( me	: mutable;
+	      aProjector: DataStructureManager from Graphic3d;
+	      AMatrix	: Array2OfReal from TColStd ;
+    	      aStructure: in out Structure from Graphic3d )
+    is redefined static;
+    ---Purpose: No Need to return a Structure, just to
+    --          Fill <aStructure>. The Trsf has to be taken in account
+    --          in the computation (Rotation Part....)
+
+    
+
+fields 
+    myPresentation3d: Presentation3dPointer from PrsMgr;
+end Prs from PrsMgr;

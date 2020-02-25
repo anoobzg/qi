@@ -1,0 +1,72 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( SIVA )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class SolidInstance from IGESSolid  inherits IGESEntity
+
+        ---Purpose: defines SolidInstance, Type <430> Form Number <0>
+        --          in package IGESSolid
+        --          This provides a mechanism for replicating a solid
+        --          representation.
+        --          
+        --          From IGES-5.3, Form may be <1> for a BREP
+        --          Else it is for a Boolean Tree, Primitive, other Solid Inst.
+
+uses  Integer  -- no one specific type
+
+
+is
+
+        Create returns mutable SolidInstance;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me       : mutable; 
+              anEntity : IGESEntity);
+        ---Purpose : This method is used to set the fields of the class
+        --           SolidInstance
+        --       - anEntity : the entity corresponding to the solid
+
+    	IsBrep (me) returns Boolean;
+	---Purpose : Tells if a SolidInstance is for a BREP
+	--           Default is False
+
+    	SetBrep (me : mutable; brep : Boolean);
+	---Purpose : Sets or unsets the Brep status (FormNumber = 1 else 0)
+
+        Entity(me) returns IGESEntity;
+        ---Purpose : returns the solid entity
+
+fields
+
+--
+-- Class    : IGESSolid_SolidInstance
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class SolidInstance.
+--
+-- Reminder : A SolidInstance instance is defined by :
+--            a pointer to a solid entity
+--
+
+        theEntity : IGESEntity;
+            -- the solid entity
+
+end SolidInstance;

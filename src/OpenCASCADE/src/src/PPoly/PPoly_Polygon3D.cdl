@@ -1,0 +1,76 @@
+-- Created on: 1995-10-24
+-- Created by: Mister rmi
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Polygon3D from PPoly inherits Persistent from Standard
+
+    	---Purpose: This class represents a 3d Polygon3D.
+    	--          
+    	--          It is defined by an array of 3d nodes values.
+    	--          If the Polygon3D is closed, the point will be
+    	--          repeated.
+
+
+uses HArray1OfPnt  from PColgp,
+     HArray1OfReal from PColStd
+
+is
+
+    Create(Nodes: HArray1OfPnt from PColgp;
+    	   Defl : Real from Standard) 
+    returns mutable Polygon3D from PPoly;
+    	---Purpose: Defaults with allocation of nodes.
+
+    Create(Nodes      : HArray1OfPnt  from PColgp;
+           Parameters : HArray1OfReal from PColStd;
+    	   Defl       : Real          from Standard) 
+    returns mutable Polygon3D from PPoly;
+    	---Purpose: Defaults with allocation of nodes + Parameters
+    
+
+    Deflection(me) returns Real;
+
+    Deflection(me : mutable; Defl : Real from Standard);
+    
+
+    NbNodes(me) returns Integer;
+    
+    Nodes(me) returns HArray1OfPnt from PColgp;
+
+    Nodes(me : mutable; Nodes : HArray1OfPnt from PColgp);
+    
+
+    HasParameters(me) returns Boolean from Standard;
+
+    Parameters(me : mutable; Parameters : HArray1OfReal from PColStd);
+    	---Purpose: Sets the value of myParameters
+
+    Parameters(me) returns HArray1OfReal from PColStd;
+	---Purpose: Reference on the parameters values.
+    
+fields
+
+    myDeflection : Real          from Standard;
+    myNodes      : HArray1OfPnt  from PColgp;
+    myParameters : HArray1OfReal from PColStd;
+    	-- myParameters is Optional (Pointer can be Null)
+    
+end Polygon3D;

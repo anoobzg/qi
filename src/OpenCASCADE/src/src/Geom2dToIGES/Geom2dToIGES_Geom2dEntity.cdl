@@ -1,0 +1,66 @@
+-- Created on: 1995-09-13
+-- Created by: Marie Jose MARTZ
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Geom2dEntity from Geom2dToIGES
+
+
+    ---Purpose : provides methods to transfer Geom2d entity from CASCADE to IGES.
+
+uses
+
+    Real                     from Standard,
+    IGESEntity               from IGESData,
+    IGESModel                from IGESData
+
+is
+
+    Create 
+    	returns Geom2dEntity from Geom2dToIGES;
+    ---Purpose : Creates a tool Geom2dEntity
+
+    Create(GE : Geom2dEntity from Geom2dToIGES)
+        returns Geom2dEntity from Geom2dToIGES;
+    ---Purpose : Creates a tool ready to run and sets its 
+    --         fields as GE's.
+
+    SetModel(me : in out; model : IGESModel from IGESData);
+    ---Purpose : Set the value of "TheModel"
+
+    GetModel(me) 
+    	returns IGESModel from IGESData;
+    ---Purpose : Returns the value of "TheModel"
+
+    SetUnit(me: in out; unit: Real);
+    ---Purpose : Sets the value of the UnitFlag 
+    
+    GetUnit(me)
+    	returns Real from Standard;
+    ---Purpose : Returns the value of the UnitFlag of the header of the model
+    --           in millimeters.
+    
+fields
+
+    TheModel      : IGESModel from IGESData ;
+
+    TheUnitFactor : Real from Standard;
+	
+end Geom2dEntity;
+

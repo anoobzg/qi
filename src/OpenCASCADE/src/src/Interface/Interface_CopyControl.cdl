@@ -1,0 +1,54 @@
+-- Created on: 1993-04-08
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred class CopyControl  from Interface  inherits TShared
+
+    ---Purpose : This deferred class describes the services required by
+    --           CopyTool to work. They are very simple and correspond
+    --           basically to the management of an indexed map.
+    --           But they can be provided by various classes which can
+    --           control a Transfer. Each Starting Entity have at most
+    --           one Result (Mapping one-one)
+
+uses Transient
+
+raises InterfaceError
+
+is
+
+    Clear  (me : mutable) is deferred;
+    ---Purpose : Clears List of Copy Results. Gets Ready to begin another Copy
+    --           Process.
+
+    Bind (me : mutable; ent : Transient; res : mutable Transient)
+    ---Purpose : Bind a Result to a Starting Entity identified by its Number
+    	raises InterfaceError  is deferred;
+    --           Error if <num> is already bound or is out of range
+
+    Search (me; ent : Transient; res : out mutable Transient)
+    	returns Boolean  is deferred;
+    ---Purpose : Searches for the Result bound to a Startingf Entity identified
+    --           by its Number.
+    --           If Found, returns True and fills <res>
+    --           Else, returns False and nullifies <res>
+
+end CopyControl;

@@ -1,0 +1,102 @@
+-- Created on: 1994-08-25
+-- Created by: Jacques GOUSSARD
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Modifier from BRepTools
+
+	---Purpose: 
+
+uses Shape               from TopoDS,
+     Modification        from BRepTools,
+     DataMapOfShapeShape from TopTools
+
+raises NullObject   from Standard,
+       NoSuchObject from Standard
+
+is
+
+    Create returns Modifier from BRepTools;
+	---Purpose: Creates an empty Modifier.
+
+
+    Create(S: Shape from TopoDS)
+      	returns Modifier from BRepTools;
+	---Purpose: Creates a modifier on the shape <S>.
+
+
+    Create(S: Shape from TopoDS; M: Modification from BRepTools)
+    	returns Modifier from BRepTools;
+	---Purpose: Creates a modifier on  the shape <S>, and performs
+	--          the modifications described by <M>.
+
+
+    Init(me: in out; S: Shape from TopoDS)
+    	is static;
+	---Purpose: Initializes the modifier with the shape <S>.
+
+
+    Perform(me: in out; M: Modification from BRepTools)
+	---Purpose: Performs the modifications described by <M>.
+    	raises NullObject from Standard 
+        -- if the modifier has not been initialized with a shape.
+    	is static;
+
+    IsDone(me)
+    
+	---Purpose: Returns Standard_True if the modification has
+	--          been computed successfully.
+	--          
+	---C++: inline
+    	returns Boolean from Standard
+	is static;
+    
+
+    ModifiedShape(me; S: Shape from TopoDS)
+    	returns Shape from TopoDS
+	---Purpose: Returns the modified shape corresponding to <S>.
+	---C++: return const&
+	---C++: inline
+	raises NoSuchObject from Standard
+               -- if S is not the initial shape or a sub-shape
+               -- of the initial shape.
+
+	is static;
+
+		 
+    -- private implementation methods
+
+    Put(me: in out; S: Shape from TopoDS)
+    
+    	is static private;
+
+
+    Rebuild(me: in out; S: Shape from TopoDS; M: Modification from BRepTools) 
+    	returns Boolean from Standard
+    	is static private;
+
+
+fields
+
+    myMap  : DataMapOfShapeShape from TopTools;
+    myShape: Shape               from TopoDS;
+    myDone : Boolean             from Standard;
+
+end Modifier;

@@ -1,0 +1,74 @@
+-- Created on: 1993-10-14
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ToolBlock  from IGESSolid
+
+    ---Purpose : Tool to work on a Block. Called by various Modules
+    --           (ReadWriteModule, GeneralModule, SpecificModule)
+
+uses Block from IGESSolid,
+     IGESReaderData, ParamReader, IGESWriter, EntityIterator,
+     DirChecker,     ShareTool,   Check,      CopyTool,   IGESDumper, Messenger from Message
+
+raises DomainError
+
+is
+
+    Create returns ToolBlock;
+    ---Purpose : Returns a ToolBlock, ready to work
+
+
+    ReadOwnParams (me; ent : mutable Block;
+    	    	   IR : IGESReaderData; PR : in out ParamReader)
+    	raises DomainError  is static;
+    ---Purpose : Reads own parameters from file. <PR> gives access to them,
+    --           <IR> detains parameter types and values
+
+    WriteOwnParams (me; ent : Block;
+    	    	    IW : in out IGESWriter)  is static;
+    ---Purpose : Writes own parameters to IGESWriter
+
+
+    OwnShared  (me; ent : Block;
+    	        iter : in out EntityIterator)  is static;
+    ---Purpose : Lists the Entities shared by a Block <ent>, from
+    --           its specific (own) parameters
+
+    DirChecker (me; ent : Block) returns DirChecker  is static;
+    ---Purpose : Returns specific DirChecker
+
+    OwnCheck   (me; ent : Block;
+    	        shares  : ShareTool; ach : in out Check)  is static;
+    ---Purpose : Performs Specific Semantic Check
+
+
+    OwnCopy    (me; entfrom : Block; entto : mutable Block;
+    	        TC : in out CopyTool)  is static;
+    ---Purpose : Copies Specific Parameters
+
+
+    OwnDump (me; ent : Block;
+    	     dumper  : IGESDumper;  S : Messenger from Message; own : Integer)
+        is static;
+    ---Purpose : Dump of Specific Parameters
+
+end ToolBlock;

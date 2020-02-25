@@ -1,0 +1,54 @@
+-- Created on: 1994-09-05
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred class AbstractVariableInstance from Dynamic
+
+	---Purpose: This class is the header class to define instances
+	--          of variables.  There  are two kinds  of instances,
+	--          These  are VariableInstance  which  addresses only
+	--          one Variable and CompositVariableInstance which is
+	--          able to address  more than one variable. This last
+	--          class is useful for methods with a variable number
+	--          of arguments.
+
+inherits
+
+    Variable from Dynamic
+   
+
+is
+
+    Initialize;
+    
+    Variable(me : mutable ; avariable : Variable from Dynamic)
+    
+    ---Level: Public
+    
+    ---Purpose: This  deferred method must     be implemented in   the
+    --          derived    classes for  setting    reference(s) to the
+    --          corresponding variable(s)  which define the  signature
+    --          of the method definition.
+    
+    is deferred;
+ 
+    
+end AbstractVariableInstance;

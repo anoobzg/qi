@@ -1,0 +1,80 @@
+-- Created on: 1991-05-13
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred class FunctionSet from math
+    	---Purpose:
+    	-- This abstract class describes the virtual functions associated to
+    	-- a set on N Functions of M independant variables.
+
+uses Vector from math
+
+is
+
+    Delete(me:out) is virtual;
+    	---C++: alias "Standard_EXPORT virtual ~math_FunctionSet(){Delete();}"
+    
+    NbVariables(me)
+    	---Purpose: Returns the number of variables of the function.
+
+    returns Integer
+    is deferred;
+    
+    
+    NbEquations(me)
+    	---Purpose: Returns the number of equations of the function.
+
+    returns Integer
+    is deferred;
+    
+    
+    Value(me: in out; X: Vector; F: out Vector)
+    	---Purpose: Computes the values <F> of the functions for the 
+    	--          variable <X>.
+    	--          returns True if the computation was done successfully, 
+    	--          False otherwise.
+
+    returns Boolean
+    is deferred;
+    
+
+    GetStateNumber(me: in out)
+    	---Purpose: Returns the state of the function corresponding to the
+    	--          latestcall of any methods associated with the function.
+    	--          This function is called by each of the algorithms 
+    	--          described later which define the function Integer 
+    	--          Algorithm::StateNumber(). The algorithm has the 
+    	--          responsibility to call this function when it has found
+    	--          a solution (i.e. a root or a minimum) and has to maintain
+    	--          the association between the solution found and this
+    	--          StateNumber.
+    	--          Byu default, this method returns 0 (which means for the 
+    	--          algorithm: no state has been saved). It is the 
+    	--          responsibility of the programmer to decide if he needs
+    	--          to save the current state of the function and to return
+    	--          an Integer that allows retrieval of the state.
+
+    returns Integer
+    is virtual;
+    
+end FunctionSet;
+
+

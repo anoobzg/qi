@@ -1,0 +1,58 @@
+-- Created on: 1995-12-01
+-- Created by: EXPRESS->CDL V0.2 Translator
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class PointOnCurve from StepGeom 
+
+inherits Point from StepGeom 
+
+uses
+
+	Curve from StepGeom, 
+	Real from Standard, 
+	HAsciiString from TCollection
+is
+
+	Create returns mutable PointOnCurve;
+	---Purpose: Returns a PointOnCurve
+
+
+	Init (me : mutable;
+	      aName : mutable HAsciiString from TCollection) is redefined;
+
+	Init (me : mutable;
+	      aName : mutable HAsciiString from TCollection;
+	      aBasisCurve : mutable Curve from StepGeom;
+	      aPointParameter : Real from Standard) is virtual;
+
+	-- Specific Methods for Field Data Access --
+
+	SetBasisCurve(me : mutable; aBasisCurve : mutable Curve);
+	BasisCurve (me) returns mutable Curve;
+	SetPointParameter(me : mutable; aPointParameter : Real);
+	PointParameter (me) returns Real;
+
+fields
+
+	basisCurve : Curve from StepGeom;
+	pointParameter : Real from Standard;
+
+end PointOnCurve;

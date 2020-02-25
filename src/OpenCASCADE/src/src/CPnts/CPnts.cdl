@@ -1,0 +1,68 @@
+-- Created on: 1991-02-22
+-- Created by: Jean Claude Vauthier
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+package CPnts 
+
+        --- Purpose :  
+        --  This package  contains   the definition  of  the geometric
+        --  algorithms   used to  compute  characteristic  points   on
+        --  parametrized curves in 3d or 2d space. 
+        --  This package defines the external geometric entities, with
+        --  their requirements, used in the algorithms.
+
+uses math, gp, StdFail, Adaptor3d  ,  Adaptor2d
+
+is
+
+
+   imported RealFunction;
+    ---Purpose: typedef Standard_Real (*CPnts_RealFunction)
+    --          (const Standard_Real, const Standard_Address)
+    --          
+    --          A pointer on a function for MyGaussFunction
+
+   private class MyGaussFunction;
+       ---Purpose: for implementation, compute values for Gauss
+
+   private class MyRootFunction;
+       ---Purpose: for implementation,  compute Length  and Derivative
+       --          of the curve for Newton.
+
+   class  AbscissaPoint;
+       ---Purpose:  
+       -- This algorithm computes a point and its parameter 
+       -- as the distance between this and a given point is the abscissa
+
+   class UniformDeflection;
+        --- Purpose : This Algorithm computes a distribution of points 
+        --  with a given chordal deviation on a parametrized curve.
+
+end CPnts;
+
+
+
+
+
+
+
+

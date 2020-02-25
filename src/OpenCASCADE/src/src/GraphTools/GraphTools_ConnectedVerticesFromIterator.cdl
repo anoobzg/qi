@@ -1,0 +1,107 @@
+-- Created on: 1992-10-16
+-- Created by: Arnaud BOUZY
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+generic class ConnectedVerticesFromIterator from GraphTools 
+    	(Graph     as any;
+     	 Vertex    as any;
+         VIterator as any) 
+	 
+
+    ---Purpose: In a graph,  returns subsets of a  list of vertices in
+    --          which all vertices are connected.
+
+uses HArray1OfInteger from TColStd
+
+    class CVMap instantiates IndexedMap from TCollection 
+    	    	(Vertex,
+		 MapTransientHasher from TColStd);
+    
+    class ConnectMap instantiates DataMap from TCollection 
+    	    	(Vertex,
+		 Integer from Standard,
+		 MapTransientHasher from TColStd);
+    
+
+is
+
+    Create	
+    	---Purpose: Create an empty algorithm.
+    returns ConnectedVerticesFromIterator;
+    
+    FromVertex (me : in out; V : Vertex);	
+    	---Purpose: Add  <V>  as  initial  condition.  This method  is
+	--          cumulative.  Use Perform method before visting the
+	--          result of the algorithm.  
+	---Level: Public
+
+    Reset (me : in out);
+	---Purpose: Reset  the algorithm.  It  may be  reused with new
+	--          conditions.  
+	---Level: Public
+    
+    Perform (me : in out; G : Graph);    	
+    	---Purpose: Peform the  algorithm  in  <G> from initial  setted
+       	--          conditions.  
+       	---Level: Public
+
+    More(me)
+	---Purpose: Returns   TRUE  if  there  are   others subset  of
+	--          connected vertices.
+        ---Level: Public
+    returns Boolean from Standard;
+    
+    Next (me : in out);
+	---Purpose: Set the iterator  to the next  subset of connected
+	--          vertices.
+        ---Level: Public
+    
+    NbVertices (me)
+    returns Integer from Standard;
+	---Purpose: Returns number of vertices  of the current  subset
+	--          of connected vertices.
+        ---Level: Public
+    
+    Value (me; index : Integer from Standard)
+    returns any Vertex;
+    ---Purpose: Returns a vertex  member of   the  current subset   of
+    --          connected vertices.
+    ---Level: Public
+    ---C++: return const&          
+    
+    Visit (me : in out; V : Vertex; 
+                        G : Graph; 
+                        visited : in out ConnectMap from GraphTools)
+    ---Purpose: Recursively called to visit the vertices connected to 
+    --          <avert> in <agraph>, with already visited vertices 
+    --          <visited>.
+    ---Level: Internal
+    is private;
+    
+fields
+
+    initMap   : CVMap from GraphTools;
+    tab       : HArray1OfInteger from TColStd;
+    myCurrent : Integer from Standard;
+
+end ConnectedVerticesFromIterator;
+
+

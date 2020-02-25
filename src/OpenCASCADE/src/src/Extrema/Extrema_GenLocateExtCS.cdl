@@ -1,0 +1,90 @@
+-- Created on: 1996-01-25
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class   GenLocateExtCS from Extrema
+					 
+    	---Purpose: With two close points it calculates the distance 
+    	--          between two surfaces.
+    	--          This distance can be a minimum or a maximum.
+
+uses    POnSurf from Extrema,
+    	POnCurv from Extrema,
+        Pnt     from gp,
+	Surface from Adaptor3d,
+	Curve   from Adaptor3d
+ 
+raises  DomainError from Standard,
+    	NotDone     from StdFail
+
+
+is
+    Create returns GenLocateExtCS;
+
+    Create (C:Curve from Adaptor3d; S: Surface from Adaptor3d; 
+    	    T, U,V: Real; Tol1,Tol2: Real)
+    	returns GenLocateExtCS
+    	---Purpose: Calculates the distance with two close points.
+    	--          The close points are defined by the parameter values
+    	--          T for C and (U,V) for S.
+    	--          The function F(t,u,v)=distance(C(t),S(u,v)) 
+    	--          has an extremun when gradient(F)=0. The algorithm searchs
+    	--          a zero near the close points.
+    	raises  DomainError;
+	    	-- if T,U,V are outside the definition ranges of the 
+	    	-- curve and surface.
+    
+    Perform(me: in out; C: Curve from Adaptor3d; S: Surface from Adaptor3d; 
+    	    T, U,V: Real; Tol1,Tol2: Real) 
+    is static;
+    
+    
+    IsDone (me) returns Boolean
+    	---Purpose: Returns True if the distance is found.
+    	is static;
+
+    SquareDistance (me) returns Real
+    	---Purpose: Returns the value of the extremum square distance.
+    	raises  NotDone from StdFail
+	    	-- if IsDone(me)=False.
+    	is static;
+
+    PointOnCurve (me) returns POnCurv
+    	---Purpose: Returns the point of the extremum distance on C.
+    	---C++: return const&
+    	raises  NotDone from StdFail
+	    	-- if IsDone(me)=False.
+    	is static;
+
+
+    PointOnSurface (me) returns POnSurf
+    	---Purpose: Returns the point of the extremum distance on S.
+    	---C++: return const&
+    	raises  NotDone from StdFail
+	    	-- if IsDone(me)=False.
+    	is static;
+
+fields
+    myDone  : Boolean;
+    mySqDist: Real;
+    myPoint1: POnCurv from Extrema;
+    myPoint2: POnSurf from Extrema;
+
+end GenLocateExtCS;

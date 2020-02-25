@@ -1,0 +1,82 @@
+-- Created on: 1995-02-09
+-- Created by: Mister rmi
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+
+deferred class EntityOwner from SelectBasics inherits TShared from MMgt
+
+	---Purpose: defines an abstract owner of sensitive primitives.
+	--           Owners are typically used to establish a connection
+	--           between sensitive entities and high-level objects (e.g. presentations).
+	--
+	--          Priority : It's possible to give a priority:
+	--           the scale : [0-9] ; the default priority is 0
+	--           it allows the predominance of one selected object upon
+	--           another one if many objects are selected at the same time
+	--            
+	--              
+	--          example : Selection of shapes : the owners are 
+	--           selectable objects (presentations)
+	--          
+	--           a user can give vertex priority [3], edges [2] faces [1] shape [0],
+	--           so that if during selection one vertex one edge and one face are
+	--           simultaneously detected, the vertex will only be hilighted.
+
+
+uses
+    Location    from TopLoc
+    
+is
+
+    Initialize (aPriority: Integer = 0) ; 
+    ---Level: Public 
+
+    Set (me:mutable; aPriority :Integer) is static;
+    ---Level: Public 
+    ---Purpose: sets the selectable priority of the owner
+    ---C++: inline
+
+    Priority(me) returns Integer is static;
+    ---Level: Public 
+    ---C++: inline
+
+    -- Deferred methods dealing with locations.
+    -- Used in Select3D package.
+    HasLocation(me) returns Boolean from Standard is deferred;
+    
+    SetLocation(me:mutable; aLoc : Location from TopLoc) is deferred;
+    
+    ResetLocation(me:mutable) is deferred;
+    
+    Location(me) returns Location from TopLoc is deferred;
+    ---C++: return const&
+
+
+
+fields
+
+    mypriority  : Integer is protected;
+
+end EntityOwner;
+
+
+

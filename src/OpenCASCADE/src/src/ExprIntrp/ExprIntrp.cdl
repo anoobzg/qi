@@ -1,0 +1,69 @@
+-- Created on: 1991-07-18
+-- Created by: Arnaud BOUZY
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package ExprIntrp 
+
+	---Purpose: Describes an interpreter for GeneralExpressions, 
+	--          GeneralFunctions, and GeneralRelations defined in 
+	--          package Expr. 
+
+uses Expr, MMgt, TCollection, TColStd
+
+is
+
+    deferred class Generator;
+    
+    class GenExp;
+    
+    class GenFct;
+    
+    class GenRel;
+    
+    private class Analysis;
+    
+    class SequenceOfNamedFunction instantiates 
+    	Sequence from TCollection(NamedFunction from Expr);
+
+    class SequenceOfNamedExpression instantiates 
+    	Sequence from TCollection(NamedExpression from Expr);
+
+    exception SyntaxError inherits Failure from Standard;
+    
+    private class StackOfGeneralExpression instantiates 
+    	Stack from TCollection (GeneralExpression from Expr);
+    
+    private class StackOfGeneralRelation instantiates 
+    	Stack from TCollection (GeneralRelation from Expr);
+
+    private class StackOfGeneralFunction instantiates 
+    	Stack from TCollection (GeneralFunction from Expr);
+        
+    
+    private class StackOfNames instantiates 
+    	Stack from TCollection (AsciiString from TCollection);
+
+    Parse(gen : Generator; str : AsciiString from TCollection)
+    returns Boolean
+    is private;
+    
+end ExprIntrp;
+

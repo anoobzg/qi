@@ -1,0 +1,102 @@
+-- Created on: 2009-04-06
+-- Created by: Sergey ZARITCHNY
+-- Copyright (c) 2009-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Position from TDataXtd inherits Attribute from TDF
+
+	---Purpose: Position of a Label
+
+uses
+    RelocationTable     from TDF,
+    GUID                from Standard,
+    Attribute           from TDF,
+    Pnt                 from gp,
+    Label               from TDF
+    
+
+
+is
+
+    Set(myclass; aLabel: Label from TDF; aPos : Pnt from gp);
+    ---Purpose: Create if not found the TDataXtd_Position attribute set its position to <aPos>
+    
+    Set (myclass; aLabel : Label from TDF)  
+    ---Purpose: Find an existing, or create an empty, Position.
+    --            the Position attribute is returned.
+    returns Position from TDataXtd;
+    
+    Get(myclass; aLabel: Label from TDF; aPos : in out Pnt from gp)
+    ---Purpose: Search label <aLabel) for the TDataXtd_Position attribute and get its position
+    --          if found returns True
+    returns Boolean from Standard;
+    
+    Create 
+    returns mutable Position from TDataXtd;
+    
+    ID(me) returns GUID from Standard
+    is redefined static;
+	---Purpose: Returns the ID of the attribute.
+	---C++: return const &
+    
+    GetID(myclass) returns GUID from Standard;
+	---Purpose: Returns the ID of the attribute.
+	---C++: return const &
+
+
+    Restore(me: mutable; anAttribute : Attribute from TDF)
+    is redefined;
+	---Purpose: Restores the contents from <anAttribute> into this
+	--          one. It is used when aborting a transaction.
+	--          
+ 
+    -- Copy use methods
+    -- ----------------
+
+    NewEmpty(me)
+    returns mutable Attribute from TDF
+    is redefined;
+    ---Purpose: Returns an new empty attribute from the good end
+    --          type. It is used by the copy algorithm.
+
+    Paste(me; intoAttribute    : mutable Attribute from TDF;
+    	      aRelocTationable : mutable RelocationTable from TDF)
+    is redefined;
+	---Purpose: This method is different from the "Copy" one,
+	--          because it is used when copying an attribute from
+	--          a source structure into a target structure. This
+	--          method pastes the current attribute to the label
+	--          corresponding to the insertor. The pasted
+	--          attribute may be a brand new one or a new version
+	--          of the previous one.
+
+
+    GetPosition (me)
+    ---C++: return const &
+    returns Pnt from gp;
+    
+    SetPosition (me: mutable ; aPos : Pnt from gp);
+
+fields
+
+    myPosition : Pnt from gp;	
+    
+end Position;
+
+
+

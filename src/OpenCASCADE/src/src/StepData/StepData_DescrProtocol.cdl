@@ -1,0 +1,59 @@
+-- Created on: 1997-05-21
+-- Created by: Christian CAILLET
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class DescrProtocol  from StepData    inherits FileProtocol  from StepData
+
+    ---Purpose : A DescrProtocol is a protocol dynamically (at execution time)
+    --           defined with :
+    --           - a list of resources (inherits FileProtocol)
+    --           - a list of entity descriptions
+    --           i.e. it can be defined with only C++ writing to initialize it
+    --           Its initialization must :
+    --           - set its schema name
+    --           - define its resources (which can also be other DescrProtocol)
+    --           - define its entity descriptions
+    --           - record it in the system by calling RecordLib
+
+uses CString, AsciiString from TCollection
+
+is
+
+    Create returns mutable DescrProtocol;
+
+    SetSchemaName (me : mutable; name : CString);
+    ---Purpose : Defines a specific Schema Name for this Protocol
+
+    LibRecord     (me);
+    ---Purpose : Records this Protocol in the service libraries, with a
+    --           DescrGeneral and a DescrReadWrite
+    --           Does nothing if the Protocol brings no proper description
+
+    SchemaName (me) returns CString  is redefined;
+    ---Purpose : Returns the Schema Name attached to each class of Protocol
+    --           here, returns the SchemaName set by SetSchemaName
+    -- was C++ : return const
+
+fields
+
+    thename : AsciiString;
+
+end DescrProtocol;

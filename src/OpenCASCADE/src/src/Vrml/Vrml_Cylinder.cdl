@@ -1,0 +1,61 @@
+-- Created on: 1996-12-25
+-- Created by: Alexander BRIVIN
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Cylinder from Vrml 
+
+	---Purpose: defines a Cylinder node of VRML specifying geometry shapes.
+    	-- This  node  represents  a  simple  capped  cylinder  centred  around the  y-axis. 
+    	-- By  default ,  the  cylinder  is  centred  at  (0,0,0) 
+	-- and  has  size  of  -1  to  +1  in  the  all  three  dimensions. 
+	-- The  cylinder  has  three  parts: 
+	-- the  sides,  the  top  (y=+1)  and  the  bottom (y=-1)
+
+uses
+ 
+    CylinderParts from Vrml
+
+is
+
+    Create ( aParts  : CylinderParts from Vrml  = Vrml_CylinderALL;
+    	     aRadius : Real          from Standard = 1;
+	     aHeight : Real          from Standard = 2 )
+        returns Cylinder from Vrml;
+
+    SetParts ( me : in out; aParts : CylinderParts from Vrml );
+    Parts ( me  )  returns CylinderParts from Vrml;
+    
+    SetRadius ( me : in out; aRadius : Real from Standard );
+    Radius ( me )  returns Real  from  Standard;
+  
+    SetHeight ( me : in out; aHeight : Real from Standard );
+    Height ( me )  returns Real  from  Standard;
+
+    Print  ( me;  anOStream: in out OStream from Standard) returns OStream from Standard;
+    ---C++:  return  & 
+
+fields
+
+    myParts  : CylinderParts from Vrml; -- Visible parts of cylinder
+    myRadius : Real from Standard;      -- Radius in x and z dimensions
+    myHeight : Real from Standard;      -- Size in y dimension
+    
+end Cylinder;

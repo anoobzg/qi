@@ -1,0 +1,48 @@
+-- Created on: 2002-08-02
+-- Created by: Alexander KARTOMIN  (akm)
+-- Copyright (c) 2002-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- NB:          This originates from BRepLProp being abstracted of BRep.
+
+package LProp3d
+
+    ---Purpose: Handles local properties of curves and surfaces from the 
+    --          package Adaptor3d.
+    -- SeeAlso: Package LProp.
+
+uses Standard, gp, Adaptor3d, GeomAbs, LProp
+
+is
+    
+    class CurveTool;
+    class SurfaceTool;
+    
+                                            
+    class CLProps from LProp3d 
+            instantiates CLProps from LProp(HCurve     from Adaptor3d,
+                                            Vec        from gp,
+                                            Pnt        from gp,
+                                            Dir        from gp,
+                                            CurveTool  from LProp3d);
+
+    class SLProps from LProp3d 
+            instantiates SLProps from LProp(HSurface    from Adaptor3d,
+                                            SurfaceTool from LProp3d);
+
+    
+end LProp3d;    

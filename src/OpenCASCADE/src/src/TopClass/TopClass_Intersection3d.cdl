@@ -1,0 +1,97 @@
+-- Created on: 1994-03-30
+-- Created by: Laurent BUCHARD
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+
+
+deferred class Intersection3d from TopClass 
+    ---Purpose: Template class for the intersection algorithm required 
+    --          by the 3D classifications. 
+    --          
+    --          (a intersection point near the origin of the line, ie. 
+    --          at a distance less or equal than <tolerance>, will be 
+    --          returned even if it has a negative parameter.)
+    --          
+
+uses 
+    Lin               from gp,
+    Pnt               from gp,
+    Face              from TopoDS,
+    State             from TopAbs,
+    IntersectionPoint from IntCurveSurface
+    
+is
+
+    Initialize;
+    	---Purpose: Empty constructor.
+    	          
+    Perform(me: in out;  L    : Lin     from gp;
+    	                 Prm  : Real    from Standard;
+			 Tol  : Real    from Standard;
+			 Face : Face    from TopoDS) 
+	---Purpose: Perform the intersection between the 
+	--          segment L(0) ... L(Prm) and the Face <Face>.
+	--          
+	--          Only the point with the smallest parameter on the 
+	--          line is returned. 
+	--          
+	--          The Tolerance <Tol> is used to determine if the 
+	--          first point of the segment is near the face. In 
+	--          that case, the parameter of the intersection point 
+	--          on the line can be a negative value (greater than -Tol).
+    is deferred;
+    
+    
+    IsDone(me)  
+    	---Purpose: True is returned when the intersection have been computed.
+    returns Boolean from Standard
+    is deferred;
+    
+    
+    HasAPoint(me) 
+    	---Purpose: True is returned if a point has been found.
+    returns Boolean from Standard
+    is deferred;
+    
+	 
+    Point(me) 
+        ---Purpose: Returns the Intersection Point.
+        --
+        ---C++: return const & 
+    returns IntersectionPoint from IntCurveSurface
+    is deferred;
+
+     
+    State(me) 
+    	---Purpose: Returns the state of the point on the face.
+    	--          The values can be either TopAbs_IN 
+    	--             ( the point is in the face)
+    	--           or TopAbs_ON
+    	--             ( the point is on a boudary of the face).
+       
+    returns State from TopAbs
+    is deferred;
+    
+	---------------------- Loacl Geometry avec courbureS dans une 
+	--                     direction et la direction normale     
+end Intersection3d;
+

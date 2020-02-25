@@ -1,0 +1,105 @@
+-- Created on: 1997-04-17
+-- Created by: Christophe MARION
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class AreaLimit from HLRBRep inherits TShared from MMgt 
+
+    ---Purpose: The  private  nested class AreaLimit represents   a --
+    --          vertex on  the Edge with the  state on the left and --
+    --          the right.
+	
+uses
+    Orientation  from TopAbs,
+    State        from TopAbs,
+    Intersection from HLRAlgo
+
+is
+
+Create(V            : Intersection from HLRAlgo;
+       Boundary     : Boolean      from Standard;
+       Interference : Boolean      from Standard;
+       StateBefore  : State        from TopAbs;
+       StateAfter   : State        from TopAbs;
+       EdgeBefore   : State        from TopAbs;
+       EdgeAfter    : State        from TopAbs)
+returns mutable AreaLimit from HLRBRep;
+    ---Purpose: The previous and next field are set to NULL.
+    
+StateBefore(me : mutable; St : State from TopAbs)
+is static;
+
+StateAfter(me : mutable; St : State from TopAbs)
+is static;
+
+EdgeBefore(me : mutable; St : State from TopAbs)
+is static;
+
+EdgeAfter(me : mutable; St : State from TopAbs)
+is static;
+	
+Previous(me : mutable; P : AreaLimit from HLRBRep)
+is static;
+
+Next(me : mutable; N : AreaLimit from HLRBRep)
+is static;
+
+Vertex(me) returns Intersection from HLRAlgo
+    ---C++: return const &
+is static;
+	    
+IsBoundary(me) returns Boolean from Standard
+is static;
+	
+IsInterference(me) returns Boolean from Standard
+is static;
+	
+StateBefore(me) returns State from TopAbs
+is static;
+
+StateAfter(me) returns State from TopAbs
+is static;
+	
+EdgeBefore(me) returns State from TopAbs
+is static;
+
+EdgeAfter(me) returns State from TopAbs
+is static;
+
+Previous(me) returns mutable AreaLimit from HLRBRep
+is static;
+
+Next(me) returns mutable AreaLimit from HLRBRep
+is static;
+	
+Clear(me : mutable)
+is static;
+
+fields
+    myVertex       : Intersection from HLRAlgo;
+    myBoundary     : Boolean      from Standard;
+    myInterference : Boolean      from Standard;
+    myStateBefore  : State        from TopAbs;
+    myStateAfter   : State        from TopAbs;
+    myEdgeBefore   : State        from TopAbs;
+    myEdgeAfter    : State        from TopAbs;
+    myPrevious     : AreaLimit    from HLRBRep;
+    myNext         : AreaLimit    from HLRBRep;
+	
+end AreaLimit;

@@ -1,0 +1,99 @@
+-- Created on: 1997-04-29
+-- Created by: Alexander BRIVIN
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class DeflectionCurve from VrmlConverter 
+
+    	---Purpose: DeflectionCurve    -  computes the presentation of
+    	--          objects to be seen as  curves,   converts this  one into
+    	--          VRML    objects    and    writes (adds)  into
+    	--          anOStream.     All  requested properties  of   the
+    	--          representation  are specify in  aDrawer.   
+	--          This  kind of the presentation
+    	--          is converted into IndexedLineSet ( VRML ).
+        --          The computation will be made according to a maximal
+        --          chordial deviation. 
+
+uses
+ 
+    Length       from Quantity,
+    Curve        from Adaptor3d,
+    Drawer       from VrmlConverter
+
+is
+
+    Add(myclass; anOStream: in out OStream from Standard; 
+    	    	 aCurve       : in out Curve        from Adaptor3d;
+    	    	 aDrawer      : Drawer       from VrmlConverter);
+
+    ---Purpose: adds to the OStream the drawing of the curve aCurve with  
+    --          respect to the maximal chordial deviation defined
+    --          by the drawer aDrawer.
+    --          The aspect is defined by LineAspect in aDrawer.
+    --          
+
+ 
+    Add(myclass; anOStream: in out OStream from Standard; 
+    	    	 aCurve       : in out Curve        from Adaptor3d;
+                 U1, U2       : Real         from Standard;
+    	    	 aDrawer      : Drawer       from VrmlConverter);
+		    
+    ---Purpose: adds to the OStream the drawing of the curve aCurve with  
+    --          respect to the maximal chordial deviation defined
+    --          by the drawer aDrawer.
+    --          The aspect is defined by LineAspect in aDrawer.
+    --          The drawing will be limited between the points of parameter
+    --          U1 and U2.
+
+
+    Add(myclass; anOStream: in out OStream from Standard; 
+    	    	 aCurve       : in out Curve        from Adaptor3d;
+    	    	 aDeflection  : Real         from Standard;
+    	    	 aLimit       : Real         from Standard);
+
+    ---Purpose: adds to the OStream the drawing of the curve aCurve with  
+    --          respect to the maximal chordial deviation aDeflection.
+    --          The aspect is the current aspect
+
+
+    Add(myclass; anOStream:  in out OStream from Standard;
+    	    	 aCurve       : in out Curve        from Adaptor3d;
+    	    	 aDeflection  : Real         from Standard;
+    	    	 aDrawer      : Drawer       from VrmlConverter);
+
+    ---Purpose: adds to the OStream the drawing of the curve aCurve with  
+    --          respect to the maximal chordial deviation aDeflection.
+    --          The aspect is the current aspect
+
+
+    Add(myclass; anOStream: in out OStream from Standard; 
+    	    	 aCurve       : in out Curve        from Adaptor3d;
+                 U1, U2       : Real         from Standard;
+    	    	 aDeflection  : Real         from Standard);
+		 
+    ---Purpose: adds to the OStream the drawing of the curve aCurve with  
+    --          respect to the maximal chordial deviation aDeflection.
+    --          The aspect is the current aspect
+    --          The drawing will be limited between the points of parameter
+    --          U1 and U2.
+
+
+end DeflectionCurve;

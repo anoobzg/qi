@@ -1,0 +1,79 @@
+-- Created on: 1996-06-05
+-- Created by: Mister rmi
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class PolygonOnTriangulation from PPoly inherits Persistent from Standard
+
+    	---Purpose: This class represents a 3d Polygon based on
+    	--          indices of triangulation nodes.
+    	--          
+    	--          This polygon may also have a parametric
+    	--          representation.
+
+
+uses HArray1OfInteger  from PColStd,
+     HArray1OfReal     from PColStd
+
+raises NullObject from Standard
+
+is
+
+    Create returns mutable PolygonOnTriangulation from PPoly;
+    
+    Create(Nodes : HArray1OfInteger from PColStd;
+    	   Defl  : Real             from Standard)
+    returns mutable PolygonOnTriangulation from PPoly;
+    	---Purpose: Defaults with allocation of nodes.
+    
+    Create(Nodes      : HArray1OfInteger from PColStd;
+       	   Defl       : Real             from Standard;
+           Parameters : HArray1OfReal    from PColStd) 
+    returns mutable PolygonOnTriangulation from PPoly;
+    	---Purpose: Defaults with allocation of nodes.
+    
+    Deflection(me) returns Real;
+    
+    Deflection(me : mutable; D : Real);
+
+
+    NbNodes(me) returns Integer;
+    
+    Nodes(me) returns HArray1OfInteger from PColStd;
+	---Purpose: Reference on the 3d nodes indices.
+
+    Nodes(me : mutable; Nodes : HArray1OfInteger from PColStd);
+    
+    HasParameters(me) returns Boolean from Standard;
+    
+    Parameters(me) returns HArray1OfReal from PColStd;
+	---Purpose: Returns the parameters values.
+
+    Parameters(me : mutable; Param : HArray1OfReal from PColStd);
+    
+    
+fields
+
+    myDeflection    : Real             from Standard;
+    myNodes         : HArray1OfInteger from PColStd;
+    myParameters    : HArray1OfReal    from PColStd; 
+    	 -- myParameters is Optional (pointer can be null)
+    
+end PolygonOnTriangulation;

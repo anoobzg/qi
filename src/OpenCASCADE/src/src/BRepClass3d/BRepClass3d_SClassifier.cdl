@@ -1,0 +1,103 @@
+-- Created on: 1996-07-15
+-- Created by: Laurent BUCHARD
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class SClassifier from BRepClass3d
+     
+     ---Purpose: Provides an algorithm to classify a point in a solid.
+
+uses 
+    Pnt     from gp,
+    Face    from TopoDS,
+    Shape   from TopoDS,
+    State   from TopAbs,
+    SolidExplorer from BRepClass3d
+    
+raises
+    DomainError from Standard
+    
+    
+    
+is 
+       
+    Create 
+    	---Purpose: Empty constructor.
+    returns SClassifier from BRepClass3d;
+    
+    
+    Create(S   : in out SolidExplorer from BRepClass3d;
+           P   :        Pnt from gp;
+	   Tol :        Real from Standard)
+    	---Purpose: Constructor to classify the point P with the 
+    	--          tolerance Tol on the solid S.
+    returns SClassifier from BRepClass3d;
+    
+    
+    Perform(me  : in out;
+            S   : in out  SolidExplorer from BRepClass3d;
+            P   :         Pnt from gp;
+	    Tol :         Real from Standard);
+    	---Purpose: Classify the point P with the 
+    	--          tolerance Tol on the solid S.
+    	--          
+    PerformInfinitePoint(me  : in out;
+                         S   : in out  SolidExplorer from BRepClass3d;
+                         Tol :         Real from Standard);
+    	---Purpose: Classify an infinite point with the 
+    	--          tolerance Tol on the solid S.
+
+    
+    Rejected(me)
+    	---Purpose: Returns True if the classification has been 
+    	--          computed by rejection. 
+    	--          The State is then OUT.
+    returns Boolean from Standard;
+    
+    
+    State(me)  returns State  from TopAbs;
+    	---Purpose: Returns the result of the classification.
+    
+    IsOnAFace(me) returns Boolean from Standard;
+    	---Purpose: Returns True when the point is a point of a face.
+    
+    Face(me) 
+    	---Purpose: Returns the face used to determine the 
+    	--          classification. When the state is ON, this is the 
+    	--          face containing the point. 
+    	--          
+    	--          When Rejected() returns True, Face() has no signification.
+    returns Face from TopoDS;
+
+	    
+    ForceIn(me: in out) 
+    	is protected;
+	
+    ForceOut(me: in out)
+    	is protected;
+
+
+fields
+
+    myFace         : Face       from TopoDS;
+    myState        : Integer    from Standard;  -- 1: Rejected     2: IsOnFace  3: In  4: Out
+    
+end SClassifier;

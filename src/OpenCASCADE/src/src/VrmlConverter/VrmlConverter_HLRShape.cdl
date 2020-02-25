@@ -1,0 +1,53 @@
+-- Created on: 1997-02-21
+-- Created by: Alexander BRIVIN
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class HLRShape from VrmlConverter 
+ 
+       ---Purpose : HLRShape  -  computes the presentation  of objects
+       --           with removal of their hidden  lines for a specific
+       --           projector, converts them into VRML  objects  and
+       --           writes (adds) them into anOStream.  All requested
+       --           properties of  the representation  are  specify in
+       --           aDrawer of Drawer class.  This kind  of the presentation 
+       --           is  converted  into  IndexedLineSet  and   if  they  are  defined
+       --           in  Projector into : 
+       --                PerspectiveCamera,
+       --                OrthographicCamera, 
+       --                DirectionLight,
+       --                PointLight,
+       --                SpotLight 
+       --           from  Vrml  package.
+
+uses
+ 
+    Projector    from VrmlConverter, 
+    Drawer       from VrmlConverter,
+    Shape        from TopoDS
+
+is
+ 
+    Add(myclass; anOStream: in out OStream from Standard;
+    	    	 aShape       : Shape        from TopoDS;
+                 aDrawer      : Drawer       from VrmlConverter;
+		 aProjector   : Projector    from VrmlConverter);
+
+end HLRShape;
+

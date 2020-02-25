@@ -1,0 +1,62 @@
+-- Created on: 1996-09-18
+-- Created by: Jacques MINOT
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class OffsetPresentation from DsgPrs
+
+        ---Purpose: A framework to define display of offsets.
+uses
+    Presentation from Prs3d,
+    Pnt from gp,
+    Dir from gp,
+    Drawer from Prs3d,
+    ExtendedString from TCollection,
+    ArrowSide from DsgPrs
+is  
+    Add( myclass; aPresentation: Presentation from Prs3d;
+    	    	  aDrawer: Drawer from Prs3d;
+		  aText: ExtendedString from TCollection;
+                  AttachmentPoint1: Pnt from gp;
+		  AttachmentPoint2: Pnt from gp;
+		  aDirection: Dir from gp;
+		  aDirection2: Dir from gp;
+		  OffsetPoint: Pnt from gp);
+	---Purpose: Defines the display of elements showing offset shapes.
+    	-- These include the two points of attachment
+    	-- AttachmentPoint1 and AttachmentPoint1, the two
+    	-- directions aDirection and aDirection2, and the offset point OffsetPoint.
+    	-- These arguments are added to the presentation
+    	-- object aPresentation. Their display attributes are
+    	-- defined by the attribute manager aDrawer.
+
+    AddAxes( myclass; aPresentation: Presentation from Prs3d;
+    	    	  aDrawer: Drawer from Prs3d;
+		  aText: ExtendedString from TCollection;
+                  AttachmentPoint1: Pnt from gp;
+		  AttachmentPoint2: Pnt from gp;
+		  aDirection: Dir from gp;
+		  aDirection2: Dir from gp;
+		  OffsetPoint: Pnt from gp);
+	---Purpose: draws the representation of axes alignement Constraint
+	--          between the point AttachmentPoint1 and the
+	--          point AttachmentPoint2, along direction 
+	--          aDirection, using the offset point OffsetPoint.
+
+end OffsetPresentation;

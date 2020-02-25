@@ -1,0 +1,78 @@
+// Created by: DAUTRY Philippe
+// Copyright (c) 1997-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+//              --------------
+
+// Version:     0.0
+//Version Date            Purpose
+//              0.0     Feb  7 1997     Creation
+
+#include <TDF_LabelNode.hxx>
+#include <TDF_TagSource.hxx>
+
+inline TDF_Label::TDF_Label()
+:myLabelNode(NULL)
+{}
+
+inline TDF_Label::TDF_Label(const TDF_LabelNodePtr& aNode)
+:myLabelNode(aNode)
+{}
+
+inline void TDF_Label::Nullify()
+{ myLabelNode = NULL; }
+
+inline Standard_Boolean TDF_Label::IsRoot() const
+{ return myLabelNode->IsRoot(); }
+
+inline Standard_Boolean TDF_Label::IsNull() const
+{ return (myLabelNode == NULL); }
+
+inline Standard_Boolean TDF_Label::IsImported() const
+{ return myLabelNode->IsImported(); }
+
+inline Standard_Boolean TDF_Label::IsEqual(const TDF_Label& aLabel) const
+{ return (myLabelNode == aLabel.myLabelNode); }
+
+inline Standard_Boolean TDF_Label::IsDifferent(const TDF_Label& aLabel) const
+{ return (myLabelNode != aLabel.myLabelNode); }
+
+inline Standard_Integer TDF_Label::Tag() const
+{ return myLabelNode->Tag(); }
+
+inline const TDF_Label TDF_Label::Father() const
+{ return TDF_Label(myLabelNode->Father()); }
+
+inline Standard_Boolean TDF_Label::HasChild() const
+{ return (myLabelNode->FirstChild() != NULL); }
+
+inline Standard_Boolean TDF_Label::AttributesModified() const
+{ return myLabelNode->AttributesModified(); }
+
+inline Standard_Boolean TDF_Label::MayBeModified() const
+{ return myLabelNode->MayBeModified(); }
+
+inline Handle(TDF_Data) TDF_Label::Data() const
+{ return myLabelNode->Data(); }
+
+inline Standard_OStream& operator << (Standard_OStream& anOS,
+                                      const TDF_Label& aLab)
+{ aLab.Dump(anOS); return anOS; }
+
+inline TDF_Label TDF_Label::NewChild () const
+{ return TDF_TagSource::NewChild(*this); }

@@ -1,0 +1,78 @@
+// Copyright (c) 1995-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+#include <IntSurf_PathPoint.hxx>
+#include <gp_Vec.hxx>
+#include <gp_Pnt.hxx>
+#include <gp_Dir2d.hxx>
+
+inline gp_Pnt IntSurf_PathPointTool::Value3d (const IntSurf_PathPoint& PStart)
+{
+  return PStart.Value();
+}
+
+inline void IntSurf_PathPointTool::Value2d (const IntSurf_PathPoint& PStart,
+					    Standard_Real& U,
+					    Standard_Real& V) {
+  PStart.Value2d(U,V);
+}
+
+
+inline Standard_Boolean IntSurf_PathPointTool::IsPassingPnt 
+  (const IntSurf_PathPoint& PStart)   {
+
+  return PStart.IsPassingPnt();
+}
+
+
+inline Standard_Boolean IntSurf_PathPointTool::IsTangent 
+  (const IntSurf_PathPoint& PStart) 
+{
+  return PStart.IsTangent();
+}
+
+
+inline gp_Vec IntSurf_PathPointTool::Direction3d
+  (const IntSurf_PathPoint& PStart) 
+{
+  return PStart.Direction3d();
+}
+
+inline gp_Dir2d IntSurf_PathPointTool::Direction2d
+  (const IntSurf_PathPoint& PStart) 
+{
+  return PStart.Direction2d();
+}
+
+
+inline Standard_Integer IntSurf_PathPointTool::Multiplicity 
+  (const IntSurf_PathPoint& PStart) 
+{
+  return PStart.Multiplicity();
+}
+
+
+inline void IntSurf_PathPointTool::Parameters (const IntSurf_PathPoint& PStart,
+					       const Standard_Integer Mult,
+					       Standard_Real& U,
+					       Standard_Real& V)
+{
+  PStart.Parameters(Mult,U,V);
+}
+
+

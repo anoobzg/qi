@@ -1,0 +1,53 @@
+-- Created on: 2002-12-18
+-- Created by: data exchange team
+-- Copyright (c) 2002-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class SelectArrReal from StepData inherits SelectNamed from StepData
+
+    ---Purpose :
+
+
+uses
+
+    AsciiString from TCollection,
+    HArray1OfReal from TColStd
+
+is
+
+    Create returns mutable SelectArrReal;
+
+--    HasName (me) returns Boolean  is redefined;
+
+--    Name (me) returns CString  is redefined;
+
+--    SetName (me : mutable; name : CString)  returns Boolean  is redefined;
+    -- redefined to accept any name
+
+    Kind(me) returns Integer  is redefined;
+    --  fixed kind : ArrReal
+
+    ArrReal(me) returns HArray1OfReal from TColStd;
+
+    SetArrReal(me:mutable; arr : HArray1OfReal from TColStd);
+
+fields
+
+    theArr  : HArray1OfReal from TColStd;
+
+end SelectArrReal;

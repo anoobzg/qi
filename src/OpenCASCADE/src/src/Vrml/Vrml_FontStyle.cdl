@@ -1,0 +1,62 @@
+-- Created on: 1997-02-10
+-- Created by: Alexander BRIVIN
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class FontStyle from Vrml 
+
+	---Purpose: defines a FontStyle node of VRML of properties of geometry
+	--  and its appearance. 
+	--  The  size  field  specifies  the  height  (in  object  space  units) 
+    	--  of  glyphs  rendered  and  determines  the  vertical  spacing  of 
+	--  adjacent  lines  of  text.
+
+uses
+ 
+    FontStyleFamily from Vrml, 
+    FontStyleStyle  from Vrml
+  
+is
+ 
+    Create  (  aSize    :  Real            from Standard  =  10;
+    	       aFamily  :  FontStyleFamily from Vrml      =  Vrml_SERIF;
+    	       aStyle   :  FontStyleStyle  from Vrml      =  Vrml_NONE  ) 
+	returns  FontStyle from Vrml;
+
+    SetSize ( me : in out; aSize    :  Real from Standard  );
+    Size ( me )  returns Real  from  Standard;
+
+    SetFamily ( me : in out;  aFamily  :  FontStyleFamily from Vrml  ); 
+    Family ( me )  returns FontStyleFamily from Vrml; 
+     
+    SetStyle ( me : in out;  aStyle   :  FontStyleStyle from Vrml ); 
+    Style ( me )  returns  FontStyleStyle from Vrml; 
+    
+    Print  ( me;  anOStream: in out OStream from Standard) returns OStream from Standard;
+    ---C++:  return  & 
+
+
+fields
+ 
+    mySize    :  Real            from Standard;  -- Font size
+    myFamily  :  FontStyleFamily from Vrml;      -- Font family
+    myStyle   :  FontStyleStyle  from Vrml;      -- Font style modifications to family
+
+end FontStyle;

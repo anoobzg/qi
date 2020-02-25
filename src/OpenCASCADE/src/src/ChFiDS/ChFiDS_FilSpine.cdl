@@ -1,0 +1,148 @@
+-- Created on: 1995-04-24
+-- Created by: Modelistation
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class FilSpine from ChFiDS inherits Spine from ChFiDS 
+
+	---Purpose: Provides  data specific to  the fillets -
+	--          vector or rule  of evolution (C2).
+	--          
+
+
+uses
+    HArray1OfReal from TColStd,  
+    HElSpine      from ChFiDS,
+    Function      from Law,
+    Laws          from Law,
+    Composite     from Law,
+    Edge          from TopoDS,
+    Vertex        from TopoDS,
+    SequenceOfXY  from TColgp, 
+    XY	          from gp
+
+is
+
+    Create  returns  mutable FilSpine from ChFiDS;
+
+    Create(Tol : Real from Standard) returns  mutable FilSpine from ChFiDS;
+
+    Reset(me : mutable; AllData : Boolean from Standard = Standard_False)
+    is redefined;
+
+    ------------------------------------------------
+    -- Update selectif du rayon par edges ou vertex.
+    ------------------------------------------------
+
+    SetRadius(me     : mutable;
+    	      Radius : Real from Standard;
+              E      : Edge from TopoDS) 
+    ---Purpose: initializes the constant vector on edge E.
+    is static;
+
+    UnSetRadius(me     : mutable;
+                E      : Edge from TopoDS) 
+    ---Purpose: resets the constant vector  on   edge E.
+    is static;
+
+    SetRadius(me     : mutable;
+    	      Radius : Real from Standard;
+              V      : Vertex from TopoDS) 
+    ---Purpose: initializes the  vector on Vertex V.
+    is static;
+
+    UnSetRadius(me     : mutable;
+                V      : Vertex from TopoDS) 
+    ---Purpose: resets the vector on Vertex V.
+    is static;
+
+    SetRadius(me     : mutable;
+    	      UandR  : XY from gp;
+              IinC   : Integer from Standard) 
+    ---Purpose: initializes the vector on the point of parameter W.
+    is static;
+
+    SetRadius(me : mutable;Radius : Real from Standard) 
+    ---Purpose: initializes the constant vector on all spine.
+    is static;
+    
+    SetRadius(me : mutable; 
+    	      C      : Function from Law;
+              IinC   : Integer from Standard) 
+    ---Purpose: initializes the rule of evolution on all spine.
+    is static;
+    
+    IsConstant(me) 
+    returns Boolean from Standard
+    ---Purpose: returns true if the radius is constant 
+    --          all along the spine.
+    is static;
+    
+    IsConstant(me; IE : Integer from Standard) 
+    returns Boolean from Standard
+    ---Purpose: returns true if the radius is constant 
+    --          all along the edge E.
+    is static;
+    
+    Radius(me) returns Real from Standard;
+    ---Purpose: returns the radius if the fillet is constant
+    --          all along the spine.
+
+    Radius(me; IE : Integer from Standard) 
+    returns Real from Standard;
+    ---Purpose: returns the radius if the fillet is constant
+    --          all along the edge E.
+
+    Radius(me; E : Edge from TopoDS) 
+    returns Real from Standard;
+    ---Purpose: returns the radius if the fillet is constant
+    --          all along the edge E.
+
+    ComputeLaw(me : mutable; Els : HElSpine from ChFiDS) 
+    returns mutable Composite from Law
+    is private;
+    
+    AppendElSpine(me : mutable; Els : HElSpine from ChFiDS) 
+    is redefined;
+    
+    AppendLaw(me : mutable; Els : HElSpine from ChFiDS) 
+    is private;
+    
+    Law(me; Els : HElSpine from ChFiDS) 
+    returns mutable Composite from Law
+    is static;
+    
+    ChangeLaw(me : mutable; E : Edge from TopoDS) 
+    ---C++: return &
+    returns mutable Function from Law
+    ---Purpose: returns the elementary law 
+    is static;
+
+    MaxRadFromSeqAndLaws(me) returns Real from Standard;
+    ---Purpose: returns the maximum radius if the fillet is non-constant
+
+fields
+
+--radius    : HArray1OfReal from TColStd;
+parandrad : SequenceOfXY  from TColgp;
+laws      : Laws          from Law;
+
+end FilSpine;
+
+

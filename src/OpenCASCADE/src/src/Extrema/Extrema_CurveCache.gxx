@@ -1,0 +1,136 @@
+// Created on: 2008-12-28
+// Created by: Roman Lygin
+// Copyright (c) 2008-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+//            roman.lygin@gmail.com
+
+#include <Precision.hxx>
+
+//=======================================================================
+//function : Extrema_CurveCache
+//purpose  : 
+//=======================================================================
+
+Extrema_CurveCache::Extrema_CurveCache(const Curve& theC,
+                                   const Standard_Real theUFirst,
+                                   const Standard_Real theULast,
+                                   const Standard_Integer theNbSamples,
+                                   const Standard_Boolean theToCalculate) :
+    myC (0), myNbSamples (-1), myIsArrayValid (Standard_False)
+{
+  SetCurve (theC, theUFirst, theULast, theNbSamples, theToCalculate);
+}
+
+//=======================================================================
+//function : Extrema_CurveCache
+//purpose  : 
+//=======================================================================
+
+Extrema_CurveCache::Extrema_CurveCache() : myC (0), myNbSamples (-1),
+    myIsArrayValid (Standard_False)
+{
+}
+
+//=======================================================================
+//function : SetCurve
+//purpose  : 
+//=======================================================================
+
+void Extrema_CurveCache::SetCurve (const Curve& theC,
+                                   const Standard_Integer theNbSamples,
+                                   const Standard_Boolean theToCalculate)
+{
+  myC = (Standard_Address)&theC;
+  myNbSamples = theNbSamples;
+  myIsArrayValid = Standard_False;
+  myPntArray.Nullify();
+  if (theToCalculate) {
+    CalculatePoints();
+  }
+}
+
+//=======================================================================
+//function : SetCurve
+//purpose  : 
+//=======================================================================
+
+void Extrema_CurveCache::SetCurve (const Curve& theC,
+                                   const Standard_Real theUFirst,
+                                   const Standard_Real theULast,
+                                   const Standard_Integer theNbSamples,
+                                   const Standard_Boolean theToCalculate)
+{
+  SetCurve (theC, theNbSamples, Standard_False); //no calculation
+  SetRange (theUFirst, theULast, theToCalculate);
+}
+
+//=======================================================================
+//function : SetRange
+//purpose  : 
+//=======================================================================
+
+void Extrema_CurveCache::SetRange (const Standard_Real theUFirst,
+                                   const Standard_Real theULast,
+                                   const Standard_Boolean theToCalculate)
+{
+  //myTrimFirst and myTrimLast are used to compute values on unlimited curves
+  myTrimFirst = myFirst = theUFirst;
+  if (Precision::IsInfinite(myTrimFirst)){
+    myTrimFirst = -1.0e+10;
+  }
+  myTrimLast = myLast = theULast;
+  if (Precision::IsInfinite(myTrimLast)){
+    myTrimLast = 1.0e+10;
+  }
+
+  myIsArrayValid = Standard_False;
+  myPntArray.Nullify();
+  if (theToCalculate) {
+    CalculatePoints();
+  }
+}
+
+//=======================================================================
+//function : CalculatePoints
+//purpose  : 
+//=======================================================================
+
+void Extrema_CurveCache::CalculatePoints()
+{
+  if (myIsArrayValid) return; //no need to recalculate if nothing has changed
+  const Curve& aCurve = *((Curve*)myC);
+
+  // compute myNbSamples point along the [myTrimFirst, myTrimLast] range
+
+  Standard_Real aDelta = myTrimLast - myTrimFirst;
+  Standard_Real aPar0 = aDelta / myNbSamples / 100.;
+  aDelta = (aDelta - aPar0) / (myNbSamples - 1);
+  aPar0 = myTrimFirst + (aPar0/2.);
+
+  //Cache points
+
+  myPntArray = new ArrayOfPnt (1, myNbSamples);
+
+  Standard_Integer i;
+  Standard_Real aPar;
+  for (i = 1, aPar = aPar0; i <= myNbSamples; i++, aPar += aDelta) {
+    myPntArray->SetValue (i, aCurve.Value (aPar));
+  }
+
+  myIsArrayValid = Standard_True; //cache is available now
+}

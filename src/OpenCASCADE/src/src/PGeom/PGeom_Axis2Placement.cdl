@@ -1,0 +1,61 @@
+-- Created on: 1993-02-22
+-- Created by: Philippe DAUTRY
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Axis2Placement from PGeom inherits AxisPlacement from PGeom
+
+	---Purpose : This class describes an  axis two placement built
+	--         with a point and two directions.
+	--          
+	---See Also : Axis2Placement from Geom.
+
+uses Ax1      from gp,
+     Dir      from gp
+
+is
+
+
+  Create returns mutable Axis2Placement from PGeom;
+        ---Purpose : Returns an Axis2Placement with default values.
+    	---Level: Internal 
+
+
+  Create (aAxis : Ax1 from gp; aXDirection: Dir from gp)
+    returns mutable Axis2Placement from PGeom;
+        ---Purpose : Creates an Axis2Placement with <A2>.
+    	---Level: Internal 
+
+
+  XDirection (me : mutable; aXDirection : Dir from gp);
+        ---Purpose : Set the value of the field xDirection with <aXDirection>.
+    	---Level: Internal 
+
+
+  XDirection (me) returns Dir from gp;
+   	---Purpose : Returns the "XDirection". This is a unit vector.
+    	---Level: Internal 
+
+
+fields
+
+  xDirection : Dir from gp;
+
+end;

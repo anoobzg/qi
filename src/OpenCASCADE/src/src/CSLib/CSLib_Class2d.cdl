@@ -1,0 +1,71 @@
+-- Created on: 1995-03-08
+-- Created by: Laurent BUCHARD
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Class2d from CSLib
+
+uses 
+    Pnt2d          from gp,
+    Array1OfPnt2d  from TColgp
+    
+is 
+
+    Create(TP: Array1OfPnt2d from TColgp; aTolu,aTolv:Real from Standard;
+           umin,vmin,umax,vmax: Real from Standard)
+    returns Class2d     from CSLib;
+    
+    SiDans(me; P: Pnt2d from gp)
+    returns Integer from Standard;
+    
+    SiDans_OnMode(me; P: Pnt2d from gp; Tol: Real from Standard)
+    returns Integer from Standard;
+    
+    InternalSiDans(me; X,Y: Real from Standard)
+    returns Integer from Standard;
+    
+    InternalSiDansOuOn(me; X,Y: Real from Standard)
+    returns Integer from Standard;    
+
+    Copy(me; Other: Class2d from CSLib)
+    returns Class2d from CSLib;
+    	---C++: return const &
+      	---C++: alias operator=
+     --Purpose *** Raise if called ***
+
+    Destroy(me: in out);
+       	---C++: alias ~
+     
+    
+fields 
+    MyPnts2dX: Address  from Standard;
+    MyPnts2dY: Address  from Standard;
+    Tolu     : Real     from Standard;
+    Tolv     : Real     from Standard;
+    N        : Integer  from Standard;
+    Umin     : Real     from Standard;
+    Vmin     : Real     from Standard;
+    Umax     : Real     from Standard;
+    Vmax     : Real     from Standard;
+   
+end Class2d from CSLib;
+
+
+    
+    

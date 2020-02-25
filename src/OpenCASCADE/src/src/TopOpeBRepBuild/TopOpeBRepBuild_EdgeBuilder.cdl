@@ -1,0 +1,59 @@
+-- Created on: 1995-12-21
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class EdgeBuilder from TopOpeBRepBuild 
+    inherits Area1dBuilder from TopOpeBRepBuild 
+
+uses
+    
+    Shape from TopoDS,
+    PaveSet from TopOpeBRepBuild,
+    PaveClassifier from TopOpeBRepBuild,
+    LoopSet from TopOpeBRepBuild,
+    LoopClassifier from TopOpeBRepBuild
+    
+is
+
+    Create returns EdgeBuilder;
+
+    Create(LS : in out PaveSet; LC : in out PaveClassifier;
+    	   ForceClass : Boolean = Standard_False) returns EdgeBuilder;
+    ---Purpose: Creates a EdgeBuilder to find the areas of
+    -- the shapes described by <LS> using the classifier <LC>.
+    
+    InitEdgeBuilder(me : in out;
+    	    	    LS : in out LoopSet; LC : in out LoopClassifier;
+    	    	    ForceClass : Boolean = Standard_False) is static;
+
+    -- Output methods 
+    InitEdge(me : in out) is static;
+    MoreEdge(me) returns Boolean from Standard is static;
+    NextEdge(me : in out) is static;
+    
+    -- Exploration of the vertex of current edge
+    InitVertex(me : in out) is static;
+    MoreVertex(me) returns Boolean from Standard is static;
+    NextVertex(me : in out) is static;
+    Vertex(me) returns Shape from TopoDS is static;
+    ---C++: return const &
+    Parameter(me) returns Real is static;
+    
+end EdgeBuilder from TopOpeBRepBuild;

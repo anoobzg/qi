@@ -1,0 +1,98 @@
+-- Created on: 1997-02-12
+-- Created by: Alexander BRIVIN
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SpotLight from Vrml 
+
+	---Purpose: specifies a spot light node of VRML nodes specifying
+	--         properties of lights. 
+    	--  This  node  defines  a  spotlight  light  source.
+    	--  A  spotlight  is  placed  at  a  fixed  location  in  3D-space 
+    	--  and  illuminates in  a  cone  along  a  particular  direction.   
+    	--  The  intensity  of  the  illumination  drops  off  exponentially   
+    	--  as  a  ray  of  light  diverges  from  this  direction  toward   
+    	--  the  edges  of  cone. 
+	--  The  rate  of  drop-off  and  agle  of  the  cone  are  controlled   
+    	--  by  the  dropOfRate  and  cutOffAngle
+    	--  Color is  written  as  an  RGB  triple.
+    	--  Light intensity must be in the range 0.0 to 1.0, inclusive. 
+
+uses
+    Color   from Quantity, 
+    Vec     from gp
+is
+                                                    --  defaults  :
+    Create returns SpotLight from Vrml; 
+    	    	    	    	    	    	    --  myOnOff(Standard_True)
+ 						    --  myIntensity(1)
+						    --  myColor(1 1 1)
+						    --  myLocation(0 0 1)
+						    --  myDirection(0 0 -1)
+    	    	    	    	    	    	    --  myDropOffRate(0) 
+    	    	    	    	    	    	    --  myCutOffAngle(0.785398) 
+
+    Create  ( aOnOff        :  Boolean from  Standard; 
+    	      aIntensity    :  Real    from  Standard; 
+    	      aColor        :  Color   from  Quantity; 
+    	      aLocation     :  Vec     from  gp;
+    	      aDirection    :  Vec     from  gp; 
+    	      aDropOffRate  :  Real    from  Standard; 
+    	      aCutOffAngle  :  Real    from  Standard  )
+    	returns SpotLight from Vrml; 
+   
+    SetOnOff ( me : in out;  anOnOff : Boolean from  Standard );
+    OnOff ( me )  returns Boolean  from  Standard;
+
+    SetIntensity ( me : in out;  aIntensity : Real from  Standard );
+    Intensity ( me )  returns Real  from  Standard;
+
+    SetColor ( me : in out;  aColor :  Color   from  Quantity );
+    Color ( me )  returns  Color   from  Quantity;
+
+    SetLocation ( me : in out;  aLocation : Vec  from  gp );
+    Location ( me )  returns Vec  from  gp;
+    
+    SetDirection ( me : in out;  aDirection : Vec  from  gp );
+    Direction ( me )  returns Vec  from  gp;
+
+    SetDropOffRate ( me : in out;  aDropOffRate : Real from  Standard );
+    DropOffRate ( me )  returns Real  from  Standard;
+    
+    SetCutOffAngle ( me : in out;  aCutOffAngle : Real from  Standard );
+    CutOffAngle ( me )  returns Real  from  Standard;
+
+    Print  ( me;  anOStream: in out OStream from Standard) returns OStream from Standard; 
+    ---C++:  return  & 
+    
+fields
+ 
+    myOnOff        :  Boolean from  Standard; -- Whether light is on
+    myIntensity    :  Real    from  Standard; -- Source intensity (0 to 1)
+    myColor        :  Color   from  Quantity; -- RGB source color
+    myLocation     :  Vec     from  gp;       -- Source location
+    myDirection    :  Vec     from  gp;       -- Primary direction of illumination
+    myDropOffRate  :  Real    from  Standard; -- Rate of intensity drop-off from primary
+                                              -- direction: 0 = constant intensity,
+                                              --            1 = sharp drop-off
+    myCutOffAngle  :  Real    from  Standard; -- Angle (in radians) outside of which
+    	    	    	    	    	      -- intensity is zero, measured from 
+    	    	    	    	    	      -- edge of cone to other edge
+end SpotLight;

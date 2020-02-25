@@ -1,0 +1,62 @@
+-- Created on: 1994-11-07
+-- Created by: Christian CAILLET
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class CheckCounter  from IFSelect  inherits SignatureList
+
+    ---Purpose : A CheckCounter allows to see a CheckList (i.e. CheckIterator)
+    --           not per entity, its messages, but per message, the entities
+    --           attached (count and list). Because many messages can be
+    --           repeated if they are due to systematic errors
+
+uses CheckIterator, InterfaceModel, SignText from MoniTool
+
+is
+
+    Create (withlist : Boolean = Standard_False) returns mutable CheckCounter;
+    ---Purpose : Creates a CheckCounter, empty ready to work
+
+    SetSignature (me : mutable; sign : SignText);
+    ---Purpose : Sets a specific signature
+    --           Else, the current SignType (in the model) is used
+
+    Signature    (me) returns SignText;
+    ---Purpose : Returns the Signature;
+ 
+    Analyse (me : mutable;
+    	 list  : CheckIterator;
+    	 model : InterfaceModel;
+	 original  : Boolean = Standard_False;
+	 failsonly : Boolean = Standard_False);
+    ---Purpose : Analyses a CheckIterator according a Model (which detains the
+    --           entities for which the CheckIterator has messages), i.e.
+    --           counts messages for entities
+    --           If <original> is True, does not consider final messages but
+    --             those before interpretation (such as inserting variables :
+    --             integers, reals, strings)
+    --           If <failsonly> is True, only Fails are considered
+    --           Remark : global messages are recorded with a Null entity
+
+fields
+
+    thesign : SignText;  -- optional
+
+end CheckCounter;

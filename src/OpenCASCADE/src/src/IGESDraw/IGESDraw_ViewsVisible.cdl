@@ -1,0 +1,96 @@
+-- Created on: 1993-01-11
+-- Created by: CKY / Contract Toubro-Larsen ( Niraj RANGWALA )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ViewsVisible from IGESDraw  inherits ViewKindEntity
+
+        ---Purpose : Defines IGESViewsVisible, Type <402>, Form <3>
+        --           in package IGESDraw
+        --
+        --           If an entity is to be displayed in more than one views,
+        --           this class instance is used, which contains the Visible
+        --           views and the associated entity Displays.
+
+uses
+
+        IGESEntity              from IGESData,
+        HArray1OfIGESEntity     from IGESData,
+        HArray1OfViewKindEntity from IGESDraw
+
+raises OutOfRange
+
+is
+
+        Create returns mutable ViewsVisible;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me               : mutable;
+              allViewEntities  : HArray1OfViewKindEntity;
+              allDisplayEntity : HArray1OfIGESEntity);
+        ---Purpose : This method is used to set the fields of the class
+        --           ViewsVisible
+        --       - allViewEntities  : All View kind entities
+        --       - allDisplayEntity : All entities whose display is specified
+
+    	InitImplied (me : mutable; allDisplayEntity : HArray1OfIGESEntity);
+	---Purpose : Changes only the list of Displayed Entities (Null allowed)
+
+    	IsSingle (me) returns Boolean;
+	---Purpose : Returns False (for a complex view)
+
+        NbViews (me) returns Integer;
+        ---Purpose : returns the Number of views visible
+
+
+        NbDisplayedEntities (me) returns Integer;
+        ---Purpose : returns the number of entities displayed in the Views or zero if
+        -- no Entities specified in these Views
+
+        ViewItem (me; Index : Integer) returns ViewKindEntity
+        raises OutOfRange;
+        ---Purpose : returns the Index'th ViewKindEntity Entity
+        -- raises exception if Index  <= 0 or Index > NbViewsVisible()
+
+        DisplayedEntity (me; Index : Integer) returns IGESEntity
+        raises OutOfRange;
+        ---Purpose : returns the Index'th entity whose display is being specified by
+        -- this associativity instance
+        -- raises exception if Index  <= 0 or Index > NbEntityDisplayed()
+
+fields
+
+--
+-- Class    : IGESDraw_ViewsVisible
+--
+-- Purpose  : Declaration of the variables specific to a ViewsVisible.
+--
+-- Reminder : A ViewsVisible is defined by :
+--                  - Number of View visible
+--                  - Pointer to each of the view entity visible
+--                  - Number of entities whose display is specified
+--                  - Pointer to each of those entities
+--
+
+        theViewEntities  : HArray1OfViewKindEntity;
+
+        theDisplayEntity : HArray1OfIGESEntity;
+
+end ViewsVisible;

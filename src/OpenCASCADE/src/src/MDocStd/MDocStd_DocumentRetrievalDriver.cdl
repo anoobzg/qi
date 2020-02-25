@@ -1,0 +1,69 @@
+-- Created on: 1999-04-15
+-- Created by: Denis PASCAL
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class DocumentRetrievalDriver from MDocStd inherits RetrievalDriver from PCDM
+
+	---Purpose: retrieval driver of a standard document
+
+uses Document         from TDocStd,
+     Document         from PDocStd,  
+     RRelocationTable from MDF,
+     Document         from PCDM, 
+     Document         from CDM,  
+     MessageDriver    from CDM,
+     ExtendedString   from TCollection,
+     ARDriverTable    from MDF
+
+is
+
+
+    Create
+    returns mutable DocumentRetrievalDriver from MDocStd;    
+
+    Paste (me : mutable; PDOC   : Document from PDocStd;
+                         TDOC   : Document from TDocStd;
+			 aReloc : RRelocationTable from MDF);
+    
+    ---Purpose: deferred methods of RetrievalDriver from PCDM
+    --          =============================================
+
+    Make (me : mutable; aPCDM: Document from PCDM; aCDM : mutable Document from CDM); 
+
+    ---Purpose: virtual methods (may be redefined by specialized application)
+    --          =============================================================
+
+    SchemaName(me) returns ExtendedString from  TCollection
+    is virtual;
+
+    CreateDocument (me: mutable) returns Document from CDM  
+    ---Purpose: returns an empty TDocStd_Document. may be redefined;
+    is virtual;
+    
+    AttributeDrivers(me : mutable; theMessageDriver : MessageDriver from CDM) 
+    returns ARDriverTable from MDF
+    is virtual;
+    
+fields
+
+    myDrivers : ARDriverTable  from MDF;
+
+end DocumentRetrievalDriver;

@@ -1,0 +1,96 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( SIVA )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Cylinder from IGESSolid  inherits IGESEntity
+
+        ---Purpose: defines Cylinder, Type <154> Form Number <0>
+        --          in package IGESSolid
+        --          This defines a solid cylinder
+
+uses
+
+        Pnt             from gp,
+        Dir             from gp,
+        XYZ             from gp
+
+is
+
+        Create returns mutable Cylinder;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me      : mutable;
+              aHeight : Real;
+              aRadius : Real;
+              aCenter : XYZ;
+              anAxis  : XYZ);
+        ---Purpose : This method is used to set the fields of the class
+        --           Cylinder
+        --       - aHeight : Cylinder height
+        --       - aRadius : Cylinder radius
+        --       - aCenter : First face center coordinates (default (0,0,0))
+        --       - anAxis  : Unit vector in axis direction (default (0,0,1))
+
+
+        Height (me) returns Real;
+        ---Purpose : returns the cylinder height
+
+        Radius (me) returns Real;
+        ---Purpose : returns the cylinder radius
+
+        FaceCenter (me) returns Pnt;
+        ---Purpose : returns the first face center coordinates.
+
+        TransformedFaceCenter (me) returns Pnt;
+        ---Purpose : returns the first face center after applying TransformationMatrix
+
+        Axis (me) returns Dir;
+        ---Purpose : returns the vector in axis direction
+
+        TransformedAxis (me) returns Dir;
+        ---Purpose : returns the vector in axis direction after applying 
+        -- TransformationMatrix
+
+fields
+
+--
+-- Class    : IGESSolid_Cylinder
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class Cylinder.
+--
+-- Reminder : A Cylinder instance is defined by :
+--            the center of one circular face(Center), a unit vector
+--            (Axis), a height(Height), and a radius (Radius).
+
+        theHeight     : Real;
+            -- the height of the cylinder
+
+        theRadius     : Real;
+            -- the radius of the face of the cylinder
+
+        theFaceCenter : XYZ;
+            -- the center coordinates of the face
+
+        theAxis       : XYZ;
+            -- the unit vector along the axis
+
+end Cylinder;

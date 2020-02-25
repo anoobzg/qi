@@ -1,0 +1,83 @@
+-- Created on: 1992-03-27
+-- Created by: Laurent BUCHARD
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+deferred generic class ParTool from IntImpParGen
+    (ParCurve as any)
+
+	---Purpose: Template class for a tool on a parametrised curve.
+
+uses Pnt2d    from gp,
+     Vec2d    from gp,
+     Lin2d    from gp
+
+is
+
+
+    Value (myclass; C: ParCurve; U: Real from Standard)
+    
+	---Purpose: Returns the point at parameter U on the Curve C.
+
+    	returns Pnt2d from gp;
+
+
+    D1 (myclass; C:ParCurve; U:Real from Standard ;
+        P: out Pnt2d; T: out Vec2d);
+
+        ---Purpose: Computes the Point and the First derivative of 
+        --          the parametric curve C at parameter U.
+
+
+    D2 (myclass; C:ParCurve; U:Real from Standard ;
+        P: out Pnt2d; T,N: out Vec2d);
+    
+        ---Purpose: Computes the Point, the First and the Second derivative of 
+        --          the parametric curve C at parameter U.
+
+
+    EpsX (myclass; C: ParCurve)
+
+       	---Purpose: Returns the valuec of the parametric tolerance
+       	--          on the curve C.
+   
+    	returns Real from Standard;
+    
+
+    NbSamples(myclass; C: ParCurve)
+
+      	---Purpose: NbSamples is the number of sample point used to 
+    	--          polygonise the parametric curve on its domain.
+
+    	returns Integer from Standard;
+ 
+
+end ParTool;
+
+
+
+
+
+
+
+
+
+

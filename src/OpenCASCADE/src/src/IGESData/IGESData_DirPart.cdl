@@ -1,0 +1,57 @@
+-- Created on: 1992-04-06
+-- Created by: Christian CAILLET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class DirPart  from IGESData  inherits Storable    -- for Array
+
+    ---Purpose : litteral/numeric description of an entity's directory section,
+    --           taken from file
+
+uses Integer, Character, IGESType
+
+is
+
+    Create returns DirPart;
+    ---Purpose : creates an empty DirPart, ready to be filled by Init
+
+    Init (me : in out;
+      i1,i2,i3,i4,i5,i6,i7,i8,i9,i19,i11,i12,i13,i14,i15,i16,i17 : Integer;
+      res1,res2,label,subscript : CString)  is static;
+    ---Purpose : fills DirPart with consistant data read from file
+
+    Values (me;
+      i1,i2,i3,i4,i5,i6,i7,i8,i9,i19,i11,i12,i13,i14,i15,i16,i17 : out Integer;
+      res1,res2,label,subscript : CString)  is static;
+    ---Purpose : returns values recorded in DirPart
+    --           (content of cstrings are modified)
+
+    Type (me) returns IGESType  is static;
+    ---Purpose : returns "type" and "form" info, used to recognize the entity
+
+fields
+
+    thevals : Integer[17];
+    theres1 : Character[10];
+    theres2 : Character[10];
+    thelabl : Character[10];
+    thesubs : Character[10];
+
+end DirPart;

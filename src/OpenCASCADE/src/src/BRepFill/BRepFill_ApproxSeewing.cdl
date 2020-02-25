@@ -1,0 +1,88 @@
+-- Created on: 1995-09-21
+-- Created by: Bruno DUMORTIER
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+private class ApproxSeewing from BRepFill 
+
+	---Purpose: Evaluate the 3dCurve  and the PCurves described in
+	--          a MultiLine from BRepFill.  The parametrization of
+	--          those curves is  not  imposed by  the Bissectrice.
+	--          The  parametrization  is given  approximatively by
+	--          the abscissa of the curve3d. 
+
+uses
+
+    MultiLine from BRepFill,
+    Curve from Geom,
+    Curve from Geom2d
+    
+raises
+
+    NotDone from StdFail
+    
+is
+    Create returns ApproxSeewing from BRepFill;
+    
+    Create( ML : MultiLine from BRepFill) 
+    returns ApproxSeewing from BRepFill;
+    
+    Perform(me : in out;
+    	    ML : MultiLine from BRepFill)
+    is static;
+    
+    IsDone(me) 
+    returns Boolean from Standard
+    is static;
+    
+    Curve(me) 
+    	---Purpose: returns the approximation of the 3d Curve
+	---C++: return const &
+    returns Curve from Geom
+    raises
+    	NotDone from StdFail
+    is static;
+    
+    CurveOnF1(me) 
+    	---Purpose: returns the  approximation  of the  PCurve  on the
+    	--          first face of the MultiLine
+	---C++: return const &
+    returns Curve from Geom2d
+    raises
+    	NotDone from StdFail
+    is static;
+    
+    CurveOnF2(me) 
+    	---Purpose: returns the  approximation  of the  PCurve  on the
+    	--          first face of the MultiLine
+	---C++: return const &
+    returns Curve from Geom2d
+    raises
+    	NotDone from StdFail
+    is static;
+    
+fields
+    myML      : MultiLine from BRepFill;
+    myIsDone  : Boolean   from Standard;
+    myCurve   : Curve     from Geom;
+    myPCurve1 : Curve     from Geom2d;
+    myPCurve2 : Curve     from Geom2d;
+
+end ApproxSeewing;

@@ -1,0 +1,54 @@
+-- Created on: 2000-05-11
+-- Created by: data exchange team
+-- Copyright (c) 2000-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Generator:	ExpToCas (EXPRESS -> CASCADE/XSTEP Translator) V1.1
+
+class DocumentFile from StepBasic
+inherits Document from StepBasic
+
+    ---Purpose: Representation of STEP entity DocumentFile
+
+uses
+    HAsciiString from TCollection,
+    DocumentType from StepBasic,
+    CharacterizedObject from StepBasic
+
+is
+    Create returns DocumentFile from StepBasic;
+	---Purpose: Empty constructor
+
+    Init (me: mutable; aDocument_Id: HAsciiString from TCollection;
+                       aDocument_Name: HAsciiString from TCollection;
+                       hasDocument_Description: Boolean;
+                       aDocument_Description: HAsciiString from TCollection;
+                       aDocument_Kind: DocumentType from StepBasic;
+                       aCharacterizedObject_Name: HAsciiString from TCollection;
+                       hasCharacterizedObject_Description: Boolean;
+                       aCharacterizedObject_Description: HAsciiString from TCollection);
+	---Purpose: Initialize all fields (own and inherited)
+
+    CharacterizedObject (me) returns CharacterizedObject from StepBasic;
+	---Purpose: Returns data for supertype CharacterizedObject
+    SetCharacterizedObject (me: mutable; CharacterizedObject: CharacterizedObject from StepBasic);
+	---Purpose: Set data for supertype CharacterizedObject
+
+fields
+    theCharacterizedObject: CharacterizedObject from StepBasic; -- supertype
+
+end DocumentFile;

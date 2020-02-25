@@ -1,0 +1,64 @@
+-- Created on: 1992-03-06
+-- Created by: Isabelle GRIGNON
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred generic class ISurfaceTool from IntImp
+       ( ImplicitSurface as any)
+                                        
+	---Purpose: Template class for a tool on an
+	--          implicit surface.
+
+
+uses Vec from gp
+
+
+is
+
+    Value(myclass; Is: ImplicitSurface;
+          X, Y, Z: Real from Standard)
+	  
+    	---Purpose: Returns the value of the function.
+
+    	returns Real from Standard;
+
+    
+    Gradient(myclass; Is: ImplicitSurface;
+             X, Y, Z: Real from Standard ; V: out Vec from gp);
+	     
+    	---Purpose: Returns the gradient of the function.
+
+
+
+    ValueAndGradient(myclass; Is: ImplicitSurface; 
+                     X, Y, Z: Real from Standard;
+                     Val: out Real from Standard; Grad: out Vec from gp);
+		     
+    	---Purpose: Returns the value and the gradient.
+
+
+    Tolerance(myclass; Is: ImplicitSurface )
+    
+	---Purpose: returns the tolerance of the zero of the implicit function
+
+    	returns Real from Standard; 
+
+    
+end ISurfaceTool;

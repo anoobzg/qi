@@ -1,0 +1,79 @@
+-- Created on: 1995-02-01
+-- Created by: Marie Jose MARTZ
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Geom2dCurve from Geom2dToIGES inherits Geom2dEntity from Geom2dToIGES
+
+    ---Purpose: This class implements the transfer of the Curve Entity from Geom2d
+    --          To IGES. These can be :
+    --          Curve
+    --            . BoundedCurve
+    --               * BSplineCurve
+    --               * BezierCurve
+    --               * TrimmedCurve
+    --            . Conic     
+    --               * Circle
+    --               * Ellipse
+    --               * Hyperbloa
+    --               * Line
+    --               * Parabola
+    --            . OffsetCurve     
+  
+
+uses
+
+    Curve                from Geom2d,
+    BoundedCurve         from Geom2d,
+    BSplineCurve         from Geom2d,
+    BezierCurve          from Geom2d,
+    TrimmedCurve         from Geom2d,
+    Conic                from Geom2d,
+    Circle               from Geom2d,
+    Ellipse              from Geom2d,
+    Hyperbola            from Geom2d,
+    Line                 from Geom2d,
+    Parabola             from Geom2d,
+    OffsetCurve          from Geom2d,
+    IGESEntity           from IGESData,
+    Geom2dEntity         from Geom2dToIGES
+    
+    
+is 
+    
+    Create returns Geom2dCurve from Geom2dToIGES;
+
+
+    Create(G2dE : Geom2dEntity from Geom2dToIGES)  
+    	 returns Geom2dCurve from Geom2dToIGES;
+    ---Purpose : Creates a tool Geom2dCurve ready to run and sets its
+    --         fields as G2dE's.
+
+    Transfer2dCurve (me    : in out;
+                     start : Curve from Geom2d;
+		     Udeb  : Real  from Standard;
+		     Ufin  : Real  from Standard)
+    	 returns mutable IGESEntity from IGESData;
+    ---Purpose :  Transfert  an Entity from Geom2d to IGES. If this
+    --            Entity could not be converted, this member returns a NullEntity.
+
+end Geom2dCurve;
+
+

@@ -1,0 +1,135 @@
+-- Created on: 1991-06-18
+-- Created by: Didier PIFFAULT
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SectionLine from Intf
+
+	---Purpose: Describe    a  polyline  of   intersection  between two
+	--          polyhedra as a sequence of points of intersection.
+
+
+uses    SectionPoint from Intf,
+    	SeqOfSectionPoint from Intf
+
+
+raises  OutOfRange from Standard
+
+
+is
+
+-- User Interface :
+
+    NumberOfPoints (me)
+    	    	    returns Integer is static;
+    ---Purpose: Returns number of points in this SectionLine.
+    ---C++: inline
+
+    GetPoint       (me;
+    	    	    Index    : in Integer)
+    	    	    returns SectionPoint from Intf
+    	    	    raises OutOfRange from Standard
+    	    	    is static;
+    ---Purpose: Gives the point of intersection of  address <Index>  in the
+    --          SectionLine.
+    --          
+    ---C++: return const &
+
+
+    IsClosed       (me)
+    	    	    returns Boolean is static;
+    ---Purpose: Returns True if the SectionLine is closed.
+
+
+    Contains       (me;
+    	    	    ThePI    : in SectionPoint from Intf)
+    	    	    returns Boolean is static;
+    ---Purpose: Returns True if ThePI is in the SectionLine <me>.
+
+
+    IsEnd          (me;
+    	    	    ThePI    : in SectionPoint from Intf)
+    	    	    returns Integer is static;
+    ---Purpose: Checks if <ThePI>  is an end of  the SectionLine. Returns 1
+    --          for the beginning, 2 for the end, otherwise 0.
+
+
+    IsEqual        (me;
+    	    	    Other    : in SectionLine from Intf)  -- in like me);
+    	    	    returns Boolean is static;
+    ---Purpose: Compares two SectionLines.
+    --         
+    ---C++: alias operator ==
+
+-- Builder :
+
+    Create          returns SectionLine;
+    ---Purpose: Constructs an empty SectionLine.
+
+    Create         (Other : SectionLine)
+            	    returns SectionLine;
+    ---Purpose: Copies a SectionLine.
+
+
+    Append         (me       : in out;
+    	    	    Pi       : in SectionPoint from Intf)
+    	    	    is static;
+    ---Purpose: Adds a point at the end of the SectionLine.
+
+
+    Append         (me       : in out;
+    	    	    LS       : in out SectionLine from Intf)
+    	    	    is static;
+    ---Purpose: Concatenates   the SectionLine  <LS>  at  the  end  of  the
+    --          SectionLine <me>.
+
+
+    Prepend        (me       : in out;
+    	    	    Pi       : in SectionPoint from Intf)
+    	    	    is static;
+    ---Purpose: Adds a point to the beginning of the SectionLine <me>.
+
+
+    Prepend        (me       : in out;
+    	    	    LS       : in out SectionLine from Intf)
+    	    	    is static;
+    ---Purpose: Concatenates a SectionLine  <LS>  at the  beginning  of the
+    --          SectionLine <me>.
+
+
+    Reverse        (me       : in out)
+    	    	    is static;
+    ---Purpose: Reverses the order of the elements of the SectionLine.
+
+
+    Close          (me       : in out)
+    	    	    is static;
+    ---Purpose: Closes the SectionLine.
+
+
+    Dump           (me;
+    	    	    Indent   : in Integer) is static;
+
+fields
+
+    myPoints  : SeqOfSectionPoint from Intf;
+    closed    : Boolean;
+
+end SectionLine;

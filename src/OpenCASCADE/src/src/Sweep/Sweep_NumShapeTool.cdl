@@ -1,0 +1,84 @@
+-- Created on: 1993-06-02
+-- Created by: Laurent BOURESCHE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class NumShapeTool from Sweep  -- as Tool from Sweep
+
+    ---Purpose: This class provides  the indexation and  type analysis
+    --          services required by  the NumShape Directing Shapes of
+    --          Swept Primitives.
+    --          
+
+uses
+    NumShape from Sweep,
+    ShapeEnum from TopAbs,
+    Orientation from TopAbs
+    
+raises
+
+    OutOfRange from Standard
+is
+
+    Create(aShape: NumShape from Sweep);
+	---Purpose: Create a new NumShapeTool with <aShape>.  The Tool
+	--          must prepare an indexation  for  all the subshapes
+	--          of this shape.
+
+    NbShapes(me) returns Integer
+	---Purpose: Returns the number of subshapes in the shape.
+    is static;
+
+    Index(me; aShape : NumShape from Sweep) returns Integer
+	---Purpose: Returns the index of <aShape>.
+    is static;
+    
+    Shape(me; anIndex : Integer from Standard) returns NumShape from Sweep
+	---Purpose: Returns the Shape at index anIndex
+    is static;
+    
+    Type(me; aShape : NumShape from Sweep) returns ShapeEnum from TopAbs
+	---Purpose: Returns the type of <aShape>.
+    is static;
+
+    Orientation(me; aShape : NumShape from Sweep) 
+    returns Orientation from TopAbs
+	---Purpose: Returns the orientation of <aShape>.
+    is static;
+
+    HasFirstVertex(me) returns Boolean from Standard
+	---Purpose: Returns true if there is a First Vertex in the Shape.
+    is static;
+
+    HasLastVertex(me) returns Boolean from Standard
+	---Purpose: Returns true if there is a Last Vertex in the Shape.
+    is static;
+
+    FirstVertex(me) returns NumShape from Sweep
+	---Purpose: Returns the first vertex.
+    is static;
+
+    LastVertex(me) returns NumShape from Sweep
+	---Purpose: Returns the last vertex.
+    is static;
+fields
+
+    myNumShape : NumShape from Sweep;
+    
+end NumShapeTool from Sweep;

@@ -1,0 +1,95 @@
+-- Created on: 1999-08-02
+-- Created by: Denis PASCAL
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Current from TDataStd inherits Attribute from TDF
+
+	---Purpose: this attribute,  located at root label,  manage an
+	--          access to a current label.
+
+uses Attribute       from TDF,
+     Label           from TDF,
+     GUID            from Standard,
+     DataSet         from TDF,
+     RelocationTable from TDF
+
+is
+
+    ---Purpose: class methods
+    --          =============
+
+
+    GetID (myclass)   
+    	---C++: return const &  
+    returns GUID from Standard;
+
+
+    Set (myclass; L : Label from TDF);   
+    ---Purpose: Set <L> as current of <L> Framework.
+
+
+    Get (myclass; acces : Label from TDF)    
+    ---Purpose: returns current of <acces> Framework. raise if (!Has)
+    returns Label from TDF;    
+
+
+    Has (myclass; acces : Label from TDF)
+    ---Purpose: returns True if a  current label is managed in <acces>
+    --          Framework.
+    returns Boolean from Standard;
+    
+    ---Purpose: class methods
+    --          =============    
+
+    Create
+    returns mutable Current from TDataStd;    
+
+    SetLabel (me : mutable; current : Label from TDF);
+    
+    GetLabel (me)
+    returns Label from TDF;
+
+    	---Category: TDF_Attribute methods
+    	--           =====================
+    
+    ID (me)
+    	---C++: return const & 
+    returns GUID from Standard;
+
+    Restore (me: mutable; With : Attribute from TDF);
+
+    NewEmpty (me)
+    returns mutable Attribute from TDF;
+
+    Paste (me; Into : mutable Attribute from TDF;
+	       RT   : mutable RelocationTable from TDF);    
+
+    Dump(me; anOS : in out OStream from Standard)
+    returns OStream from Standard
+    is redefined;
+    ---C++: return &
+
+
+fields
+
+    myLabel : Label from TDF;
+
+end Current;

@@ -1,0 +1,78 @@
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+#include <ShapeExtend.hxx>
+inline  Standard_Boolean ShapeAnalysis_CheckSmallFace::Status(const ShapeExtend_Status status) const
+{
+   return ShapeExtend::DecodeStatus ( myStatus, status );
+}
+
+ 
+inline  void ShapeAnalysis_CheckSmallFace::SetTolerance(const Standard_Real tol) 
+{
+ myPrecision = tol;
+
+}
+
+ 
+inline  Standard_Real ShapeAnalysis_CheckSmallFace::Tolerance() const
+{
+ return myPrecision;
+}
+
+ 
+inline  Standard_Boolean ShapeAnalysis_CheckSmallFace::StatusSpot(const ShapeExtend_Status status) const
+{
+  return ShapeExtend::DecodeStatus ( myStatusSpot, status );
+}
+
+ 
+inline  Standard_Boolean ShapeAnalysis_CheckSmallFace::StatusStrip(const ShapeExtend_Status status) const
+{
+  return ShapeExtend::DecodeStatus ( myStatusStrip, status );
+}
+
+ 
+inline  Standard_Boolean ShapeAnalysis_CheckSmallFace::StatusPin(const ShapeExtend_Status status) const
+{
+  return ShapeExtend::DecodeStatus ( myStatusPin, status );
+
+}
+
+ 
+inline  Standard_Boolean ShapeAnalysis_CheckSmallFace::StatusTwisted(const ShapeExtend_Status status) const
+{
+  return ShapeExtend::DecodeStatus ( myStatusTwisted, status );
+
+}
+inline  Standard_Boolean ShapeAnalysis_CheckSmallFace::StatusPinFace(const ShapeExtend_Status status) const
+{
+  return ShapeExtend::DecodeStatus ( myStatusPinFace, status );
+
+}
+inline  Standard_Boolean ShapeAnalysis_CheckSmallFace::StatusPinEdges(const ShapeExtend_Status status) const
+{
+  return ShapeExtend::DecodeStatus ( myStatusPinEdges, status );
+
+} 
+inline  Standard_Boolean ShapeAnalysis_CheckSmallFace::StatusSplitVert(const ShapeExtend_Status status) const
+{
+  return ShapeExtend::DecodeStatus ( myStatusSplitVert, status );
+
+}
+
+

@@ -1,0 +1,98 @@
+-- Created on: 1993-03-24
+-- Created by: JCV
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+package Geom2d
+
+        --- Purpose :
+        --  This package contains the definition of the geometric objects 
+        --  such as point, vector, axis placement, curves and the
+        --  description of the geometric transformations available 
+        --  for these objects.
+        --  All these entities are defined in 2D space.
+        --  This package gives the possibility :
+        --     . to create geometric objects,
+        --     . to have information about them,
+        --     . to modify these objects.
+        --  This package uses the services of the package gp (Geometric
+        --  processor) which describes non-persistent objects for algebraic
+        --  calculus and basic analytic geometry. The purpose of this package
+        --  is to create persistent geometric objects and to read geometric
+        --  information about these objects. Complexes geometric algorithmes
+        --  are not described in this package.     At construction time,
+        --  elementary verifications are done to verify that the objects
+        --  are coherents, but some verifications which require complex
+        --  algorithmes (for example to check that a curve has not null
+        --  length or does not self-intersect) must be done before the 
+        --  construction of the geometric objects. 
+
+
+uses MMgt, GeomAbs, TColStd, gp, TColgp
+
+is
+
+exception UndefinedDerivative inherits DomainError  from  Standard;
+exception UndefinedValue inherits DomainError   from  Standard ;
+
+
+
+  class Transformation;
+
+
+  deferred class Geometry;
+
+
+     deferred class Point;
+              class  CartesianPoint;
+
+
+     deferred class Vector;
+              class Direction;
+              class VectorWithMagnitude;
+     
+
+     class AxisPlacement;
+
+
+     deferred class Curve;
+
+              class Line;
+
+              deferred class Conic;
+                       class Circle;
+                       class Ellipse;
+                       class Hyperbola;
+                       class Parabola;
+
+              deferred class BoundedCurve;
+                       class BezierCurve;
+                       class BSplineCurve;
+                       class TrimmedCurve;
+
+              class  OffsetCurve;
+
+
+end Geom2d;
+
+
+
+

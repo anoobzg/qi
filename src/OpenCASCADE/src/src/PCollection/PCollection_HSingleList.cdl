@@ -1,0 +1,118 @@
+-- Created on: 1992-02-19
+-- Created by: Jean Pierre TIRAULT
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+generic class HSingleList from PCollection (Item as Storable) 
+inherits PManaged 
+
+raises
+    NoSuchObject from Standard
+
+is
+
+	---Purpose: Definition of a single linked list.
+
+	Create returns mutable HSingleList;
+		---Creation of an empty list.
+
+	IsEmpty(me) returns Boolean from Standard;
+                ---Level: Public
+		---Purpose: Returns True if the list contains no element.
+
+
+	Construct(me; T : Item) returns mutable 
+		HSingleList;
+                ---Level: Public
+		---Purpose: add T at the begining of me
+		---Example: before
+		--   me = (A B C) 
+                -- after
+		--   me = (A B C)
+		-- returns 
+		--   (T A B C)
+
+	Value(me) returns any Item
+                raises NoSuchObject from Standard;
+                ---Level: Public
+		---Purpose: Returns the value of the first node of me.
+		-- Raises an exception if me is empty.
+		---Example: before
+		--   me = (A B C) 
+                -- after
+		--   me = (A B C)
+		-- returns 
+		--   A
+
+	Tail(me) returns any HSingleList
+                raises NoSuchObject from Standard;
+                ---Level: Public
+		---Purpose: End of the list me.
+		-- Raises an exception if me is empty.
+		---Example: before
+		--   me = (A B C) 
+                -- after
+		--   me = (A B C)
+		-- returns 
+		--   (B C)
+
+	SwapTail(me : mutable; WithList : in out any HSingleList)
+	   	raises NoSuchObject from Standard;
+                ---Level: Public
+		---Purpose: Exchanges the end of <me> with the list WithList.
+		-- Raises an exception if me is empty.
+		---Example: before
+		--   me = (A B C)
+		--   WithList = (D E)
+		-- after
+		--   me = (A D E)
+		--   WithList = (B C)
+		
+	SetValue(me : mutable; T : Item)
+                raises NoSuchObject from Standard ;
+                ---Level: Public
+		---Purpose: Changes the value of the first node of me.
+		-- Raises an exception if me is empty.
+		---Example: before
+		--   me = (A B C) 
+                -- after
+		--   me = (T B C)
+
+	ChangeForwardPointer(me : mutable; ForwardPointer : HSingleList);
+                ---Level: Public
+		---Purpose: Modification of the node link.
+
+    	ShallowCopy(me) 
+                returns mutable like me 
+                is redefined;
+                ---Level: Advanced
+	    	---C++: function call
+
+
+    	ShallowDump (me; s: in out OStream) 
+                is redefined;
+                ---Level: Advanced
+    	    	---C++: function call
+
+
+
+fields 
+           Data : 	Item;
+           Next : 	HSingleList;
+
+end HSingleList;

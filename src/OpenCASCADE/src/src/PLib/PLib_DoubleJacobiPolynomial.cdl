@@ -1,0 +1,85 @@
+-- Created on: 1997-05-27
+-- Created by: Sergey SOKOLOV
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class DoubleJacobiPolynomial from PLib 
+
+	---Purpose: 
+
+uses Array1OfReal,HArray1OfReal from TColStd, 
+     JacobiPolynomial from PLib
+
+is  
+    Create returns DoubleJacobiPolynomial; 
+    
+    Create ( JacPolU, JacPolV : JacobiPolynomial from  PLib)  
+      returns DoubleJacobiPolynomial;
+
+    MaxErrorU ( me; Dimension, DegreeU, DegreeV, dJacCoeff : Integer; 
+    	    	JacCoeff : Array1OfReal from TColStd ) returns Real;
+     
+    MaxErrorV ( me; Dimension, DegreeU, DegreeV, dJacCoeff : Integer; 
+    	    	JacCoeff : Array1OfReal from TColStd ) returns Real;
+    
+    MaxError ( me; Dimension, MinDegreeU, MaxDegreeU,  
+    	       MinDegreeV, MaxDegreeV, dJacCoeff : Integer; 
+    	       JacCoeff : Array1OfReal from TColStd; Error : Real ) returns Real;
+
+    ReduceDegree ( me; Dimension, MinDegreeU, MaxDegreeU,  
+    	       	   MinDegreeV, MaxDegreeV, dJacCoeff : Integer; 
+    	       	   JacCoeff : Array1OfReal from TColStd; EpmsCut : Real; 
+    	    	   MaxError : in out Real;  NewDegreeU, NewDegreeV : in out Integer);
+
+    AverageError ( me; Dimension, DegreeU, DegreeV, dJacCoeff : Integer; 
+    	    	   JacCoeff : Array1OfReal from TColStd ) returns Real;
+
+    WDoubleJacobiToCoefficients ( me; Dimension, DegreeU, DegreeV : Integer; 
+    	    	                  JacCoeff : Array1OfReal from TColStd; 
+    	    	    	    	  Coefficients : out Array1OfReal from TColStd ); 
+				   
+    U (me) 
+--- Purpose: returns myJacPolU;
+    ---C++: inline
+    returns JacobiPolynomial from PLib;
+
+    V (me) 
+--- Purpose: returns myJacPolV;
+    ---C++: inline
+    returns JacobiPolynomial from PLib;
+
+    TabMaxU (me) 
+--- Purpose: returns myTabMaxU;
+    ---C++: inline
+    returns HArray1OfReal from TColStd;
+
+    TabMaxV (me) 
+--- Purpose: returns myTabMaxV;
+    ---C++: inline
+    returns HArray1OfReal from TColStd;
+
+fields
+ 
+    myJacPolU     : JacobiPolynomial from PLib;
+    myJacPolV     : JacobiPolynomial from PLib; 
+    myTabMaxU     : HArray1OfReal from TColStd;
+    myTabMaxV     : HArray1OfReal from TColStd;
+    
+end DoubleJacobiPolynomial;

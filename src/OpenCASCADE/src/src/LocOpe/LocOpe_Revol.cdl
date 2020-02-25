@@ -1,0 +1,137 @@
+-- Created on: 1997-02-24
+-- Created by: Olga PILLOT
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Revol from LocOpe 
+
+	---Purpose: Defines a prism (using Prism from BRepSweep)
+	--          with modifications provided for the Prism feature.
+
+ 
+uses DataMapOfShapeListOfShape from TopTools,
+     ListOfShape               from TopTools,
+     Ax1                       from gp,     
+     Shape from TopoDS,
+     SequenceOfCurve from TColGeom, 
+     Curve            from  Geom, 
+     Vec              from  gp
+     
+
+raises NoSuchObject from Standard,
+       NotDone      from StdFail
+
+is
+
+ 
+    Create 
+     
+    	returns  Revol  from  LocOpe;
+
+
+    Create (Base     : Shape   from  TopoDS;
+    	    Axis     : Ax1     from  gp;
+    	    Angle    : Real    from  Standard;
+    	    angledec : Real    from  Standard)
+	    
+	returns Revol from LocOpe;     
+
+    Create (Base   : Shape from TopoDS;
+    	    Axis     : Ax1     from  gp;
+    	    Angle    : Real    from  Standard)
+
+	returns Revol from LocOpe;     
+
+
+    Perform(me:  in  out;  Base     : Shape   from  TopoDS; 
+	        	   Axis     : Ax1     from  gp;
+    	    	    	   Angle    : Real    from  Standard;
+    	                   angledec : Real    from  Standard)
+			    
+	is  static;
+
+
+    Perform(me:  in  out;  Base     :  Shape  from  TopoDS; 
+	        	   Axis     : Ax1     from  gp;
+    	    	    	   Angle    : Real    from  Standard) 
+			    
+	is  static;
+
+
+    FirstShape(me)
+    
+    	returns Shape from TopoDS
+	---C++: return const &
+	is static;
+
+
+    LastShape(me)
+    
+    	returns Shape from TopoDS
+	---C++: return const &
+	is static;
+
+
+    Shape(me)
+    
+    	returns Shape from TopoDS 
+	raises  NotDone  from  StdFail
+	---C++: return const &
+	is static;
+
+
+    Shapes(me; S: Shape from TopoDS)
+    
+    	returns ListOfShape from TopTools
+	---C++: return const &
+    	raises NoSuchObject from Standard
+	       -- The exception is raised if S is not a subshape of the profile
+	is static;
+
+
+    Curves(me;  SCurves:  in  out  SequenceOfCurve  from  TColGeom)
+    
+	is static;
+ 
+
+    BarycCurve(me) 
+     
+    	returns  Curve  from  Geom 
+	is  static;
+  
+    IntPerf(me:  in  out) 
+     
+    	is  static  private;
+ 
+
+fields
+
+    myBase       : Shape             from  TopoDS;
+    myAxis       : Ax1               from  gp; 
+    myAngle      : Real              from  Standard; 
+    myAngTra     : Real              from  Standard;
+    myIsTrans    : Boolean           from  Standard;
+    myDone       : Boolean           from  Standard; 
+    myRes        : Shape             from  TopoDS;
+    myFirstShape : Shape             from  TopoDS;
+    myLastShape  : Shape             from  TopoDS;
+    myMap        : DataMapOfShapeListOfShape    from TopTools;
+     
+end Prism;     

@@ -1,0 +1,48 @@
+-- Created on: 1999-05-06
+-- Created by: data exchange team
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SplitSurfaceAngle from ShapeUpgrade inherits SplitSurface from ShapeUpgrade
+
+	---Purpose: Splits a surfaces of revolution, cylindrical, toroidal, 
+    	--          conical, spherical so that each resulting segment covers 
+	--          not more than defined number of degrees. 
+
+is
+
+    Create (MaxAngle: Real)  returns mutable SplitSurfaceAngle from ShapeUpgrade;
+    	---Purpose: Empty constructor.
+    
+    SetMaxAngle (me: mutable; MaxAngle: Real);
+    	---Purpose: Set maximal angle 
+    
+    MaxAngle (me) returns Real;
+    	---Purpose: Returns maximal angle 
+    
+    Compute(me: mutable; Segment: Boolean) is redefined;
+    	---Purpose: Performs splitting of the supporting surface(s).
+	---         First defines splitting values, then calls inherited method.
+
+fields
+
+    myMaxAngle: Real;
+
+end SplitSurfaceAngle;

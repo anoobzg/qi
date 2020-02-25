@@ -1,0 +1,84 @@
+-- Created on: 2008-01-21
+-- Created by: Galina KULIKOVA
+-- Copyright (c) 2008-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ParamList from Interface inherits TShared from MMgt
+
+	---Purpose: 
+
+uses
+    FileParameter from Interface,VectorOfFileParameter from Interface
+
+raises  RangeError from Standard,
+    	OutOfRange from Standard,
+	OutOfMemory from Standard 
+is
+
+    Create( theIncrement : Integer = 256) returns ParamList from Interface;
+    ---Purpose: Creates an vector with size of memmory blok equal to theIncrement
+    
+    
+    Length (me) returns Integer from Standard;
+    	---Purpose: Returns the number of elements of <me>.
+    	--           
+        ---C++: inline
+
+    Lower (me) returns Integer from Standard;
+    	---Purpose:  Returns the lower bound.
+    	-- Warning
+    	--Client programs of the Array1 class must be independent of the first item range.--          
+    	---C++: inline
+	
+    Upper (me) returns Integer from Standard;
+    	---Purpose: Returns the upper bound.
+    	-- Warning
+    	--Client programs of the Array1 class must be independent of the first item range.--          
+    	---C++: inline
+
+    SetValue (me : mutable; Index: Integer from Standard; Value: FileParameter from Interface) 
+    	---Purpose: Assigns the value <Value> to the <Index>-th item of this array.
+    raises OutOfRange from Standard;
+
+    Value (me; Index:Integer from Standard) returns FileParameter from Interface
+    	---Purpose: Return the value of  the  <Index>th element of the
+    	--          array.
+    	---C++: alias operator ()
+    	---C++: return const &
+    raises OutOfRange from Standard;
+    
+    ChangeValue (me: mutable; Index:Integer from Standard) returns FileParameter from Interface
+    	---Purpose: return the value  of the <Index>th element  of the
+    	--          array.
+    	--
+    	---C++: alias operator ()
+    	---C++: return &
+    raises OutOfRange from Standard;
+    
+    Clear(me: mutable);
+    
+
+    
+    
+fields
+
+    	
+  myVector : VectorOfFileParameter;
+
+end ParamList;

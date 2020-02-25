@@ -1,0 +1,57 @@
+-- Created on: 2001-09-26
+-- Created by: Julia DOROVSKIKH
+-- Copyright (c) 2001-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ADriverTable from XmlMDF inherits TShared from MMgt
+
+        ---Purpose: A driver table is an object building links between
+        --          object types and object drivers. In the
+        --          translation process, a driver table is asked to
+        --          give a translation driver for each current object
+        --          to be translated.
+
+uses
+    Type               from Standard,
+    MapTransientHasher from TColStd,
+    ADriver            from XmlMDF,    
+    TypeADriverMap     from XmlMDF
+
+is
+    Create returns mutable ADriverTable from XmlMDF;
+        ---Purpose: Creates a mutable ADriverTable from XmlMDF.
+
+    AddDriver(me : mutable; anHDriver : ADriver from XmlMDF);
+        ---Purpose: Sets a translation driver: <aDriver>.
+
+    GetDrivers(me)
+        returns TypeADriverMap from XmlMDF;
+        ---Purpose: Gets a map of drivers. 
+        ---C++: return const &
+
+    GetDriver(me; aType     : Type from Standard;
+                  anHDriver : in out ADriver from XmlMDF)
+        returns Boolean from Standard;
+        ---Purpose: Gets a driver <aDriver> according to <aType>
+        --          
+        --          Returns True if a driver is found; false otherwise.
+
+fields
+    myMap : TypeADriverMap from XmlMDF;
+
+end ADriverTable;

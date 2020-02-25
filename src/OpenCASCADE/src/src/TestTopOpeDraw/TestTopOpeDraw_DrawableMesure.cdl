@@ -1,0 +1,79 @@
+-- Created on: 1997-03-19
+-- Created by: Prestataire Mary FABIEN
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class DrawableMesure from TestTopOpeDraw inherits DrawableC3D from TestTopOpeDraw
+
+uses
+
+    Interpretor from Draw,
+    Mesure from TestTopOpeTools,
+    PMesure from TestTopOpeTools,
+    Display from Draw,
+    Color from Draw,
+    Pnt from gp,
+    AsciiString from TCollection,
+    HArray1OfPnt from TColgp,
+    Array1OfPnt from TColgp,
+    HArray1OfDrawableP3D from TestTopOpeDraw
+
+is
+
+    Create(M : Mesure from TestTopOpeTools;
+     CurveColor : Color from Draw ;
+     TextColor : Color from Draw;
+     ScaleX : Real from Standard = 1.0;
+     ScaleY : Real from Standard = 1.0)
+    returns mutable DrawableMesure from TestTopOpeDraw;
+
+    SetScale(me : mutable; ScaleX : Real from Standard;
+    	    	    	   ScaleY : Real from Standard);
+
+    SetScaleX(me : mutable; ScaleX : Real from Standard);
+
+    SetScaleY(me : mutable; ScaleY : Real from Standard);
+
+    SetName(me : mutable;  Name : AsciiString from TCollection);
+
+    Pnt(me) returns Pnt from gp
+    is redefined;
+    
+    Pnts(me) returns HArray1OfPnt from TColgp;
+    ---C++: return const&
+
+    Clear(me : mutable);
+
+    Whatis(me; I : in out Interpretor from Draw)
+	---Purpose: For variable whatis command.
+    is redefined;
+
+    DrawOn(me; dis : in out Display from Draw)
+    is redefined;
+    
+fields
+
+    myP           : HArray1OfPnt  from TColgp;
+    myCurveColor  : Color         from Draw;
+    myAXE1,myAXE2 : DrawableC3D from TestTopOpeDraw;
+    myHDP,myHADP1,myHADP2 : HArray1OfDrawableP3D from TestTopOpeDraw; 
+    myScaleX      : Real          from Standard;
+    myScaleY      : Real          from Standard;
+
+end DrawableMesure;

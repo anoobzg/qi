@@ -1,0 +1,54 @@
+-- Created on: 1992-03-26
+-- Created by: Herve LEGRAND
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+private  class SurfaceTool from GeomLProp
+
+uses Pnt     from gp,
+     Vec     from gp,
+     Surface from Geom
+
+is
+
+    Value(myclass; S : Surface; U, V : Real; P : out Pnt);
+    ---Purpose: Computes the point <P> of parameter <U> and <V> on the 
+    --          Surface <S>.
+     	
+    D1   (myclass; S : Surface; U, V : Real; P : out Pnt; D1U, D1V : out Vec);
+    ---Purpose: Computes the point <P> and first derivative <D1*> of 
+    --          parameter <U> and <V> on the Surface <S>.
+
+    D2   (myclass; S : Surface; U, V : Real; 
+              P : out Pnt; D1U, D1V, D2U, D2V, DUV : out Vec);
+    ---Purpose: Computes the point <P>, the first derivative <D1*> and second
+    --          derivative <D2*> of parameter <U> and <V> on the Surface <S>.
+     
+    DN     (myclass; S : Surface; U, V : Real;  IU,  IV  :  Integer) 
+    returns  Vec;
+    
+    Continuity(myclass; S : Surface) returns Integer;
+    ---Purpose: returns the order of continuity of the Surface <S>.
+    --          returns 1 : first derivative only is computable
+    --          returns 2 : first and second derivative only are computable.
+
+    Bounds(myclass; S : Surface; U1, V1, U2, V2 : out Real);
+    ---Purpose: returns the bounds of the Surface.
+
+end SurfaceTool;

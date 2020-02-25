@@ -1,0 +1,88 @@
+-- Created on: 2000-09-29
+-- Created by: Andrey BETENEV
+-- Copyright (c) 2000-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Tool from STEPConstruct 
+
+    ---Purpose: Provides basic functionalities for tools which are intended
+    --          for encoding/decoding specific STEP constructs
+    --
+    --          It is initialized by WorkSession and allows easy access to 
+    --          its fields and internal data such as Model, TP and FP
+    --
+    --          NOTE: Call to method Graph() with True (or for a first time,
+    --          if you have updated the model since last computation of model) 
+    --          can take a time, so it is recommended to avoid creation of 
+    --          this (and derived) tool multiple times
+
+uses
+    WorkSession      from XSControl,
+    InterfaceModel   from Interface,
+    Graph            from Interface,
+    HGraph           from Interface,
+    FinderProcess    from Transfer,
+    TransientProcess from Transfer
+
+is
+
+    Create returns Tool;
+    	---Purpose: Creates an empty tool
+
+    Create (WS: WorkSession from XSControl) returns Tool;
+    	---Purpose: Creates a tool and loads it with worksession
+	
+    SetWS (me: in out; WS: WorkSession from XSControl) 
+    returns Boolean is protected;
+    	---Purpose: Load worksession; returns True if succeeded
+	--          Returns False if either FinderProcess of TransientProcess
+	--          cannot be obtained or are Null
+	
+    WS (me) returns WorkSession from XSControl;
+    	---Purpose: Returns currently loaded WorkSession
+	---C++: return const &
+	---C++: inline
+    
+    Model (me) returns InterfaceModel from Interface;
+    	---Purpose: Returns current model (Null if not loaded)
+	---C++: inline
+    
+    Graph (me; recompute: Boolean = Standard_False) returns Graph from Interface;
+    	---Purpose: Returns current graph (recomputing if necessary)
+	---C++: return const &
+	---C++: inline
+    
+    TransientProcess (me) returns TransientProcess from Transfer;
+    	---Purpose: Returns TransientProcess (reading; Null if not loaded)
+	---C++: return const &
+	---C++: inline
+ 
+    FinderProcess (me) returns FinderProcess from Transfer;
+    	---Purpose: Returns FinderProcess (writing; Null if not loaded)
+	---C++: return const &
+	---C++: inline
+ 	
+fields
+
+    myWS           : WorkSession from XSControl;
+    myFinderProcess: FinderProcess from Transfer;
+    myTransientProcess: TransientProcess from Transfer;
+    myHGraph       : HGraph from Interface; -- for optimization (no recomutings)
+
+end Tool;

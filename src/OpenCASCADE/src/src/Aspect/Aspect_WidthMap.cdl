@@ -1,0 +1,93 @@
+-- Created on: 1993-03-23
+-- Created by: GG
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class WidthMap from Aspect inherits TShared from MMgt
+
+	---Version: 0.0
+
+	---Purpose: This class defines a WidthMap object.
+	---Keywords:
+	---Warning:
+	---References:
+
+uses
+	WidthOfLine		from Aspect,
+	WidthMapEntry 		from Aspect,
+	SequenceOfWidthMapEntry	from Aspect,
+	Length			from Quantity
+
+raises
+	BadAccess 	from Aspect
+
+is
+	Create
+	returns mutable WidthMap from Aspect;
+	---Level: Public
+        ---Purpose: Creates a width map.
+
+        AddEntry (me : mutable; AnEntry : WidthMapEntry from Aspect)
+	---Level: Public
+        ---Purpose: Adds an entry in the Width map <me>.
+        --  Warning: Raises BadAccess if WidthMap size is exceeded.
+        raises BadAccess from Aspect;
+
+        AddEntry (me : mutable; aStyle : WidthOfLine from Aspect)
+                                        returns Integer from Standard;
+        ---Level: Public
+        ---Purpose: Search an identical line width entry in the width map <me>
+        -- and returns the WidthMapEntry Index if exist.
+        -- Or add a new entry and returns the computed WidthMapEntry index used.
+
+        AddEntry (me : mutable; aStyle : Length from Quantity)
+                                        returns Integer from Standard;
+        ---Level: Public
+        ---Purpose: Search an identical line width entry in the width map <me>
+        -- and returns the WidthMapEntry Index if exist.
+        -- Or add a new entry and returns the computed WidthMapEntry index used.
+
+        Size( me ) returns Integer from Standard is static;
+        ---Level: Public
+        ---Purpose: Returns the Allocated widthmap Size
+ 
+        Index( me ; aWidthmapIndex : Integer ) returns Integer from Standard
+        ---Level: Public
+        ---Purpose: Returns the WidthMapEntry.Index of the WidthMap
+        --          at rank <aWidthmapIndex> .
+        raises BadAccess from Aspect is static;
+        ---Trigger: Raises BadAccess if the index less than 1 or
+        --          greater than Size.
+ 
+	Entry ( me ;
+		AnIndex : Integer from Standard )
+	returns WidthMapEntry from Aspect
+	---Level: Public
+	---Purpose: Returns the Width map entry with the index <AnIndex>.
+	--  Warning: Raises BadAccess if the index less than 1 or
+	--	    greater than Size.
+	raises BadAccess from Aspect is static;
+
+	Dump ( me ) ;
+	---Level: Internal
+
+fields
+	mydata : SequenceOfWidthMapEntry from Aspect is protected;
+
+end WidthMap ;

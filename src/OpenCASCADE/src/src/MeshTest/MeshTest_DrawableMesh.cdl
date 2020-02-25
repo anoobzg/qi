@@ -1,0 +1,89 @@
+-- Created on: 1994-08-03
+-- Created by: Modeling
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class DrawableMesh from MeshTest inherits Drawable3D from Draw
+
+	---Purpose: A  drawable  mesh.   It  contains  a  sequence  of
+	--          highlighted edges and highlighted vertices.
+
+uses
+    Display           from Draw,
+    Interpretor       from Draw,
+    Shape             from TopoDS,
+    FastDiscret       from BRepMesh,
+    SequenceOfInteger from TColStd
+
+is
+
+    Create returns mutable DrawableMesh from MeshTest;
+
+    Create(S : Shape from TopoDS; Deflect : Real; 
+           Partage : Boolean; InShape: Boolean from Standard= Standard_False)
+    returns mutable DrawableMesh from MeshTest;
+
+
+    Create(Tr: FastDiscret from BRepMesh)
+    returns mutable DrawableMesh from MeshTest;
+    
+    AddInShape(me: mutable; inshape: Boolean)
+    is static;
+
+    Add(me : mutable; S : Shape from TopoDS)
+    is static;
+    
+    Edges(me : mutable) returns SequenceOfInteger from TColStd
+	---C++: return &
+    is static;
+    
+    Vertices(me : mutable) returns SequenceOfInteger from TColStd
+	---C++: return &
+    is static;
+    
+    Triangles(me : mutable) returns SequenceOfInteger from TColStd
+	---C++: return &
+    is static;
+    
+    DrawOn(me; dis : in out Display from Draw);
+    
+    Copy(me) returns mutable Drawable3D from Draw
+    is redefined;
+
+    Dump(me; S : in out OStream)
+    is redefined;
+
+    Whatis(me; S : in out Interpretor from Draw)
+    is redefined;
+    
+    Mesh(me) returns mutable FastDiscret from BRepMesh
+    is static;
+
+fields
+
+    myMesh       : FastDiscret from BRepMesh;
+    myDeflection : Real;
+    myEdges      : SequenceOfInteger from TColStd;      
+    myVertices   : SequenceOfInteger from TColStd;      
+    myTriangles  : SequenceOfInteger from TColStd;      
+    myinshape    : Boolean           from Standard;
+
+end DrawableMesh;

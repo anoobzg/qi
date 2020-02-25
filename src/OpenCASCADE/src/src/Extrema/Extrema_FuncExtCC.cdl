@@ -1,0 +1,120 @@
+-- Created on: 1991-07-24
+-- Created by: Michel CHAUVAT
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+private generic class FuncExtCC from Extrema 
+(Curve1    as any;
+ Tool1     as any;-- as ToolCurve(Curve1);
+ Curve2    as any;
+ Tool2     as any;-- as ToolCurve(Curve2);
+ POnC      as any;
+ Pnt       as any;
+ Vec       as any )
+ 
+ 
+inherits FunctionSetWithDerivatives from math
+    ---Purpose: Function allows finding extrema of the distance between 2 curves.
+
+uses    Vector            from math,
+	Matrix            from math,
+	SequenceOfReal    from TColStd
+
+raises  OutOfRange from Standard
+
+private class SeqPOnC instantiates Sequence from TCollection(POnC);
+
+is
+
+    Create (thetol: Real = 1.0e-10) returns FuncExtCC;
+    ---Purpose:
+
+    Create (C1: Curve1; C2: Curve2; thetol: Real = 1.0e-10) returns FuncExtCC;
+    ---Purpose:
+
+    SetCurve (me: in out; theRank: Integer; C1: Curve1);
+    ---C++: inline
+    ---Purpose:
+
+    SetTolerance (me: in out; theTol: Real);
+    ---C++: inline
+    ---Purpose:
+
+    NbVariables (me) returns Integer is redefined;
+    ---C++: inline
+
+    NbEquations (me) returns Integer is redefined;
+    ---C++: inline
+
+    Value (me: in out; UV: Vector; F: out Vector) returns Boolean is redefined;
+    	---Purpose: Calculate Fi(U,V).
+
+    Derivatives (me: in out; UV: Vector; DF: out Matrix)
+    	returns Boolean;
+    	---Purpose: Calculate Fi'(U,V).
+
+    Values (me: in out; UV: Vector; F: out Vector; DF: out Matrix)
+    	returns Boolean;
+    	---Purpose: Calculate Fi(U,V) and Fi'(U,V).
+
+    GetStateNumber (me: in out) returns Integer
+    	---Purpose: Save the found extremum.
+    	is redefined;
+
+    NbExt (me) returns Integer;
+        ---C++: inline
+    	---Purpose: Return the number of found extrema.
+
+    SquareDistance (me; N: Integer) returns Real
+        ---C++: inline
+    	---Purpose: Return the value of the Nth distance.
+    	raises  OutOfRange;
+	    	-- if N < 1 or N > NbExt(me).
+
+    Points (me; N: Integer; P1,P2: out POnC)
+    	---Purpose: Return the points of the Nth extreme distance.
+    	raises  OutOfRange;
+	    	-- if N < 1 or N > NbExt(me).
+
+    CurvePtr (me; theRank: Integer) returns Address;
+        ---C++: inline
+        ---Purpose: Returns a pointer to the curve specified in the constructor
+        --          or in SetCurve() method.
+
+    Tolerance (me) returns Real;
+        ---C++: inline
+        ---Purpose: Returns a tolerance specified in the constructor
+        --          or in SetTolerance() method.
+
+fields
+    myC1    : Address from Standard;
+    myC2    : Address from Standard;
+    myTol   : Real;
+    myU     : Real;        
+    myV     : Real;        
+    myP1    : Pnt;   -- current point C1(U)
+    myP2    : Pnt;   -- current point C2(U)
+    myDu    : Vec;   -- current D1 C1(U)
+    myDv    : Vec;   -- current D1 C2(V)
+
+    mySqDist: SequenceOfReal from TColStd;
+    myPoints: SeqPOnC;
+
+end FuncExtCC;

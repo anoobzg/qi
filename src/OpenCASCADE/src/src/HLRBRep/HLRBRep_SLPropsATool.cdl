@@ -1,0 +1,77 @@
+-- Created on: 1993-04-23
+-- Created by: Modelistation
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class SLPropsATool from HLRBRep
+
+uses
+    Address from Standard,
+    Pnt     from gp,
+    Vec     from gp
+
+is
+
+    Value(myclass; A    :     Address from Standard; 
+    	    	   U, V :     Real    from Standard;
+                   P    : out Pnt     from gp);
+    	---Purpose: Computes the point  <P> of 	parameter <U> and <V>
+    	--          on the Surface <A>.
+    	--
+    	---C++: inline
+
+    D1   (myclass; A        : Address from Standard;
+                   U, V     : Real    from Standard;
+                   P        : out Pnt from gp;
+                   D1U, D1V : out Vec from gp);
+    	---Purpose: Computes the point <P>  and first derivative <D1*>
+    	--          of parameter <U> and <V> on the Surface <A>.
+    	--          
+    	---C++: inline
+
+    D2   (myclass; A    : Address from Standard;
+                   U, V : Real    from Standard; 
+              P : out Pnt; D1U, D1V, D2U, D2V, DUV : out Vec);
+    	---Purpose: Computes the point <P>, the first derivative <D1*>
+    	--          and second  derivative <D2*> of parameter  <U> and
+    	--          <V> on the Surface <A>.
+    	--          
+       	---C++: inline
+
+    DN   (myclass; A      : Address from Standard;
+                   U, V   : Real    from Standard;
+		   Nu, Nv : Integer from Standard)
+    returns Vec from gp;
+
+    Continuity(myclass; A : Address from Standard)
+    returns Integer from Standard;
+    	---Purpose: returns the order of   continuity of the   Surface
+    	--          <A>.  returns  1   :  first  derivative    only is
+    	--          computable returns 2 : first and second derivative
+    	--          only are computable.
+    	--          
+       	---C++: inline
+
+    Bounds(myclass; A              :     Address from Standard;
+                    U1, V1, U2, V2 : out Real    from Standard);
+    	---Purpose: returns the bounds of the Surface.
+    	--          
+    	---C++: inline
+
+end SLPropsATool;

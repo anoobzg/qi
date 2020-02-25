@@ -1,0 +1,92 @@
+-- Created on: 1993-01-11
+-- Created by: CKY / Contract Toubro-Larsen ( SIVA )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class OrdinateDimension from IGESDimen  inherits IGESEntity
+
+        ---Purpose: defines IGES Ordinate Dimension, Type <218> Form <0, 1>,
+        --          in package IGESDimen
+        -- Note   : The ordinate dimension entity is used to
+        --          indicate dimensions from a common base line.
+        --          Dimensioning is only permitted along the XT
+        --          or YT axis.
+
+uses
+
+        LeaderArrow from IGESDimen,
+        WitnessLine from IGESDimen,
+        GeneralNote from IGESDimen
+
+is
+
+        Create returns mutable OrdinateDimension;
+
+            -- --specific-- --
+
+        Init(me       : mutable;
+             aNote    : GeneralNote;
+             aType    : Boolean;
+             aLine    : WitnessLine;
+             anArrow  : LeaderArrow);
+        -- This method is used to set fields of the
+        -- class OrdinateDimension
+        --       - aNote    : Note for the dimension
+        --       - aType    : Type (Witness line or leader arrow)
+        --                    (Ignored if form no. = 1)
+        --       - aLine    : Witness line used for the dimension
+        --       - anArrow  : Leader arrow used for the dimension
+
+        IsLine(me) returns Boolean;
+        ---Purpose : returns True if Witness Line and False if Leader (only for Form 0)
+
+        IsLeader(me) returns Boolean;
+        ---Purpose : returns True if Leader and False if Witness Line (only for Form 0)
+
+        Note(me) returns GeneralNote;
+        ---Purpose : returns the General Note entity associated.
+
+        WitnessLine(me) returns WitnessLine;
+        ---Purpose : returns the Witness Line associated or Null handle
+
+        Leader(me) returns LeaderArrow;
+        ---Purpose : returns the Leader associated or Null handle
+
+fields
+
+--
+-- Class    : IGESDimen_OrdinateDimension
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class OrdinateDimension.
+--
+-- Reminder : A OrdinateDimension instance is defined by :
+--            - A General Note
+--            - A Boolean field determining whether a Witness Line
+--                                or Leader is present
+--            - A Witness Line
+--            - A Leader Arrow
+--
+
+        theNote        : GeneralNote;
+        isItLine       : Boolean;     --True if Witness Line, False if Leader
+        theWitnessLine : WitnessLine;
+        theLeader      : LeaderArrow;
+
+end OrdinateDimension;

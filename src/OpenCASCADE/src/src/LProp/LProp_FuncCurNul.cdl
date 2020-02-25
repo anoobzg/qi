@@ -1,0 +1,51 @@
+-- Created on: 1994-09-02
+-- Created by: Yves FRICAUD
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+private generic class FuncCurNul from LProp (Curve as any;
+                                             Vec   as any; -- as Vec or Vec2d
+		     	                     Pnt   as any; -- as Pnt or Pnt2d
+		   	                     Dir   as any; -- as Dir or Dir2d Vec  
+    	    	    	    	    	     Tool  as any) -- as Tool(Curve, Pnt, Vec)
+inherits FunctionWithDerivative from math
+	---Purpose: Function used to find the inflections in 2d. 
+
+is
+    Create ( C : Curve) returns FuncCurNul from LProp;
+    
+    Value (me : in out; X : Real; F : out Real)
+    	---Purpose: Returns the value for the variable <X>.
+    returns Boolean;
+    
+    Derivative(me : in out; X : Real; D : out Real)
+        ---Purpose: Returns the derivative for the variable <X>
+    returns Boolean;
+
+    Values(me : in out ; X  : Real; F  : out Real; D  : out Real)    
+    	---Purpose: Returns the value of the function and the derivative
+    	--          for the variable <X>.
+    returns Boolean;    
+
+fields
+    theCurve : Curve;
+    
+end FuncCurNul;
+

@@ -1,0 +1,90 @@
+-- Created on: 1992-08-11
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+
+class EdgeFaceTransition from TopCnx 
+
+	---Purpose: TheEdgeFaceTransition is an algorithm to   compute
+	--          the  cumulated  transition for interferences on an
+	--          edge. 
+
+uses
+
+    Boolean from Standard,
+    Real    from Standard,
+    Integer from Standard,
+    
+    Pnt from gp,
+    Dir from gp,
+    
+    State from TopAbs,
+    Orientation from TopAbs,
+
+    CurveTransition from TopTrans
+
+is
+    Create returns EdgeFaceTransition from TopCnx;
+	---Purpose: Creates an empty algorithm.
+
+    Reset( me   : in out;
+    	   Tgt  : Dir from gp;        -- Tangent at this point      
+    	   Norm : Dir from gp;        -- Normal vector at this point
+    	   Curv : Real from Standard) -- Curvature at this point     
+	---Purpose: Initialize  the     algorithm    with the    local
+	--          description of the edge.
+    is static;
+
+    Reset( me   : in out;
+    	   Tgt  : in Dir from gp)        -- Tangent at this point      
+	---Purpose: Initialize the algorithm with a linear Edge.
+    is static;
+    
+    AddInterference(me : in out;
+    	    Tole : Real from Standard;      -- Cosine tolerance
+    	    Tang : Dir from gp;             -- Tangent on curve for this point
+   	    Norm : Dir from gp;             -- Normal vector at this point
+    	    Curv : Real from Standard;      -- Curvature at this point    
+    	    Or   : Orientation from TopAbs; -- Orientation on the curve 
+	    Tr   : Orientation from TopAbs; -- Transition
+	    BTr  : Orientation from TopAbs) -- Boundary transition	    
+	---Purpose: Add a curve  element to the  boundary.  Or  is the
+	--          orientation of   the interference on  the boundary
+	--          curve. Tr is  the transition  of the interference.
+	--          BTr     is   the    boundary  transition    of the
+	--          interference.
+    is static;
+    
+    Transition(me) returns Orientation from TopAbs
+	---Purpose: Returns the current cumulated transition.
+    is static;
+    
+    BoundaryTransition(me) returns Orientation from TopAbs
+	---Purpose: Returns the current cumulated BoundaryTransition.
+    is static;
+
+fields
+    myCurveTransition : CurveTransition from TopTrans;
+    nbBoundForward    : Integer from Standard;
+    nbBoundReversed   : Integer from Standard;
+
+end EdgeFaceTransition;

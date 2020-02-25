@@ -1,0 +1,72 @@
+-- Created on: 1999-02-24
+-- Created by: Christian CAILLET
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ConnectedShapes  from XSControl    inherits SelectExplore  from IFSelect
+
+    ---Purpose : From a TopoDS_Shape, or from the entity which has produced it,
+    --           searches for the shapes, and the entities which have produced
+    --           them in last transfer, which are adjacent to it by VERTICES
+
+uses AsciiString, Transient,  Graph, EntityIterator,
+     HSequenceOfTransient from TColStd,
+     Shape from TopoDS, ShapeEnum from TopAbs,
+     TransientProcess from Transfer, TransferReader from XSControl
+
+is
+
+    Create returns ConnectedShapes;
+    ---Purpose : Creates a Selection ConnectedShapes. It remains to be set a
+    --           TransferReader
+
+    Create (TR : TransferReader) returns ConnectedShapes;
+    ---Purpose : Creates a Selection ConnectedShapes, which will work with the
+    --           current TransferProcess brought by the TransferReader
+ 
+    SetReader (me : mutable; TR : TransferReader);
+    ---Purpose : Sets a TransferReader to sort entities : it brings the
+    --           TransferProcess which may change, while the TransferReader does not
+
+    Explore (me; level : Integer; ent : Transient; G : Graph;
+             explored : in out EntityIterator)
+        returns Boolean;
+    ---Purpose : Explores an entity : entities from which are connected to that
+    --           produced by this entity, including itself
+ 
+ 
+    ExploreLabel (me) returns AsciiString from TCollection;
+    ---Purpose : Returns a text defining the criterium.
+    --           "Connected Entities through produced Shapes"
+
+
+    AdjacentEntities (myclass;
+    	ashape    : Shape from TopoDS;
+    	TP : TransientProcess from Transfer;
+    	type      : ShapeEnum from TopAbs)
+    	    returns HSequenceOfTransient;
+    ---Purpose : This functions considers a shape from a transfer and performs
+    --           the search function explained above
+
+fields
+ 
+    theTR : TransferReader;
+
+end ConnectedShapes;

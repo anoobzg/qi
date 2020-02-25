@@ -1,0 +1,110 @@
+-- Created on: 1995-02-23
+-- Created by: Mister rmi
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SensitivePoint from Select3D 
+inherits SensitiveEntity from Select3D
+
+	---Purpose: A framework to define sensitive 3D points.
+
+uses
+    Pnt             from gp,
+    Pnt2d           from gp,
+    Projector       from Select3D,
+    Lin             from gp,
+    EntityOwner     from SelectBasics,
+    ListOfBox2d     from SelectBasics,
+    Location        from TopLoc,
+    Box2d             from Bnd,
+    Array1OfPnt2d     from TColgp, 
+    Pnt               from Select3D,
+    Pnt2d             from Select3D
+
+is
+
+    Create (OwnerId : EntityOwner from SelectBasics;
+    	    Point   : Pnt from gp)
+    returns mutable SensitivePoint;
+    	---Purpose: Constructs a sensitive point object defined by the
+    	-- owner OwnerId and the point Point. 
+
+
+    Project (me:mutable;aProjector : Projector from Select3D) 
+    is redefined static;
+    ---Level: Public 
+    ---Purpose:Converts the stored 3D point into a 2D point according 
+    --         to <aProjector> ; this method is called by the selection Manager.
+
+    
+    Areas(me:mutable; aresult : in out ListOfBox2d from SelectBasics) 
+    is redefined static;
+    ---Level: Public 
+    ---Purpose: stores in <aresult> the 2D sensitive box which represents 
+    --          the point area in the selection process. 
+
+    GetConnected(me:mutable;aLocation: Location from TopLoc)
+    returns SensitiveEntity from Select3D is redefined static;
+    
+    Matches(me  :mutable; 
+            X,Y : Real from Standard;
+            aTol: Real from Standard;
+            DMin: out Real from Standard) 
+    returns Boolean
+    is redefined static;    
+    ---Level: Public 
+    ---Purpose: returns true if the X,Y position matches the point
+    --          else gives the distance between them.
+
+    Matches (me  :mutable; 
+             XMin,YMin,XMax,YMax : Real from Standard;
+             aTol: Real from Standard) 
+    returns Boolean
+    is static;
+
+     
+    Matches (me  :mutable; 
+             Polyline:Array1OfPnt2d from TColgp;
+	     aBox:Box2d from Bnd;
+             aTol: Real from Standard) 
+    returns Boolean
+    is redefined virtual;
+    ---Level: Public 
+    
+
+    ComputeDepth(me;EyeLine: Lin from gp) 
+    returns Real from Standard is redefined static;
+
+      
+    Point(me) returns Pnt from gp;
+    ---Purpose: Returns the point used at the time of construction.
+
+
+    Dump(me; S: in out OStream;FullDump : Boolean from Standard = Standard_True) is redefined virtual;
+
+fields
+
+    mypoint   : Pnt from Select3D;
+    myprojpt  : Pnt2d from Select3D;
+    
+    
+end SensitivePoint;
+
+

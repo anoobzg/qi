@@ -1,0 +1,87 @@
+-- Created on: 1996-09-25
+-- Created by: Christian CAILLET
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred class SelectExplore  from IFSelect  inherits SelectDeduct
+
+    ---Purpose : A SelectExplore determines from an input list of Entities,
+    --           a list obtained by a way of exploration. This implies the
+    --           possibility of recursive exploration : the output list is
+    --           itself reused as input, etc...
+    --           Examples : Shared Entities, can be considered at one level
+    --           (immediate shared) or more, or max level
+    --           
+    --           Then, for each input entity, if it is not rejected, it can be
+    --           either taken itself, or explored : it then produces a list.
+    --           According to a level, either the produced lists or taken
+    --           entities give the result (level one), or lists are themselves
+    --           considered and for each item, is it taken or explored.
+    --           
+    --           Remark that rejection is just a safety : normally, an input
+    --             entity is, either taken itself, or explored
+    --           A maximum level can be specified. Else, the process continues
+    --           until all entities have been either taken or rejected
+
+uses AsciiString from TCollection, InterfaceModel, EntityIterator,  Graph
+
+is
+
+    Initialize (level : Integer);
+    ---Purpose : Initializes a SelectExplore : the level must be specified on
+    --           starting. 0 means all levels, 1 means level one only, etc...
+
+    Level (me) returns Integer;
+    ---Purpose : Returns the required exploring level
+
+    RootResult (me; G : Graph) returns EntityIterator;
+    ---Purpose : Returns the list of selected entities. Works by calling the
+    --           method Explore on each input entity : it can be rejected,
+    --           taken for output, or to explore. If the maximum level has not
+    --           yet been attained, or if no max level is specified, entities
+    --           to be explored are themselves used as if they were input
+
+    Explore (me; level : Integer; ent : Transient; G : Graph;
+    	     explored : in out EntityIterator)
+    	returns Boolean  is deferred;
+    ---Purpose : Analyses and, if required, Explores an entity, as follows :
+    --           The explored list starts as empty, it has to be filled by this
+    --           method.
+    --           If it returns False, <ent> is rejected for result (this is to
+    --               be used only as safety)
+    --           If it returns True and <explored> remains empty, <ent> is
+    --             taken itself for result, not explored
+    --           If it returns True and <explored> is not empty, the content
+    --             of this list is considered :
+    --             If maximum level is attained, it is taken for result
+    --             Else (or no max), each of its entity will be itself explored
+
+    Label (me) returns AsciiString from TCollection;
+    ---Purpose : Returns a text saying "(Recursive)" or "(Level nn)" plus
+    --           specific criterium returned by ExploreLabel (see below)
+
+    ExploreLabel (me) returns AsciiString from TCollection  is deferred;
+    ---Purpose : Returns a text defining the way of exploration
+
+fields
+
+    thelevel : Integer;
+
+end SelectExplore;

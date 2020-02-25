@@ -1,0 +1,53 @@
+-- Created on: 1995-09-19
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class HLRPolyShape from StdPrs
+
+inherits Root from Prs3d
+    	---Purpose: Instantiates Prs3d_PolyHLRShape to define a
+    	-- display of a shape where hidden and visible lines are
+    	-- identified with respect to a given projection.
+    	-- StdPrs_HLRPolyShape works with a polyhedral
+    	-- simplification of the shape whereas
+    	-- StdPrs_HLRShape takes the shape itself into
+    	-- account. When you use StdPrs_HLRShape, you
+    	-- obtain an exact result, whereas, when you use
+    	-- StdPrs_HLRPolyShape, you reduce computation
+    	-- time but obtain polygonal segments.
+uses
+    Shape        from TopoDS,
+    Presentation from Prs3d,
+    Drawer       from Prs3d,
+    Projector    from Prs3d
+
+is
+    Add(myclass; aPresentation: Presentation from Prs3d;
+    	    	 aShape       : Shape        from TopoDS;
+                 aDrawer      : Drawer       from Prs3d;
+		 aProjector   : Projector    from Prs3d);
+    	---Purpose: Defines the hidden line removal display of the
+    	-- topology aShape in the projection defined by
+    	-- aProjector. The shape and the projection are added
+    	-- to the display aPresentation, and the attributes of the
+    	-- elements present in the aPresentation are defined by
+    	-- the attribute manager aDrawer.
+        
+end HLRPolyShape from StdPrs;

@@ -1,0 +1,122 @@
+-- Created on: 1993-01-13
+-- Created by: CKY / Contract Toubro-Larsen ( Deepak PRABHU )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class AngularDimension from IGESDimen  inherits IGESEntity
+
+        ---Purpose: defines AngularDimension, Type <202> Form <0>
+        --          in package IGESDimen
+        --          Used to dimension angles
+
+uses
+
+        GeneralNote     from IGESDimen,
+        WitnessLine     from IGESDimen,
+        LeaderArrow     from IGESDimen,
+        Pnt             from gp,
+        Pnt2d           from gp,
+        XYZ             from gp,
+        XY              from gp
+
+is
+
+        Create returns mutable AngularDimension;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me                 : mutable;
+              aNote              : GeneralNote;
+              aLine              : WitnessLine;
+              anotherLine        : WitnessLine;
+              aVertex            : XY;
+              aRadius            : Real;
+              aLeader            : LeaderArrow;
+              anotherLeader      : LeaderArrow);
+        ---Purpose : This method is used to set the fields of the class
+        --           AngularDimension
+        --       - aNote         : General Note Entity
+        --       - aLine         : First Witness Line Entity or Null
+        --                             Handle
+        --       - anotherLine   : Second Witness Line Entity or Null
+        --                             Handle
+        --       - aVertex       : Coordinates of vertex point
+        --       - aRadius       : Radius of leader arcs
+        --       - aLeader       : First Leader Entity
+        --       - anotherLeader : Second Leader Entity
+
+        Note (me) returns GeneralNote;
+        ---Purpose : returns the General Note Entity of the Dimension.
+
+        HasFirstWitnessLine (me) returns Boolean;
+        ---Purpose : returns False if theFirstWitnessLine is Null Handle.
+
+        FirstWitnessLine (me) returns WitnessLine;
+        ---Purpose : returns the First Witness Line Entity or Null Handle.
+
+        HasSecondWitnessLine (me) returns Boolean;
+        ---Purpose : returns False if theSecondWitnessLine is Null Handle.
+
+        SecondWitnessLine (me) returns WitnessLine;
+        ---Purpose : returns the Second Witness Line Entity or Null Handle.
+
+        Vertex (me) returns Pnt2d;
+        ---Purpose : returns the co-ordinates of the Vertex point as Pnt2d from gp.
+
+        TransformedVertex (me) returns Pnt2d;
+        ---Purpose : returns the co-ordinates of the Vertex point as Pnt2d from gp
+        -- after Transformation. (Z = 0.0 for Transformation)  
+
+        Radius (me) returns Real;
+        ---Purpose : returns the Radius of the Leader arcs.
+
+        FirstLeader (me) returns LeaderArrow;
+        ---Purpose : returns the First Leader Entity.
+
+        SecondLeader (me) returns LeaderArrow;
+        ---Purpose : returns the Second Leader Entity.
+
+fields
+
+--
+-- Class    : IGESDimen_AngularDimension
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class AngularDimension.
+--
+-- Reminder : A AngularDimension instance is defined by :
+--            - General Note Entity
+--            - optional First Witness Line Entity
+--            - optional Second Witness Line Entity
+--            - Coordinates of vertex point
+--            - Radius of leader arcs
+--            - First Leader Entity
+--            - Second Leader Entity
+-- Consists of two leaders each consisting of at least one circular arc
+-- segment with an arrowhead at one end
+
+        theNote              : GeneralNote;
+        theFirstWitnessLine  : WitnessLine;
+        theSecondWitnessLine : WitnessLine;
+        theVertex            : XY;
+        theRadius            : Real;
+        theFirstLeader       : LeaderArrow;
+        theSecondLeader      : LeaderArrow;
+
+end AngularDimension;

@@ -1,0 +1,109 @@
+-- Created on: 1997-01-03
+-- Created by: Stagiaire Flore Lautheanne
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class IdenticPresentation from DsgPrs 
+
+	---Purpose: 
+
+uses
+
+    Presentation   from Prs3d,
+    Drawer         from Prs3d,
+    ExtendedString from TCollection,
+    Pnt            from gp,
+    Dir            from gp,
+    Ax2            from gp,
+    Elips          from gp -- jfa 10/10/2000
+
+is
+
+     Add( myclass; aPresentation: Presentation from Prs3d;
+    	    	   aDrawer: Drawer from Prs3d;
+		   aText: ExtendedString from TCollection;
+		   aPntAttach : Pnt from gp;
+    	    	   aPntOffset : Pnt from gp);
+    	---Purpose: draws a line between <aPntAttach> and 
+    	--          <aPntOffset>.
+		  
+		   
+     Add( myclass; aPresentation: Presentation from Prs3d;
+    	    	   aDrawer: Drawer from Prs3d;
+		   aText: ExtendedString from TCollection;
+		   aFAttach : Pnt from gp;
+		   aSAttach : Pnt from gp;
+    	    	   aPntOffset : Pnt from gp);
+    	---Purpose: draws the 'identic' presentation by 
+    	--          drawing a line between <aFAttach> and
+    	--          <aSAttach> , and a linkimg segment 
+    	--          between <aPntOffset> and its projection 
+    	--          on the precedent line.
+		   
+    Add( myclass; aPresentation: Presentation from Prs3d;
+    	    	  aDrawer: Drawer from Prs3d;
+		  aText: ExtendedString from TCollection;
+    	    	  aAx2     : Ax2 from gp;
+		  aCenter  : Pnt from gp;
+		  aFAttach : Pnt from gp;
+		  aSAttach : Pnt from gp;
+    	    	  aPntOffset : Pnt from gp);	   
+    	---Purpose: draws the 'identic' presentation in the case of
+    	--          circles : draws an arc of circle between 
+    	--          <aFAttach> and <aSAttach> of center <aCenter>
+    	--          and of radius dist(aCenter, aFAttach), and
+    	--          draws a segment between <aPntOffset> and
+    	--          its projection on the arc.
+		   
+    -- jfa 16/10/2000
+    Add( myclass; aPresentation: Presentation from Prs3d;
+    	    	  aDrawer: Drawer from Prs3d;
+		  aText: ExtendedString from TCollection;
+    	    	  aAx2     : Ax2 from gp;
+		  aCenter  : Pnt from gp;
+		  aFAttach : Pnt from gp;
+		  aSAttach : Pnt from gp;
+    	    	  aPntOffset : Pnt from gp;	   
+    	    	  aPntOnCirc : Pnt from gp);	   
+    	---Purpose: draws the 'identic' presentation in the case of
+    	--          circles : draws an arc of circle between 
+    	--          <aFAttach> and <aSAttach> of center <aCenter>
+    	--          and of radius dist(aCenter, aFAttach), and
+    	--          draws a segment between <aPntOffset> and <aPntOnCirc>
+	
+    -- jfa 16/10/2000
+		   
+    -- jfa 10/10/2000 for ellipses identity presentation
+    Add( myclass; aPresentation: Presentation from Prs3d;
+    	    	  aDrawer: Drawer from Prs3d;
+		  aText: ExtendedString from TCollection;
+		  anEllipse: Elips from gp;
+		  aFAttach : Pnt from gp;
+		  aSAttach : Pnt from gp;
+    	    	  aPntOffset : Pnt from gp;	   
+    	    	  aPntOnElli : Pnt from gp);	   
+    	---Purpose: draws the 'identic' presentation in the case of
+    	--          ellipses: draws an arc of the anEllipse
+    	--          between <aFAttach> and <aSAttach> and
+    	--          draws a segment between <aPntOffset> and <aPntOnElli>
+	
+    -- jfa 10/10/2000 end
+		   
+end IdenticPresentation;
+

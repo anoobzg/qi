@@ -1,0 +1,66 @@
+-- Created on: 1992-08-18
+-- Created by: Remi Lequette
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package Hatch 
+
+	---Purpose: The  Hatch package provides   algorithm to compute
+	--          cross-hatchings on a 2D face.
+	--          
+	--          The  Hatcher algorithms stores a   set of lines in
+	--          the 2D plane.
+	--          
+	--          The user stores lines in the Hatcher and afterward
+	--          trim them with other lines.
+	--          
+	--          At any moment when  trimming the user can  ask for
+	--          any  line  if   it is  intersected  and how   many
+	--          intervals are defined on the line by the trim.
+
+uses
+    Standard,
+    TCollection,
+    gp
+
+is
+    enumeration LineForm is 
+	---Purpose: Form of a trimmed line
+	XLINE, YLINE, ANYLINE
+    end LineForm;
+
+
+    private class Parameter;
+	---Purpose: Used   by the Hatcher to  store  a parameter on  a
+	--          line. 
+	
+    private class SequenceOfParameter instantiates Sequence from TCollection
+    	    (Parameter from Hatch);
+
+    private class Line;
+	---Purpose: Used by the Hatcher to store a line.
+
+    private class SequenceOfLine instantiates Sequence from TCollection
+    	    (Line from Hatch);
+	    
+    class Hatcher;
+	---Purpose: The Hatching algorithm.
+
+end Hatch;

@@ -1,0 +1,118 @@
+-- Created on: 1999-03-03
+-- Created by: Fabrice SERVANT
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+-- Modified by skv - Thu Sep 25 18:04:05 2003 OCC567 
+-- Definition of new pointer to MaillageAffinage 
+-- which is used in Intersection class.
+
+package IntPolyh 
+
+	---Purpose:  This   package  provides algorithms    to compute
+	--           starting   points for   the     surface  surface
+	--           intersection  packages. Those  starting points are
+	--           used if   the  two   surfaces are  bi-parametric
+	--           surfaces (bezier, nurbs, algorithm surfaces ...)
+	--          
+    	--  This package provides methods 
+    	--     
+    	--      to compute meshes on the  two surfaces. The meshes can
+    	--      be refined if  necessary.  It is the major improvement
+    	--      to  the Intf  package which   gives  the same  kind of
+    	--      ressources.
+        --
+        --      to intersect the two meshes
+        --
+        --      to give approximated starting-points. Those points are
+        --      organised in lines, when  the points belong to a  same
+        --      section line, or returned as isolated points when they
+        --      can neither  define a  new  line nor  be  linked to an
+        --      existant line.
+        --      
+        --  A  starting-point   contains 3d   information,  parametric
+        --  ionformation and  quality criterion. (i.e.   X,Y,Z, U1,V1,
+        --  U2,V2,  Incidence).  Incidence  is  a real wich   gives an
+        --  estimated   angle    between the two   surfaces  near  the
+        --  intersection point.
+        --  
+        --  
+
+uses
+    TCollection,
+    TColStd,
+    gp, 	      
+    Bnd,
+    Adaptor3d
+ 
+is 
+    imported ArrayOfSectionLines from IntPolyh; 
+    imported ArrayOfCouples from IntPolyh; 
+    imported ArrayOfEdges from IntPolyh; 
+    imported ArrayOfPoints from IntPolyh; 
+    imported ArrayOfStartPoints from IntPolyh; 
+    imported ArrayOfTangentZones from IntPolyh; 
+    imported ArrayOfTriangles from IntPolyh; 
+    
+    class Intersection;
+	---Purpose:  the main   algorithm.  Algorythm   outputs are --
+	--            lines  and  points like   discribe   in the last
+	--          paragraph.  The Algorythm provides direct acces to
+	--            the elements of those   lines  and points. Other
+	--          classes  of this package  are for internal use and
+	--          only concern the algorithmic part.
+
+    ------------------------------------------------------------
+    ----   Internal classes and algorithms 
+    ------------------------------------------------------------
+    class Couple;
+	---Purpose: couple of triangles
+
+
+    class Point;
+    class StartPoint;
+    class SeqOfStartPoints instantiates Sequence from TCollection
+        (StartPoint from IntPolyh);
+
+    class Edge;
+     
+
+    class Triangle;
+    
+   
+    class MaillageAffinage;
+    	---Purpose: Provide the algorythms used in the package
+
+    class SectionLine;
+    
+    
+--    class TangentZone; For the moment we use the StartPoint Class
+    
+    pointer PMaillageAffinage to MaillageAffinage from IntPolyh;
+    
+end;
+
+
+
+
+
+
+
+
+

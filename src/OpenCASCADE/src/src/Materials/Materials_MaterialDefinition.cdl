@@ -1,0 +1,61 @@
+-- Created on: 1994-01-14
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class MaterialDefinition from Materials
+
+inherits
+
+    FuzzyDefinitionsDictionary from Dynamic 
+     
+    
+	---Purpose: This  inherited  class  is  useful  to create  the
+	--          abstract description  of  a material,  in  term of
+	--          authorized properties.
+
+uses
+
+    Parameter from Dynamic
+
+    
+is
+
+    Create returns mutable MaterialDefinition from Materials;
+    
+    ---Level: Internal 
+
+    ---Purpose: Creates the exhaustive definition of a material.
+
+    Switch(me ; aname , atype , avalue : CString from Standard) returns Parameter from Dynamic
+    
+    ---Level: Internal 
+
+    ---Purpose: Starting with the identifier of the parameter <aname>,
+    --          the type  of parameter <atype>  and a  string <avalue>
+    --          which describes  the values  useful  for  this type of
+    --          parameters,  creates and returns  a  Parameter  object
+    --          from Dynamic.
+    
+    is redefined;
+    
+--fields
+
+end MaterialDefinition;

@@ -1,0 +1,74 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( SIVA )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Sphere from IGESSolid  inherits IGESEntity
+
+        ---Purpose: defines Sphere, Type <158> Form Number <0>
+        --          in package IGESSolid
+        --          This defines a sphere with a center and radius
+
+uses
+
+        Pnt             from gp,
+        XYZ             from gp
+
+is
+
+        Create returns mutable Sphere;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me      : mutable;
+              aRadius : Real;
+              aCenter : XYZ);
+        ---Purpose : This method is used to set the fields of the class Sphere
+        --       - aRadius : the radius of the sphere
+        --       - aCenter : the center point coordinates (default (0,0,0))
+
+        Radius (me) returns Real;
+        ---Purpose : returns the radius of the sphere
+
+        Center (me) returns Pnt;
+        ---Purpose : returns the center of the sphere
+
+        TransformedCenter (me) returns Pnt;
+        ---Purpose : returns the center of the sphere after applying 
+        -- TransformationMatrix
+
+fields
+
+--
+-- Class    : IGESSolid_Sphere
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class Sphere.
+--
+-- Reminder : A Sphere instance is defined by :
+--            its center (X1,Y1,Z1) and a radius (Radius) > 0
+--
+
+        theRadius : Real;
+            -- the radius of the sphere
+
+        theCenter : XYZ;
+            -- the center point coordinates
+
+end Sphere;

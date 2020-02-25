@@ -1,0 +1,122 @@
+-- Created on: 1990-12-20
+-- Created by: Remi Lequette
+-- Copyright (c) 1990-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package TopExp 
+
+    ---Purpose: This package   provides  basic tools  to   explore the
+    --          topological data structures.
+    --          
+    --          * Explorer : A tool to find all sub-shapes of  a given
+    --          type. e.g. all faces of a solid.
+    --          
+    --          * Package methods to map sub-shapes of a shape.
+    --          
+    -- Level : Public  
+    --  All methods of all  classes will be public.
+
+
+uses
+
+    TCollection,
+    TopLoc,
+    TopAbs,    
+    TopoDS,
+    TopTools
+
+is
+
+    private class StackOfIterator instantiates 
+    	Stack from TCollection (Iterator from TopoDS);
+
+    pointer Stack to Iterator from TopoDS;
+    
+    class Explorer;
+	---Purpose: Tool to explore a topological data structure.
+
+    --
+    --      Package methods
+    --      
+    
+    
+    MapShapes(S    : Shape from TopoDS;
+    	      T    : ShapeEnum from TopAbs;
+    	      M    : in out IndexedMapOfShape from TopTools);
+	  ---Purpose: Stores in the map <M> all  the sub-shapes of <S>
+	  --          of type <T>.
+	  --          
+	  --  Warning: The map is not cleared at first.
+
+    MapShapes(S    : Shape from TopoDS;
+    	      M    : in out IndexedMapOfShape from TopTools);
+	  ---Purpose: Stores in the map <M> all  the sub-shapes of <S>.
+
+    MapShapesAndAncestors
+    	(S  : Shape from TopoDS;
+    	 TS : ShapeEnum from TopAbs;
+	 TA : ShapeEnum from TopAbs;
+	 M  : in out IndexedDataMapOfShapeListOfShape from TopTools);  
+ ---Purpose: Stores in the map <M> all the subshape of <S> of
+ --          type <TS>  for each one append  to  the list all
+ --          the ancestors of type <TA>.  For example map all
+	  --          the edges and bind the list of faces.
+	  --  Warning: The map is not cleared at first.
+
+    FirstVertex(E : Edge from TopoDS;
+    	    	CumOri : Boolean from Standard = Standard_False)
+    returns Vertex from TopoDS;
+	---Purpose: Returns the Vertex of orientation FORWARD in E. If
+	--          there is none returns a Null Shape.
+	--          CumOri = True : taking account the edge orientation
+    
+    LastVertex(E : Edge from TopoDS;
+    	       CumOri : Boolean from Standard = Standard_False)
+    returns Vertex from TopoDS;
+	---Purpose: Returns the Vertex of orientation REVERSED in E. If
+	--          there is none returns a Null Shape.
+	--          CumOri = True : taking account the edge orientation
+    
+    Vertices(E : Edge from TopoDS; Vfirst, Vlast : out Vertex from TopoDS;
+    	     CumOri : Boolean from Standard = Standard_False);
+	---Purpose: Returns in Vfirst, Vlast the  FORWARD and REVERSED
+	--          vertices of the edge <E>. May be null shapes.
+	--          CumOri = True : taking account the edge orientation
+             
+    Vertices(W : Wire from TopoDS; Vfirst, Vlast : out Vertex from TopoDS);
+	---Purpose: Returns  in  Vfirst,  Vlast   the first   and last 
+	--          vertices of the open wire <W>. May be null shapes.
+	--          if   <W>  is closed Vfirst and Vlast  are a same
+	--          vertex on <W>.
+	--          if <W> is no manifold. VFirst and VLast are null 
+	--          shapes.
+
+    CommonVertex( E1, E2 :     Edge   from TopoDS;
+                  V      : out Vertex from TopoDS)
+    returns Boolean;
+	---Purpose: Finds   the  vertex <V> common   to  the two edges
+	--          <E1,E2>, returns True if this vertex exists.
+	--          
+    	--  Warning: <V> has sense only if the value <True> is returned    
+
+end TopExp;
+
+
+

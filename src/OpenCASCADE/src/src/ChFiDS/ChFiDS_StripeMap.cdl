@@ -1,0 +1,71 @@
+-- Created on: 1993-11-10
+-- Created by: Laurent BOURESCHE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class StripeMap from ChFiDS 
+
+	---Purpose: 
+
+uses 
+     IndexedDataMapOfVertexListOfStripe from ChFiDS,
+     Vertex from TopoDS,
+     ListOfStripe from ChFiDS,
+     Stripe from ChFiDS
+is
+
+    Create returns StripeMap from ChFiDS;
+
+    Add(me : in out; V : Vertex from TopoDS; F : Stripe from ChFiDS) 
+    is static;
+    
+    
+    Extent(me) returns Integer
+    ---C++: inline
+    is static;
+    
+    FindFromKey(me; V: Vertex from TopoDS) 
+    returns ListOfStripe from ChFiDS 
+    ---C++: alias operator()
+    ---C++: return const &
+    is static;
+    
+    FindFromIndex(me; I : Integer from Standard) 
+    returns ListOfStripe from ChFiDS
+    ---C++: alias operator()
+    ---C++: return const &
+    is static;
+
+
+    FindKey(me; I : Integer from Standard) returns Vertex  from TopoDS
+    ---C++: inline
+    ---C++: return const &
+    is static;
+
+
+    Clear(me : in out) is static;
+
+
+fields
+
+ mymap : IndexedDataMapOfVertexListOfStripe from ChFiDS;
+
+end StripeMap;

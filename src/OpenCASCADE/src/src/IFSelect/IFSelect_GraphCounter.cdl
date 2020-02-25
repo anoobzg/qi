@@ -1,0 +1,58 @@
+-- Created on: 1998-10-15
+-- Created by: Christian CAILLET
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class GraphCounter  from IFSelect    inherits SignCounter  from IFSelect
+
+    ---Purpose : A GraphCounter computes values to be sorted with the help of
+    --           a Graph. I.E. not from a Signature
+    --           
+    --           The default GraphCounter works with an Applied Selection (a
+    --           SelectDeduct), the value is the count of selected entities
+    --           from each input entities)
+
+uses HSequenceOfTransient from TColStd,
+     Graph from Interface, SelectDeduct from IFSelect
+
+is
+
+    Create (withmap  : Boolean = Standard_True;
+            withlist : Boolean = Standard_False) returns mutable GraphCounter;
+    ---Purpose : Creates a GraphCounter, without applied selection
+
+    Applied (me) returns SelectDeduct;
+    ---Purpose : Returns the applied selection
+
+    SetApplied (me : mutable; sel : SelectDeduct);
+    ---Purpose : Sets a new applied selection
+
+    AddWithGraph (me : mutable; list : HSequenceOfTransient; graph : Graph)
+        is redefined virtual;
+    ---Purpose : Adds a list of entities in the context given by the graph
+    --           Default takes the count of entities selected by the applied
+    --           selection, when it is given each entity of the list
+    --           Can be redefined
+
+fields
+
+    theapplied : SelectDeduct;
+
+end GraphCounter;

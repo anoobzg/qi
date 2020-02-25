@@ -1,0 +1,96 @@
+-- Created on: 1995-10-24
+-- Created by: Mister rmi
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+package MgtPoly
+
+	---Purpose: This  package   provides   methods  to   translate
+	--          transient objects from Poly to  persistent objects
+	--          from PPoly and vice-versa.
+	--          As far as objects can be shared (just as Geometry),
+	--          a map is given as translate argument.
+
+
+uses Poly,
+     PPoly,
+     PTColStd
+     
+is
+
+    -- Triangle (Storable)
+
+    Translate(POjb: Triangle from PPoly)
+    	returns Triangle from Poly;
+	---Purpose: translates Transient -> Persistent
+    
+    Translate(TObj: Triangle from Poly)
+    	returns Triangle from PPoly;
+	---Purpose: translates Persistent -> Transient
+
+    -- Triangulation
+
+    Translate(PObj : Triangulation from PPoly;
+    	      aMap : in out PersistentTransientMap from PTColStd)
+    	returns Triangulation from Poly;
+	---Purpose: translates Persistent -> Transient
+
+    Translate(TObj : Triangulation from Poly;
+    	      aMap : in out TransientPersistentMap from PTColStd)
+    	returns Triangulation from PPoly;
+	---Purpose: translates Transient -> Persistent
+    
+    -- Polygon3D
+
+    Translate(PObj : Polygon3D from PPoly;
+    	      aMap : in out PersistentTransientMap from PTColStd)
+    	returns Polygon3D from Poly;
+	---Purpose: translates Persistent -> Transient
+
+    Translate(TObj : Polygon3D from Poly;
+    	      aMap : in out TransientPersistentMap from PTColStd)
+    	returns Polygon3D from PPoly;
+	---Purpose: translates Transient -> Persistent
+
+    -- Polygon2D
+
+
+    Translate(PObj : Polygon2D from PPoly;
+    	      aMap : in out PersistentTransientMap from PTColStd)
+    	returns Polygon2D from Poly;
+	---Purpose: translates Persistent -> Transient
+
+    Translate(TObj : Polygon2D from Poly;
+    	      aMap : in out TransientPersistentMap from PTColStd)
+    	returns Polygon2D from PPoly;
+	---Purpose: translates Transient -> Persistent
+
+    -- PolygonOnTriangulation
+
+    Translate(PObj : PolygonOnTriangulation from PPoly;
+    	      aMap : in out PersistentTransientMap from PTColStd)
+    	returns PolygonOnTriangulation from Poly;
+	---Purpose: translates Persistent -> Transient
+
+    Translate(TObj : PolygonOnTriangulation from Poly;
+    	      aMap : in out TransientPersistentMap from PTColStd)
+    	returns PolygonOnTriangulation from PPoly;
+	---Purpose: translates Transient -> Persistent
+
+end MgtPoly;

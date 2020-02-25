@@ -1,0 +1,81 @@
+-- Created on: 2000-08-15
+-- Created by: data exchange team
+-- Copyright (c) 2000-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Location from XCAFDoc inherits Attribute from TDF
+
+	---Purpose: 
+
+uses
+    Location from TopLoc,
+    Label from TDF,
+    RelocationTable from TDF
+
+is
+    Create returns Location from XCAFDoc;
+    
+    ---Purpose: class methods
+    --          =============
+
+    GetID (myclass)   
+    	---C++: return const &  
+    returns GUID from Standard;
+
+    Set (myclass; label : Label from TDF; Loc : Location from TopLoc)
+    ---Purpose: Find, or create, a Location attribute and set it's value
+    --          the Location attribute is returned.
+    returns Location from XCAFDoc;
+
+    ---Purpose: Location methods
+    --          ===============
+    
+    Set (me : mutable; Loc : Location from TopLoc);
+    
+    Get (me)
+    returns Location from TopLoc;
+        ---C++: return const & 
+
+    --IsCaptured(me) returns Boolean;
+	---Purpose: Returns True if there is a reference on the same label
+
+    ---Category: methodes de TDF_Attribute
+    --           =========================
+    
+    ID (me)
+    	---C++: return const & 
+    returns GUID from Standard;
+
+    Restore (me: mutable; With : Attribute from TDF);
+
+    NewEmpty (me)
+    returns mutable Attribute from TDF;
+
+    Paste (me; Into : mutable Attribute from TDF;
+	       RT   : mutable RelocationTable from TDF);    
+
+--    Dump(me; anOS : in out OStream from Standard)
+--    	returns OStream from Standard
+--    	is redefined;
+--	-C++: return &
+
+fields
+    myLocation : Location from TopLoc;
+    
+end Location;

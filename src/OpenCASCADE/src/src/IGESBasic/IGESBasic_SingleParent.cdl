@@ -1,0 +1,84 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( Arun MENON )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class SingleParent from IGESBasic  inherits SingleParentEntity
+
+        ---Purpose: defines SingleParent, Type <402> Form <9>
+        --          in package IGESBasic
+        --          It defines a logical structure of one independent
+        --          (parent) entity and one or more subordinate (children)
+        --          entities
+
+uses
+
+    	IGESEntity,
+        HArray1OfIGESEntity from IGESData
+
+raises OutOfRange
+
+is
+
+        Create returns mutable SingleParent;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me               : mutable;
+              nbParentEntities : Integer;
+              aParentEntity    : IGESEntity;
+              allChildren      : HArray1OfIGESEntity);
+        ---Purpose : This method is used to set the fields of the class
+        --           SingleParent
+        --       - nbParentEntities : Indicates number of Parents, always = 1
+        --       - aParentEntity    : Used to hold the Parent Entity
+        --       - allChildren      : Used to hold the children
+
+        NbParentEntities (me) returns Integer;
+        ---Purpose : returns the number of Parent Entities, which should be 1
+
+	SingleParent (me) returns IGESEntity;
+	---Purpose : Returns the Parent Entity (inherited method)
+
+        NbChildren (me) returns Integer;
+        ---Purpose : returns the number of children of the Parent
+
+        Child (me; Index : Integer) returns IGESEntity
+        raises OutOfRange;
+        ---Purpose : returns the specific child as indicated by Index
+        -- raises exception if Index <= 0 or Index > NbChildren()
+
+fields
+
+--
+-- Class    : IGESBasic_SingleParent
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class SingleParent.
+--
+-- Reminder : A SingleParent instance is defined by :
+--            - number of parents (equal to 1)
+--            - the parent entity
+--            - the children entities
+
+        theNbParentEntities : Integer;
+        theParentEntity     : IGESEntity;
+        theChildren         : HArray1OfIGESEntity;
+
+end SingleParent;

@@ -1,0 +1,88 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( Arun MENON )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class SingularSubfigure from IGESBasic  inherits IGESEntity
+
+        ---Purpose: defines SingularSubfigure, Type <408> Form <0>
+        --          in package IGESBasic
+        --          Defines the occurrence of a single instance of the
+        --          defined Subfigure.
+
+uses
+
+        SubfigureDef    from IGESBasic,
+        XYZ             from gp
+
+is
+
+        Create returns mutable SingularSubfigure;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me            : mutable;
+              aSubfigureDef : SubfigureDef;
+              aTranslation  : XYZ;
+              hasScale      : Boolean;
+              aScale        : Real);
+        ---Purpose : This method is used to set the fields of the class
+        --           SingularSubfigure
+        --       - aSubfigureDef : the Subfigure Definition entity
+        --       - aTranslation  : used to store the X,Y,Z coord
+        --       - hasScale      : Indicates the presence of scale factor
+        --       - aScale        : Used to store the scale factor
+
+        Subfigure (me) returns SubfigureDef;
+        ---Purpose : returns the subfigure definition entity
+
+        Translation (me) returns XYZ;
+        ---Purpose : returns the X, Y, Z coordinates
+
+        ScaleFactor (me) returns Real;
+        ---Purpose : returns the scale factor
+        -- if hasScaleFactor is False, returns 1.0 (default)
+
+        HasScaleFactor (me) returns Boolean;
+        ---Purpose : returns a boolean indicating whether scale factor 
+        -- is present or not
+
+        TransformedTranslation (me) returns XYZ;
+        ---Purpose : returns the Translation after transformation 
+
+fields
+
+--
+-- Class    : IGESBasic_SingularSubfigure
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class SingularSubfigure.
+--
+-- Reminder : A SingularSubfigure instance is defined by :
+--            - the Subfigure Definition entity
+--            - the X, Y, Z coordinates
+--            - the scale factor
+--            - indicator of the presence of scale factor
+
+        theSubfigureDef : SubfigureDef;
+        theTranslation  : XYZ from gp;
+        theScaleFactor  : Real;
+        hasScaleFactor  : Boolean;
+
+end SingularSubfigure;

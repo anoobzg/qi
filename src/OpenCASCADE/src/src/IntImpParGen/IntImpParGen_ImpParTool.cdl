@@ -1,0 +1,81 @@
+-- Created on: 1992-03-30
+-- Created by: Laurent BUCHARD
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+generic class ImpParTool from IntImpParGen (
+        ImpTool      as any; -- as ImpTool from IntImpParGen
+	ParCurve     as any;
+	ParTool      as any) -- as ParTool from IntImpParGen(ParCurve) 
+
+inherits FunctionWithDerivative from math
+
+        ---Purpose: Implements the function  used by FunctionAllRoots
+        --          to find  the areas where  the distance between the
+        --          implicit and the parametric curves  is less than a
+        --          tolerance.
+
+
+uses	Pnt2d           from gp,
+	Vec2d           from gp
+     	
+is
+
+    Create(IT: ImpTool; PC: ParCurve)
+
+	---Purpose: Constructor of the class.
+    
+    	returns ImpParTool from IntImpParGen;
+	
+	
+    Value(me: in out; Param: Real from Standard; F: out Real from Standard)
+    
+	---Purpose: Computes the value of the signed distance between
+	--          the implicit curve and the point at parameter Param
+	--          on the parametrised curve.
+
+    	returns Boolean from Standard
+    	is redefined static;
+	
+	
+    Derivative(me: in out; Param: Real from Standard; 
+               D: out Real from Standard)
+	       
+    	---Purpose: Computes the derivative of the previous function at
+    	--          parameter Param.
+
+    	returns Boolean from Standard
+	is redefined static;
+	
+	
+    Values(me: in out; Param: Real from Standard; F,D: out Real from Standard)
+    
+    	---Purpose: Computes the value and the derivative of the function.
+
+    	returns Boolean from Standard
+    	is redefined static;
+
+fields 
+
+    TheParCurve     : Address from Standard;
+    TheImpTool      : ImpTool;
+		  
+end ImpParTool;
+ 

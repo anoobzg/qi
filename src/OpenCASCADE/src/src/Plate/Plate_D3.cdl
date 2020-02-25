@@ -1,0 +1,41 @@
+-- Created on: 1998-10-14
+-- Created by: Andre LIEUTIER
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class D3 from Plate
+---Purpose : define an order 3 derivatives of a 3d valued
+--          function of a 2d variable
+--         
+
+uses XYZ from gp
+
+is
+    Create(duuu,duuv,duvv,dvvv : XYZ from gp) returns D3;
+    Create(ref  :  D3  from  Plate) returns D3;
+
+fields
+    
+    Duuu, Duuv,Duvv,Dvvv : XYZ from gp;
+
+friends
+    class GtoCConstraint from Plate,
+    class FreeGtoCConstraint from Plate
+    
+end;

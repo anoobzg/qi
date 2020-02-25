@@ -1,0 +1,59 @@
+-- Created on: 2009-01-26
+-- Created by: Pavel TELKOV
+-- Copyright (c) 2009-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class PairOfPolygon from BRepMesh 
+
+	---Purpose: 
+
+uses
+    PolygonOnTriangulation from Poly
+
+is
+    Create
+    ---Purpose: Create empty pair with null fileds
+    returns PairOfPolygon from BRepMesh;
+
+    Clear(me: out);
+    ---Purpose: Clear pair handles
+    
+    Prepend (me: out; thePoly: PolygonOnTriangulation from Poly);
+    --- Initialise first polygon on triangulation
+    
+    Append (me: out; thePoly: PolygonOnTriangulation from Poly);
+    --- Initialise first or last polygon on triangulation
+    
+    First(me)
+    ---Purpose: Returns first polygon on triangulation
+    ---C++: return const &
+    ---C++: inline
+    returns PolygonOnTriangulation from Poly;
+
+    Last(me)
+    ---Purpose: Returns last polygon on triangulation
+    ---C++: return const &
+    ---C++: inline
+    returns PolygonOnTriangulation from Poly;
+
+fields
+    myFirst : PolygonOnTriangulation from Poly;
+    myLast  : PolygonOnTriangulation from Poly;
+     
+end PairOfPolygon;

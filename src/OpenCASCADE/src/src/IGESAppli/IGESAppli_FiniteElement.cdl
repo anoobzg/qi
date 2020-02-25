@@ -1,0 +1,84 @@
+-- Created on: 1993-01-11
+-- Created by: CKY / Contract Toubro-Larsen ( Arun MENON )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class FiniteElement from IGESAppli  inherits IGESEntity
+
+        ---Purpose: defines FiniteElement, Type <136> Form <0>
+        --          in package IGESAppli
+        --          Used to define a finite element with the help of an
+        --          element topology.
+
+uses
+
+        HAsciiString  from TCollection,
+        Node          from IGESAppli,
+        HArray1OfNode from IGESAppli
+
+raises OutOfRange
+
+is
+
+        Create returns mutable FiniteElement;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me       : mutable;
+              aType    : Integer;
+              allNodes : HArray1OfNode;
+              aName    : HAsciiString);
+        ---Purpose : This method is used to set the fields of the class
+        --           FiniteElement
+        --       - aType    : Indicates the topology type
+        --       - allNodes : List of Nodes defining the element
+        --       - aName    : Element type name
+
+        Topology (me) returns Integer;
+        ---Purpose : returns Topology type
+
+        NbNodes (me) returns Integer;
+        ---Purpose : returns the number of nodes defining the element
+
+        Node (me; Index : Integer) returns Node
+        raises OutOfRange;
+        ---Purpose : returns Node defining element entity
+        -- raises exception if Index <= 0 or Index > NbNodes()
+
+        Name (me) returns HAsciiString from TCollection;
+        ---Purpose : returns Element Type Name
+
+fields
+
+--
+-- Class    : IGESAppli_FiniteElement
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class FiniteElement.
+--
+-- Reminder : A FiniteElement instance is defined by :
+--            - the topology type
+--            - List of Nodes defining the element
+--            - Element type name
+
+        theTopology : Integer;
+        theNodes    : HArray1OfNode;
+        theName     : HAsciiString;
+
+end FiniteElement;

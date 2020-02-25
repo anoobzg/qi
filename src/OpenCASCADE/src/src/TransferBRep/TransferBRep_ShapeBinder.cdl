@@ -1,0 +1,57 @@
+-- Created on: 1994-10-03
+-- Created by: Assim
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ShapeBinder  from TransferBRep  inherits BinderOfShape
+
+    ---Purpose : A ShapeBinder is a BinderOfShape with some additional services
+    --           to cast the Result under various kinds of Shapes
+
+uses  ShapeEnum from TopAbs,  Shape from TopoDS ,
+      Vertex from TopoDS,  Edge  from TopoDS,  Wire  from TopoDS,
+      Face   from TopoDS,  Shell from TopoDS,  Solid from TopoDS,
+      CompSolid from TopoDS,    Compound from TopoDS
+
+raises TypeMismatch from Standard
+
+is
+
+    Create returns mutable ShapeBinder;
+    ---Purpose : Creates an empty ShapeBinder
+
+    Create (res : Shape) returns mutable ShapeBinder;
+    ---Purpose : Creates a ShapeBinder with a result
+
+    ShapeType (me) returns ShapeEnum;
+    ---Purpose : Returns the Type of the Shape Result (under TopAbs form)
+
+    -- different sub-types for the Result. Result returns a Shape
+
+    Vertex    (me) returns Vertex    raises TypeMismatch from Standard;
+    Edge      (me) returns Edge      raises TypeMismatch from Standard;
+    Wire      (me) returns Wire      raises TypeMismatch from Standard;
+    Face      (me) returns Face      raises TypeMismatch from Standard;
+    Shell     (me) returns Shell     raises TypeMismatch from Standard;
+    Solid     (me) returns Solid     raises TypeMismatch from Standard;
+    CompSolid (me) returns CompSolid raises TypeMismatch from Standard;
+    Compound  (me) returns Compound  raises TypeMismatch from Standard;
+
+end ShapeBinder;

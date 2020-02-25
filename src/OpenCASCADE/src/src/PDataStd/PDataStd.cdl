@@ -1,0 +1,117 @@
+-- Created on: 1995-05-10
+-- Created by: Denis PASCAL
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+package PDataStd 
+
+	---Purpose: 
+
+
+uses Standard,
+     PDF,
+     PCollection,
+     PColStd,
+     TColStd
+
+
+is
+
+
+    ---Purpose: General Data
+    --          ============
+
+    class Name;
+    
+    class Comment;
+    
+    ---Purpose: Basic Data for Modeling
+    --          =======================
+
+    class Integer; 
+    
+    class IntegerArray; 
+     
+    class IntegerArray_1; 
+    
+    class Real;
+
+    class RealArray; 
+    
+    class RealArray_1;     
+    
+    class ExtStringArray; 
+     
+    class ExtStringArray_1;
+
+    class TreeNode;	    
+    
+    class Expression;
+    
+    class Relation;
+    
+    class Variable;
+    
+    ---Purpose: Document Data for Modeling
+    --          ==========================
+    
+    class NoteBook; 
+ 
+    class UAttribute;
+        
+    class Directory;
+
+     
+    -- Extension    
+    class Tick;
+    
+    -- Lists:
+    class IntegerList;
+    class RealList;
+    class ExtStringList;
+    class BooleanList;
+    class ReferenceList;
+
+    -- Arrays:
+    class BooleanArray;
+    class ReferenceArray;
+    class ByteArray;
+    class ByteArray_1; 
+    
+    class NamedData; 
+    class AsciiString; 
+    class IntPackedMap;  
+    class IntPackedMap_1;
+     
+
+    class HArray1OfHAsciiString instantiates
+    	    	    HArray1 from PCollection (HAsciiString from PCollection);
+
+        class HArray1OfHArray1OfInteger instantiates HArray1 from  PCollection( 
+		HArray1OfInteger  from  PColStd); 
+		 
+	class HArray1OfHArray1OfReal instantiates HArray1 from  PCollection( 
+		HArray1OfReal  from  PColStd); 
+		 
+	class HArray1OfByte instantiates HArray1 from  PCollection( 
+		Byte  from  Standard);   
+		
+end PDataStd;

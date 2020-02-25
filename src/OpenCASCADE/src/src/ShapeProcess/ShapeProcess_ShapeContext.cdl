@@ -1,0 +1,139 @@
+-- Created on: 2000-08-22
+-- Created by: Andrey BETENEV
+-- Copyright (c) 2000-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ShapeContext from ShapeProcess inherits Context from ShapeProcess
+
+    ---Purpose: Extends Context to handle shapes 
+    --          Contains map of shape-shape, and messages 
+    --          attached to shapes
+
+uses
+
+    Shape from GeomAbs,
+    Shape from TopoDS,
+    ShapeEnum from TopAbs,
+    DataMapOfShapeShape from TopTools,
+    Modifier from BRepTools,
+    ReShape from ShapeBuild,
+    Msg from Message,
+    Gravity from Message,
+    MsgRegistrator from ShapeExtend,
+    Printer from Message
+
+is
+
+    Create (file: CString; seq: CString = "");
+    Create (S: Shape from TopoDS; file: CString; seq: CString = "");
+    	---Purpose: Initializes a tool by resource file and shape 
+	--          to be processed
+
+    Init (me: mutable; S: Shape from TopoDS);
+    	---Purpose: Initializes tool by a new shape and clears all results
+
+    Shape (me) returns Shape from TopoDS;
+    	---Purpose: Returns shape being processed
+	---C++: return const &
+
+    Result (me) returns Shape from TopoDS;
+    	---Purpose: Returns current result
+	---C++: return const &
+
+    Map (me) returns DataMapOfShapeShape from TopTools;
+    	---Purpose: Returns map of replacements shape -> shape
+	--          This map is not recursive
+	---C++: return const &
+
+    Messages (me) returns MsgRegistrator from ShapeExtend;
+	---C++: return const &
+
+    Messages (me: mutable) returns MsgRegistrator from ShapeExtend;
+	---C++: return &
+    	---Purpose: Returns messages recorded during shape processing
+	--          It can be nullified before processing in order to
+	--          avoid recording messages
+
+    SetDetalisation (me: mutable; level: ShapeEnum from TopAbs);
+    GetDetalisation (me) returns ShapeEnum from TopAbs;
+    	---Purpose: Set and get value for detalisation level
+	--          Only shapes of types from TopoDS_COMPOUND and until 
+        --          specified detalisation level will be recorded in maps
+	--          To cancel mapping, use TopAbs_SHAPE
+	--          To force full mapping, use TopAbs_VERTEX
+	--          The default level is TopAbs_FACE
+
+    SetResult (me: mutable; S: Shape from TopoDS);
+    	---Purpose: Sets a new result shape
+	--          NOTE: this method should be used very carefully
+	--          to keep consistency of modifications
+	--          It is recommended to use RecordModification() methods
+	--          with explicit definition of mapping from current
+	--          result to a new one
+
+    RecordModification (me: mutable; repl: DataMapOfShapeShape from TopTools);
+    RecordModification (me: mutable; repl: ReShape from ShapeBuild;
+    	    	    	    	     msg : MsgRegistrator from ShapeExtend);
+    RecordModification (me: mutable; repl: ReShape from ShapeBuild);
+    RecordModification (me: mutable; sh  : Shape from TopoDS;
+    	    	    	    	     repl: Modifier from BRepTools);
+	---Purpose: Records modifications and resets result accordingly
+	--          NOTE: modification of resulting shape should be explicitly
+	--          defined in the maps along with modifications of subshapes
+	--
+	--          In the last function, sh is the shape on which Modifier
+	--          was run. It can be different from the whole shape,
+	--          but in that case result as a whole should be reset later
+	--          either by call to SetResult(), or by another call to
+	--          RecordModification() which contains mapping of current
+	--          result to a new one explicitly
+
+    AddMessage (me: mutable; S: Shape from TopoDS; msg: Msg from Message;
+    	    	    gravity: Gravity from Message = Message_Warning);
+    	---Purpose: Record a message for shape S
+	--          Shape S should be one of subshapes of original shape
+	--          (or whole one), but not one of intermediate shapes
+	--          Records only if Message() is not Null
+
+    GetContinuity  (me; param: CString; val: out Shape from GeomAbs) 
+    returns Boolean;
+    	---Purpose: Get value of parameter as being of the type GeomAbs_Shape
+	--          Returns False if parameter is not defined or has a wrong type
+
+    ContinuityVal (me; param: CString; def: Shape from GeomAbs) 
+    returns Shape from GeomAbs;
+    	---Purpose: Get value of parameter as being of the type GeomAbs_Shape
+	--          If parameter is not defined or does not have expected
+        --          type, returns default value as specified
+
+    PrintStatistics (me);
+    	---Purpose: Prints statistics on Shape Processing onto the current Messenger.
+	---Remark: At the moment outputs information only on shells and faces.
+
+fields
+
+    myShape : Shape from TopoDS;
+    myResult: Shape from TopoDS;
+    
+    myMap   : DataMapOfShapeShape from TopTools;
+    myMsg   : MsgRegistrator from ShapeExtend;
+    
+    myUntil : ShapeEnum from TopAbs;
+
+end ShapeContext;

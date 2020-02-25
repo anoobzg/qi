@@ -1,0 +1,68 @@
+-- Created on: 2002-12-12
+-- Created by: data exchange team
+-- Copyright (c) 2002-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Generator:	ExpToCas (EXPRESS -> CASCADE/XSTEP Translator) V1.2
+
+class AnalysisItemWithinRepresentation from StepElement
+inherits TShared from MMgt
+
+    ---Purpose: Representation of STEP entity AnalysisItemWithinRepresentation
+
+uses
+    HAsciiString from TCollection,
+    RepresentationItem from StepRepr,
+    Representation from StepRepr
+
+is
+    Create returns AnalysisItemWithinRepresentation from StepElement;
+	---Purpose: Empty constructor
+
+    Init (me: mutable; aName: HAsciiString from TCollection;
+                       aDescription: HAsciiString from TCollection;
+                       aItem: RepresentationItem from StepRepr;
+                       aRep: Representation from StepRepr);
+	---Purpose: Initialize all fields (own and inherited)
+
+    Name (me) returns HAsciiString from TCollection;
+	---Purpose: Returns field Name
+    SetName (me: mutable; Name: HAsciiString from TCollection);
+	---Purpose: Set field Name
+
+    Description (me) returns HAsciiString from TCollection;
+	---Purpose: Returns field Description
+    SetDescription (me: mutable; Description: HAsciiString from TCollection);
+	---Purpose: Set field Description
+
+    Item (me) returns RepresentationItem from StepRepr;
+	---Purpose: Returns field Item
+    SetItem (me: mutable; Item: RepresentationItem from StepRepr);
+	---Purpose: Set field Item
+
+    Rep (me) returns Representation from StepRepr;
+	---Purpose: Returns field Rep
+    SetRep (me: mutable; Rep: Representation from StepRepr);
+	---Purpose: Set field Rep
+
+fields
+    theName: HAsciiString from TCollection;
+    theDescription: HAsciiString from TCollection;
+    theItem: RepresentationItem from StepRepr;
+    theRep: Representation from StepRepr;
+
+end AnalysisItemWithinRepresentation;

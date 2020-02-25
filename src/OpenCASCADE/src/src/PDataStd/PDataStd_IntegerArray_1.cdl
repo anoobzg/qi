@@ -1,0 +1,50 @@
+-- Created on: 2008-03-26
+-- Created by: Sergey ZARITCHNY
+-- Copyright (c) 2008-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class IntegerArray_1 from PDataStd inherits Attribute from PDF
+
+	---Purpose: Persistence
+uses HArray1OfInteger from PColStd
+     
+     
+is
+
+    Create returns mutable IntegerArray_1 from PDataStd;
+
+    Init(me : mutable; lower, upper : Integer from Standard);
+
+    SetValue(me: mutable; Index : Integer from Standard; Value : Integer from Standard);
+    
+    Value(me;  Index : Integer from Standard) returns Integer  from Standard;
+   
+    Lower (me) returns Integer from Standard;      
+
+    Upper (me) returns Integer from Standard;   
+ 
+    SetDelta(me : mutable; delta : Boolean from Standard);  
+    
+    GetDelta(me) returns Boolean from Standard;          
+    
+fields
+    myValue  :  HArray1OfInteger from PColStd;
+    myDelta  : Boolean from Standard;
+end IntegerArray_1;
+
+

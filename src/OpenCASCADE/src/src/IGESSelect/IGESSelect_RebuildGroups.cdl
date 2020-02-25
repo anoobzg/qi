@@ -1,0 +1,53 @@
+-- Created on: 1994-06-01
+-- Created by: Christian CAILLET
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class RebuildGroups  from IGESSelect  inherits ModelModifier from IGESSelect
+
+    ---Purpose : Rebuilds Groups which were bypassed to produce new models.
+    --           If a set of entities, all put into a same IGESModel, were
+    --           part of a same Group in the starting Model, this Modifier
+    --           rebuilds the original group, but only with the transferred
+    --           entities. The distinctions (Ordered or not, "WhithoutBackP"
+    --           or not) are renewed, also the name of the group.
+    --           
+    --           If the Input Selection is present, tries to rebuild groups
+    --           only for the selected entities. Else, tries to rebuild
+    --           groups for all the transferred entities.
+
+uses AsciiString from TCollection,
+     IGESModel, CopyTool, ContextModif
+
+is
+
+    Create returns mutable RebuildGroups;
+    ---Purpose : Creates an RebuildGroups, which uses the system Date
+
+    Performing (me; ctx : in out ContextModif;
+    	        target  : mutable IGESModel;
+                TC      : in out CopyTool);
+    ---Purpose : Specific action : Rebuilds the original groups
+
+    Label (me) returns AsciiString from TCollection;
+    ---Purpose : Returns a text which is
+    --           "Rebuild Groups"
+
+end RebuildGroups;

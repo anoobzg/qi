@@ -1,0 +1,192 @@
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+
+//=======================================================================
+//function : SetTol3d
+//purpose  : 
+//=======================================================================
+
+inline  void ShapeCustom_BSplineRestriction::SetTol3d(const Standard_Real Tol3d) 
+{
+  myTol3d = Tol3d;
+}
+
+ 
+//=======================================================================
+//function : SetTol2d
+//purpose  : 
+//=======================================================================
+
+inline  void ShapeCustom_BSplineRestriction::SetTol2d(const Standard_Real Tol2d) 
+{
+  myTol2d = Tol2d;
+}
+
+ 
+//=======================================================================
+//function : ModifyApproxSurfaceFlag
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Boolean& ShapeCustom_BSplineRestriction::ModifyApproxSurfaceFlag() 
+{
+  
+  return myApproxSurfaceFlag;
+}
+
+ 
+//=======================================================================
+//function : ModifyApproxCurve3dFlag
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Boolean& ShapeCustom_BSplineRestriction::ModifyApproxCurve3dFlag() 
+{
+  return myApproxCurve3dFlag;
+}
+
+ 
+//=======================================================================
+//function : ModifyApproxCurve2dFlag
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Boolean& ShapeCustom_BSplineRestriction::ModifyApproxCurve2dFlag() 
+{
+  return myApproxCurve2dFlag;
+}
+
+ 
+//=======================================================================
+//function : SetContinuity3d
+//purpose  : 
+//=======================================================================
+
+inline  void ShapeCustom_BSplineRestriction::SetContinuity3d(const GeomAbs_Shape Continuity3d) 
+{
+  myContinuity3d = Continuity3d;
+}
+
+ 
+//=======================================================================
+//function : SetContinuity2d
+//purpose  : 
+//=======================================================================
+
+inline  void ShapeCustom_BSplineRestriction::SetContinuity2d(const GeomAbs_Shape Continuity2d) 
+{
+  myContinuity2d = Continuity2d;
+}
+
+ 
+//=======================================================================
+//function : SetMaxDegree
+//purpose  : 
+//=======================================================================
+
+inline  void ShapeCustom_BSplineRestriction::SetMaxDegree(const Standard_Integer MaxDegree) 
+{
+  myMaxDegree = MaxDegree;
+}
+
+ 
+//=======================================================================
+//function : SetMaxNbSegments
+//purpose  : 
+//=======================================================================
+
+inline  void ShapeCustom_BSplineRestriction::SetMaxNbSegments(const Standard_Integer MaxNbSegments) 
+{
+  myNbMaxSeg = MaxNbSegments;
+}
+
+ 
+//=======================================================================
+//function : Curve3dError
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Real ShapeCustom_BSplineRestriction::Curve3dError() const
+{
+  return  myCurve3dError;
+}
+
+ 
+//=======================================================================
+//function : Curve2dError
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Real ShapeCustom_BSplineRestriction::Curve2dError() const
+{
+  return  myCurve2dError;
+}
+
+ 
+//=======================================================================
+//function : SurfaceError
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Real ShapeCustom_BSplineRestriction::SurfaceError() const
+{
+  return mySurfaceError;
+}
+
+//=======================================================================
+//function : SetPriority
+//purpose  : 
+//=======================================================================
+
+inline  void ShapeCustom_BSplineRestriction::SetPriority(const Standard_Boolean Degree) 
+{
+  myDeg = Degree;
+}
+
+//=======================================================================
+//function : SetConvRational
+//purpose  : 
+//=======================================================================
+
+inline  void ShapeCustom_BSplineRestriction::SetConvRational(const Standard_Boolean Rational) 
+{
+  myRational = Rational;
+}
+
+//=======================================================================
+//function : GetRestrictionParameters
+//purpose  : 
+//=======================================================================
+
+inline Handle(ShapeCustom_RestrictionParameters) ShapeCustom_BSplineRestriction::
+       GetRestrictionParameters() const
+{
+  return myParameters;
+}
+
+//=======================================================================
+//function : SetRestrictionParameters
+//purpose  : 
+//=======================================================================
+
+inline void ShapeCustom_BSplineRestriction::
+  SetRestrictionParameters(const Handle(ShapeCustom_RestrictionParameters)& aModes)
+{
+  myParameters = aModes;
+}

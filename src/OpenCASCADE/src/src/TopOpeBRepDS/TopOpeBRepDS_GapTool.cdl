@@ -1,0 +1,98 @@
+-- Created on: 1998-08-20
+-- Created by: Yves FRICAUD
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class GapTool from TopOpeBRepDS inherits TShared from MMgt
+
+	---Purpose: 
+
+uses
+    HDataStructure                     from TopOpeBRepDS,
+    Interference                       from TopOpeBRepDS,
+    Point                              from TopOpeBRepDS,
+    Curve                              from TopOpeBRepDS,
+    DataMapOfIntegerListOfInterference from TopOpeBRepDS,
+    Shape                              from TopoDS,
+    Face                               from TopoDS,
+    ListOfInterference                 from TopOpeBRepDS,
+    DataMapOfInterferenceShape         from TopOpeBRepDS
+is
+    
+    Create returns mutable GapTool from TopOpeBRepDS;    
+
+    Create (HDS : HDataStructure from TopOpeBRepDS)
+    returns mutable GapTool from TopOpeBRepDS;
+    
+    Init   (me : mutable; HDS : HDataStructure from TopOpeBRepDS);
+    
+    Interferences (me; IndexPoint : Integer from Standard)
+        ---C++: return const &
+    returns ListOfInterference from TopOpeBRepDS
+    is static;
+ 
+    SameInterferences (me; I : Interference from TopOpeBRepDS)
+         ---C++: return const &
+    returns ListOfInterference from TopOpeBRepDS
+    is static;
+
+    ChangeSameInterferences (me : mutable ; I : Interference from TopOpeBRepDS)
+         ---C++: return &
+    returns ListOfInterference from TopOpeBRepDS
+    is static;
+
+    Curve  (me; I : Interference from TopOpeBRepDS; C : out Curve from TopOpeBRepDS ) 
+    returns Boolean from Standard
+    is static;		    		
+
+    EdgeSupport(me; I : Interference from TopOpeBRepDS; E : out Shape from TopoDS)
+    returns Boolean from Standard
+    is static;
+    
+    FacesSupport(me; I     :     Interference from TopOpeBRepDS;
+    	    	     F1,F2 : out Shape        from TopoDS)
+    	---Purpose: Return les faces qui  ont genere la section origine
+    	--          de I
+    returns Boolean from Standard
+    is static;				     
+
+    ParameterOnEdge (me; I :     Interference from TopOpeBRepDS;
+    	    	    	 E :     Shape        from TopoDS;
+			 U : out Real         from Standard)
+    returns Boolean from Standard;
+
+    ---Modification 
+    --              
+    SetPoint (me : mutable; I          : mutable Interference from TopOpeBRepDS;
+    	    	            IndexPoint :         Integer      from Standard);
+    
+    SetParameterOnEdge (me : mutable; 
+    	    	    	I  : mutable Interference from TopOpeBRepDS;
+    	    	    	E  :         Shape        from TopoDS;
+			U  :         Real         from Standard)
+    is static;			    
+							    
+
+fields
+    myHDS           : HDataStructure                     from TopOpeBRepDS;
+    myGToI          : DataMapOfIntegerListOfInterference from TopOpeBRepDS;
+    myInterToShape  : DataMapOfInterferenceShape         from TopOpeBRepDS;
+end GapTool;
+

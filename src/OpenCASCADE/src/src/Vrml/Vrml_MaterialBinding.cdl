@@ -1,0 +1,54 @@
+-- Created on: 1997-02-11
+-- Created by: Alexander BRIVIN and Dmitry TARASOV
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class MaterialBinding from Vrml 
+
+	---Purpose: defines a MaterialBinding node of VRML specifying properties of geometry
+	---          and its appearance.
+    	--  Material nodes may contain more than one material. This node specifies how the current
+        --  materials are bound to shapes that follow in the scene graph. Each shape node may
+        --  interpret bindings differently. For example, a Sphere node is always drawn using the first
+        --  material in the material node, no matter what the current MaterialBinding, while a Cube
+        --  node may use six different materials to draw each of its six faces, depending on the
+        --  MaterialBinding. 
+uses
+ 
+    MaterialBindingAndNormalBinding from  Vrml
+
+is
+ 
+    Create ( aValue : MaterialBindingAndNormalBinding  from  Vrml )
+        returns MaterialBinding from Vrml;
+
+    Create returns MaterialBinding from Vrml; 
+    
+    SetValue ( me:in out; aValue : MaterialBindingAndNormalBinding from  Vrml );
+    Value ( me )  returns  MaterialBindingAndNormalBinding from  Vrml;
+
+    Print  ( me; anOStream: in out OStream from Standard) returns OStream from Standard;
+    ---C++:  return  & 
+
+fields
+ 
+    myValue  :   MaterialBindingAndNormalBinding  from  Vrml;
+
+end MaterialBinding;

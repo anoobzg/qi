@@ -1,0 +1,90 @@
+-- Created on: 1998-06-03
+-- Created by: data exchange team
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ShapeTolerance from ShapeAnalysis 
+
+    ---Purpose: Tool for computing shape tolerances (minimal, maximal, average),
+    --          finding shape with tolerance matching given criteria,
+    --          setting or limitating tolerances.
+
+uses
+    Shape            from TopoDS,
+    ShapeEnum        from TopAbs,
+    HSequenceOfShape from TopTools
+
+is
+
+    Create returns ShapeTolerance from ShapeAnalysis;
+    	---Purpose: Empty constructor
+
+    Tolerance (me : in out; shape: Shape from TopoDS;
+    	    	    	    mode : Integer;
+    	                    type : ShapeEnum from TopAbs = TopAbs_SHAPE)
+    returns Real;
+    	---Purpose: Determines a tolerance from the ones stored in a shape
+    	--          Remark : calls InitTolerance and AddTolerance,
+    	--          hence, can be used to start a series for cumulating tolerance
+    	--          <mode> = 0 : returns the average value between sub-shapes,
+    	--          <mode> > 0 : returns the maximal found,
+    	--          <mode> < 0 : returns the minimal found.
+    	--          <type> defines what kinds of sub-shapes to consider:
+    	--          SHAPE (default) : all : VERTEX, EDGE, FACE,
+    	--          VERTEX : only vertices,
+    	--          EDGE   : only edges,
+    	--          FACE   : only faces,
+    	--          SHELL  : combined SHELL + FACE, for each face (and containing
+    	--          shell), also checks EDGE and VERTEX
+
+    OverTolerance (me; shape: Shape from TopoDS;
+    	    	       value: Real;
+    	               type : ShapeEnum = TopAbs_SHAPE)
+    returns HSequenceOfShape from TopTools;
+    	---Purpose: Determines which shapes have a tolerance over the given value
+    	--          <type> is interpreted as in the method Tolerance
+
+    InTolerance (me; shape         : Shape from TopoDS;
+    	    	     valmin, valmax: Real;
+    	       	     type          : ShapeEnum = TopAbs_SHAPE)
+    returns HSequenceOfShape from TopTools;
+    	---Purpose: Determines which shapes have a tolerance within a given interval
+    	--          <type> is interpreted as in the method Tolerance
+
+    InitTolerance (me : in out);
+    	---Purpose: Initializes computation of cumulated tolerance
+
+    AddTolerance (me : in out; shape: Shape from TopoDS;
+    	       	    	       type : ShapeEnum from TopAbs = TopAbs_SHAPE);
+    	---Purpose: Adds data on new Shape to compute Cumulated Tolerance
+    	--          (prepares three computations : maximal, average, minimal)
+
+    GlobalTolerance (me; mode: Integer) returns Real;
+    	---Purpose: Returns the computed tolerance according to the <mode>
+    	--          <mode> = 0 : average
+    	--          <mode> > 0 : maximal
+    	--          <mode> < 0 : minimal
+
+fields
+
+    myTols : Real[3];
+    myNbTol: Integer;
+
+end ShapeTolerance;

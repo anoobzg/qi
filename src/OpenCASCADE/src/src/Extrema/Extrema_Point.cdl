@@ -1,0 +1,55 @@
+-- Created on: 1991-02-21
+-- Created by: Isabelle GRIGNON
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+generic class   Point from Extrema  (Pnt as any)
+        inherits Storable from Standard
+    	---Purpose: Definition of a point on curve.
+
+
+is
+    Create returns Point;
+    	---Purpose: Creation of an indefinite point on curve.
+
+    Create (U: Real; P: Pnt) returns Point;
+    	---Purpose: Creation of a point on curve with a parameter 
+    	--          value on the curve and a Pnt from gp.
+
+    SetValues(me: in out; U: Real; P: Pnt)
+    	---Purpose: sets the point and parameter values.
+    is static;
+
+    Value (me) returns Pnt
+    	---Purpose: Returns the point.
+    	---C++: return const&
+    	---C++: inline
+    	is static;
+
+    Parameter (me) returns Real
+    	---Purpose: Returns the parameter on the curve.
+    	---C++: inline
+    	is static;
+
+fields
+    myU: Real;
+    myP: Pnt;
+
+end Point;

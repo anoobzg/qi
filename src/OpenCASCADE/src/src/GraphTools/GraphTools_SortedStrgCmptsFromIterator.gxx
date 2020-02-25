@@ -1,0 +1,204 @@
+// Created on: 1991-10-23
+// Created by: Denis PASCAL
+// Copyright (c) 1991-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+//		<dp>
+
+#include <Standard_DomainError.hxx>
+#include <Standard_NoMoreObject.hxx>
+#include <Standard_NoSuchObject.hxx>
+#include <TColStd_SequenceOfInteger.hxx>
+
+
+
+//=======================================================================
+//function : GraphTools_SortedStrgCmptsFromIterator
+//purpose  : 
+//=======================================================================
+
+GraphTools_SortedStrgCmptsFromIterator::
+  GraphTools_SortedStrgCmptsFromIterator ()
+{ 
+   myNowIndex = 0;
+}
+
+
+//=======================================================================
+//function : FromVertex
+//purpose  : 
+//=======================================================================
+
+void GraphTools_SortedStrgCmptsFromIterator::FromVertex (const Vertex& V) 
+{
+#ifdef DEB
+  Standard_Integer index = 
+#endif
+    myVertices.Add (V,0);
+}
+
+
+
+//=======================================================================
+//function : Perform
+//purpose  : 
+//=======================================================================
+
+void GraphTools_SortedStrgCmptsFromIterator::Perform (const Graph& G)
+{
+  myNowIndex = 0;
+  mySort.Clear();
+  Standard_Integer visited;
+  Standard_Integer temp;
+  Standard_Integer index = 1;
+  while (index <= myVertices.Extent()) {
+    visited = myVertices.FindFromIndex(index);
+    if (visited == 0) temp = Visit(index,G);
+    index ++;
+  }  
+  myIterator.Initialize(mySort);
+}
+
+
+//=======================================================================
+//function : Reset
+//purpose  : 
+//=======================================================================
+
+void GraphTools_SortedStrgCmptsFromIterator::Reset ()
+{
+  myVertices.Clear();
+  myNowIndex = 0;
+  myStack.Clear();
+  mySort.Clear();
+}
+
+
+//=======================================================================
+//function : More
+//purpose  : declenche l'algorithme de recherche des Strong Components
+//=======================================================================
+
+Standard_Boolean GraphTools_SortedStrgCmptsFromIterator::More() const
+{
+  return myIterator.More();
+} 
+
+
+//=======================================================================
+//function : Next
+//purpose  : 
+//=======================================================================
+
+void GraphTools_SortedStrgCmptsFromIterator::Next()
+{ 
+  myIterator.Next();
+}
+
+
+//=======================================================================
+//function : NbVertices
+//purpose  : 
+//=======================================================================
+
+Standard_Integer GraphTools_SortedStrgCmptsFromIterator::NbVertices() const
+{  
+  return myIterator.Value().Length();
+}
+
+
+//=======================================================================
+//function : Value
+//purpose  : 
+//=======================================================================
+
+const Vertex& GraphTools_SortedStrgCmptsFromIterator::Value
+  (const Standard_Integer I) const
+{  
+  Standard_Integer indexvertex = myIterator.Value().Value(I);
+  return myVertices.FindKey (indexvertex);
+}
+
+//=======================================================================
+//function : Visit
+//purpose  : private
+//=======================================================================
+
+Standard_Integer GraphTools_SortedStrgCmptsFromIterator::Visit
+  (const Standard_Integer k, const Graph& G) 
+{
+  Standard_Integer MIN;
+  Standard_Integer M;
+  myNowIndex++; 
+  myVertices(k) = myNowIndex;
+  MIN = myNowIndex;
+  myStack.Push(k);
+  Standard_Integer currentVisited;
+  currentVisited = myVertices.FindFromIndex (k);
+  Standard_Integer adjacentIndex;
+  Standard_Integer adjacentVisited;
+  for (VIterator itV (G,myVertices.FindKey(k)); itV.More(); itV.Next()) {
+    adjacentIndex = myVertices.FindIndex(itV.Value());
+    if (adjacentIndex == 0) {
+      adjacentIndex   = myVertices.Add (itV.Value(),0);
+      adjacentVisited = 0;
+    }
+    else  adjacentVisited = myVertices.FindFromIndex (adjacentIndex);
+    if (adjacentVisited == 0) M = Visit(adjacentIndex,G);
+    else M = adjacentVisited;
+    if (M < MIN) MIN = M;
+  }
+  if (MIN == currentVisited) {
+    TColStd_SequenceOfInteger theSequence;
+    mySort.Prepend(theSequence);
+    TColStd_SequenceOfInteger& newSC = mySort.First();
+    Standard_Boolean more;
+    do {
+      newSC.Append(myStack.Top());
+      myVertices(myStack.Top()) = IntegerLast();
+      more = myStack.Top() != k;
+      myStack.Pop() ; 
+    }
+    while (more);
+  }
+  return MIN;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

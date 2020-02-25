@@ -1,0 +1,69 @@
+-- Created on: 1996-12-05
+-- Created by: Odile Olivier
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class DimensionOwner from AIS inherits EntityOwner from SelectMgr
+
+	---Purpose: The owner is the entity which makes it possible to link
+    	-- the sensitive primitives and the reference shapes that
+    	-- you want to detect. It stocks the various pieces of
+    	-- information which make it possible to find objects. An
+    	-- owner has a priority which you can modulate, so as to
+    	-- make one entity more selectable than another. You
+    	-- might want to make edges more selectable than
+    	-- faces, for example. In that case, you could attribute sa
+    	-- higher priority to the one compared to the other. An
+    	-- edge, could have priority 5, for example, and a face,
+    	-- priority 4. The default priority is 5.
+
+uses
+
+    SelectableObject from SelectMgr,
+    Shape            from TopoDS
+
+is
+
+    Create ( aSO      : SelectableObject;
+            aPriority : Integer from Standard =0)
+    returns mutable DimensionOwner from AIS;
+    	---Purpose:
+    	-- Initializes the dimension owner, aSO, and attributes it
+    	-- the priority, aPriority.    
+    
+    SetShape(me : mutable; aShape : Shape from TopoDS);
+        ---C++: inline
+    	---Purpose:
+    	-- Constructs the reference shape owner aShape for
+    	-- presentation primitives.
+    
+    FixedShape(me)
+        ---C++: return const &
+    	---C++: inline    
+    	---Purpose:
+    	-- Returns the owner shape whose primitives we are concerned with.   
+    returns Shape from TopoDS;
+    
+
+fields
+
+    myFixedShape : Shape from TopoDS;
+
+end DimensionOwner;
+

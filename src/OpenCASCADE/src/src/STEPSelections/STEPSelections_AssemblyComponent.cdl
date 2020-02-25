@@ -1,0 +1,63 @@
+-- Created on: 1999-03-24
+-- Created by: data exchange team
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class AssemblyComponent from STEPSelections inherits TShared from MMgt
+
+	---Purpose: 
+
+uses
+    
+    ShapeDefinitionRepresentation from StepShape,
+    HSequenceOfAssemblyLink from STEPSelections
+
+is
+    
+    Create returns mutable AssemblyComponent from STEPSelections;
+    
+    Create (sdr : ShapeDefinitionRepresentation from StepShape;
+    	    list: HSequenceOfAssemblyLink from STEPSelections)
+    returns mutable AssemblyComponent from STEPSelections;
+    
+    --Methods for getting and obtaining fields
+    
+    GetSDR(me) returns ShapeDefinitionRepresentation from StepShape;
+    	---Purpose:
+	---C++: inline
+    
+    GetList(me) returns HSequenceOfAssemblyLink from STEPSelections;
+    	---Purpose:
+	---C++: inline
+    
+    SetSDR(me : mutable; sdr: ShapeDefinitionRepresentation from StepShape);
+    	---Purpose:
+	---C++: inline
+    
+    SetList(me : mutable; list: HSequenceOfAssemblyLink from STEPSelections);
+    	---Purpose:
+	---C++: inline
+
+fields
+
+    mySDR : ShapeDefinitionRepresentation from StepShape;
+    myList: HSequenceOfAssemblyLink from STEPSelections;
+
+end AssemblyComponent;

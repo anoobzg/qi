@@ -1,0 +1,69 @@
+-- Created on: 1993-03-02
+-- Created by: Philippe DAUTRY
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SurfaceOfRevolution from PGeom inherits SweptSurface from PGeom
+
+        ---Purpose :  This  class defines    a   complete   surface of
+        --         revolution.  The surface is  obtained by rotating a
+        --         curve  a  complete revolution  about an axis.   The
+        --         curve and the axis must be in the same plane.
+        --         
+	---See Also : SurfaceOfRevolution from Geom.
+
+uses Dir         from gp,
+     Pnt         from gp,
+     Curve       from PGeom,
+     SurfaceForm from GeomAbs,
+     Shape       from GeomAbs
+
+is
+
+
+  Create returns mutable SurfaceOfRevolution from PGeom;
+	---Purpose: Creates a SurfaceOfRevolution with default values.
+    	---Level: Internal 
+
+
+  Create (
+    	    aBasisCurve : Curve from PGeom;
+    	    aDirection  : Dir from gp;
+	    aLocation   : Pnt from gp)
+     returns mutable SurfaceOfRevolution from PGeom;
+	---Purpose: Creates a SurfaceOfRevolution with these values.
+    	---Level: Internal 
+
+
+  Location (me : mutable; aLocation : Pnt from gp);
+        ---Purpose : Set the value of the field location with <aLocation>.
+    	---Level: Internal 
+
+
+  Location (me) returns Pnt from gp;
+        ---Purpose : Returns the value of the field location.
+    	---Level: Internal 
+
+
+fields
+
+  location  : Pnt from gp;
+
+end;

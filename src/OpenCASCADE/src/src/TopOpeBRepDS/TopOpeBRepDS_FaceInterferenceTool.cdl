@@ -1,0 +1,92 @@
+-- Created on: 1994-11-08
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class FaceInterferenceTool from TopOpeBRepDS 
+
+---Purpose: a tool computing complex transition on Face.
+
+uses
+
+    Orientation from TopAbs,
+    SurfaceTransition from TopTrans,
+    Interference from TopOpeBRepDS,
+    Curve from TopOpeBRepDS,
+    Shape from TopoDS,
+    Pnt from gp,
+    Dir from gp,
+    PDataStructure from TopOpeBRepDS
+    
+is
+
+    Create(P : PDataStructure from TopOpeBRepDS)
+    returns FaceInterferenceTool from TopOpeBRepDS;
+    
+    
+    Init(me : in out; 
+    	 FI : Shape from TopoDS; -- face accessing I
+	 E : Shape from TopoDS; 
+         Eisnew : Boolean;
+         I : Interference from TopOpeBRepDS)
+    ---Purpose: 
+    -- Eisnew = true if E is a new edge built on edge I->Geometry()
+    -- 	        false if E is shape <=> I->Geometry()
+    is static;
+
+    Add(me : in out;
+    	FI : Shape from TopoDS; -- face accessing I
+    	F : Shape from TopoDS;
+	E : Shape from TopoDS;Eisnew : Boolean;
+        I : Interference from TopOpeBRepDS)
+    ---Purpose: 
+    -- Eisnew = true if E is a new edge built on edge I->Geometry()
+    -- 	        false if E is shape <=> I->Geometry()
+    is static;
+    
+    Add(me : in out; 
+        E : Shape from TopoDS;
+	C : Curve from TopOpeBRepDS;
+        I : Interference from TopOpeBRepDS)
+    is static;
+
+    SetEdgePntPar(me : in out; P : Pnt from gp; par : Real);
+    GetEdgePntPar(me ; P : out Pnt from gp; par : out Real);
+    IsEdgePntParDef(me) returns Boolean;
+
+    Transition(me; I : mutable Interference from TopOpeBRepDS)
+    is static;
+    
+fields
+    
+    myPBDS            : PDataStructure from TopOpeBRepDS; 
+    myrefdef          : Boolean; -- myTool has been initialized   
+    myFaceOrientation : Orientation from TopAbs;
+    myFaceOriented    : Integer from Standard;
+    myTool            : SurfaceTransition from TopTrans;
+    myEdge            : Shape from TopoDS;  -- geometric domain where happens the interference
+    isLine            : Boolean;
+    myPntOnEd         : Pnt from gp; -- point on edge where is locally described the interference.
+    myParOnEd         : Real;        -- point parameter on edge.
+    myOnEdDef         : Boolean;
+    myTole            : Real; 
+
+
+end FaceInterferenceTool from TopOpeBRepDS;

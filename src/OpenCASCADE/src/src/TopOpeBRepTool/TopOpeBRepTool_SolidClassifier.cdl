@@ -1,0 +1,80 @@
+-- Created on: 1996-08-27
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class SolidClassifier from TopOpeBRepTool
+
+uses 
+
+    State from TopAbs,
+    Shell from TopoDS,
+    Solid from TopoDS,
+    Pnt from gp,
+    PSoClassif from TopOpeBRepTool, 
+--modified by NIZNHY-PKV Mon Dec 16 10:37:26 2002  f        
+--    IndexedDataMapOfSolidClassifier from TopOpeBRepTool, 
+    IndexedDataMapOfShapeAddress from TopTools, 
+--modified by NIZNHY-PKV Mon Dec 16 10:37:30 2002  t
+    Builder from BRep
+    
+is
+
+    Create returns SolidClassifier from TopOpeBRepTool;
+    
+    Clear(me : in out) is static;
+ 
+--modified by NIZNHY-PKV Mon Dec 16 10:37:57 2002  f 
+    Destroy(me: out); 
+    ---C++:  alias  "Standard_EXPORT  ~TopOpeBRepTool_SolidClassifier() {Destroy();}" 
+--modified by NIZNHY-PKV Mon Dec 16 10:38:00 2002  t
+
+    LoadSolid(me : in out; S : Solid) is static;
+
+    Classify(me : in out; S : Solid; P : Pnt; Tol : Real)
+    ---Purpose: compute the position of point <P> regarding with the
+    -- geometric domain of the solid <S>. 
+    returns State from TopAbs
+    is static;
+
+    LoadShell(me : in out; S : Shell) is static;
+
+    Classify(me : in out; S : Shell; P : Pnt; Tol : Real)
+    ---Purpose: compute the position of point <P> regarding with the
+    -- geometric domain of the shell <S>. 
+    returns State from TopAbs
+    is static;
+
+    State(me) returns State from TopAbs
+    is static;    
+
+fields
+
+    myPClassifier : PSoClassif from TopOpeBRepTool;  -- as BRepClass3d_SolidClassifier*  
+--modified by NIZNHY-PKV Mon Dec 16 10:59:22 2002  f    
+--    myClassifierMap : IndexedDataMapOfSolidClassifier from TopOpeBRepTool;  
+    myShapeClassifierMap:  IndexedDataMapOfShapeAddress from TopTools;
+--modified by NIZNHY-PKV Mon Dec 16 10:59:28 2002  t    
+    myState : State from TopAbs;   
+     
+    myShell : Shell from TopoDS;
+    mySolid : Solid from TopoDS;
+    myBuilder : Builder from BRep; 
+     
+end SolidClassifier from TopOpeBRepTool;

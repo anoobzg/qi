@@ -1,0 +1,102 @@
+-- Created on: 1992-04-07
+-- Created by: Christian CAILLET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class UndefinedEntity  from IGESData  inherits IGESEntity
+
+    ---Purpose : undefined (unknown or error) entity specific of IGES
+    --           DirPart can be correct or not : if it is not, a flag indicates
+    --           it, and each corrupted field has an associated error flag
+
+uses OStream, Check, UndefinedContent, CopyTool,
+     DefType, DefList, IGESReaderData, DirPart, ParamReader, IGESWriter
+
+is
+
+    Create returns mutable UndefinedEntity;
+    ---Purpose : creates an unknown entity
+
+    UndefinedContent (me) returns mutable UndefinedContent;
+    ---Purpose : Returns own data as an UndefinedContent
+
+    ChangeableContent (me : mutable) returns mutable UndefinedContent;
+    ---Purpose : Returns own data as an UndefinedContent, in order to touch it
+
+    SetNewContent (me : mutable; cont : mutable UndefinedContent);
+    ---Purpose : Redefines a completely new UndefinedContent
+    --           Used by a Copy which begins by ShallowCopy, for instance
+
+    IsOKDirPart (me) returns Boolean;
+    ---Purpose : says if DirPart is OK or not (if not, it is erroneous)
+    --           Note that if it is not, Def* methods can return Error status
+
+    DirStatus (me) returns Integer;
+    ---Purpose : returns Directory Error Status (used for Copy)
+
+    SetOKDirPart (me : mutable);
+    ---Purpose : Erases the Directory Error Status
+    --  Warning : Be sure that data are consistent to call this method ...
+
+
+    DefLineFont (me) returns DefType  is redefined;
+    ---Purpose : returns Error status if necessary, else calls original method
+
+    DefLevel    (me) returns DefList  is redefined;
+    ---Purpose : returns Error status if necessary, else calls original method
+
+    DefView     (me) returns DefList  is redefined;
+    ---Purpose : returns Error status if necessary, else calls original method
+
+    DefColor    (me) returns DefType  is redefined;
+    ---Purpose : returns Error status if necessary, else calls original method
+
+    HasSubScriptNumber (me) returns Boolean  is redefined;
+    ---Purpose : returns Error status if necessary, else calls original method
+    --           (that is, if SubScript field is not blank or positive integer)
+
+
+    ReadDir (me : mutable; IR : IGESReaderData; DP : in out DirPart;
+    	     ach : in out Check)
+    	returns Boolean  is virtual;
+    ---Purpose : Computes the Directory Error Status, to be called before
+    --           standard ReadDir from IGESReaderTool
+    --           Returns True if OK (hence, Directory can be loaded),
+    --           Else returns False and the DirPart <DP> is modified
+    --           (hence, Directory Error Status is non null; and standard Read
+    --            will work with an acceptable DirectoryPart)
+
+    ReadOwnParams (me : mutable; IR : IGESReaderData; PR : in out ParamReader)
+    	  is virtual;
+    ---Purpose : reads own parameters from file; PR gives access to them, IR
+    --           detains parameter types and values
+    --           Here, reads all parameters, integers are considered as entity
+    --           reference unless they cannot be; no list interpretation
+    --           No property or associativity list is managed
+
+    WriteOwnParams (me; IW : in out IGESWriter)  is virtual;
+    ---Purpose : writes parameters to IGESWriter, taken from UndefinedContent
+
+fields
+
+    thedstat : Integer;  -- DirPart error bitwise flags (none set -> OK)
+    thecont  : UndefinedContent;
+
+end UndefinedEntity;

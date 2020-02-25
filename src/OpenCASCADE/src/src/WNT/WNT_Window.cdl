@@ -1,0 +1,218 @@
+-- Created on: 1996-01-26
+-- Created by: PLOTNIKOV Eugeny
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+class Window from WNT inherits Window from Aspect
+
+	---Purpose: This class defines Windows NT window
+
+ uses
+
+    Handle             from Aspect,
+    TypeOfResize       from Aspect,
+    NameOfColor        from Quantity,
+    Color              from Quantity,
+    Ratio              from Quantity,
+    WClass             from WNT,
+    Uint               from WNT,
+    Long               from WNT,
+    Dword              from WNT,
+    WindowData         from WNT
+
+ raises
+
+    WindowDefinitionError from Aspect,
+    WindowError           from Aspect
+
+ is
+ 
+    Create (theTitle        : CString       from Standard;
+            theClass        : WClass        from WNT;
+            theStyle        : Dword         from WNT;
+            thePxLeft       : Integer       from Standard;
+            thePxTop        : Integer       from Standard;
+            thePxWidth      : Integer       from Standard;
+            thePxHeight     : Integer       from Standard;
+            theBackColor    : NameOfColor   from Quantity = Quantity_NOC_MATRAGRAY;
+            theParent       : Handle        from Aspect = 0;
+            theMenu         : Handle        from Aspect = 0;
+            theClientStruct : Address       from Standard = 0)
+     returns mutable Window from WNT
+     ---Level:   Public
+     ---Purpose: Creates a Window defined by his position and size
+     --	    in pixles from the Parent Window.
+     --  Trigger: Raises WindowDefinitionError if the Position out of the
+     --          Screen Space or the window creation failed.
+     raises WindowDefinitionError from Aspect;
+
+    Create (
+     aHandle    : Handle        from Aspect;
+     aBackColor : NameOfColor   from Quantity = Quantity_NOC_MATRAGRAY
+    )
+     returns mutable Window from WNT;
+     	---Level:   Public
+     	---Purpose: Creates a Window based on the existing window handle.
+        --          This handle equals ( aPart1 << 16 ) + aPart2.
+
+    Create (
+     aPart1     : Integer       from Standard;
+     aPart2     : Integer       from Standard;
+     aBackColor : NameOfColor   from Quantity = Quantity_NOC_MATRAGRAY
+    )
+     returns mutable Window from WNT;
+     	---Level:   Public
+     	---Purpose: Creates a Window based on the existing window <aHandle>.
+
+    Destroy ( me : mutable )
+     is virtual;
+	---Level:   Public
+	---Purpose: Destroies the Window and all resourses attached to it.
+	---C++:     alias ~
+
+
+    ---------------------------------------------------
+	-- Category: Methods to modify the class definition
+	---------------------------------------------------
+
+    SetCursor ( me; aCursor : Handle from Aspect )
+     is static;
+     	---Level:   Public
+     	---Purpose: Sets cursor <aCursor> for ENTIRE WINDOW CLASS to which
+     	--          the Window belongs.
+
+    Map ( me )
+     is virtual;
+	---Level:    Public
+	---Purpose:  Opens the window <me>.
+
+    Map ( me; aMapMode : Integer from Standard )
+     is static;
+     	---Level:   Public
+     	---Purpose: Opens a window <me> according to <aMapMode>.
+     	--          This method is specific to Windows NT.
+     	--          <aMapMode> can be one of SW_xxx constants defined
+     	--          in <windows.h>. See documentation.
+
+    Unmap ( me )
+     is virtual;
+	---Level:   Public
+	---Purpose: Closes the window <me>.
+
+    DoResize ( me )
+     returns TypeOfResize from Aspect
+	---Level:   Public
+	---Purpose: Applies the resizing to the window <me>.
+     raises WindowError from Aspect is virtual;
+
+    DoMapping ( me ) returns Boolean from Standard
+	    raises WindowError from Aspect is virtual;
+   	---Level: Advanced
+    	---Purpose: Apply the mapping change to the window <me>
+    	-- and returns TRUE if the window is mapped at screen.
+    	---Category: Methods to modify the class definition
+
+    SetPos ( me : mutable; X, Y, X1, Y1 : Integer from Standard )
+     is static;
+        ---Level:   Internal
+        ---Purpose: Changes variables due to window position.
+
+    SetFlags ( me : mutable; aFlags : Integer from Standard )
+     is static;
+     	---Level:   Public
+     	---Purpose: Sets user defined flags in the extra window data area.
+	--          Supported flags WDF_* are listed in InterfaceGraphic_WNT.hxx
+	--          In particular, the window backround can be turned off using this method.
+
+    ResetFlags ( me : mutable; aFlags : Integer from Standard )
+     is static;
+     	---Level:   Public
+    	---Purpose: Reset specified flags in the extra window data area.
+	--          Supported flags WDF_* are listed in InterfaceGraphic_WNT.hxx
+	--          In particular, the window backround can be turned on using this method.
+
+
+ 	----------------------------
+	-- Category: Inquire methods
+	----------------------------
+
+    IsMapped ( me )
+     returns Boolean from Standard  is virtual;
+	---Level:   Public
+	---Purpose: Returns True if the window <me> is opened
+	--	        and False if the window is closed.
+
+    Ratio ( me )
+     returns Ratio from Quantity  is virtual;
+	---Level:   Public
+	---Purpose: Returns The Window RATIO equal to the physical
+	--	    WIDTH/HEIGHT dimensions.
+
+    Position (
+     me;
+     X1 : out Integer from Standard;
+     Y1 : out Integer from Standard;
+     X2 : out Integer from Standard;
+     Y2 : out Integer from Standard
+    )
+     is virtual;
+	---Level:   Public
+	---Purpose: Returns The Window POSITION in PIXEL
+
+    Size (
+     me;
+     Width  : out Integer from Standard;
+     Height : out Integer from Standard
+    )
+     is virtual;
+	---Level:   Public
+	---Purpose: Returns The Window SIZE in PIXEL
+
+    HWindow ( me )
+     returns Handle from Aspect is static;
+	---Level:   Public
+	---Purpose: Returns the Windows NT handle of the created window <me>.
+        ---C++:     inline
+
+    HParentWindow ( me )
+     returns Handle from Aspect is static;
+	---Level:   Public
+	---Purpose: Returns the Windows NT handle parent of the created window <me>.
+        ---C++:     inline
+
+    doCreate (
+     me         : mutable;
+     aHandle    : Handle        from Aspect;
+     aBackColor : NameOfColor   from Quantity = Quantity_NOC_MATRAGRAY
+    ) is static private;
+     	---Level:   Private
+     	---Purpose: private method
+
+ fields
+
+    aXLeft          : Integer      from Standard is protected; -- Window coordinates
+    aYTop           : Integer      from Standard is protected;
+    aXRight         : Integer      from Standard is protected;
+    aYBottom        : Integer      from Standard is protected;
+    myWClass        : WClass       from WNT      is protected; -- Window class
+    myHWindow       : Handle       from Aspect   is protected; -- Window handle
+    myHParentWindow : Handle       from Aspect   is protected; -- Parent window handle
+    myExtraData     : WindowData   from WNT      is protected; -- additional data
+    myUsrData       : Address      from Standard is protected;
+
+end Window;

@@ -1,0 +1,79 @@
+-- Created on: 1997-02-06
+-- Created by: Kernel
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class RootData from Storage
+
+inherits TShared from MMgt
+
+uses SequenceOfAsciiString from TColStd,
+     AsciiString from TCollection,
+     MapOfPers from Storage,
+     HSeqOfRoot from Storage,
+     Error from Storage,
+     Root from Storage
+     
+raises NoSuchObject from Standard
+
+is
+
+    Create returns mutable RootData from Storage;
+    
+    NumberOfRoots(me) returns Integer from Standard;
+    ---Purpose: returns the number of roots.
+
+    AddRoot(me : mutable;  aRoot : Root from Storage);
+    ---Purpose: add a root to <me>. If a root with same name is present, it
+    --          will be replaced by <aRoot>.
+    
+    Roots(me) returns mutable HSeqOfRoot from Storage;
+    
+    Find(me; aName : AsciiString from TCollection) returns mutable Root from Storage;
+    ---Purpose: find a root with name <aName>.
+    
+    IsRoot(me; aName : AsciiString from TCollection) returns Boolean from Standard;
+    ---Purpose: returns Standard_True if <me> contains a root named <aName>
+    
+    RemoveRoot(me : mutable; aName : AsciiString from TCollection);
+    ---Purpose: remove the root named <aName>.
+
+    ErrorStatus(me) returns Error from Storage;
+    ErrorStatusExtension(me) returns AsciiString from TCollection;
+    
+    ClearErrorStatus(me : mutable);
+    
+    -- PRIVATE
+
+    UpdateRoot(me : mutable; aName : AsciiString from TCollection; aPers : mutable Persistent from Standard) 
+    raises NoSuchObject
+    is private;
+
+    SetErrorStatus(me : mutable; anError : Error from Storage) is private;
+    SetErrorStatusExtension(me : mutable; anErrorExt : AsciiString from TCollection) is private;    
+
+    fields
+    
+      myObjects            : MapOfPers from Storage;
+      myErrorStatus        : Error from Storage;
+      myErrorStatusExt     : AsciiString      from TCollection;
+      
+    friends class Schema from Storage
+    
+end;

@@ -1,0 +1,88 @@
+-- Created on: 1999-03-05
+-- Created by: Fabrice SERVANT
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class Edge from IntPolyh
+
+uses
+    
+    Pnt from gp
+
+
+is
+
+
+    Create;
+    
+    Create(i1,i2,i3,i4: Integer from Standard) ; 
+    
+    FirstPoint(me) 
+    returns Integer from Standard
+    is static;
+
+    SecondPoint(me) 
+    returns Integer from Standard
+    is static;
+    
+    FirstTriangle(me) 
+    returns Integer from Standard
+    is static;
+
+    SecondTriangle(me) 
+    returns Integer from Standard
+    is static;
+    
+    AnalysisFlag(me) 
+    returns Integer from Standard
+    is static;
+    
+--    GetTriangles(me; T1,T2: Integer from Standard)
+--    is static;
+
+    SetFirstPoint(me: in out; v: Integer from Standard) 
+    is static;
+	
+    SetSecondPoint(me: in out; v: Integer from Standard) 
+    is static;
+    
+    SetFirstTriangle(me: in out; v: Integer from Standard) 
+    is static;
+	
+    SetSecondTriangle(me: in out; v: Integer from Standard) 
+    is static;
+    
+    SetAnalysisFlag(me: in out; v: Integer from Standard) 
+    is static;
+    
+--    SetTriangles(me: in out; T1,T2: in out Integer from Standard) 
+--    is static;
+    
+    Dump(me; v: Integer from Standard) 
+    is static;
+     	
+fields
+
+    p1,p2 : Integer from Standard;
+    t1,t2 : Integer from Standard;
+    ia    : Integer from Standard;
+    
+end Edge from IntPolyh;

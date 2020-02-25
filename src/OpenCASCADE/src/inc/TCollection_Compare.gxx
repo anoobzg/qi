@@ -1,0 +1,54 @@
+// Created on: 1992-08-27
+// Created by: Mireille MERCIEN
+// Copyright (c) 1992-1999 Matra Datavision
+// Copyright (c) 1992-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include <Standard_NotImplemented.hxx>
+
+// -----------
+// IsLower :
+// -----------
+Standard_Boolean TCollection_Compare::IsLower (const Item& ,
+                                     const Item& ) const
+{
+  Standard_NotImplemented::Raise();
+  return Standard_False;
+}
+
+// -----------
+// IsGreater :
+// -----------
+Standard_Boolean TCollection_Compare::IsGreater (const Item& ,
+                                     const Item& ) const
+{
+  Standard_NotImplemented::Raise();
+  return Standard_False;
+}
+
+// -----------
+// IsEqual :
+// -----------
+Standard_Boolean TCollection_Compare::IsEqual (const Item& Left,
+                                     const Item& Right) const
+{
+   return (Left == Right) ;
+}
+
+

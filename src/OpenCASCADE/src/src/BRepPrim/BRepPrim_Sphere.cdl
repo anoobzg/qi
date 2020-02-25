@@ -1,0 +1,69 @@
+-- Created on: 1992-11-05
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class Sphere from BRepPrim inherits Revolution from BRepPrim
+
+	---Purpose: Implements the sphere primitive
+
+uses
+    Face from TopoDS,
+    
+    Pnt from gp,
+    Ax2 from gp    
+
+raises
+    DomainError
+
+is
+
+    Create(Radius : Real)
+    returns Sphere from BRepPrim
+	---Purpose: Creates a Sphere at  origin with  Radius. The axes
+	--          of the sphere are the  reference axes. An error is
+	--          raised if the radius is < Resolution.
+    raises DomainError;
+    
+    Create(Center : Pnt from gp; Radius : Real)
+    returns Sphere from BRepPrim
+	---Purpose: Creates a Sphere with Center and Radius.  Axes are
+	--          the   referrence    axes.   This    is the    STEP
+	--          constructor.
+    raises DomainError;
+    
+    Create(Axes : Ax2 from gp; Radius : Real)
+    returns Sphere from BRepPrim
+	---Purpose: Creates a sphere with given axes system.
+    raises DomainError;
+    
+    MakeEmptyLateralFace(me) returns Face from TopoDS
+	---Purpose: The surface normal should be directed  towards the
+	--          outside.
+    is redefined;
+    
+    SetMeridian(me : in out)
+    is static private;
+    
+fields
+    myRadius : Real;
+
+end Sphere;

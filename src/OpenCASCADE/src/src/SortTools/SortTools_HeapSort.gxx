@@ -1,0 +1,70 @@
+// Copyright (c) 1998-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+// SortTools_HeapSort.gxx
+// cree le 04/11/91 par ASI
+// Reference : Software Conponents with ADA, Grady Booch.
+
+void Shift(Array& TheArray, 
+	   const Comparator& Comp, 
+	   const Standard_Integer Left, const Standard_Integer Right)
+{
+  Item Temp = TheArray(Left);
+  Standard_Integer Front = Left;
+  Standard_Integer Back = Front * 2;
+  while (Back <= Right) {
+    if (Back < Right) {
+      if(Comp.IsLower(TheArray(Back), TheArray(Back + 1))) {
+	Back = Back + 1; 
+      }
+    }
+    if(!Comp.IsLower(Temp, TheArray(Back))) break;
+    TheArray(Front) = TheArray(Back);
+    Front = Back;
+    if(Front * 2 > TheArray.Upper()) break;
+    Back = Front * 2; 
+  }
+  TheArray(Front) = Temp;
+}
+
+void SortTools_HeapSort::Sort(Array& TheArray, 
+			      const Comparator& Comp)
+{
+  Item TempItem; 
+  Standard_Integer Left;
+  Standard_Integer Right;
+
+  Left = ((TheArray.Upper() - TheArray.Lower() + 1) / 2) + 1;
+  Right = TheArray.Upper();
+  while (Left > TheArray.Lower()) {
+    Left = Left - 1;
+    Shift(TheArray, Comp, Left, Right);
+  }
+  while (Right > TheArray.Lower()) {
+    TempItem = TheArray(TheArray.Lower());
+    TheArray(TheArray.Lower()) = TheArray(Right);
+    TheArray(Right) = TempItem;
+    Right = Right - 1;
+    Shift(TheArray, Comp, Left, Right);
+  }
+}
+
+
+
+
+

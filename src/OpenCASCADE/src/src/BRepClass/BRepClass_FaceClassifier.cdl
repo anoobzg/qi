@@ -1,0 +1,82 @@
+-- Created on: 1993-05-28
+-- Created by: Modelistation
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class FaceClassifier from BRepClass inherits FClassifier from BRepClass
+
+	---Purpose: Provides Constructors.
+
+uses
+    FaceExplorer from BRepClass,
+    Face         from TopoDS,
+    Pnt2d        from gp,
+    Pnt          from gp
+
+is
+    Create returns FaceClassifier from BRepClass;
+	---Purpose: Empty constructor, undefined algorithm.
+	
+	
+	
+      
+    Create(F : in out FaceExplorer from BRepClass; 
+    	   P : Pnt2d from gp; Tol : Real)
+    returns FaceClassifier from BRepClass;
+	---Purpose: Creates an algorithm to classify the Point  P with
+	--          Tolerance <T> on the face described by <F>.
+	
+    Create(F : Face from TopoDS; 
+    	   P : Pnt2d from gp; Tol : Real)
+    returns FaceClassifier from BRepClass;
+	---Purpose: Creates an algorithm to classify the Point  P with
+	--          Tolerance <T> on the face <F>.
+	
+    Perform(me : in out;
+    	    F : Face from TopoDS; 
+    	    P : Pnt2d from gp; Tol : Real)
+	---Purpose: Classify  the Point  P  with  Tolerance <T> on the
+	--          face described by <F>.
+    is static;
+
+
+
+    
+    Create(F : in out FaceExplorer from BRepClass; 
+    	   P : Pnt from gp; Tol : Real)
+    returns FaceClassifier from BRepClass;
+	---Purpose: Creates an algorithm to classify the Point  P with
+	--          Tolerance <T> on the face described by <F>.
+	
+    Create(F : Face from TopoDS; 
+    	   P : Pnt from gp; Tol : Real)
+    returns FaceClassifier from BRepClass;
+	---Purpose: Creates an algorithm to classify the Point  P with
+	--          Tolerance <T> on the face <F>.
+	
+    Perform(me : in out;
+    	    F : Face from TopoDS; 
+    	    P : Pnt from gp; Tol : Real)
+	---Purpose: Classify  the Point  P  with  Tolerance <T> on the
+	--          face described by <F>.
+    is static;   
+
+
+end FaceClassifier;

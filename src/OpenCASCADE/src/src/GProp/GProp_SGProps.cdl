@@ -1,0 +1,67 @@
+-- Created on: 1991-04-12
+-- Created by: Michel CHAUVAT
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+--		 Jean-Claude VAUTHIER January 1992
+
+
+generic class SGProps from GProp ( Arc      as any;
+    	    	    	    	   Face     as any; --as FaceTool (Arc)
+    	    	    	    	   Domain   as any  --as DomainTool(Arc)
+    	    	    	    	  )
+inherits GProps
+
+    	--- Purpose : 
+        --  Computes the global properties of a face in 3D space. 
+        --  The face 's requirements to evaluate the global properties
+        --  are defined in the template FaceTool from package GProp.
+	
+uses  Pnt  from gp
+is
+
+  Create  returns SGProps;
+
+  Create (S: Face; SLocation: Pnt) returns SGProps;
+  Create (S : in out Face;  D : in out Domain; SLocation : Pnt) returns SGProps; 
+        --- Purpose :
+        --  Builds a SGProps to evaluate the global properties of
+        --  the face <S>. If isNaturalRestriction is true the domain of S is defined  
+    	--  with the natural bounds, else it defined with an iterator
+        --  of Arc (see DomainTool from GProp) 
+  Create (S: in out Face; SLocation: Pnt; Eps: Real) returns SGProps;
+  Create (S: in out Face; D : in out Domain; SLocation: Pnt; Eps: Real) returns SGProps;
+    	--  --"--
+	--  Parameter Eps sets maximal relative error of computed area.
+
+  SetLocation(me: in out; SLocation: Pnt);
+
+  Perform(me: in out; S: Face); 
+  Perform(me : in out; S : in out Face ; D : in out Domain);
+  Perform(me: in out; S: in out Face; Eps: Real) returns Real;
+  Perform(me: in out; S: in out Face; D : in out Domain; Eps: Real) returns Real;
+ 
+  GetEpsilon(me: out) returns Real;
+        --- Purpose :  
+        --  If previously used method contained Eps parameter  
+    	--  get actual relative error of the computation, else return  1.0.
+fields
+
+    myEpsilon: Real from Standard;
+
+end SGProps;

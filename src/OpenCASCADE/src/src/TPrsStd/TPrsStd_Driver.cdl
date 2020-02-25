@@ -1,0 +1,70 @@
+-- Created on: 1997-08-01
+-- Created by: SMO
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+deferred class Driver from TPrsStd inherits TShared from MMgt
+
+    --- Purpose: Driver for AIS
+    --           ==============
+-- An abstract class, which - in classes inheriting
+-- from it - allows you to update an
+--  AIS_InteractiveObject or create one if one does
+--  not already exist.
+--  For both creation and update, the interactive
+--  object is filled with information contained in
+--  attributes. These attributes are those found on
+ -- the label given as an argument in the method Update.
+-- true is returned if the interactive object was modified by the update.
+    --  This class  provide  an algorithm  to  Build with its  default
+    --  values (if Null) or Update (if !Null) an AIS_InteractiveObject
+    --  .   Resources are found  in  attributes associated to  a given
+    --  label.
+
+    --  The algorithm Returns   <True>  if the minimum  resources  are
+    --   found.  The  returned AIS may   be null  if  algorithm failed
+    --  (values of resources attributes are not acceptable).
+
+    --  This  algorithm may   be  called, even if  an AISPresentation
+    --  attribute  is not setted at  the label (for simulation need by
+    --  example).
+
+    --  It belongs to the application to test the returned AIS object,
+    --  to set  it in  the AISPresentation  attribute and to  set  the
+    --  owner of the AIS. See Tool class for default implementation of
+    --  those methods.
+
+uses Label             from TDF,
+     InteractiveObject from AIS
+
+
+is
+
+    Initialize;
+    
+    Update (me : mutable ; L   :        Label from TDF;
+	                   ais : in out InteractiveObject from AIS)
+---Purpose:
+-- Updates the interactive object ais with
+-- information found on the attributes associated with the label L.
+        returns Boolean from Standard
+    is  deferred;    
+    
+
+end Driver;

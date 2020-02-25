@@ -1,0 +1,78 @@
+-- Created on: 1993-01-28
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred class Parameter from Dynamic 
+inherits
+
+    TShared from MMgt
+
+
+	---Purpose: A  parameter is defined  as  the association of  a
+	--          name and a value.  For easy use, inherited classes
+	--          have been  created  to manipulate  values by their
+	--          C++ type.  This class is the root class of all the
+	--          derived parameter classes.  Only the identifier of
+	--          the parameter is  stored  in it.   The  associated
+	--          value is stored in the  inherited classes where it
+	--          is more  easy to overload the methods manipulating
+	--          the  value.   No  instance of  this class  must be
+	--          created. It is for this  reason that this class is
+	--          deferred.
+
+uses
+
+    OStream from Standard,
+    CString from Standard,
+    HAsciiString from TCollection,
+    AsciiString  from TCollection
+
+
+is
+
+    Initialize(aname : CString from Standard) ;
+    
+    ---Level: Internal 
+    
+    ---Purpose: Initializer of this class  taking in argument the name
+    --          of the parameter <aname>.
+    
+    Name(me) returns AsciiString from TCollection
+    
+    ---Level: Public 
+
+    ---Purpose: Returns in an AsciiString the name of the parameter.
+
+    is static;
+        
+    Dump(me ; astream : in out OStream from Standard)
+    
+    ---Level: Internal 
+    
+    ---Purpose: Useful for debugging.
+    
+    is virtual;
+    
+fields
+
+    theparametername : HAsciiString from TCollection;
+    
+end Parameter;

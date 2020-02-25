@@ -1,0 +1,65 @@
+-- Created on: 1997-02-12
+-- Created by: Alexander BRIVIN
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class WWWAnchor from Vrml 
+
+	---Purpose: defines a WWWAnchor node of VRML specifying group properties.
+    	--  The  WWWAnchor  group  node  loads  a  new  scene  into  a  VRML  browser 
+	--  when  one  of  its  children  is  closen.  Exactly  how  a  user  "chooses" 
+	--  a  child  of  the  WWWAnchor  is  up  to  the  VRML browser. 
+	--  WWWAnchor  with  an  empty  ("")  name  does  nothing  when  its   
+	--  children  are  chosen. 
+	--  WWWAnchor  behaves  like  a  Separator,  pushing  the  traversal  state 
+	--  before  traversing  its  children  and  popping  it  afterwards.
+
+
+uses
+ 
+    AsciiString   from  TCollection,
+    WWWAnchorMap  from  Vrml
+
+is
+    Create  (  aName         :  AsciiString   from  TCollection  =  "";
+               aDescription  :  AsciiString   from  TCollection  =  "";
+               aMap          :  WWWAnchorMap  from  Vrml  =  Vrml_MAP_NONE ) 
+	 returns  WWWAnchor from Vrml;
+
+    SetName ( me : in out;  aName : AsciiString   from  TCollection );
+    Name ( me )  returns  AsciiString   from  TCollection;
+
+    SetDescription ( me : in out;  aDescription : AsciiString   from  TCollection );
+    Description ( me )  returns  AsciiString   from  TCollection;
+
+    SetMap ( me : in out;  aMap :  WWWAnchorMap  from  Vrml );
+    Map ( me )  returns  WWWAnchorMap  from  Vrml;
+
+    Print  ( me;  anOStream: in out OStream from Standard) returns OStream from Standard;
+    ---C++:  return  & 
+
+fields
+ 
+    myName         :  AsciiString     from  TCollection;	  -- URL name
+    myDescription  :  AsciiString     from  TCollection;	  -- Useful description of scene
+    myMap          :  WWWAnchorMap    from  Vrml;	          -- How to map pick to URL name
+
+end WWWAnchor;
+

@@ -1,0 +1,120 @@
+-- Created on: 1991-09-03
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class TrigonometricFunctionRoots from math 
+
+    	---Purpose: This class implements the solutions of the equation 
+    	--          a*Cos(x)*Cos(x) + 2*b*Cos(x)*Sin(x) + c*Cos(x) + d*Sin(x) + e
+    	--          The degree of this equation can be 4, 3 or 2.
+
+
+uses Array1OfReal from TColStd,
+     OStream      from Standard
+
+raises NotDone    from StdFail,
+       OutOfRange from Standard,
+       RangeError from Standard
+
+is 
+
+    Create(A, B, C, D, E: Real; InfBound, SupBound: Real)
+    	---Purpose: Given coefficients a, b, c, d , e, this constructor
+    	--          performs the resolution of the equation above.
+    	--          The solutions must be contained in [InfBound, SupBound].
+    	--          InfBound and SupBound can be set by default to 0 and 2*PI.
+
+    returns TrigonometricFunctionRoots;
+
+    
+    Create(D, E: Real; InfBound, SupBound: Real)
+    	---Purpose: Given the two coefficients d and e, it performs 
+    	--          the resolution of d*sin(x) + e = 0.
+    	--          The solutions must be contained in [InfBound, SupBound].
+    	--          InfBound and SupBound can be set by default to 0 and 2*PI.
+
+    returns TrigonometricFunctionRoots;
+
+
+    Create(C, D, E: Real; InfBound, SupBound: Real)
+    	---Purpose: Given the three coefficients c, d and e, it performs 
+    	--          the resolution of 2*b*cos(x)*sin(x) + d*sin(x) + e = 0.
+    	--          The solutions must be contained in [InfBound, SupBound].
+    	--          InfBound and SupBound can be set by default to 0 and 2*PI.
+
+    returns TrigonometricFunctionRoots;
+
+
+
+    Perform(me: in out; A, B, C, D, E: Real; InfBound, SupBound: Real)
+    	---Purpose: is used by the constructors above.
+
+    is static protected;
+    
+
+    IsDone(me)
+    	---Purpose: Returns true if the computations are successful, otherwise returns false.
+    	---C++: inline
+    returns Boolean
+    is static;
+  
+    InfiniteRoots(me)
+    	---Purpose: Returns true if there is an infinity of roots, otherwise returns false.
+    	---C++: inline
+    returns Boolean
+    is static;
+
+    Value(me; Index: Integer)
+    	---Purpose: Returns the solution of range Index.
+    	--         An exception is raised if NotDone.
+    	--         An exception is raised if Index>NbSolutions.
+    	--         An exception is raised if there is an infinity of solutions.
+    	---C++: inline
+    returns Real
+    raises NotDone, OutOfRange, RangeError
+    is static;
+
+    
+    NbSolutions(me)
+    	---Purpose: Returns the number of solutions found.
+    	--          An exception is raised if NotDone.
+    	--         An exception is raised if there is an infinity of solutions.
+    	---C++: inline
+    returns Integer
+    raises NotDone, RangeError
+    is static;
+    
+
+    Dump(me; o: in out OStream)
+    	---Purpose: Prints information on the current state of the object.
+
+    is static;
+
+
+fields
+
+NbSol:          Integer;
+Sol:            Array1OfReal from TColStd;
+InfiniteStatus: Boolean;
+Done:           Boolean;
+
+end TrigonometricFunctionRoots;

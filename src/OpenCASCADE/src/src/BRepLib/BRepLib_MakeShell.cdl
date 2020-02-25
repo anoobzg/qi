@@ -1,0 +1,97 @@
+-- Created on: 1995-01-04
+-- Created by: Bruno DUMORTIER
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+
+class MakeShell from BRepLib inherits MakeShape from BRepLib
+
+	---Purpose: Provides methos to build shells.
+	--          
+	--          Build a shell from a set of faces.
+	--          Build untied shell from a non C2 surface
+	--          splitting it into C2-continuous parts.
+
+uses
+
+    Surface    from Geom,
+    Shell      from TopoDS,
+    Face       from TopoDS,
+    ShellError from BRepLib
+    
+
+raises
+    NotDone from StdFail
+
+is
+    Create  
+	---Purpose: Not done.
+	---Level: Public
+    returns MakeShell from BRepLib;
+    
+    ----------------------------------------------
+    -- From a set of face
+    ----------------------------------------------
+
+    ----------------------------------------------
+    -- From a surface
+    ----------------------------------------------
+
+    Create(S : Surface from Geom;
+    	   Segment : Boolean from Standard = Standard_False)
+	---Level: Public
+    returns MakeShell from BRepLib;
+    
+    Create(S       : Surface from Geom; UMin, UMax, VMin, VMax : Real;
+    	   Segment : Boolean from Standard = Standard_False)
+	---Level: Public
+    returns MakeShell from BRepLib;
+
+    Init(me : in out; S : Surface from Geom; UMin, UMax, VMin, VMax : Real; 
+    	              Segment : Boolean from Standard = Standard_False)
+	---Purpose: Creates the shell from the surface  and the min-max
+	--          values.
+	---Level: Public
+    is static;
+
+
+    ----------------------------------------------
+    -- Results
+    ----------------------------------------------
+
+    Error(me) returns ShellError from BRepLib
+	---Level: Public
+    is static;
+
+    Shell(me) returns Shell from TopoDS
+	---Purpose: Returns the new Shell.
+	--          
+	---C++: return const &
+	---C++: alias "Standard_EXPORT operator TopoDS_Shell() const;"
+	---Level: Public
+    raises
+    	NotDone from StdFail
+    is static; 
+    
+fields
+    myError : ShellError from BRepLib;
+
+end MakeShell;

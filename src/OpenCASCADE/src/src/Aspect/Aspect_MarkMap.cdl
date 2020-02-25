@@ -1,0 +1,81 @@
+-- Created on: 1995-01-13
+-- Created by: GG
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class MarkMap from Aspect inherits TShared from MMgt
+
+	---Version: 0.0
+
+	---Purpose: This class defines a MarkMap object.
+	---Keywords:
+	---Warning:
+	---References:
+uses
+	MarkerStyle		from Aspect,
+	MarkMapEntry 		from Aspect,
+	SequenceOfMarkMapEntry 	from Aspect
+
+raises
+	BadAccess 	from Aspect
+
+is
+	Create returns mutable MarkMap from Aspect;
+
+        AddEntry (me : mutable; AnEntry : MarkMapEntry from Aspect)
+	---Level: Public
+        ---Purpose: Adds an entry in the mark map <me>.
+        --  Warning: Raises BadAccess if MarkMap size is exceeded.
+        raises BadAccess from Aspect;
+
+        AddEntry (me : mutable; aStyle : MarkerStyle from Aspect)
+                                        returns Integer from Standard;
+        ---Level: Public
+        ---Purpose: Search an identical marker style entry in the mark map <me>
+        -- and returns the MarkMapEntry Index if exist.
+        -- Or add a new entry and returns the computed MarkMapEntry index used.
+ 
+        Size( me ) returns Integer from Standard is static;
+        ---Level: Public
+        ---Purpose: Returns the Allocated markmap Size
+ 
+        Index( me ; aMarkmapIndex : Integer ) returns Integer from Standard
+        ---Level: Public
+        ---Purpose: Returns the MarkMapEntry.Index of the MarkMap
+        --          at rank <aMarkmapIndex> .
+        raises BadAccess from Aspect is static;
+        ---Trigger: Raises BadAccess if the index less than 1 or
+        --          greater than Size.
+ 
+	Dump( me ) ;
+
+	Entry ( me ;
+		AnIndex : Integer from Standard )
+	returns MarkMapEntry from Aspect
+	---Level: Public
+	---Purpose: Returns the Mark map entry with the index <AnIndex>.
+	--  Warning: Raises BadAccess if the index less than 1 or
+	--	    greater than Size.
+	raises BadAccess from Aspect is static;
+
+fields
+
+	mydata	    : 	SequenceOfMarkMapEntry from Aspect is protected;
+
+end MarkMap ;

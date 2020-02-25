@@ -1,0 +1,120 @@
+-- Created on: 2010-11-15
+-- Created by: Sergey SLYADNEV
+-- Copyright (c) 2010-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class NMTool from StepToTopoDS
+
+    ---Purpose: Provides data to process non-manifold topology when
+    --          reading from STEP.
+
+uses
+    DataMapOfRI        from StepToTopoDS,
+    DataMapOfRINames   from StepToTopoDS,
+    RepresentationItem from StepRepr,
+    Shape              from TopoDS,
+    AsciiString        from TCollection,
+    ListOfShape        from TopTools
+is
+
+    Create returns NMTool from StepToTopoDS;
+ 
+    Create(MapOfRI      : DataMapOfRI from StepToTopoDS;
+           MapOfRINames : DataMapOfRINames from StepToTopoDS)
+    returns NMTool from StepToTopoDS;
+    
+    Init(me           : in out;
+         MapOfRI      : DataMapOfRI from StepToTopoDS;
+         MapOfRINames : DataMapOfRINames from StepToTopoDS);
+
+    SetActive(me       : in out;
+              isActive : Boolean);
+
+    IsActive(me : in out)
+    returns Boolean;
+
+    CleanUp(me: in out);
+
+    IsBound(me : in out;
+    	    RI : RepresentationItem from StepRepr) 
+    returns Boolean from Standard;
+
+    IsBound(me     : in out;
+    	    RIName : AsciiString from TCollection) 
+    returns Boolean from Standard;
+	
+    Bind(me : in out;
+         RI : RepresentationItem from StepRepr;
+         S  : Shape from TopoDS);
+
+    Bind(me     : in out;
+         RIName : AsciiString from TCollection;
+         S      : Shape from TopoDS);
+	 
+    Find(me : in out;
+         RI : RepresentationItem from StepRepr) 
+    returns Shape from TopoDS;
+    ---C++: return const &
+
+    Find(me     : in out;
+         RIName : AsciiString from TCollection) 
+    returns Shape from TopoDS;
+    ---C++: return const &
+
+    RegisterNMEdge(me   : in out;
+                   Edge : Shape from TopoDS);
+
+    IsSuspectedAsClosing(me             : in out;
+                         BaseShell      : Shape from TopoDS;
+                         SuspectedShell : Shape from TopoDS)
+    returns Boolean;
+
+    IsPureNMShell(me    : in out;
+                  Shell : Shape from TopoDS)
+    returns Boolean;
+
+    SetIDEASCase(me        : in out;
+                 IDEASCase : Boolean);
+
+    IsIDEASCase(me : in out)
+    returns Boolean;
+
+    isEdgeRegisteredAsNM(me   : in out;
+                         Edge : Shape from TopoDS)
+    returns Boolean
+    is private;
+
+    isAdjacentShell(me     : in out;
+                    ShellA : Shape from TopoDS;
+                    ShellB : Shape from TopoDS)
+    returns Boolean
+    is private;
+    
+fields
+
+    myRIMap      : DataMapOfRI from StepToTopoDS;
+    
+    myRINamesMap : DataMapOfRINames from StepToTopoDS;
+
+    myNMEdges    : ListOfShape from TopTools;
+  
+    myIDEASCase  : Boolean;
+    
+    myActiveFlag : Boolean;
+
+end NMTool;

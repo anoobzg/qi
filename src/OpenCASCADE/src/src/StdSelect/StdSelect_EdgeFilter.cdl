@@ -1,0 +1,56 @@
+-- Created on: 1996-03-11
+-- Created by: Robert COUBLANC
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class EdgeFilter from StdSelect inherits Filter from SelectMgr
+
+	---Purpose: A framework to define a filter to select a specific type of edge.
+    	-- The types available include:
+    	-- -   any edge
+    	-- -   a linear edge
+    	-- -   a circular edge.
+  
+uses
+    TypeOfEdge from StdSelect,
+    Shape from TopoDS,
+    EntityOwner from SelectMgr,
+    ShapeEnum from TopAbs
+is
+    Create (Edge: TypeOfEdge from StdSelect)
+    returns mutable EdgeFilter from StdSelect;
+    	---Purpose: Constructs an edge filter object defined by the type of edge Edge.   
+    SetType(me:mutable;aNewType : TypeOfEdge from StdSelect);  
+    	---Purpose: Sets the type of edge aNewType. aNewType is to be highlighted in selection.    
+    
+    Type(me) returns TypeOfEdge from StdSelect;
+    	---Purpose: Returns the type of edge to be highlighted in selection.    
+    IsOk (me;anobj : EntityOwner from SelectMgr) 
+    returns Boolean from Standard is redefined virtual;
+
+    ActsOn(me; aStandardMode : ShapeEnum from TopAbs)
+    returns Boolean from Standard is redefined virtual;
+
+fields
+    mytype : TypeOfEdge from StdSelect;
+
+
+end EdgeFilter;

@@ -1,0 +1,82 @@
+-- Created on: 1993-07-22
+-- Created by: Isabelle GRIGNON
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package BRepBndLib 
+
+	---Purpose: This package provides the bounding boxes for curves
+	--          and surfaces from BRepAdaptor. 
+-- Functions to add a topological shape to a bounding box
+uses BRepAdaptor,
+     Bnd,
+     TopoDS,
+     Geom,
+     GeomAbs,
+     TColgp,
+     gp
+
+is
+
+    --
+    -- 	 Package methods for shapes
+    -- 	 
+
+    Add(S               : Shape from TopoDS; 
+        B               : in out Box from Bnd;
+        useTriangulation: Boolean from Standard = Standard_True);
+    	---Purpose:Adds the shape S to the bounding box B.
+-- More precisely are successively added to B:
+-- -   each face of S; the triangulation of the face is used if it exists,
+-- -   then each edge of S which does not belong to a face,
+--   the polygon of the edge is used if it exists
+-- -   and last each vertex of S which does not belong to an edge.
+--   After each elementary operation, the bounding box B is
+-- enlarged by the tolerance value of the relative sub-shape.
+-- When working with the triangulation of a face this value of
+-- enlargement is the sum of the triangulation deflection and
+-- the face tolerance. When working with the
+-- polygon of an edge this value of enlargement is
+-- the sum of the polygon deflection and the edge tolerance.
+-- Warning
+-- -   This algorithm is time consuming if triangulation has not
+--   been inserted inside the data structure of the shape S.
+-- -   The resulting bounding box may be somewhat larger than the object.
+	
+	
+    AddClose(S : Shape from TopoDS; B : in out Box from Bnd);
+    	---Purpose: Adds the shape S to the bounding box B.
+-- This is a quick algorithm but only works if the shape S is
+-- composed of polygonal planar faces, as is the case if S is
+-- an approached polyhedral representation of an exact
+-- shape. Pay particular attention to this because this
+-- condition is not checked and, if it not respected, an error
+-- may occur in the algorithm for which the bounding box is built.
+-- Note that the resulting bounding box is not enlarged by the
+-- tolerance value of the sub-shapes as is the case with the
+-- Add function. So the added part of the resulting bounding
+-- box is closer to the shape S.
+	
+		     
+end BRepBndLib;
+
+
+
+

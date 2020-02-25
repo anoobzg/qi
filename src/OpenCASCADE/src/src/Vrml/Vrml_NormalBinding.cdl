@@ -1,0 +1,54 @@
+-- Created on: 1997-02-11
+-- Created by: Alexander BRIVIN and Dmitry Tarasov
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class NormalBinding from Vrml 
+
+	---Purpose: defines a NormalBinding node of VRML specifying properties of geometry
+	---          and its appearance.
+    	--  This node specifies how the current normals are bound to shapes that follow in the scene
+       	--  graph. Each shape node may interpret bindings differently. 
+    	--  The bindings for faces and vertices are meaningful only for shapes that are made from
+       	--  faces and vertices. Similarly, the indexed bindings are only used by the shapes that allow
+       	--  indexing. For bindings that require multiple normals, be sure to have at least as many
+       	--  normals defined as are necessary; otherwise, errors will occur. 
+uses
+ 
+    MaterialBindingAndNormalBinding  from  Vrml
+
+is
+ 
+    Create ( aValue : MaterialBindingAndNormalBinding  from  Vrml )
+        returns NormalBinding from Vrml; 
+	
+    Create returns NormalBinding from Vrml; 
+
+    SetValue ( me:in out; aValue : MaterialBindingAndNormalBinding from  Vrml );
+    Value ( me )  returns  MaterialBindingAndNormalBinding from  Vrml;
+
+    Print  ( me; anOStream: in out OStream from Standard) returns OStream from Standard;
+    ---C++:  return  & 
+
+fields
+ 
+    myValue  :   MaterialBindingAndNormalBinding from  Vrml;  -- Normal binding value
+
+end NormalBinding;

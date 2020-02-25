@@ -1,0 +1,82 @@
+-- Created on: 1997-10-29
+-- Created by: Roman BORISOV
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+deferred  class SparseMatrix from FEmTool  inherits  TShared  from  MMgt
+
+	---Purpose: Sparse Matrix definition
+
+uses 
+    Vector  from  math
+
+raises   
+    NotDone  from  StdFail	
+   
+is    
+    Init(me:  mutable;  Value  :  Real) 
+    is  deferred; 
+     
+    ChangeValue(me:  mutable;  I,  J  :  Integer) 
+     ---C++: return &
+    returns  Real is  deferred; 
+     
+    Decompose(me  :  mutable)   
+    ---Purpose: To make a Factorization of <me>
+    returns  Boolean
+    is  deferred;
+        
+    Solve(me;  B  :  Vector;  X  :  in  out  Vector) 
+    ---Purpose: Direct Solve of AX = B   
+    raises  NotDone from  StdFail --  if  <me> is not decomposed
+    is  deferred;  
+     
+    Prepare(me  :  mutable) 
+     ---Purpose: Make Preparation to iterative solve  
+    returns  Boolean
+    is  deferred;
+     
+    Solve(me;  B          :  Vector;   
+               Init       :  Vector;  
+	       X          :  out  Vector;
+               Residual   :  out  Vector; 
+               Tolerance  :  Real  =  1.0e-8;
+	       NbIterations: Integer = 50)
+    ---Purpose: Iterative solve  of AX = B
+    raises  NotDone from  StdFail  --  if  <me> is not prepared;
+    is  deferred;  
+     
+    
+    Multiplied(me; X: Vector; MX  :  in  out  Vector) 
+    ---Purpose: returns the product of a SparseMatrix by a vector.
+    --          An exception is raised if the dimensions are different
+    is  deferred;    
+    
+    RowNumber(me)
+    	---Purpose: returns the row range of a matrix.
+    returns Integer
+    is deferred;
+
+    
+    ColNumber(me)
+    	---Purpose: returns the column range of the matrix.
+    returns Integer
+    is deferred;  
+  
+end SparseMatrix;

@@ -1,0 +1,72 @@
+-- Created on: 1998-07-22
+-- Created by: Philippe MANGIN
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+private  class Section from BRepFill 
+
+	---Purpose: To store section definition
+uses 
+    Shape  from TopoDS, 
+    Wire   from TopoDS,
+    Vertex from TopoDS  
+
+is 
+  Create returns Section from BRepFill;  
+   
+  Create (Profile : Shape  from TopoDS;   
+          V       : Vertex from TopoDS; 
+    	  WithContact    :  Boolean ; 
+          WithCorrection :  Boolean) 
+  returns Section from BRepFill;  
+   
+  Set(me  :  in  out;  IsLaw  :  Boolean); 
+   
+  Wire(me)   
+  ---C++: return const & 
+  ---C++: inline    
+  returns  Wire  from  TopoDS; 
+   
+  Vertex(me)   
+  ---C++: return const & 
+  ---C++: inline    
+  returns  Vertex  from  TopoDS;   
+
+  IsLaw(me)   
+   ---C++: inline
+  returns  Boolean; 
+   
+  WithContact(me)  
+   ---C++: inline
+  returns  Boolean; 
+   
+  WithCorrection(me)  
+   ---C++: inline
+  returns  Boolean;  
+   
+     
+
+fields
+    wire    :  Wire  from  TopoDS; 
+    vertex  :  Vertex from TopoDS;       
+    islaw   :  Boolean;
+    contact :  Boolean; 
+    correction:Boolean; 
+end Section;

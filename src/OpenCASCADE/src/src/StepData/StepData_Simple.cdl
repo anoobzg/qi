@@ -1,0 +1,110 @@
+-- Created on: 1997-05-09
+-- Created by: Christian CAILLET
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Simple  from StepData    inherits Described from StepData
+
+    ---Purpose : A Simple Entity is defined by a type (which can heve super
+    --           types) and a list of parameters
+
+uses CString,
+     Check from Interface,  EntityIterator from Interface,
+     ESDescr from StepData,
+     Field from StepData, FieldListN from StepData
+
+raises InterfaceMismatch
+
+is
+
+    Create (descr : ESDescr) returns mutable Simple;
+    ---Purpose : Creates a Simple Entity
+
+    ESDescr (me) returns ESDescr;
+    ---Purpose : Returns description, as for simple
+
+    StepType (me) returns CString;
+    ---Purpose : Returns the recorded StepType (TypeName of its ESDescr)
+
+    	--  inherited
+
+    IsComplex (me) returns Boolean;
+    ---Purpose : Returns False
+
+
+    Matches (me; steptype : CString) returns Boolean;
+    ---Purpose : Tells if a step type is matched by <me>
+    --           For a Simple Entity : own type or super type
+    --           For a Complex Entity : one of the members
+
+    As (me; steptype : CString) returns mutable Simple;
+    ---Purpose : Returns a Simple Entity which matches with a Type in <me> :
+    --           For a Simple Entity : me if it matches, else a null handle
+    --           For a Complex Entity : the member which matches, else null
+
+    HasField (me; name : CString) returns Boolean;
+    ---Purpose : Tells if a Field brings a given name
+
+    Field (me; name : CString) returns Field
+    ---Purpose : Returns a Field from its name; read-only
+    	raises InterfaceMismatch;
+    --           raises if no Field for <name>
+    ---C++ : return const &
+
+    CField (me : mutable; name : CString) returns Field
+    ---Purpose : Returns a Field from its name; read or write
+    	raises InterfaceMismatch;
+    --           raises if no Field for <name>
+    ---C++ : return &
+
+    	--  more specific
+
+    NbFields (me) returns Integer;
+    ---Purpose : Returns the count of fields
+
+    FieldNum (me; num : Integer) returns Field;
+    ---Purpose : Returns a field from its rank, for read-only use
+    ---C++ : return const &
+
+    CFieldNum (me : mutable; num : Integer) returns Field;
+    ---Purpose : Returns a field from its rank, in order to modify it
+    ---C++ : return &
+
+    Fields (me) returns FieldListN;
+    ---Purpose : Returns the entire field list, read-only
+    ---C++ : return const &
+
+    CFields (me : mutable) returns FieldListN;
+    ---Purpose : Returns the entire field list, read or write
+    ---C++ : return &
+
+    	--
+
+    Check  (me; ach  : in out Check from Interface);
+    ---Purpose : Fills a Check by using its Description
+
+    Shared (me; list : in out EntityIterator from Interface);
+    ---Purpose : Fills an EntityIterator with entities shared by <me>
+
+fields
+
+    thefields : FieldListN;
+
+end Simple;

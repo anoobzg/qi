@@ -1,0 +1,89 @@
+-- Created on: 1994-02-18
+-- Created by: Bruno DUMORTIER
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SectionGenerator from GeomFill inherits Profiler from GeomFill
+
+    ---Purpose: gives  the  functions  needed  for  instantiation from
+    --          AppSurf in AppBlend.   Allow  to  evaluate  a  surface
+    --          passing by all the curves if the Profiler.
+
+
+uses
+    Array1OfPnt     from TColgp,
+    Array1OfVec     from TColgp,
+    Array1OfPnt2d   from TColgp,
+    Array1OfVec2d   from TColgp,
+    Array1OfReal    from TColStd,
+    HArray1OfReal    from TColStd,
+    Array1OfInteger from TColStd
+    
+is
+
+  Create returns SectionGenerator from GeomFill;
+
+  SetParam(me  :  in  out  ; Params  :  HArray1OfReal  from  TColStd);
+
+  GetShape(me; NbPoles   : out Integer from Standard;
+               NbKnots   : out Integer from Standard;
+               Degree    : out Integer from Standard;
+               NbPoles2d : out Integer from Standard)
+  is static;
+
+  Knots(me; TKnots: out Array1OfReal from TColStd)
+  is static;
+
+  Mults(me; TMults: out Array1OfInteger from TColStd)
+  is static;
+
+  Section(me; P        : Integer           from Standard; 
+    	      Poles    : out Array1OfPnt   from TColgp;
+	      DPoles   : out Array1OfVec   from TColgp;
+    	      Poles2d  : out Array1OfPnt2d from TColgp;
+	      DPoles2d : out Array1OfVec2d from TColgp;
+	      Weigths  : out Array1OfReal  from TColStd;
+	      DWeigths : out Array1OfReal  from TColStd)
+
+	---Purpose: Used for the first and last section 
+	--          The method returns Standard_True if the derivatives
+	--          are computed, otherwise it returns Standard_False.
+
+  returns Boolean from Standard
+  is static;
+
+  Section(me; P       : Integer           from Standard; 
+    	      Poles   : out Array1OfPnt   from TColgp;
+    	      Poles2d : out Array1OfPnt2d from TColgp;
+	      Weigths : out Array1OfReal  from TColStd)
+  is static;
+
+
+  Parameter(me; P: Integer)
+    ---Purpose: Returns  the parameter of   Section<P>, to impose  it for the
+    --          approximation. 
+    returns Real from Standard
+    is static;
+
+    
+fields
+    myParams   : HArray1OfReal from TColStd  is  protected;
+
+end SectionGenerator;

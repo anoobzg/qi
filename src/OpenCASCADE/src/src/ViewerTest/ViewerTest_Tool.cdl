@@ -1,0 +1,45 @@
+-- Created on: 1998-10-15
+-- Created by: Denis PASCAL
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Tool from ViewerTest
+
+	---Purpose: to build and initialize ViewerTest static variables.
+	--          ====================================================
+
+uses Viewer             from V3d,
+     InteractiveContext from AIS
+
+
+is    
+
+    MakeViewer (myclass; title : CString from Standard) 
+    ---Purpose: create a new <context>. ViewerTest variables are not initialized;
+    returns Viewer from V3d;
+
+    MakeContext (myclass; title : CString from Standard) 
+    ---Purpose: create a new <context>. ViewerTest variables are not initialized;
+    returns InteractiveContext from AIS;
+    
+    InitViewerTest (myclass; current : InteractiveContext from AIS);
+    ---Purpose: init variables of ViewerTest with <current>
+
+end Tool;

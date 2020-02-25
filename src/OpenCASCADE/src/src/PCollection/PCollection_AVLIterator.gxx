@@ -1,0 +1,125 @@
+// Created on: 1992-05-13
+// Copyright (c) 1992-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+// Revised:	Wed Oct,21 1992
+// By     :     Mireille MERCIEN
+
+#include <Standard_NoMoreObject.hxx>
+#include <Standard_NoSuchObject.hxx>
+typedef PCollection_AVLNodeStack Stack;
+typedef PCollection_HAVLSearchTree Tree;
+typedef Handle(PCollection_HAVLSearchTree) Handle(Tree);
+typedef PCollection_AVLNode Node;
+typedef Handle(PCollection_AVLNode) Handle(Node);
+
+//-----------------------------------------------------------------------------
+PCollection_AVLIterator::
+              PCollection_AVLIterator ( const Handle(Tree)& aTree) 
+{
+  CurrentStack = new Stack;                     // Create an empty Stack
+  Handle(Node) Root = aTree->GetRoot();     // Current node = root of tree
+  if (Root.IsNull()) {
+     HasMore = False;
+  }
+  else {
+     HasMore = True;
+     // CURRENTSTACK MANAGEMENT
+     Append( Root);
+  }
+}
+
+//-----------------------------------------------------------------------------
+Boolean PCollection_AVLIterator::More () const 
+{
+  return  HasMore;
+}
+
+//-----------------------------------------------------------------------------
+Handle(Node) PCollection_AVLIterator::Value () const 
+{
+  if (!HasMore) NoSuchObject::Raise();
+  return CurrentNode;
+}
+
+//-----------------------------------------------------------------------------
+void PCollection_AVLIterator::Clear () 
+{
+  CurrentNode.Nullify();
+  CurrentStack.Nullify();
+  HasMore = False;
+}
+
+//-----------------------------------------------------------------------------
+void PCollection_AVLIterator::Next () 
+{
+  if (!HasMore) NoMoreObject::Raise();
+  Handle(Node) Right = CurrentNode->RightChild();
+
+  // WHAT ARE THE FOLLOWING ELEMENTS ?
+  if ( Right.IsNull()) {
+    RecursiveRemove(CurrentNode);
+    // MAYBE IT'S THE END
+    if (CurrentStack->IsEmpty()) 
+       HasMore = False;
+    else 
+       CurrentNode = CurrentStack->Top();
+  }
+  else {
+    Append (Right);
+  }
+}
+
+
+// PRIVATE TOOLS TO ITERATE
+
+
+void PCollection_AVLIterator::Append ( const Handle(Node)& Root) 
+{
+  RecursiveAppend( Root);
+  CurrentNode = CurrentStack->Top();
+}
+
+
+void PCollection_AVLIterator::RecursiveAppend(const Handle(Node)& ANode) 
+{
+  if (!ANode.IsNull()) {
+    CurrentStack->Push(ANode);
+    Handle(Node) Left = ANode->LeftChild();
+    RecursiveAppend( Left);
+  }
+}
+
+
+void PCollection_AVLIterator::RecursiveRemove(const Handle(Node)& theNode) 
+{       
+     CurrentStack->Pop();
+     if (CurrentStack->IsEmpty()) return;
+     Handle(Node) NewNode = CurrentStack->Top();
+     if (theNode == NewNode->RightChild()) {
+        RecursiveRemove(NewNode);
+     }
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,103 @@
+-- Created on: 1992-05-18
+-- Created by: Stephan GARNAUD
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+-- Updated: J.P. TIRAULT August 1993
+--          All methods are static methods.
+
+
+class DirectoryIterator from OSD 
+
+ ---Purpose: Manages a breadth-only search for sub-directories in the specified
+ --          Path.
+ --          There is no specific order of results. 
+ 
+uses Directory, Path, Error, AsciiString from TCollection 
+
+raises OSDError
+
+is
+
+ Create returns DirectoryIterator ;
+    ---WARNING! : This method is not implemented on Windows NT System
+    ---Purpose: Instantiates Object as empty Iterator;
+    ---Level: Public
+
+ Create (where : Path ; Mask : AsciiString) returns DirectoryIterator;
+    ---Purpose: Instantiates Object as Iterator.
+    --          Wild-card "*" can be used in Mask the same way it
+    --          is used by unix shell for file names
+    ---Level: Public
+
+ Destroy ( me : out );
+	---C++: alias ~
+        -- Only implemented on Windows NT
+
+ Initialize (me : in out ; where : Path ; Mask : AsciiString) is static;
+    ---WARNING! : This method is not implemented on Windows NT System
+    ---Purpose: Initializes the current File Directory
+    ---Level: Public
+
+ More (me : in out) returns Boolean is static;
+    ---Purpose: Returns TRUE if other items are found while
+    --          using the 'Tree' method.
+    ---Level: Public
+
+ Next (me : in out)  is static;
+    ---Purpose: Sets the iterator to the next item.
+    --          Returns the item value corresponding to the current
+    --          position of the iterator.
+    ---Level: Public
+
+ Values (me : in out) returns Directory is static;
+    ---Purpose: Returns the next item found .
+    ---Level: Public
+
+ Failed (me) returns Boolean is static;
+   ---Purpose: Returns TRUE if an error occurs
+   ---Level: Public
+
+ Reset (me : in out) is static;
+   ---Purpose: Resets error counter to zero
+   ---Level: Public
+      
+ Perror (me : in out)
+   ---Purpose: Raises OSD_Error
+   ---Level: Public
+   raises OSDError is static;
+
+ Error (me) returns Integer is static;
+   ---Purpose: Returns error number if 'Failed' is TRUE.
+   ---Level: Public
+
+ fields
+      TheIterator  : Directory;     -- The iterator item
+      myFlag       : Integer; 
+      myMask       : AsciiString;
+      myPlace      : AsciiString;
+      myDescr      : Address ;      -- unused by Windows NT code
+      myEntry      : Address ;      -- unused by Windows NT code
+      myInit       : Integer ;      -- unused by Windows NT code
+      myError      : Error;
+      myHandle     : Integer;   -- Windows NT specific
+      myData       : Address;   -- Windows NT specific
+      myFirstCall  : Boolean;   -- Windows NT specific
+end DirectoryIterator from OSD;

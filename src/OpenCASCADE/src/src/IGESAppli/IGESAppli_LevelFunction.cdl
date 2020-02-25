@@ -1,0 +1,77 @@
+-- Created on: 1993-01-11
+-- Created by: CKY / Contract Toubro-Larsen ( Arun MENON )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class LevelFunction from IGESAppli  inherits IGESEntity
+
+        ---Purpose: defines LevelFunction, Type <406> Form <3>
+        --          in package IGESAppli
+        --          Used to transfer the meaning or intended use of a level
+        --          in the sending system
+
+uses
+
+        HAsciiString from TCollection
+
+is
+
+        Create returns mutable LevelFunction;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me           : mutable;
+              nbPropVal    : Integer;
+              aCode        : Integer;
+              aFuncDescrip : HAsciiString);
+        ---Purpose : This method is used to set the fields of the class
+        --           LevelFunction
+        --       - nbPropVal    : Number of Properties, always = 2
+        --       - aCode        : Function Description code
+        --                        default = 0
+        --       - aFuncDescrip : Function Description
+        --                        default = null string
+
+        NbPropertyValues (me) returns Integer;
+        ---Purpose : is always 2
+
+        FuncDescriptionCode (me) returns Integer;
+        ---Purpose : returns the function description code . Default = 0
+
+        FuncDescription (me) returns HAsciiString from TCollection;
+        ---Purpose : returns the function description
+        -- Default = null string
+
+fields
+
+--
+-- Class    : IGESAppli_LevelFunction
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class LevelFunction.
+--
+-- Reminder : A LevelFunction instance is defined by :
+--            -  Function Description code, default = 0
+--            -  Function Description, default = null string
+
+        theNbPropertyValues : Integer;
+        theFuncDescripCode  : Integer;
+        theFuncDescrip      : HAsciiString;
+
+end LevelFunction;

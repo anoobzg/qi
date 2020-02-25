@@ -1,0 +1,109 @@
+-- Created on: 1996-02-21
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class PolygonOnTriangulation from Poly inherits TShared from MMgt
+
+    	---Purpose: This class provides a polygon in 3D space, based on the triangulation
+    	-- of a surface. It may be the approximate representation of a
+    	-- curve on the surface, or more generally the shape.
+    	-- A PolygonOnTriangulation is defined by a table of
+    	-- nodes. Each node is an index in the table of nodes specific
+    	-- to a triangulation, and represents a point on the surface. If
+    	-- the polygon is closed, the index of the point of closure is
+    	-- repeated at the end of the table of nodes.
+    	-- If the polygon is an approximate representation of a curve
+    	-- on a surface, you can associate with each of its nodes the
+    	-- value of the parameter of the corresponding point on the
+    	-- curve.represents a 3d Polygon 
+
+
+uses Array1OfInteger  from TColStd,
+     Array1OfReal     from TColStd,
+     HArray1OfReal    from TColStd,
+     Triangulation    from Poly
+
+raises NullObject from Standard
+
+is
+
+    Create(Nodes: Array1OfInteger from TColStd)
+    returns mutable PolygonOnTriangulation from Poly;
+    	---Purpose: Constructs a 3D polygon on the triangulation of a shape,
+    	-- defined by the table of nodes, <Nodes>.
+    
+    Create(Nodes     : Array1OfInteger from TColStd;
+           Parameters: Array1OfReal    from TColStd) 
+    returns mutable PolygonOnTriangulation from Poly;
+    	---Purpose:
+    	-- Constructs a 3D polygon on the triangulation of a shape, defined by:
+    	--  -   the table of nodes, Nodes, and the table of parameters, <Parameters>.  
+    	-- where:
+    	-- -   a node value is an index in the table of nodes specific
+    	--   to an existing triangulation of a shape
+    	-- -   and a parameter value is the value of the parameter of
+    	--   the corresponding point on the curve approximated by
+    	--   the constructed polygon.
+    	-- Warning
+    	-- The tables Nodes and Parameters must be the same size.
+    	-- This property is not checked at construction time.
+    
+    Deflection(me) returns Real;
+    	---Purpose: Returns the deflection of this polygon    
+    Deflection(me : mutable; D : Real);
+    	---Purpose: Sets the deflection of this polygon to D.
+ 	-- See more on deflection in Poly_Polygones2D.
+
+    NbNodes(me) returns Integer;
+	---Purpose:
+    	-- Returns the number of nodes for this polygon.
+    	-- Note: If the polygon is closed, the point of closure is
+    	-- repeated at the end of its table of nodes. Thus, on a closed
+    	-- triangle, the function NbNodes returns 4.
+    	---C++: inline
+
+    Nodes(me) returns Array1OfInteger from TColStd
+	---Purpose: Returns the table of nodes for this polygon. A node value
+    	-- is an index in the table of nodes specific to an existing
+    	-- triangulation of a shape.
+ 	---C++: return const &
+   raises NullObject from Standard;
+    	
+    
+    HasParameters(me) returns Boolean from Standard;
+    	---Purpose:
+    	-- Returns true if parameters are associated with the nodes in this polygon.   
+    Parameters(me) returns HArray1OfReal from TColStd
+    	---	Purpose: Returns the table of the parameters associated with each node in this polygon.
+    	-- Warning
+    	-- Use the function HasParameters to check if parameters
+    	-- are associated with the nodes in this polygon.
+	--          
+    raises NullObject from Standard;
+    
+    
+fields
+
+    myDeflection    : Real            from Standard;
+    myNodes         : Array1OfInteger from TColStd;
+    myParameters    : HArray1OfReal   from TColStd;
+    
+end PolygonOnTriangulation;

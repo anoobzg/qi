@@ -1,0 +1,88 @@
+-- Created on: 2018-03-15
+-- Created by: Stephan GARNAUD (ARM)
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+-- Updated:       J.P. TIRAULT Sept,1993
+
+class Timer from OSD inherits Chronometer from OSD
+
+ ---Purpose: Working on heterogeneous platforms
+-- we need to use the system call gettimeofday.
+-- This function is portable and it measures ELAPSED
+-- time and CPU time in seconds and microseconds.
+ -- Example: OSD_Timer aTimer;
+ --          aTimer.Start();   // Start  the timers (t1). 
+ --           .....            // Do something.
+ --          aTimer.Stop();    // Stop the timers (t2).
+ --          aTimer.Show();    // Give the elapsed time between t1 and t2.
+ --                            // Give also the process CPU time between 
+ --                            // t1 and t2.
+ 
+
+is
+
+  Create returns Timer from OSD;
+  ---Purpose: Builds a Chronometer initialized and stopped.
+  ---Level: Public
+
+  Reset (me : in out) is redefined;
+  ---Purpose: Stops and reinitializes the timer.
+  ---Level: Public
+
+  Show (me : in out) is redefined;
+  ---Purpose: Shows both the elapsed time and CPU time on the standard output 
+  --          stream <cout>.The chronometer can be running (Lap Time) or
+  --          stopped.
+  ---Level: Public
+
+  Show  (me : in out; os : in out OStream from Standard) is redefined;
+  ---Purpose: Shows both the elapsed time and CPU  time on the  
+  --          output stream <OS>.
+  ---Level: Public
+
+  Show  (me : in out; seconds     : in out Real    from Standard;
+                      minutes     : in out Integer from Standard;
+                      hours       : in out Integer from Standard;
+                      CPUtime     : in out Real    from Standard);
+		      
+  ---Purpose: returns both the elapsed time(seconds,minutes,hours) 
+  --          and CPU  time.
+  ---Level: Public
+
+  Stop (me : in out) is redefined;
+  ---Purpose: Stops the Timer.
+  ---Level: Public
+
+  Start (me : in out) is redefined;
+  ---Purpose: Starts (after Create or Reset) or restarts (after Stop)
+  --          the Timer.
+  ---Level: Public
+
+  ElapsedTime (me : in out) returns Real;
+  ---Purpose: Returns elapsed time in seconds.
+  ---Level: Public
+
+fields
+
+  TimeStart : Real;
+  TimeCumul : Real;
+
+end;

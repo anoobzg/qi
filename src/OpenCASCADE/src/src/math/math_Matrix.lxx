@@ -1,0 +1,85 @@
+// Copyright (c) 1997-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+// lpa le 29/10/91
+
+#include <Standard_DimensionError.hxx>
+#include <math_Vector.hxx>
+
+inline Standard_OStream& operator<<(Standard_OStream& o,
+				    const math_Matrix& mat)
+{
+  mat.Dump(o);
+  return o;
+}
+
+inline math_Matrix operator* (const Standard_Real Left,
+			      const math_Matrix& Right) 
+{
+  return Right.Multiplied(Left);
+}
+
+
+
+inline Standard_Real& math_Matrix::Value(const Standard_Integer Row, 
+					 const Standard_Integer Col)const
+{
+  Standard_RangeError_Raise_if(((Row < LowerRowIndex) || 
+				(Row > UpperRowIndex) ||
+				(Col < LowerColIndex) || 
+				(Col > UpperColIndex)), " ");
+
+  return Array(Row, Col);
+}
+
+inline Standard_Integer math_Matrix::RowNumber() const 
+         { return UpperRowIndex - LowerRowIndex + 1; }
+
+     // returns the row range of a matrix.
+
+inline Standard_Integer math_Matrix::ColNumber() const 
+         { return UpperColIndex - LowerColIndex + 1; }
+ 
+     // returns the column range of a matrix.
+
+
+
+
+inline Standard_Integer math_Matrix::LowerRow() const { return LowerRowIndex; }
+
+     // returns the value of the Lower index of the row range of a matrix.
+
+inline Standard_Integer math_Matrix::UpperRow () const { return UpperRowIndex;  }
+
+     // returns the value of the Upper index of the row range of a matrix.
+
+inline Standard_Integer math_Matrix::LowerCol() const { return LowerColIndex; }
+
+     // returns the value of the Lower index of the column range of a matrix.
+
+inline Standard_Integer math_Matrix::UpperCol()  const { return UpperColIndex;  }
+
+     // returns the value of the Upper index of the column range of a matrix.
+
+inline void math_Matrix::SetLower (const Standard_Integer LowerRow,
+				   const Standard_Integer LowerCol) 
+{
+  SetLowerRow(LowerRow);
+  SetLowerCol(LowerCol);
+}

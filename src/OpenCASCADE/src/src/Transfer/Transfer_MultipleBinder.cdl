@@ -1,0 +1,90 @@
+-- Created on: 1993-04-07
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class MultipleBinder  from Transfer  inherits Binder
+
+    ---Purpose : Allows direct binding between a starting Object and the Result
+    --           of its transfer, when it can be made of several Transient
+    --           Objects. Compared to a Transcriptor, it has no Transfer Action
+    --           
+    --           Result is a list of Transient Results. Unique Result is not
+    --           available : SetResult is redefined to start the list on the
+    --           first call, and refuse the other times.
+    --           
+    --           rr
+    --           
+    --           Remark : MultipleBinder itself is intended to be created and
+    --           filled by TransferProcess itself (method Bind). In particular,
+    --           conflicts between Unique (Standard) result and Multiple result
+    --           are avoided through management made by TransferProcess.
+    --           
+    --           Also, a Transcriptor (with an effective Transfer Method) which
+    --           can produce a Multiple Result, may be defined as a sub-class
+    --           of MultipleBinder by redefining method Transfer.
+
+uses CString, Transient, Type, HSequenceOfTransient from TColStd
+
+raises TransferFailure, OutOfRange
+
+is
+
+    Create returns mutable MultipleBinder;
+    ---Purpose : normal standard constructor, creates an empty MultipleBinder
+
+    IsMultiple (me) returns Boolean  is redefined;
+    ---Purpose : Returns True if a starting object is bound with SEVERAL
+    --           results : Here, returns allways True
+
+    ResultType (me) returns Type;
+    ---Purpose : Returns the Type permitted for Results, i.e. here Transient
+
+    ResultTypeName (me) returns CString;
+    ---Purpose : Returns the Name of the Type which characterizes the Result
+    --           Here, returns "(list)"
+
+
+    AddResult (me : mutable; res : mutable Transient);
+    ---Purpose : Adds a new Item to the Multiple Result
+
+    NbResults (me) returns Integer;
+    ---Purpose : Returns the actual count of recorded (Transient) results
+
+    ResultValue (me; num : Integer) returns mutable Transient
+    ---Purpose : Returns the value of the recorded result n0 <num>
+    	raises OutOfRange;
+    --           Error if <num> is out of range
+
+    MultipleResult (me) returns  HSequenceOfTransient from TColStd;
+    ---Purpose : Returns the Multiple Result, if it is defined (at least one
+    --           Item). Else, returns a Null Handle
+
+    SetMultipleResult (me : mutable;
+    	    	       mulres : mutable HSequenceOfTransient from TColStd)
+    	raises TransferFailure;
+    ---Purpose : Defines a Binding with a Multiple Result, given as a Sequence
+    --           Error if a Unique Result has yet been defined
+
+fields
+
+    themulres : HSequenceOfTransient from TColStd;
+
+end MultipleBinder;

@@ -1,0 +1,78 @@
+-- Created on: 1993-10-14
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ToolGroup  from IGESBasic
+
+    ---Purpose : Tool to work on a Group. Called by various Modules
+    --           (ReadWriteModule, GeneralModule, SpecificModule)
+
+uses Group from IGESBasic,
+     IGESReaderData, ParamReader, IGESWriter, EntityIterator,
+     DirChecker,     ShareTool,   Check,      CopyTool,   IGESDumper, Messenger from Message
+
+raises DomainError
+
+is
+
+    Create returns ToolGroup;
+    ---Purpose : Returns a ToolGroup, ready to work
+
+
+    ReadOwnParams (me; ent : mutable Group;
+    	    	   IR : IGESReaderData; PR : in out ParamReader)
+    	raises DomainError  is static;
+    ---Purpose : Reads own parameters from file. <PR> gives access to them,
+    --           <IR> detains parameter types and values
+
+    WriteOwnParams (me; ent : Group;
+    	    	    IW : in out IGESWriter)  is static;
+    ---Purpose : Writes own parameters to IGESWriter
+
+
+    OwnShared  (me; ent : Group;
+    	        iter : in out EntityIterator)  is static;
+    ---Purpose : Lists the Entities shared by a Group <ent>, from
+    --           its specific (own) parameters
+
+    OwnCorrect (me; ent : mutable Group) returns Boolean  is static;
+    ---Purpose : Sets automatic unambiguous Correction on a Group
+    --           (Null Elements are removed from list)
+
+    DirChecker (me; ent : Group) returns DirChecker  is static;
+    ---Purpose : Returns specific DirChecker
+
+    OwnCheck   (me; ent : Group;
+    	        shares  : ShareTool; ach : in out Check)  is static;
+    ---Purpose : Performs Specific Semantic Check
+
+
+    OwnCopy    (me; entfrom : Group; entto : mutable Group;
+    	        TC : in out CopyTool)  is static;
+    ---Purpose : Copies Specific Parameters
+
+
+    OwnDump (me; ent : Group;
+    	     dumper  : IGESDumper;  S : Messenger from Message; own : Integer)
+        is static;
+    ---Purpose : Dump of Specific Parameters
+
+end ToolGroup;

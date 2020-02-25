@@ -1,0 +1,108 @@
+-- Created on: 1992-03-04
+-- Created by: Laurent BUCHARD
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class PConic from IntCurve
+
+	---Purpose: This class represents a conic from gp as a
+	--          parametric curve ( in order to be used by the
+	--          class PConicTool from IntCurve).
+
+        ---Level: Internal
+
+uses   Elips2d    from gp,
+       Lin2d      from gp,
+       Circ2d     from gp,
+       Parab2d    from gp,
+       Hypr2d     from gp,
+       Ax22d      from gp,
+       CurveType  from GeomAbs
+
+is
+
+    Create(PC: PConic from IntCurve) returns PConic from IntCurve;
+
+    Create(E: Elips2d from gp) returns PConic from IntCurve;
+    
+    Create(C: Circ2d  from gp)  returns PConic from IntCurve;
+
+    Create(P: Parab2d  from gp)  returns PConic from IntCurve;
+
+    Create(H: Hypr2d  from gp)  returns PConic from IntCurve;
+
+    Create(L: Lin2d   from gp)  returns PConic from IntCurve;
+
+
+    SetEpsX(me: in out; EpsDist: Real from Standard) is static;
+    	---Purpose: EpsX is a internal tolerance used in math 
+    	--          algorithms, usually about 1e-10
+    	--          (See FunctionAllRoots for more details)
+    
+    SetAccuracy(me: in out; Nb: Integer from Standard) is static;
+    	---Purpose: Accuracy is the number of samples used to 
+    	--          approximate the parametric curve on its domain.
+    
+    Accuracy(me) 
+    	---C++: inline
+    	returns Integer from Standard is static;
+
+    EpsX(me) 
+    	---C++: inline
+    	returns Real from Standard is static;
+
+    TypeCurve(me)
+    	---Purpose: The Conics are manipulated as objects which only 
+    	--          depend on three parameters : Axis and two Real from Standards.
+    	--          Type Curve is used to select the correct Conic.
+    	---C++: inline
+    	returns CurveType from GeomAbs
+	is static;
+	
+    Axis2(me)
+    	---C++: inline
+    	---C++: return const &
+    	returns Ax22d from gp
+	is static;
+
+    Param1(me)  
+    	---C++: inline
+     	returns Real from Standard	is static;
+	
+    Param2(me) 	
+    	---C++: inline
+    	returns Real from Standard    is static;
+
+fields
+
+    axe         : Ax22d     from gp;
+    prm1        : Real      from Standard;
+    prm2        : Real      from Standard;
+    
+    TheEpsX     : Real      from Standard;
+    TheAccuracy : Integer   from Standard;
+    type        : CurveType from GeomAbs;
+
+end PConic;
+
+
+
+
+

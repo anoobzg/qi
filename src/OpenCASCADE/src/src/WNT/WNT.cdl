@@ -1,0 +1,136 @@
+-- Created on: 1996-01-23
+-- Created by: s:       LAVNIKOV Alexey, PLOTNIKOV Eugeny & CHABROVSKY Dmitry
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Modifications: DCB at March 1998  Porting MFT for Windows NT (95)
+--                PLOTNIKOV Eugeny at July 1998 (BUC60286)
+
+package WNT
+
+        ---Purpose: This package contains common Windows NT graphics interface.
+
+ uses
+
+    Aspect,
+    Image,
+    Quantity,
+    TCollection,
+    TColStd,
+    TShort,
+    MMgt,
+    OSD
+
+ is
+
+
+        -----------------------
+        -- Category: Exceptions
+        -----------------------
+
+
+    exception ClassDefinitionError inherits ConstructionError;
+        ---Category: Exceptions
+
+
+        --------------------
+        -- Category: Classes
+        --------------------
+
+    class Window;
+        ---Purpose:  Creates the Window drawable.
+        ---Category: Classes
+
+    class WClass;
+        ---Purpose:  Creates a Windows NT window class.
+        ---Category: Classes
+
+    class Image;
+        ---Purpose:  Defines the class
+        ---Category: Classes
+
+        ---------------------------
+        -- Category: Enumerations
+        ---------------------------
+
+    enumeration OrientationType is
+
+        OT_PORTRAIT,
+        OT_LANDSCAPE
+
+    end OrientationType;
+---Purpose: Portrait/landscape orientation.
+    enumeration TypeOfImage is
+
+        TOI_BMP,         --Windows NT's device independent bitmap
+        TOI_XWD,         --X windows's image format
+        TOI_GIF          --CompuServe's Graphic Interchange Format
+
+    end TypeOfImage;
+
+
+        ---------------------------
+        -- Category: Imported types
+        ---------------------------
+
+
+    imported Long;
+        ---Purpose:  Defines a Windows NT LONG type.
+        ---Category: Imported types
+
+    imported Dword;
+        ---Purpose:  Defines a Windows NT DWORD type.
+        ---Category: Imported types
+
+    imported Uint;
+        ---Purpose:  Defines a Windows NT UINT type.
+        ---Category: Imported types
+
+    imported LogFont;
+        ---Purpose:  Defines a Windows NT LOGFONT type.
+        ---Category: Imported types
+
+    imported ColorRef;
+        ---Purpose:  Defines a Windows NT COLORREF type.
+        ---Category: Imported types
+
+    imported WindowData;
+        ---Purpose:  Defines additional window data type.
+        ---Category: Imported types
+
+
+        ---------------------------------
+        -- Category: Pointers
+        ---------------------------------
+
+    pointer WindowPtr to Window from WNT;
+
+        ---------------------------------
+        -- Category: Instantiated classes
+        ---------------------------------
+
+    class ColorTable instantiates
+     Array1 from TCollection ( ColorRef from WNT );
+
+    class HColorTable instantiates
+     HArray1 from TCollection ( ColorRef from WNT, ColorTable from WNT );
+
+    class SequenceOfImage instantiates
+     Sequence from TCollection ( Image from WNT );
+
+end WNT;

@@ -1,0 +1,122 @@
+-- Created on: 1996-01-22
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+private class FuncExtCS from Extrema
+
+ inherits FunctionSetWithDerivatives from math
+    ---Purpose: Function to find extrema of the 
+    --          distance between a curve and a surface.
+
+uses    POnSurf           from Extrema,
+    	POnCurv           from Extrema,
+	SequenceOfPOnSurf from Extrema,
+	SequenceOfPOnCurv from Extrema,
+	SequenceOfReal    from TColStd,
+	Pnt               from gp,
+	Vector            from math,
+	Matrix            from math,
+	Curve             from Adaptor3d,
+    	CurvePtr          from Adaptor3d,
+	Surface           from Adaptor3d,
+    	SurfacePtr        from Adaptor3d
+
+raises  OutOfRange from Standard
+
+is
+    Create returns FuncExtCS;
+
+    Create (C: Curve from Adaptor3d; S: Surface from Adaptor3d) returns FuncExtCS;
+    	---Purpose:
+
+    Initialize(me: in out; C: Curve from Adaptor3d; S: Surface from Adaptor3d)
+    	---Purpose: sets the field mysurf of the function.
+    is static;
+    
+    ------------------------------------------------------------
+    -- In all next methods, an exception is raised if the fields 
+    -- were not initialized.
+
+    NbVariables (me) returns Integer;
+
+    NbEquations (me) returns Integer;
+
+    Value (me: in out; UV: Vector; F: out Vector) returns Boolean;
+    	---Purpose: Calculation of Fi(U,V).
+
+    Derivatives (me: in out; UV: Vector; DF: out Matrix)
+    	returns Boolean;
+    	---Purpose: Calculation of Fi'(U,V).
+
+    Values (me: in out; UV: Vector; F: out Vector; DF: out Matrix)
+    	returns Boolean;
+    	---Purpose: Calculation of Fi(U,V) and Fi'(U,V).
+
+    GetStateNumber (me: in out) returns Integer
+    	---Purpose: Save the found extremum.
+    	is redefined;
+
+    NbExt (me) returns Integer;
+    	---Purpose: Return the number of found extrema.
+
+    SquareDistance (me; N: Integer) returns Real
+    	---Purpose: Return the value of the Nth distance.
+    	raises  OutOfRange;
+	    	-- if N < 1 or N > NbExt(me).
+
+    PointOnCurve (me; N: Integer) returns POnCurv
+    	---Purpose: Returns the Nth extremum on C.
+    	---C++: return const&
+    	raises  OutOfRange;
+	    	-- if N < 1 or N > NbExt(me).
+
+    PointOnSurface (me; N: Integer) returns POnSurf
+    	---Purpose: Return the Nth extremum on S.
+    	---C++: return const&
+    	raises  OutOfRange;
+	    	-- if N < 1 or N > NbExt(me).
+
+    Bidon1(me) returns SurfacePtr from Adaptor3d
+    is static private;
+
+    Bidon2(me) returns CurvePtr from Adaptor3d
+    is static private;
+
+
+fields
+    myC    : CurvePtr from Adaptor3d;
+    myS    : SurfacePtr from Adaptor3d;
+    
+    myP1   : Pnt from gp;
+    myP2   : Pnt from gp;
+
+    myt    : Real;          -- current value of U on C
+    myU    : Real;          -- current value of U on S
+    myV    : Real;          -- current value of V on S
+
+    mySqDist:  SequenceOfReal    from TColStd;
+    myPoint1: SequenceOfPOnCurv from Extrema;
+    myPoint2: SequenceOfPOnSurf from Extrema;
+    
+    myCinit: Boolean;
+    mySinit: Boolean;
+
+end FuncExtCS;

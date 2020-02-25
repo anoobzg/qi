@@ -1,0 +1,168 @@
+-- Created on: 1995-01-24
+-- Created by: Mister rmi
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SensitiveSegment   from Select3D 
+inherits SensitiveEntity from Select3D
+
+	---Purpose: A framework to define sensitive zones along a segment
+	--          One gives the 3D start and end point;
+	--          the maximum number of 2D boxes given
+	--          by this entity may be set by the user
+	--          if the projected segment is 
+	--          vertical or horizontal, one needs only 1 box. 
+	--          for a pi/4 angle -> MaxNumber 2D boxes
+
+uses
+    Pnt              from gp,
+    Pnt2d            from gp,
+    Projector        from Select3D,
+    Lin              from gp,
+    EntityOwner      from SelectBasics,
+    ListOfBox2d      from SelectBasics,
+    Array1OfPnt2d    from TColgp,
+    Box2d            from Bnd,
+    Location         from TopLoc,
+    Pnt              from Select3D,
+    Pnt2d            from Select3D
+
+
+is
+
+
+    Create (OwnerId      : EntityOwner from SelectBasics;
+    	    FirstP,LastP : Pnt from gp;
+    	    MaxRect      : Integer = 1)
+     returns mutable SensitiveSegment;
+	---Purpose: Constructs the sensitive segment object defined by
+    	-- the owner OwnerId, the points FirstP, LastP and the
+    	-- maximum number of sensitive bounding boxes MaxRect.     
+	    
+    Set (me:mutable; MaxRect : Integer) is static;
+    	---Purpose:  Sets the maximum number of sensitive rectangles MaxRect.
+    	---C++: inline
+    
+    
+    
+    StartPoint (me : mutable ; aPt : Pnt from gp) is static;
+    	---Level: Public 
+    	---Purpose: changes the start Point of the Segment;
+    	---C++: inline
+    
+
+
+    EndPoint (me : mutable ; aPt : Pnt from gp) is static;
+    	---Level: Public 
+    	---Purpose: changes the end point of the segment
+    	---C++: inline
+    
+    
+    StartPoint (me) returns Pnt from gp is static;
+    	---Level: Public 
+    	---Purpose: gives the 3D start Point of the Segment
+    	---C++: inline
+    
+    
+    EndPoint(me) returns Pnt from gp is static;
+    	---Level: Public 
+    	---Purpose: gives the 3D End Point of the Segment
+    	---C++: inline 
+	 
+    StartPoint2d (me) returns Pnt2d from gp is static;
+    	---Level: Public 
+    	---Purpose: gives the 3D start Point of the Segment
+    	---C++: inline
+    
+    
+    EndPoint2d(me) returns Pnt2d from gp is static;
+    	---Level: Public 
+    	---Purpose: gives the 3D End Point of the Segment
+    	---C++: inline
+    
+    Project (me:mutable;aProjector : Projector from Select3D) 
+    is redefined virtual;
+    	---Level: Public 
+    	---Purpose: projection of the sensitive primitive in order to
+    	--          get 2D boxes for the Sort Algorithm
+
+    
+    Areas   (me:mutable ; boxes : in out ListOfBox2d from SelectBasics) 
+    is redefined static;
+    	---Level: Public 
+    	---Purpose: gives the 2D boxes which represent the segment in the 
+    	--          selection process...
+
+    GetConnected(me:mutable;aLocation: Location from TopLoc)
+    returns SensitiveEntity from Select3D is redefined static;
+    
+    Matches(me  :mutable; 
+            X,Y : Real from Standard;
+            aTol: Real from Standard;
+            DMin: out Real from Standard) 
+    returns Boolean
+    is  redefined static;
+    	---Level: Public 
+    	---Purpose: projection of the sensitive primitive in order to
+    	--          get 2D boxes for the Sort Algorithm
+
+    Matches (me  :mutable; 
+             XMin,YMin,XMax,YMax : Real from Standard;
+             aTol: Real from Standard) 
+    returns Boolean
+    is static;
+     
+    Matches (me  :mutable; 
+             Polyline:Array1OfPnt2d from TColgp;
+	     aBox:Box2d from Bnd;
+             aTol: Real from Standard) 
+    returns Boolean
+    is redefined virtual;
+    	---Level: Public 
+    
+        
+    ComputeDepth(me;EyeLine: Lin from gp) 
+    returns Real from Standard is redefined static;
+
+    MaxBoxes(me) returns Integer is redefined static;    
+    	---Level: Public 
+    	---Purpose:returns <mymaxrect>
+    	---C++: inline
+
+    Dump(me; S: in out OStream;FullDump : Boolean from Standard = Standard_True) is redefined virtual;
+
+fields
+
+    mymaxrect : Integer;
+    mystart   : Pnt from Select3D;
+    myend     : Pnt from Select3D;
+
+    myprojstart : Pnt2d from Select3D; -- computed at convert time
+    myprojend   : Pnt2d from Select3D; -- computed at convert time
+
+end SensitiveSegment;
+
+
+
+
+
+
+
+

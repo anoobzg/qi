@@ -1,0 +1,52 @@
+-- Created on: 1993-10-26
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class FileProtocol  from IGESData    inherits  Protocol  from IGESData
+
+    ---Purpose : This class allows to define complex protocols, in order to
+    --           treat various sub-sets (or the complete set) of the IGES Norm,
+    --           such as Solid + Draw (which are normally independant), etc...
+    --           While it inherits Protocol from IGESData, it admits
+    --           UndefinedEntity too
+
+uses Protocol from Interface
+
+is
+
+    Create returns mutable FileProtocol;
+    ---Purpose : Returns an empty FileProtocol
+
+    Add (me : mutable; protocol : Protocol from IGESData);
+    ---Purpose : Adds a resource
+
+    NbResources (me) returns Integer  is redefined;
+    ---Purpose : Gives the count of Resources : the count of Added Protocols
+
+    Resource (me; num : Integer) returns Protocol from Interface  is redefined;
+    ---Purpose : Returns a Resource, given a rank (rank of call to Add)
+
+fields
+
+    theresource : Protocol from IGESData;
+    thenext     : FileProtocol from IGESData;
+
+end FileProtocol;

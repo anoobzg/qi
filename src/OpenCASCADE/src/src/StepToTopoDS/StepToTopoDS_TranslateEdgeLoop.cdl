@@ -1,0 +1,77 @@
+-- Created on: 1995-03-29
+-- Created by: Frederic MAUPAS
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class TranslateEdgeLoop from StepToTopoDS
+    inherits Root from StepToTopoDS
+    
+    ---Purpose:
+    --         
+
+uses
+
+    FaceBound              from StepShape,
+    Surface                from StepGeom,
+    Tool                   from StepToTopoDS,
+    TranslateEdgeLoopError from StepToTopoDS,
+    Shape                  from TopoDS,
+    Surface                from Geom,
+    Face                   from TopoDS,
+    NMTool                 from StepToTopoDS
+    
+raises NotDone from StdFail
+
+is
+
+    Create returns TranslateEdgeLoop;
+    
+    Create (FB     : FaceBound     from StepShape;
+            F      : Face          from TopoDS;
+            S      : Surface       from Geom;
+            SS     : Surface       from StepGeom;
+            ss     : Boolean       from Standard;
+            T      : in out Tool   from StepToTopoDS;
+            NMTool : in out NMTool from StepToTopoDS)
+    	returns TranslateEdgeLoop;
+	    
+    Init (me     : in out;
+          FB     : FaceBound     from StepShape;
+          F      : Face          from TopoDS;
+          S      : Surface       from Geom;
+          SS     : Surface       from StepGeom;
+          ss     : Boolean       from Standard;
+          T      : in out Tool   from StepToTopoDS;
+          NMTool : in out NMTool from StepToTopoDS);
+
+    Value (me) returns Shape from TopoDS
+    	raises NotDone
+	is static;
+	---C++: return const &
+
+    Error (me) returns TranslateEdgeLoopError from StepToTopoDS;
+    
+fields
+
+    myError  : TranslateEdgeLoopError  from StepToTopoDS;
+    
+    myResult : Shape               from TopoDS;
+    
+end TranslateEdgeLoop;

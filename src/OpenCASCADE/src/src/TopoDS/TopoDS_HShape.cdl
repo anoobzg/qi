@@ -1,0 +1,65 @@
+-- Created on: 1995-06-28
+-- Created by: Modelistation
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class HShape from TopoDS inherits TShared from MMgt
+
+    ---Purpose:Class to manipulate a Shape with  handle. 
+
+uses Shape from TopoDS
+
+is
+    Create returns mutable HShape from TopoDS;
+    ---C++: inline
+    ---Purpose: Constructs an empty shape object
+
+    Create (aShape : Shape from TopoDS)
+    returns mutable HShape from TopoDS;
+    ---C++: inline
+    ---Purpose: Constructs a shape object defined by the shape aShape.
+
+    Shape (me : mutable; aShape : Shape from TopoDS)
+    is static;
+    ---C++: inline
+    ---Purpose: Loads this shape with the shape aShape
+
+    Shape (me) returns Shape from TopoDS
+    ---C++: return const &
+    ---C++: inline
+    ---Purpose: Returns a reference to a constant TopoDS_Shape based on this shape.
+    is static;
+
+    ChangeShape (me : mutable) returns Shape from TopoDS
+    ---C++: return &
+    ---C++: inline
+    ---Purpose:
+    -- Exchanges the TopoDS_Shape object defining this
+    -- shape for another one referencing the same underlying shape
+    -- Accesses the list of shapes within the underlying
+    -- shape referenced by the TopoDS_Shape object.
+    -- Returns a reference to a TopoDS_Shape based on
+    -- this shape. The TopoDS_Shape can be modified.
+    is static;
+
+fields
+
+    myShape : Shape from TopoDS;
+
+end HShape;

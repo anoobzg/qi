@@ -1,0 +1,113 @@
+// Created on: 1997-01-09
+// Created by: Yves FRICAUD
+// Copyright (c) 1997-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include <TopTools_MapOfShape.hxx>
+
+//=======================================================================
+//function : TNaming_ShapesSet
+//purpose  : 
+//=======================================================================
+
+inline TNaming_ShapesSet::TNaming_ShapesSet()
+{
+}
+
+
+//=======================================================================
+//function : Clear
+//purpose  : 
+//=======================================================================
+
+inline void TNaming_ShapesSet::Clear() 
+{
+  myMap.Clear();
+}
+
+//=======================================================================
+//function : Add
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean TNaming_ShapesSet::Add(const TopoDS_Shape& S) 
+{
+  return myMap.Add(S);
+}
+
+//=======================================================================
+//function : Standard_Boolean
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean TNaming_ShapesSet::Contains(const TopoDS_Shape& S) const
+{
+  return myMap.Contains(S);
+}
+
+//=======================================================================
+//function : Standard_Boolean
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean TNaming_ShapesSet::Remove(const TopoDS_Shape& S) 
+{
+  return myMap.Remove(S);
+}
+
+//=======================================================================
+//function : IsEmpty
+//purpose  : 
+//=======================================================================
+
+inline   Standard_Boolean TNaming_ShapesSet::IsEmpty() const
+{
+  return myMap.IsEmpty();
+}
+
+//=======================================================================
+//function : NbShapes
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer TNaming_ShapesSet::NbShapes() const
+{
+  return myMap.Extent();
+}
+
+
+//=======================================================================
+//function : ChangeMap
+//purpose  : 
+//=======================================================================
+
+inline TopTools_MapOfShape& TNaming_ShapesSet::ChangeMap()
+{
+  return myMap;
+}
+
+//=======================================================================
+//function : Map
+//purpose  : 
+//=======================================================================
+
+inline const TopTools_MapOfShape& TNaming_ShapesSet::Map() const
+{
+  return myMap;
+}

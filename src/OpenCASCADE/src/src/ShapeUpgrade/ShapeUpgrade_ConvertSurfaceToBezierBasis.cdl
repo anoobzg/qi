@@ -1,0 +1,94 @@
+-- Created on: 1999-05-21
+-- Created by: Pavel DURANDIN
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ConvertSurfaceToBezierBasis from ShapeUpgrade inherits SplitSurface from ShapeUpgrade
+
+	---Purpose: Converts a plane, bspline surface, surface of revolution, surface 
+    	--          of extrusion, offset surface to grid of bezier basis surface (
+	--           bezier surface,
+	--           surface of revolution based on bezier curve,
+	--           offset surface based on any previous type).
+
+uses
+
+    CompositeSurface from ShapeExtend
+
+is
+
+    Create returns mutable ConvertSurfaceToBezierBasis from ShapeUpgrade;
+    	---Purpose: Empty constructor.
+    
+    Build (me: mutable; Segment: Boolean) is redefined;
+    	---Purpose: Splits a list of beziers computed by Compute method according
+	--          the split values and splitting parameters.
+    
+    Compute(me: mutable; Segment: Boolean) is redefined;
+    	---Purpose: Converts surface into a grid of bezier based surfaces, and
+	--          stores this grid.
+    
+    Segments(me) returns CompositeSurface from ShapeExtend;
+    	---Purpose: Returns the grid of bezier based surfaces correspondent to 
+        --          original surface.
+    
+    --Methods for handling surface modes
+
+    SetPlaneMode(me: mutable; mode: Boolean);
+    	---Purpose: Sets mode for conversion Geom_Plane to Bezier
+	---C++: inline
+    
+    GetPlaneMode(me) returns Boolean;
+    	---Purpose: Returns the Geom_Pline conversion mode.
+    	---C++: inline
+    
+    SetRevolutionMode(me: mutable; mode: Boolean);
+    	---Purpose: Sets mode for conversion Geom_SurfaceOfRevolution to Bezier
+	---C++: inline
+    
+    GetRevolutionMode(me) returns Boolean;
+    	---Purpose: Returns the Geom_SurfaceOfRevolution conversion mode.
+    	---C++: inline
+    
+    SetExtrusionMode(me: mutable; mode: Boolean);
+    	---Purpose: Sets mode for conversion Geom_SurfaceOfLinearExtrusion to Bezier
+	---C++: inline
+    
+    GetExtrusionMode(me) returns Boolean;
+    	---Purpose: Returns the Geom_SurfaceOfLinearExtrusion conversion mode.
+    	---C++: inline
+    
+    SetBSplineMode(me: mutable; mode: Boolean);
+    	---Purpose: Sets mode for conversion Geom_BSplineSurface to Bezier
+	---C++: inline
+    
+    GetBSplineMode(me) returns Boolean;
+    	---Purpose: Returns the Geom_BSplineSurface conversion mode.
+    	---C++: inline
+    
+fields
+
+    mySegments      : CompositeSurface from ShapeExtend;
+    myPlaneMode     : Boolean;
+    myRevolutionMode: Boolean;
+    myExtrusionMode : Boolean;
+    myBSplineMode   : Boolean;
+    
+end ConvertSurfaceToBezierBasis;

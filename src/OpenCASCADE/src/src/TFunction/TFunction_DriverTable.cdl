@@ -1,0 +1,80 @@
+-- Created on: 1999-06-11
+-- Created by: Vladislav ROMASHKO
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class DriverTable from TFunction inherits TShared from MMgt
+    	---Purpose: A container for instances of drivers.
+    	-- You create a new instance of TFunction_Driver
+    	-- and use the method AddDriver to load it into the driver table.
+uses 
+ 
+    DataMapOfGUIDDriver from TFunction, 
+    Driver              from TFunction, 
+    GUID                from Standard, 
+    OStream             from Standard,
+    DataMapOfGUIDDriver from TFunction,
+    HArray1OfDataMapOfGUIDDriver from TFunction
+    
+is 
+
+    Get (myclass)
+    ---Purpose: Returns the driver table. If a driver does not exist, creates it.
+    returns mutable DriverTable from TFunction;
+
+    Create returns mutable DriverTable from TFunction; 
+    ---Purpose: Default constructor
+
+    AddDriver(me : mutable; guid   : GUID    from Standard;
+    	    	    	    driver : Driver  from TFunction;
+    	    	    	    thread : Integer from Standard = 0)
+    ---Purpose: Returns true if the driver has been added successfully to the driver table.
+    returns Boolean from Standard;
+
+    HasDriver (me; guid   : GUID    from Standard;
+    	    	   thread : Integer from Standard = 0)
+    ---Purpose: Returns true if the driver exists in the driver table.
+    returns Boolean from Standard;
+
+    FindDriver(me; guid   :     GUID   from Standard; 
+	 	   driver : out Driver from TFunction;
+    	    	   thread :     Integer from Standard = 0)  
+    ---Purpose: Returns true if the driver was found.
+    returns Boolean from Standard;
+
+    Dump(me; anOS : in out OStream from Standard) 
+    ---C++: alias operator << 
+    ---C++: return &
+    returns OStream from Standard;
+
+    RemoveDriver (me : mutable; guid   : GUID    from Standard;
+    	    	    	    	thread : Integer from Standard = 0)
+    ---Purpose: Removes a driver with the given GUID.
+    --     Returns true if the driver has been removed successfully.
+    returns Boolean from Standard;
+
+    Clear (me : mutable);
+    ---Purpose: Removes all drivers. Returns true if the driver has been removed successfully.
+
+fields
+
+    myDrivers       : DataMapOfGUIDDriver          from TFunction;
+    myThreadDrivers : HArray1OfDataMapOfGUIDDriver from TFunction;
+
+end DriverTable;   

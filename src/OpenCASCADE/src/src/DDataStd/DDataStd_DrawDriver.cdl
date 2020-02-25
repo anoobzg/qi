@@ -1,0 +1,96 @@
+-- Created on: 1998-09-07
+-- Created by: Denis PASCAL
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class DrawDriver from DDataStd inherits TShared from MMgt
+
+    ---Purpose: priority rule to display standard attributes is :   
+    --          * 1 Constraint
+    --          * 2 Object     
+    --          * 3 Datum      (Point,Axis,Plane)    
+    --          * 4 Geometry   
+    --          * 5 NamedShape 
+
+
+
+uses ColorKind  from Draw,
+     Drawable3D from Draw,
+     Label      from TDF,
+     Attribute  from TDF,
+     Integer    from TDataStd,
+     Real       from TDataStd,
+     Point      from TDataXtd,
+     Axis       from TDataXtd,
+     Plane      from TDataXtd,
+     Geometry   from TDataXtd,
+     Constraint from TDataXtd,
+     NamedShape from TNaming,  
+     Shape      from TopoDS
+ 
+is
+
+    ---Purpose: access to the current DrawDriver
+    --          ================================
+
+
+    Set (myclass; DD : DrawDriver from DDataStd);  
+
+    Get (myclass)
+    returns DrawDriver from DDataStd;
+
+
+    Create 
+    returns DrawDriver from DDataStd;
+
+
+    ---Purpose: next method is called by DrawPresentation (may be redefined)
+    --          ============================================================
+
+    Drawable (me; L : Label from TDF)
+    returns Drawable3D from Draw
+    is virtual;
+
+    
+    ---Purpose: reusable methods (may used when redefined <Drawable>)
+    --          =====================================================
+
+    DrawableConstraint (me; C : Constraint from TDataXtd)
+    returns Drawable3D from Draw;    
+   
+    DrawableShape (me; L       : Label from TDF;
+                       color   : ColorKind from Draw;
+                       current : Boolean from Standard = Standard_True)
+    returns Drawable3D from Draw;    
+    
+    DrawableShape (myclass; s     : Shape     from TopoDS;
+                            color : ColorKind from Draw) 
+    ---Purpose: May be used for temporary display of a shape
+    returns Drawable3D from Draw;
+			
+end DrawDriver;
+
+
+
+
+
+
+
+

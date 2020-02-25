@@ -1,0 +1,80 @@
+-- Created on: 1996-10-11
+-- Created by: Philippe MANGIN
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+private class Newton from FairCurve inherits NewtonMinimum from  math
+
+	---Purpose: Algorithme of Optimization used to make "FairCurve"
+
+uses 
+    Vector from math, 
+    MultipleVarFunctionWithHessian from math
+
+is
+    Create(F: in out MultipleVarFunctionWithHessian;
+    	   StartingPoint: Vector;
+	   SpatialTolerance :  Real = 1.0e-7;	   
+           CriteriumTolerance: Real = 1.0e-2;
+	   NbIterations: Integer=40; 
+           Convexity: Real=1.0e-6; 
+	   WithSingularity  :  Boolean = Standard_True)
+    ---Purpose: -- Given the  starting   point  StartingPoint,
+    --            The tolerance  required on  the  solution is given  by
+    --            Tolerance.  
+    --             Iteration are  stopped if  
+    --             (!WithSingularity)  and H(F(Xi)) is not definite
+    --             positive  (if the smaller eigenvalue of H < Convexity)
+    --             or IsConverged() returns True for 2 successives Iterations.
+    --  Warning: Obsolete Constructor (because IsConverged can not be redefined
+    --           with this. )
+    returns  Newton;
+
+    Create(F: in out MultipleVarFunctionWithHessian;
+    	   SpatialTolerance :  Real = 1.0e-7;
+           Tolerance: Real=1.0e-7;
+	   NbIterations: Integer=40; 
+           Convexity: Real=1.0e-6; 
+           WithSingularity  :  Boolean = Standard_True)
+    ---Purpose:
+    --            The tolerance  required on  the  solution is given  by
+    --            Tolerance.  
+    --             Iteration are  stopped if  
+    --             (!WithSingularity)  and H(F(Xi)) is not definite
+    --             positive  (if the smaller eigenvalue of H < Convexity)
+    --            or IsConverged() returns True for 2 successives Iterations.
+    --  Warning: This constructor do not computation 
+    returns  Newton;   
+	   
+    IsConverged(me)
+    	---Purpose:  This method is  called    at the end  of   each
+    	--          iteration to  check the convergence :
+    	--          || Xi+1 - Xi || < SpatialTolerance/100 Or
+    	--          || Xi+1 - Xi || < SpatialTolerance and
+    	--          |F(Xi+1) - F(Xi)| < CriteriumTolerance * |F(xi)|
+    	--          It can be redefined in a sub-class to implement a specific test.
+    
+    returns Boolean
+    is redefined;    
+
+fields
+    mySpTol : Real;
+end Newton;
+

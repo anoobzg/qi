@@ -1,0 +1,103 @@
+-- Created on: 1998-07-14
+-- Created by: data exchange team
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Curve from ShapeConstruct 
+
+	---Purpose: Adjusts curve to have start and end points at the given
+	--          points (currently works on lines and B-Splines only)
+
+uses
+
+    Pnt   from gp,
+    Pnt2d from gp,
+    Curve from Geom,
+    Curve from Geom2d,
+    BSplineCurve from Geom,
+    BSplineCurve from Geom2d,
+    HArray1OfReal from TColStd,
+    Array1OfReal  from TColStd
+
+is
+
+    AdjustCurve (me; C3D: Curve from Geom;
+    	    	     P1, P2: Pnt from gp;
+    	    	     take1, take2: Boolean = Standard_True)
+    returns Boolean;
+    	---Purpose : Modifies a curve in order to make its bounds confused with
+    	--           given points.
+	--           Works only on lines and B-Splines, returns True in this case,
+    	--           else returns False.           
+	--           For line considers both bounding points, for B-Splines only
+	--           specified.
+    	--           
+    	--  Warning : Does not check if curve should be reversed
+
+    AdjustCurveSegment (me; C3D: Curve from Geom;
+    	    	    	    P1, P2: Pnt from gp;
+    	    	    	    U1, U2: Real)
+    returns Boolean;
+    	---Purpose : Modifies a curve in order to make its bounds confused with
+    	--           given points.
+	--           Works only on lines and B-Splines.
+	--
+	--           For lines works as previous method, B-Splines are segmented
+	--           at the given values and then are adjusted to the points.
+
+    AdjustCurve2d (me; C2D: Curve from Geom2d;
+    	    	       P1, P2: Pnt2d from gp;
+    	    	       take1, take2: Boolean = Standard_True)
+    returns Boolean;
+    	---Purpose : Modifies a curve in order to make its bounds confused with
+    	--           given points.
+	--           Works only on lines and B-Splines, returns True in this case,
+    	--           else returns False.
+    	--           
+	--           For line considers both bounding points, for B-Splines only
+	--           specified.
+    	--           
+    	--  Warning : Does not check if curve should be reversed
+
+    ConvertToBSpline (me; C: Curve from Geom; first, last: Real; prec: Real) 
+    returns BSplineCurve from Geom;
+    	---Purpose: Converts a curve of any type (only part from first to last) 
+        --          to bspline. The method of conversion depends on the type
+	--          of original curve:
+	--          BSpline -> C.Segment(first,last)
+	--          Bezier and Line -> GeomConvert::CurveToBSplineCurve(C).Segment(first,last)
+	--          Conic and Other -> Approx_Curve3d(C[first,last],prec,C1,9,1000)
+
+    ConvertToBSpline (me; C: Curve from Geom2d; first, last: Real; prec: Real) 
+    returns BSplineCurve from Geom2d;
+    	---Purpose: Converts a curve of any type (only part from first to last) 
+        --          to bspline. The method of conversion depends on the type
+	--          of original curve:
+	--          BSpline -> C.Segment(first,last)
+	--          Bezier and Line -> GeomConvert::CurveToBSplineCurve(C).Segment(first,last)
+	--          Conic and Other -> Approx_Curve2d(C[first,last],prec,C1,9,1000)
+	
+    FixKnots (myclass; knots: in out HArray1OfReal from TColStd) returns Boolean;
+    FixKnots (myclass; knots: in out  Array1OfReal from TColStd) returns Boolean;
+        ---Purpose: Fix bspline knots to ensure that there is enough
+	--          gap between neighbouring values
+	--          Returns True if something fixed (by shifting knot)
+
+
+end Curve;

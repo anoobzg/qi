@@ -1,0 +1,61 @@
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class GP from XmlObjMgt
+
+        ---Purpose: Translation of gp (simple geometry) objects
+uses
+    Trsf        from gp,
+    Mat         from gp,
+    XYZ         from gp,
+    DOMString   from XmlObjMgt
+is
+
+    -- ---------------
+    -- Package Methods
+    -- ---------------
+
+    -- from gp to string
+
+    Translate (myclass; aTrsf : Trsf from gp)
+    returns DOMString from XmlObjMgt;
+        ---Level: Advanced 
+    
+    Translate (myclass; aMat : Mat from gp)
+    returns DOMString from XmlObjMgt;
+        ---Level: Advanced 
+    
+    Translate (myclass; anXYZ : XYZ from gp)
+    returns DOMString from XmlObjMgt;
+        ---Level: Advanced 
+    
+    -- from string to gp
+
+    Translate (myclass; aStr : DOMString from XmlObjMgt; T : out Trsf from gp)
+        returns Boolean from Standard;
+        ---Level: Advanced 
+    
+    Translate (myclass; aStr : DOMString from XmlObjMgt; T : out Mat from gp)
+        returns Boolean from Standard;
+        ---Level: Advanced 
+    
+    Translate (myclass; aStr : DOMString from XmlObjMgt; T : out XYZ from gp)
+        returns Boolean from Standard;
+        ---Level: Advanced 
+    
+end;

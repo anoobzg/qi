@@ -1,0 +1,75 @@
+-- Created on: 1998-12-09
+-- Created by: Xuan PHAM PHU
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class connexity from TopOpeBRepTool
+
+uses 
+    Shape from TopoDS,
+    ListOfShape from TopTools,
+    Array1OfListOfShape from TopTools
+is
+    Create returns connexity from TopOpeBRepTool;
+    Create (Key : Shape from TopoDS) returns connexity from TopOpeBRepTool;
+    SetKey (me : in out; Key : Shape from TopoDS);	        	
+    Key (me) returns Shape from TopoDS;
+    ---C++: return const &
+    
+    Item(me; OriKey : Integer; Item : out ListOfShape from TopTools) 
+    returns Integer;
+    -- if <theKey> is oriented <OriKey> in all shapes of <Item>, returns
+    -- the <Item>'s length.
+    
+    AllItems(me; Item : out ListOfShape from TopTools)
+    returns Integer;
+    -- returns all items attached to <theKey>
+    
+    AddItem(me : in out; OriKey : Integer; Item : ListOfShape from TopTools);
+    AddItem(me : in out; OriKey : Integer; Item : Shape from TopoDS);
+    RemoveItem(me : in out; OriKey : Integer; Item : Shape from TopoDS)
+    returns Boolean;
+    -- returns true if <Item> is stored in the list.
+    RemoveItem(me : in out; Item : Shape from TopoDS)
+    returns Boolean;
+    
+    ChangeItem(me : in out; OriKey : Integer)
+    returns ListOfShape from TopTools;
+    ---C++: return & 
+   
+    IsMultiple(me)
+    returns Boolean;
+    -- returns true if <theKey> is multiple.   
+
+    IsFaulty(me)
+    returns Boolean;
+
+    IsInternal(me; Item : out ListOfShape from TopTools)
+    returns Integer;
+    -- <theKey> is INTERNAL in shapes of <Item> oriented FORWARD.
+    
+fields
+    theKey : Shape from TopoDS;
+    theItems : Array1OfListOfShape from TopTools; 
+	-- <theKey> is FORWARD in shapes of theItems(1)  
+	-- <theKey> is REVERSED in shapes of theItems(2)  
+	-- <theKey> is INTERNAL in shapes of theItems(3)  
+	-- <theKey> is EXTERNAL in shapes of theItems(4) 
+	-- <theKey> appears FORWARD and REVERSED in shapes of theItems(5)  
+end connexity;

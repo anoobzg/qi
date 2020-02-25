@@ -1,0 +1,75 @@
+-- Created on: 1993-02-25
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class BlockBuilder from TopOpeBRepBuild
+
+uses
+    
+    Shape from TopoDS,  -- Face,Edge
+    ShapeSet from TopOpeBRepBuild,
+    IndexedMapOfOrientedShape from TopTools,
+    BlockIterator from TopOpeBRepBuild,
+    SequenceOfInteger from TColStd,
+    DataMapOfIntegerInteger from TColStd
+    
+is
+
+    Create returns BlockBuilder;
+    
+    -- creation of the blocks buildable from a ShapeSet
+    Create(SS : in out ShapeSet) returns BlockBuilder;
+    MakeBlock(me : in out; SS : in out ShapeSet) is static;
+
+    -- Iteration on blocks made by MakeBlock
+    InitBlock(me : in out) is static;
+    MoreBlock(me) returns Boolean from Standard is static;
+    NextBlock(me : in out) is static;
+    
+    -- Iteration on shapes of current block
+    BlockIterator(me) returns BlockIterator is static;
+
+    Element(me; BI : BlockIterator) returns Shape from TopoDS is static; 
+    ---Purpose: Returns the current element of <BI>.
+    ---C++: return const &
+    Element(me; I : Integer) returns Shape from TopoDS is static;
+    ---C++: return const &
+    Element(me; S : Shape from TopoDS) returns Integer;
+
+    ElementIsValid(me; BI : BlockIterator) returns Boolean; 
+    ElementIsValid(me; I : Integer) returns Boolean; 
+    
+    AddElement(me : in out; S : Shape from TopoDS) returns Integer;
+    
+    SetValid(me : in out; BI : BlockIterator; isvalid : Boolean);
+    SetValid(me : in out; I : Integer; isvalid : Boolean);
+
+    CurrentBlockIsRegular(me : in out) returns Boolean from Standard;
+
+fields
+
+    myOrientedShapeMapIsValid : DataMapOfIntegerInteger from TColStd;
+    myOrientedShapeMap : IndexedMapOfOrientedShape from TopTools;
+    myBlocks     : SequenceOfInteger from TColStd;
+    myBlockIndex : Integer from Standard;
+    myIsDone     : Boolean from Standard;
+    myBlocksIsRegular : SequenceOfInteger from TColStd;
+
+end BlockBuilder from TopOpeBRepBuild;

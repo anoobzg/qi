@@ -1,0 +1,78 @@
+-- Created on: 1997-03-04
+-- Created by: Robert COUBLANC
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SignatureFilter from AIS inherits TypeFilter from AIS
+
+	---Purpose: Selects Interactive Objects through their signatures
+    	-- and types. The signature provides an
+    	-- additional   characterization of an object's type, and
+    	-- takes the form of an index. The filter questions each
+    	-- Interactive Object in local context to determine
+    	-- whether it has an non-null owner, and if so, whether
+    	-- it has the desired signature. If the object returns true
+    	-- in each case, it is kept. If not, it is rejected.
+    	-- By default, the   interactive object has a None   type
+    	-- and a signature of 0. If you want to give a particular
+    	-- type and signature to your Interactive Object, you
+    	-- must redefine two virtual methods:   Type and Signature.
+    	-- This filter is only used in an open local contexts.
+    	-- In the Collector viewer, you can only locate
+    	-- Interactive Objects which answer positively to the
+    	-- positioned filters when a local context is open.
+    	-- Warning
+    	-- Some signatures have already been used by standard
+    	-- objects delivered in AIS. These include:
+    	-- -   signature 0 - Shape
+    	-- -   signature 1 - Point
+    	-- -   signature 2 - Axis
+    	-- -   signature 3 - Trihedron
+    	-- -   signature 4 - PlaneTrihedron
+    	-- -   signature 5 - Line
+    	-- -   signature 6 - Circle
+    	-- -   signature 7 - Plane
+        
+        
+        
+uses
+    
+    KindOfInteractive from AIS,
+    EntityOwner from SelectMgr
+
+is
+
+    Create(aGivenKind      : KindOfInteractive from AIS;
+           aGivenSignature : Integer from Standard)
+    returns mutable SignatureFilter from AIS;
+    	--- Purpose: Initializes the signature filter, adding the signature
+    	-- specification, aGivenSignature, to that for type,
+    	-- aGivenKind, in AIS_TypeFilter.
+        
+    IsOk (me;anobj : EntityOwner from SelectMgr)
+    returns Boolean from Standard is redefined static;
+    	---Purpose: Returns False if the transient is not an AIS_InteractiveObject.
+    	--          Returns False if the signature of InteractiveObject
+    	--          is not the same as the stored one in the filter...
+              
+
+fields
+    mySig  : Integer           from Standard;
+end SignatureFilter;

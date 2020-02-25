@@ -1,0 +1,175 @@
+-- Created on: 1992-05-06
+-- Created by: Jacques GOUSSARD
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package IntPatch 
+
+	---Purpose: Intersection between two patches.
+	--          The class PatchIntersection implements the algorithmes
+	--          of intersection.
+	--          The classes IntPoint, PointOnDomain, Line, ILin, a.s.o...
+	--          describe the results of the algorithmes.
+
+        ---Level: Internal
+        --
+        -- All the methods of the classes of this package are Internal.
+	--
+
+uses Standard, MMgt, StdFail, GeomAbs, TopAbs, TCollection, TColStd, math, 
+     gp, TColgp, IntAna,IntSurf, IntImp, IntStart, IntWalk, Bnd, Intf,  
+     Adaptor2d,Adaptor3d, Geom2d, Geom, Precision
+
+is
+
+    class ALineToWLine;
+
+    class Point;
+
+    deferred class Line;
+    
+    	class GLine;      -- inherits Line from IntPatch
+
+    	class ALine;      -- inherits Line from IntPatch
+    
+    	class WLine;      -- inherits Line from IntPatch
+    
+    	class RLine;      -- inherits Line from IntPatch
+
+    class ArcFunction;
+
+-- implicite/implicite
+
+    class ImpImpIntersection;
+
+
+-- commun implicite/parametree et parametree/parametree
+
+    deferred class Polygo;
+      
+    	class PolyLine;    -- inherits Polygo from IntPatch
+
+        class PolyArc;     -- inherits Polygo from IntPatch
+
+    class RstInt;
+
+
+-- implicite/parametre
+
+    class ImpPrmIntersection;
+
+
+-- parametre/parametre
+
+    class Polyhedron;
+
+    class PolyhedronTool;
+    
+    class PrmPrmIntersection_T3Bits;
+
+    class PrmPrmIntersection;
+
+
+-- algorithme general
+
+    enumeration IType is
+    -- type of the line of intersection
+
+    	Lin,       -- pour conflit avec deferred class Line
+    	Circle,
+    	Ellipse,
+    	Parabola,
+    	Hyperbola,
+    	Analytic,
+        Walking,
+    	Restriction
+    end IType;
+
+    class HInterTool;
+
+    class HCurve2dTool;
+
+    class LineConstructor;
+
+    class Intersection;
+
+
+    class SequenceOfPoint instantiates Sequence from TCollection (Point from IntPatch);
+
+    class SequenceOfLine instantiates Sequence from TCollection (Line from IntPatch);
+
+    class TheSurfFunction instantiates ZerImpFunc from IntImp
+        (HSurface     from Adaptor3d,
+         HSurfaceTool from Adaptor3d,
+         Quadric      from IntSurf,
+         QuadricTool  from IntSurf);
+
+    class TheIWalking instantiates IWalking from IntWalk
+        (PathPoint               from IntSurf, 
+         PathPointTool           from IntSurf,
+         SequenceOfPathPoint     from IntSurf,
+         InteriorPoint           from IntSurf,
+         InteriorPointTool       from IntSurf,
+         SequenceOfInteriorPoint from IntSurf,
+         HSurface                from Adaptor3d,
+         HSurfaceTool            from Adaptor3d,
+         TheSurfFunction         from IntPatch);
+
+    class TheSearchInside instantiates SearchInside from IntStart
+        (HSurface        from Adaptor3d,
+         HSurfaceTool    from Adaptor3d,
+         TopolTool       from Adaptor3d,
+         HInterTool      from IntPatch,
+         TheSurfFunction from IntPatch);
+
+    class TheSOnBounds instantiates SearchOnBoundaries from IntStart(
+         HVertex from Adaptor3d,
+         HCurve2d from Adaptor2d,
+         HCurve2dTool from IntPatch,
+         HInterTool from IntPatch,
+         TopolTool from Adaptor3d,
+         ArcFunction from IntPatch);
+
+    class TheInterfPolyhedron instantiates InterferencePolyhedron from Intf(
+              Polyhedron from IntPatch,
+              PolyhedronTool from IntPatch,
+              Polyhedron from IntPatch,
+              PolyhedronTool from IntPatch);
+
+    class ThePWalkingInter instantiates PWalking from IntWalk(
+              HSurface     from Adaptor3d,
+              HSurfaceTool from Adaptor3d);
+
+    alias SearchPnt is InterferencePolygon2d from Intf;
+
+    class CSFunction instantiates ZerCOnSSParFunc from IntImp
+    	(HSurface from Adaptor3d,
+         HSurfaceTool from Adaptor3d,
+         HCurve2d from Adaptor2d,
+         HCurve2dTool from IntPatch);
+
+    class CurvIntSurf instantiates IntCS from IntImp
+    	(HSurface from Adaptor3d,
+         HSurfaceTool from Adaptor3d,
+         HCurve2d from Adaptor2d,
+         HCurve2dTool from IntPatch,
+         CSFunction from IntPatch);
+
+end IntPatch;

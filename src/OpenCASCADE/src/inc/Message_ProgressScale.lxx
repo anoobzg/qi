@@ -1,0 +1,189 @@
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+#include <TCollection_HAsciiString.hxx>
+
+//=======================================================================
+//function : SetName
+//purpose  : Sets scale name
+//=======================================================================
+
+inline void Message_ProgressScale::SetName(const Standard_CString theName)
+{
+  myName = new TCollection_HAsciiString ( theName );
+}
+
+//=======================================================================
+//function : SetName
+//purpose  : Sets scale name
+//=======================================================================
+
+inline void Message_ProgressScale::SetName(const Handle(TCollection_HAsciiString)& theName)
+{
+  myName = theName;
+}
+
+//=======================================================================
+//function : GetName
+//purpose  : Returns scale name
+//=======================================================================
+
+inline Handle(TCollection_HAsciiString) Message_ProgressScale::GetName() const
+{
+  return myName;
+}
+
+//=======================================================================
+//function : SetMin
+//purpose  : Sets minimum value of scale
+//=======================================================================
+
+inline void Message_ProgressScale::SetMin(const Standard_Real theMin)
+{
+  myMin = theMin;
+}
+
+//=======================================================================
+//function : GetMin
+//purpose  : Returns minimum value of scale
+//=======================================================================
+
+inline Standard_Real Message_ProgressScale::GetMin() const
+{
+  return myMin;
+}
+
+//=======================================================================
+//function : SetMax
+//purpose  : Sets minimum value of scale
+//=======================================================================
+
+inline void Message_ProgressScale::SetMax(const Standard_Real theMax)
+{
+  myMax = theMax;
+}
+
+//=======================================================================
+//function : GetMax
+//purpose  : Returns minimum value of scale
+//=======================================================================
+
+inline Standard_Real Message_ProgressScale::GetMax() const
+{
+  return myMax;
+}
+
+//=======================================================================
+//function : SetRange
+//purpose  : Sets both min and max
+//=======================================================================
+
+inline void Message_ProgressScale::SetRange(const Standard_Real theMin,
+					     const Standard_Real theMax)
+{
+  myMin = theMin;
+  myMax = theMax;
+}
+
+//=======================================================================
+//function : SetStep
+//purpose  : Sets default step
+//=======================================================================
+
+inline void Message_ProgressScale::SetStep(const Standard_Real theStep)
+{
+  myStep = theStep;
+}
+
+//=======================================================================
+//function : GetStep
+//purpose  : Returns default step
+//=======================================================================
+
+inline Standard_Real Message_ProgressScale::GetStep() const
+{
+  return myStep;
+}
+
+//=======================================================================
+//function : SetInfinite
+//purpose  : Sets flag for infinite scale
+//=======================================================================
+
+inline void Message_ProgressScale::SetInfinite(const Standard_Boolean theInfinite)
+{
+  myInfinite = theInfinite;
+}
+
+//=======================================================================
+//function : GetInfinite
+//purpose  : Returns flag for infinite scale
+//=======================================================================
+
+inline Standard_Boolean Message_ProgressScale::GetInfinite() const
+{
+  return myInfinite;
+}
+
+//=======================================================================
+//function : SetScale
+//purpose  : Set all scale parameters
+//=======================================================================
+
+inline void Message_ProgressScale::SetScale(const Standard_Real theMin,
+					     const Standard_Real theMax,
+					     const Standard_Real theStep,
+					     const Standard_Boolean theInfinite)
+{
+  myMin = theMin;
+  myMax = theMax;
+  myStep = theStep;
+  myInfinite = theInfinite;
+}
+
+//=======================================================================
+//function : SetSpan
+//purpose  : Sets span on a basis scale
+//=======================================================================
+
+inline void Message_ProgressScale::SetSpan(const Standard_Real theFirst,
+					    const Standard_Real theLast)
+{
+  myFirst = theFirst;
+  myLast  = theLast;
+}
+
+//=======================================================================
+//function : GetFirst
+//purpose  : 
+//=======================================================================
+
+inline Standard_Real Message_ProgressScale::GetFirst () const
+{
+  return myFirst;
+}
+
+//=======================================================================
+//function : GetLast
+//purpose  : 
+//=======================================================================
+
+inline Standard_Real Message_ProgressScale::GetLast () const
+{
+  return myLast;
+}
+

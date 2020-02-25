@@ -1,0 +1,108 @@
+-- Created on: 1993-09-07
+-- Created by: GG
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class FontMapEntry from Aspect
+
+	---Version: 0.0
+
+	---Purpose: This class defines a fontmap entry.
+	--	    A fontmap entry is an association beetwen
+	--	    a FontStyle object and an index in the fontmap.
+	---Keywords:
+	---Warning:
+	---References:
+
+uses
+
+	FontStyle from Aspect
+
+raises
+
+	OutOfRange 	from Standard,
+	BadAccess 	from Aspect
+
+is
+
+	Create
+	returns FontMapEntry from Aspect;
+	---Level: Public
+	---Purpose: Creates an unallocated fontmap entry
+	
+	Create ( index : Integer from Standard; 
+		 style : FontStyle from Aspect)
+ 	returns FontMapEntry;
+	---Level: Public
+	---Purpose: Creates an allocated fontmap entry
+
+	Create ( entry : FontMapEntry from Aspect )
+ 	returns FontMapEntry
+	---Level: Public
+	---Purpose: Creates an allocated fontmap entry.
+	--  Warning: Raises error if the fontmap entry <entry> is unallocated.
+	raises BadAccess from Aspect;
+
+	SetValue ( me: in out; index : Integer from Standard;
+			       style : FontStyle from Aspect );
+	---Level: Public
+ 	---Purpose: Sets fontmap entry value and allocates it.
+ 
+	SetValue ( me: in out; entry : FontMapEntry from Aspect);
+	---Level: Public
+ 	---Purpose: Sets fontmap entry value and allocates it.
+	---C++: alias operator =
+ 
+	SetType ( me: in out; Style : FontStyle from Aspect );
+	---Level: Public
+ 	---Purpose: Sets the line style of fontmap entry.
+
+	Type ( me ) returns FontStyle from Aspect
+	---Warning: Raises error if the fontmap entry is unallocated .
+	raises BadAccess from Aspect;
+	---C++: return const & 
+
+	SetIndex ( me: in out; index : Integer from Standard);
+	---Level: Public
+ 	---Purpose: Sets index value of a fontmap entry.
+
+	Index ( me ) returns Integer from Standard 
+	---Warning: Raises error if the fontmap entry is unallocated .
+	raises BadAccess from Aspect;
+
+	Free ( me : in out );
+	---Level: Public
+	---Purpose: Unallocates the fontmap entry.
+
+	IsAllocated ( me ) returns Boolean from Standard;
+	---Level: Public
+	---Purpose: Returns True if the fontmap entry is allocated.
+	--  Warning: A fontmap entry is allocated when the font and
+	--	    the index is defined.
+
+        Dump( me ) ;
+fields
+
+	MyType		: FontStyle from Aspect;
+	MyIndex 	: Integer from Standard;
+	MyTypeIsDef	: Boolean from Standard;
+	MyIndexIsDef	: Boolean from Standard;
+
+end FontMapEntry from Aspect;

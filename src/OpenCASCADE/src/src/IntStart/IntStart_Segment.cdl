@@ -1,0 +1,134 @@
+-- Created on: 1992-04-14
+-- Created by: Jacques GOUSSARD
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+generic class Segment from IntStart
+
+    (TheVertex    as any;
+     TheArc       as any;
+     ThePathPoint as any) -- as PathPoint from IntStart (TheVertex,TheArc)
+
+	---Purpose: This class defines the intersection between two implicit
+	--          surfaces A and B, when this intersection is a part of an 
+	--          arc of restriction .
+	--          It can be bounded or  semi infinite;
+	--          the extremities of these curves are vertices(ThepathPoint).
+
+
+raises DomainError from Standard
+
+is
+
+    Create
+
+        ---Purpose: Empty constructor.
+
+    	returns Segment;
+
+
+    SetValue(me: in out; A: TheArc)
+	     
+	---Purpose: Defines the concerned arc.
+
+	---C++: inline
+
+    	is static;
+	
+
+    SetLimitPoint(me: in out; V: ThePathPoint; First: Boolean)
+    
+	---Purpose: Defines the first point or the last point,
+	--          depending on the value of the boolean First.
+
+    	is static;
+
+
+    Curve(me)
+    
+    	---Purpose: Returns the geometric curve on the surface 's domain
+    	--          which is solution.
+
+    	returns any TheArc
+	---C++: return const&
+	---C++: inline
+
+    	is static;
+  
+
+    HasFirstPoint(me)
+    
+	---Purpose: Returns True if there is a vertex (ThePathPoint) defining
+	--          the lowest valid parameter on the arc.
+    
+    	returns Boolean from Standard
+	---C++: inline
+
+	is static;
+
+
+    FirstPoint(me)
+
+    	---Purpose: Returns the first point.
+	
+    	returns ThePathPoint
+	---C++: return const&	
+	---C++: inline
+
+	raises DomainError from Standard
+	
+	is static;
+
+
+
+    HasLastPoint(me)
+    
+	---Purpose: Returns True if there is a vertex (ThePathPoint) defining
+	--          the greatest valid parameter on the arc.
+    
+    	returns Boolean from Standard
+	---C++: inline
+
+	is static;
+
+
+    LastPoint(me)
+
+    	---Purpose: Returns the last point.
+	
+    	returns ThePathPoint
+	---C++: return const&	
+	---C++: inline
+
+	raises DomainError from Standard
+	
+	is static;
+
+
+
+fields
+
+    arc   : TheArc;
+    hasfp : Boolean from Standard;
+    thefp : ThePathPoint;
+    haslp : Boolean from Standard;
+    thelp : ThePathPoint;
+
+end Segment;

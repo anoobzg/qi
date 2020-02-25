@@ -1,0 +1,50 @@
+-- Created on: 1991-10-10
+-- Created by: Jean Claude VAUTHIER
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class HyperbolaToBSplineCurve   from Convert   inherits ConicToBSplineCurve
+
+        --- Purpose :
+        --  This algorithm converts a hyperbola into a rational B-spline curve.
+        --  The hyperbola is an Hypr2d from package gp with the
+        --  parametrization :
+        --  P (U) = 
+        --  Loc + (MajorRadius * Cosh(U) * Xdir + MinorRadius * Sinh(U) * Ydir)
+        --  where Loc is the location point of the hyperbola, Xdir and Ydir are
+        --  the normalized directions of the local cartesian coordinate system
+        --  of the hyperbola.
+        --- KeyWords :
+        --  Convert, Hyperbola, BSplineCurve, 2D .
+
+uses Hypr2d from gp
+
+is
+
+
+  Create (H : Hypr2d; U1, U2 : Real)   returns HyperbolaToBSplineCurve;
+        --- Purpose : 
+        --  The hyperbola H is limited between the parametric values U1, U2
+        --  and the equivalent B-spline curve has the same orientation as the
+        --  hyperbola.
+
+
+end HyperbolaToBSplineCurve;

@@ -1,0 +1,83 @@
+-- Created on: 1997-05-28
+-- Created by: Xavier BENVENISTE
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class CheckBSplineCurve from GeomLib
+
+	---Purpose: this class is used to  construct the BSpline curve
+	--          from an Approximation ( ApproxAFunction from AdvApprox).
+    	
+
+uses
+    Pnt	            from gp,
+    BSplineCurve    from Geom,
+    BSplineCurve    from Geom2d
+
+raises
+
+    NotDone    from StdFail,
+    OutOfRange from Standard
+    
+is
+
+    Create( Curve : BSplineCurve from Geom ;
+    	    Tolerance        : Real from Standard ;
+            AngularTolerance : Real from Standard) 
+    returns CheckBSplineCurve from GeomLib;
+    
+    IsDone(me) returns Boolean from Standard
+	---C++: inline
+    is static;
+    
+    NeedTangentFix(me; FirstFlag : in out Boolean from Standard ;
+    	         SecondFlag : in out Boolean from Standard) ;
+    FixTangent  (me : in out ; FirstFlag : Boolean from Standard ;
+              		       LastFlag  : Boolean from Standard)  ;	 
+	
+    FixedTangent  (me : in out ; FirstFlag : Boolean from Standard ;
+              		       LastFlag  : Boolean from Standard) 
+    ---Purpose:  modifies the curve
+    -- by fixing the first or the last tangencies 
+    -- 
+    returns BSplineCurve from Geom
+    raises
+    	OutOfRange from Standard,
+    	---Purpose: if Index3D not in the Range [1,Nb3dSpaces]
+	NotDone    from StdFail
+	---Purpose: if the Approx is not Done
+    is static;
+ 
+
+fields
+
+    myCurve            : BSplineCurve from Geom ;
+    myDone             : Boolean from Standard ;
+    myFixFirstTangent  : Boolean from Standard ;
+    myFixLastTangent   : Boolean from Standard ;
+    myAngularTolerance : Real from Standard ;
+    myTolerance        : Real from Standard ;
+    myFirstPole        : Pnt from gp ;
+    	-- the second pole that controls first tangency
+    myLastPole         : Pnt from gp ;
+    	-- the before last pole that controls last tangency
+
+end CheckBSplineCurve;

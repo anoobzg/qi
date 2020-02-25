@@ -1,0 +1,92 @@
+-- Created on: 1998-01-07
+-- Created by: Philippe MANGIN
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred  class SectionLaw from BRepFill  inherits TShared from MMgt
+
+	---Purpose: Build Section Law, with an Vertex, or an Wire
+        ---Level: Advanced
+       
+uses 
+ SectionLaw          from GeomFill,  
+ HArray1OfSectionLaw from  GeomFill, 
+ Shape               from  GeomAbs, 
+ Shape               from  TopoDS,
+ Wire                from  TopoDS,  
+ Edge                from  TopoDS, 
+ Vertex              from  TopoDS,  
+ WireExplorer        from  BRepTools 
+  
+ 
+is  
+  NbLaw(me)  returns  Integer;  
+   
+  Law(me; Index  :  Integer)  
+   ---C++: return const &
+    returns SectionLaw from GeomFill; 
+     
+  IsConstant(me)  returns  Boolean 
+  is  deferred; 
+  
+  IsUClosed(me)  returns  Boolean; 
+   
+  IsVClosed(me)  returns  Boolean; 
+   
+  IsVertex(me) 
+    ---Purpose: Say if the input sahpe is a  vertex. 
+  returns  Boolean   
+  is  deferred;   
+   
+  ConcatenedLaw(me)  
+  returns SectionLaw from GeomFill 
+  is  deferred;        
+
+  Continuity(me; Index  :  Integer; 
+    	         TolAngular  :  Real)
+  returns  Shape  from  GeomAbs 
+  is  deferred;  
+   
+  VertexTol(me; Index  :  Integer;   
+                Param  :  Real) 
+  returns  Real 
+  is  deferred; 	   
+  
+  Vertex(me;  Index  :  Integer; 
+              Param  :  Real) 
+  returns Vertex  from  TopoDS 
+  is deferred;	 
+   
+  D0(me:mutable;  U  :  Real;   
+     S  :  out  Shape  from  TopoDS) 
+  is  deferred;  
+   
+  Init(me:  mutable;  W  :  Wire  from  TopoDS);  
+       
+  
+  CurrentEdge(me  :  mutable)   
+  returns  Edge  from  TopoDS;   
+  
+fields  
+  myLaws      :  HArray1OfSectionLaw from  GeomFill is  protected; 
+  uclosed     :  Boolean       from  Standard is  protected;  
+  vclosed     :  Boolean       from  Standard is  protected;   
+  myIterator  :  WireExplorer  from  BRepTools;  
+end SectionLaw;

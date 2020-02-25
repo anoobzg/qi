@@ -1,0 +1,68 @@
+-- Created on: 1997-07-22
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Triangulation2D from DrawTrSurf inherits Drawable2D from Draw
+
+	---Purpose: Used to display a 2d triangulation.
+	--          
+	--          Display internal edges in blue
+	--          Display boundary edges in red
+	--          Optional display of triangles and nodes indices.
+
+uses
+    HArray1OfInteger from TColStd,
+    Triangulation from Poly,
+    Drawable3D    from Draw,
+    Display       from Draw,
+    Interpretor   from Draw,
+    OStream
+
+is
+
+    Create(T : Triangulation from Poly)
+    returns mutable Triangulation2D from DrawTrSurf;
+    
+    Triangulation(me)
+    returns Triangulation from Poly;
+    
+    DrawOn(me; dis : in out Display);
+    
+    Copy(me) returns mutable Drawable3D from Draw
+    is redefined;
+	---Purpose: For variable copy.
+	
+    Dump(me; S : in out OStream)
+    is redefined;
+	---Purpose: For variable dump.
+
+    Whatis(me; I : in out Interpretor from Draw)
+    is redefined;
+	---Purpose: For variable whatis command. Set  as a result  the
+	--          type of the variable.
+
+fields
+
+    myTriangulation : Triangulation from Poly;
+    myInternals     : HArray1OfInteger from TColStd;
+    myFree          : HArray1OfInteger from TColStd;
+
+end Triangulation2D;

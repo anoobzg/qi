@@ -1,0 +1,104 @@
+-- Created on: 1996-12-16
+-- Created by: Remi Lequette
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Iterator from TNaming 
+
+	---Purpose: A tool to visit the contents of a named shape attribute.
+    	-- Pairs of shapes in the attribute are iterated, one
+    	-- being the pre-modification or the old shape, and
+    	-- the other the post-modification or the new shape.
+    	-- This allows you to have a full access to all
+    	-- contents of an attribute. If, on the other hand, you
+    	-- are only interested in topological entities stored
+    	-- in the attribute, you can use the functions
+    	-- GetShape and CurrentShape in TNaming_Tool.
+
+uses
+
+    Label       from TDF,
+    Evolution   from TNaming,
+    NamedShape  from TNaming,	
+    PtrNode     from TNaming,
+    Shape       from TopoDS
+
+raises
+
+    NoMoreObject from Standard,
+    NoSuchObject from Standard 
+
+is
+
+    Create( anAtt  : NamedShape from TNaming) returns Iterator from TNaming;
+	---Purpose: Iterates on all  the history records in
+	--          <anAtt>.
+    
+    Create( aLabel : Label from TDF) returns Iterator from TNaming;
+	---Purpose: Iterates on all  the history records in
+	--          the current transaction
+
+    Create( aLabel : Label from TDF; aTrans : Integer from Standard)
+    returns Iterator from TNaming;
+	---Purpose: Iterates on all  the history records in
+	--          the transaction <aTrans>
+	
+    More(me) returns Boolean;
+	---C++: inline
+	---Purpose: Returns True if there is a current Item in
+	--          the iteration.
+     
+    Next(me : in out)
+    	---Purpose: Moves the iteration to the next Item 
+    raises
+	NoMoreObject from Standard;
+   
+    OldShape(me) returns Shape from TopoDS
+    	---Purpose: Returns the old shape in this iterator object.
+    	-- This shape can be a null one.
+	---C++: return const&
+    raises
+	NoSuchObject from Standard;
+	 
+    NewShape(me) returns Shape from TopoDS
+    	---Purpose: Returns the new shape in this iterator object.
+ 	---C++: return const&
+   raises
+	 NoSuchObject from Standard;
+	 
+    IsModification(me) returns Boolean;
+	---Purpose: Returns true if the  new  shape is a modification  (split,
+	--          fuse,etc...) of the old shape.
+	--          
+    
+    Evolution(me) returns Evolution from TNaming;
+    
+
+fields
+
+    myNode  : PtrNode from TNaming;
+    myTrans : Integer from Standard;  -- is < 0 means in Current Transaction.
+
+friends
+    
+    class NewShapeIterator from TNaming,
+    class OldShapeIterator from TNaming    
+    
+end Iterator;

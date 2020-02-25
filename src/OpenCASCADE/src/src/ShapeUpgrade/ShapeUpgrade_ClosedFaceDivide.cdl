@@ -1,0 +1,58 @@
+-- Created on: 1999-07-22
+-- Created by: data exchange team
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ClosedFaceDivide from ShapeUpgrade inherits FaceDivide from ShapeUpgrade
+
+	---Purpose: Divides a Face with one or more seam edge to avoid closed faces.
+	--          Splitting is performed by U and V direction. The number of 
+        --          resulting faces can be defined by user.
+
+uses
+
+    Face    from TopoDS
+
+is
+    
+    Create returns ClosedFaceDivide from ShapeUpgrade;
+    	---Purpose: Creates empty  constructor.
+    
+    Create (F : Face from TopoDS)
+    returns ClosedFaceDivide from ShapeUpgrade;
+        --- Purpose : Initialize by a Face.
+    
+    SplitSurface (me: mutable) 
+    returns Boolean is redefined;
+    	---Purpose: Performs splitting of surface and computes the shell
+	--          from source face.
+    
+    SetNbSplitPoints(me: mutable; num: Integer);
+    	---Purpose: Sets the number of cutting lines by which closed face 
+        --          will be splitted. The resulting faces will be num+1.
+    
+    GetNbSplitPoints(me) returns Integer;
+    	---Purpose: Returns the number of splitting points
+  
+fields
+
+    myNbSplit: Integer;
+
+end ClosedFaceDivide;

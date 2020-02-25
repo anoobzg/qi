@@ -1,0 +1,91 @@
+-- Created on: 1992-02-11
+-- Created by: Christian CAILLET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class UndefinedEntity  from StepData  inherits TShared
+
+    ---Purpose : Undefined entity specific to Step Interface, in which StepType
+    --           is defined at each instance, or is a SubList of another one
+    --           Uses an UndefinedContent, that from Interface is suitable.
+    --           Also an Entity defined by STEP can be "Complex Type" (see
+    --           ANDOR clause in Express).
+
+uses AsciiString from TCollection, HAsciiString from TCollection,
+     UndefinedContent, Check, CopyTool, EntityIterator,
+     StepReaderData, StepWriter
+
+is
+
+    Create returns mutable UndefinedEntity;
+    ---Purpose : creates an Unknown entity
+
+    Create (issub : Boolean) returns mutable UndefinedEntity;
+    ---Purpose : Creates a SubList of an Unknown entity : it is an Unknown
+    --           Entity with no Type, but flagged as "SUB" if issub is True
+
+    UndefinedContent (me) returns mutable UndefinedContent;
+    ---Purpose : Returns the UndefinedContent which brings the Parameters
+
+
+    IsSub (me) returns Boolean;
+    ---Purpose : Returns True if an Unndefined Entity is SubPart of another one
+
+    Super (me) returns mutable UndefinedEntity;
+    ---Purpose : Returns the "super-entity" of a sub-part
+
+    IsComplex (me) returns Boolean;
+    ---Purpose : Returns True if <me> defines a Multiple Type Entity (see ANDOR)
+
+    Next (me) returns mutable UndefinedEntity;
+    ---Purpose : For a Multiple Type Entity, returns the Next "Componant"
+    --           For more than two Types, iterative definition (Next->Next...)
+    --           Returns a Null Handle for the end of the List
+
+
+    StepType (me) returns CString;
+    ---Purpose : gives entity type, read from file
+    --           For a Complex Type Entity, gives the first Type read, each
+    --           "Next" gives its "partial" type
+    -- was C++ : return const
+
+    ReadRecord (me : mutable;
+                SR : StepReaderData; num : Integer; ach : in out Check);
+    ---Purpose : reads data from StepReaderData (i.e. from file), by filling
+    --           StepType and parameters stored in the UndefinedContent
+
+    WriteParams (me; SW : in out StepWriter);
+    ---Purpose : write data to StepWriter, taken from UndefinedContent
+
+    GetFromAnother (me : mutable; other : like me;
+    	    	    TC : in out CopyTool);
+    ---Purpose : reads another UndefinedEntity from StepData
+
+    FillShared     (me; list : in out EntityIterator from Interface);
+    ---Purpose : Fills the list of shared entities
+
+fields
+
+    thetype : HAsciiString from TCollection;
+    thecont : UndefinedContent;
+    thesub  : Boolean;
+    thenext : UndefinedEntity;  -- for a Multiple Type Entity
+
+end UndefinedEntity;

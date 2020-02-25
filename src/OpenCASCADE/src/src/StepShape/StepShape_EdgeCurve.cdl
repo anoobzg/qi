@@ -1,0 +1,66 @@
+-- Created on: 1995-12-01
+-- Created by: EXPRESS->CDL V0.2 Translator
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class EdgeCurve from StepShape 
+
+inherits Edge from StepShape 
+-- WARNING : Multiple EXPRESS inheritance
+-- Not yet automaticly managed
+-- inherits GeometricRepresentationItem from StepShape 
+
+uses
+
+	Curve from StepGeom, 
+	Boolean from Standard, 
+	HAsciiString from TCollection, 
+	Vertex from StepShape
+is
+
+	Create returns mutable EdgeCurve;
+	---Purpose: Returns a EdgeCurve
+
+
+	Init (me : mutable;
+	      aName : mutable HAsciiString from TCollection;
+	      aEdgeStart : mutable Vertex from StepShape;
+	      aEdgeEnd : mutable Vertex from StepShape) is redefined;
+
+	Init (me : mutable;
+	      aName : mutable HAsciiString from TCollection;
+	      aEdgeStart : mutable Vertex from StepShape;
+	      aEdgeEnd : mutable Vertex from StepShape;
+	      aEdgeGeometry : mutable Curve from StepGeom;
+	      aSameSense : Boolean from Standard) is virtual;
+
+	-- Specific Methods for Field Data Access --
+
+	SetEdgeGeometry(me : mutable; aEdgeGeometry : mutable Curve);
+	EdgeGeometry (me) returns mutable Curve;
+	SetSameSense(me : mutable; aSameSense : Boolean);
+	SameSense (me) returns Boolean;
+
+fields
+
+	edgeGeometry : Curve from StepGeom;
+	sameSense : Boolean from Standard;
+
+end EdgeCurve;

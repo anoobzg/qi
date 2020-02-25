@@ -1,0 +1,84 @@
+-- Created on: 1995-03-14
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class PolygonOnSurface from BRep inherits CurveRepresentation from BRep 
+
+    	---Purpose: Representation of a 2D polygon in the parametric
+    	--          space of a surface.
+
+
+uses
+    Polygon2D           from Poly,
+    Surface             from Geom,
+    CurveRepresentation from BRep,
+    Location            from TopLoc
+
+
+raises DomainError from Standard
+
+
+is
+
+    Create(P: Polygon2D from Poly;
+    	   S: Surface   from Geom;
+	   L: Location  from TopLoc)
+    returns mutable PolygonOnSurface from BRep;
+
+
+    IsPolygonOnSurface(me)          returns Boolean
+    	---Purpose: A   2D polygon  representation  in the  parametric
+    	--          space of a surface.
+    is redefined;
+
+
+    IsPolygonOnSurface(me; S: Surface from Geom; L: Location from TopLoc) 
+    returns Boolean
+    	---Purpose: A   2D polygon  representation  in the  parametric
+    	--          space of a surface.
+    is redefined;
+
+
+    Surface(me) returns any Surface from Geom
+    	---C++: return const&
+    is redefined;
+
+
+    Polygon(me) returns any Polygon2D from Poly
+    	---C++: return const &
+    is redefined;
+
+    Polygon(me: mutable; P: Polygon2D from Poly)
+    is redefined;
+
+
+    Copy(me) returns mutable CurveRepresentation from BRep
+	---Purpose: Return a copy of this representation.
+    is redefined;
+
+
+fields
+
+myPolygon2D: Polygon2D from Poly;
+mySurface  : Surface   from Geom;
+
+
+end PolygonOnSurface;

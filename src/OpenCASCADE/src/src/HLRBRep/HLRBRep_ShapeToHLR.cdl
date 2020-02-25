@@ -1,0 +1,63 @@
+-- Created on: 1993-05-04
+-- Created by: Modelistation
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ShapeToHLR from HLRBRep
+
+	---Purpose: compute  the   OutLinedShape  of  a Shape with  an
+	--          OutLiner,    a  Projector  and   create  the  Data
+	--          Structure of a Shape.
+
+uses
+    Shape             from TopoDS,
+    Face              from TopoDS,
+    IndexedMapOfShape from TopTools,
+    OutLiner          from HLRTopoBRep,
+    Projector         from HLRAlgo,
+    Data              from HLRBRep,
+    MapOfShapeTool    from BRepTopAdaptor
+
+is
+    Load(myclass; S     :        OutLiner  from HLRTopoBRep;
+                  P     :        Projector from HLRAlgo;
+		  MST   : in out MapOfShapeTool from BRepTopAdaptor;
+                  nbIso :        Integer   from Standard = 0)
+    returns Data from HLRBRep;
+	---Purpose: Creates  a DataStructure   containing the OutLiner
+	--          <S> depending on the projector <P> and nbIso.
+		   
+    ExploreFace(myclass;
+                S      :         OutLiner          from HLRTopoBRep;
+                DS     : mutable Data              from HLRBRep;
+	        FM     :         IndexedMapOfShape from TopTools;
+	        EM     :         IndexedMapOfShape from TopTools;
+		i      : in out  Integer           from Standard;
+                F      :         Face              from TopoDS;
+                closed :         Boolean           from Standard)
+    is private;
+
+    ExploreShape(myclass;
+                 S    :         OutLiner          from HLRTopoBRep;
+                 DS   : mutable Data              from HLRBRep;
+		 FM   :         IndexedMapOfShape from TopTools; 
+		 EM   :         IndexedMapOfShape from TopTools) 
+    is private;
+
+end ShapeToHLR;

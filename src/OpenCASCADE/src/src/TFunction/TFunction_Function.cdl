@@ -1,0 +1,129 @@
+-- Created on: 1999-06-10
+-- Created by: Vladislav ROMASHKO
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Function from TFunction inherits Attribute from TDF
+    	---Purpose: Provides the following two services
+    	-- -   a link to an evaluation driver
+    	-- -   the means of providing a link between a
+    	--   function and an evaluation driver.
+uses 
+
+  GUID            from Standard,   
+  OStream         from Standard,
+  Attribute       from TDF, 
+  RelocationTable from TDF,  
+  DataSet         from TDF, 
+  Label           from TDF
+
+     
+is  
+
+    ---Purpose: Static methods: 
+    --          ==============
+
+    Set (myclass; L : Label from TDF) 
+    ---Purpose: Finds or Creates a function attribute on the label <L>. 
+    --          Returns the function attribute.
+    returns Function from TFunction;
+
+    Set(myclass; L        : Label from TDF; 
+    	    	 DriverID : GUID     from Standard)
+    ---Purpose: Finds or Creates a function attribute on the label <L>. 
+    --          Sets a driver ID to the function.
+    --          Returns the function attribute. 
+    returns Function from TFunction;
+
+    GetID(myclass) 
+    ---Purpose: Returns the GUID for functions. 
+    ---C++: return const & 
+    returns GUID from Standard;  
+   
+    --Find(myclass; L :     Label    from TDF; 
+    --	    	  F : out Function from TFunction)   
+    	---Purpose: Returns a function found on the label.
+    --returns Boolean from Standard;		    
+				    
+     
+    ---Purpose: Instance methods: 
+    --          ================ 
+     
+    Create returns mutable Function from TFunction;
+
+    GetDriverGUID (me) 
+    	---Purpose: Returns the GUID for this function's driver.
+    	---C++: inline 
+	---C++: return const &
+    returns GUID from Standard;
+
+    SetDriverGUID(me : mutable; guid : GUID from Standard);
+    	---Purpose: Sets the driver for this function as that
+    	-- indentified by the GUID guid.
+
+
+    Failed (me)
+        ---Purpose: Returns true if the execution failed
+        ---C++: inline      
+    returns Boolean from Standard;
+    
+    SetFailure (me : mutable; mode : Integer from Standard  =  0);
+        ---Purpose: Sets the failed index.
+  
+    GetFailure (me)
+        ---Purpose: 
+    	-- Returns an index of failure if the execution of this function failed.
+    	-- If this integer value is 0, no failure has occurred.
+        ---C++: inline      
+    returns Integer from Standard;  
+ 
+     
+    ---Purpose: Implementation of Attribute methods:  
+    --          ===================================  
+     
+    ID (me)
+        ---C++: return const & 
+    returns GUID from Standard;
+
+    Restore (me: mutable; with : Attribute from TDF) 
+    is virtual;
+
+    Paste (me; into : mutable Attribute from TDF;
+	       RT   : mutable RelocationTable from TDF) 
+    is virtual;    
+
+    NewEmpty(me)
+    returns mutable Attribute from TDF
+    is redefined;
+	
+    References(me;
+    	       aDataSet : DataSet from TDF)
+    is redefined;
+
+    Dump(me; anOS : in out OStream from Standard) 
+    returns OStream from Standard
+    is redefined; 
+        ---C++: return &
+
+fields
+
+    myDriverGUID  : GUID        from Standard; 
+    myFailure     : Integer     from Standard;
+
+end Function;   

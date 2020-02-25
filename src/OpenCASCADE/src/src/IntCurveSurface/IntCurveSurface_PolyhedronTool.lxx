@@ -1,0 +1,104 @@
+// Copyright (c) 1995-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include ThePolyhedron_hxx
+
+
+inline const Bnd_Box& IntCurveSurface_PolyhedronTool::Bounding
+  (const ThePolyhedron& thePolyh)
+{
+  return thePolyh.Bounding();
+}
+
+inline const Handle(Bnd_HArray1OfBox)& IntCurveSurface_PolyhedronTool::
+       ComponentsBounding(const ThePolyhedron& thePolyh)
+{
+  return thePolyh.ComponentsBounding();
+}
+
+inline Standard_Real IntCurveSurface_PolyhedronTool::DeflectionOverEstimation
+  (const ThePolyhedron& thePolyh)
+{
+  return thePolyh.DeflectionOverEstimation();
+}
+
+inline Standard_Integer IntCurveSurface_PolyhedronTool::NbTriangles
+  (const ThePolyhedron& thePolyh) 
+{
+  return thePolyh.NbTriangles();
+}
+
+
+
+inline void IntCurveSurface_PolyhedronTool::Triangle(const ThePolyhedron& thePolyh,
+					      const Standard_Integer Index,
+					      Standard_Integer& P1,
+					      Standard_Integer& P2,
+					      Standard_Integer& P3)
+{
+  thePolyh.Triangle(Index, P1,P2,P3);
+}
+
+
+inline const gp_Pnt& IntCurveSurface_PolyhedronTool::Point
+  (const ThePolyhedron& thePolyh,
+   const Standard_Integer Index)
+{
+  return thePolyh.Point(Index);
+}
+
+inline Standard_Integer IntCurveSurface_PolyhedronTool::TriConnex 
+  (const ThePolyhedron& thePolyh,
+   const Standard_Integer Triang,
+   const Standard_Integer Pivot,
+   const Standard_Integer Pedge,
+   Standard_Integer& TriCon,
+   Standard_Integer& OtherP)
+{
+  return thePolyh.TriConnex(Triang, Pivot, Pedge, TriCon, OtherP);
+}
+
+//  Modified by Sergey KHROMOV - Fri Dec  7 13:47:07 2001 Begin
+//=======================================================================
+//function : IsOnBound
+//purpose  : This method returns true if the edge based on points with 
+//           indices Index1 and Index2 represents a boundary edge.
+//=======================================================================
+
+inline Standard_Boolean IntCurveSurface_PolyhedronTool::IsOnBound
+  (const ThePolyhedron& thePolyh,
+   const Standard_Integer Index1,
+   const Standard_Integer Index2)
+{
+  return thePolyh.IsOnBound(Index1, Index2);
+}
+
+//=======================================================================
+//function : GetBorderDeflection
+//purpose  : This method returns a border deflection of the polyhedron.
+//=======================================================================
+
+inline Standard_Real IntCurveSurface_PolyhedronTool::GetBorderDeflection
+  (const ThePolyhedron& thePolyh)
+{
+  return thePolyh.GetBorderDeflection();
+}
+
+//  Modified by Sergey KHROMOV - Fri Dec  7 13:46:56 2001 End
+

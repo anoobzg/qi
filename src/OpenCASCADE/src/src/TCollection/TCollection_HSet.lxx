@@ -1,0 +1,122 @@
+// Created on: 1993-03-02
+// Created by: Remi LEQUETTE
+// Copyright (c) 1993-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+//=======================================================================
+//function : Extent
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer TCollection_HSet::Extent() const
+{
+  return mySet.Extent();
+}
+
+//=======================================================================
+//function : IsEmpty
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean TCollection_HSet::IsEmpty() const
+{
+  return mySet.IsEmpty();
+}
+
+//=======================================================================
+//function : Clear
+//purpose  : 
+//=======================================================================
+
+inline void TCollection_HSet::Clear() 
+{
+  mySet.Clear();
+}
+
+//=======================================================================
+//function : Add
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean TCollection_HSet::Add(const Item& T)
+{
+  return mySet.Add(T);
+}
+
+//=======================================================================
+//function : Remove
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean TCollection_HSet::Remove(const Item& T)
+{
+  return mySet.Remove(T);
+}
+
+//=======================================================================
+//function : Contains
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean TCollection_HSet::Contains(const Item& T) const
+{
+  return mySet.Contains(T);
+}
+
+//=======================================================================
+//function : IsASubset
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean TCollection_HSet::IsASubset
+  (const Handle(TCollection_HSet)& S) const
+{
+  return mySet.IsASubset(S->Set());
+}
+
+//=======================================================================
+//function : IsAProperSubset
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean TCollection_HSet::IsAProperSubset
+  (const Handle(TCollection_HSet)& S) const
+{
+  return mySet.IsAProperSubset(S->Set());
+}
+
+//=======================================================================
+//function : Set
+//purpose  : 
+//=======================================================================
+
+inline const TheSet& TCollection_HSet::Set() const
+{
+  return mySet;
+}
+
+//=======================================================================
+//function : ChangeSet
+//purpose  : 
+//=======================================================================
+
+inline TheSet& TCollection_HSet::ChangeSet()
+{
+  return mySet;
+}

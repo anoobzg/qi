@@ -1,0 +1,70 @@
+-- Created on: 1993-06-17
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class DispatchControl  from Transfer  inherits CopyControl from Interface
+
+    ---Purpose : This is an auxiliary class for TransferDispatch, which allows
+    --           to record simple copies, as CopyControl from Interface, but
+    --           based on a TransientProcess. Hence, it allows in addition
+    --           more actions (such as recording results of adaptations)
+
+uses Transient, TransientProcess, InterfaceModel
+
+raises InterfaceError
+
+is
+
+    Create (model : InterfaceModel; TP : mutable TransientProcess)
+    	returns mutable DispatchControl;
+    ---Purpose : Creates the DispatchControl, ready for use
+
+    TransientProcess (me) returns mutable TransientProcess;
+    ---Purpose : Returns the content of the DispatchControl : it can be used
+    --           for a direct call, if the basic methods do not suffice
+    ---C++ : return const &
+
+    StartingModel (me) returns any InterfaceModel;
+    ---Purpose : Returns the Model from which the transfer is to be done
+    ---C++ : return const &
+
+    	--  Now, inherited methods used for Copy (the minimum set)
+
+    Clear (me : mutable);
+    ---Purpose : Clears the List of Copied Results
+
+    Bind (me : mutable; ent : Transient; res : mutable Transient)
+    ---Purpose : Binds a (Transient) Result to a (Transient) Starting Entity
+    	raises InterfaceError;
+    --           Error if <ent> is already bound
+
+    Search (me; ent : Transient; res : out mutable Transient)
+    	returns Boolean;
+    ---Purpose : Searches for the Result bound to a Starting Entity
+    --           If Found, returns True and fills <res>
+    --           Else, returns False and nullifies <res>
+
+fields
+
+    theTP    : TransientProcess;
+    themodel : InterfaceModel;
+
+end DispatchControl;

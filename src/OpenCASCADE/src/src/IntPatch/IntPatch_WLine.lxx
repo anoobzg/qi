@@ -1,0 +1,104 @@
+// Created on: 1991-05-27
+// Created by: Isabelle GRIGNON
+// Copyright (c) 1991-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include <Standard_DomainError.hxx>
+#include <IntSurf_LineOn2S.hxx>
+#include <IntPatch_Point.hxx>
+
+
+inline void IntPatch_WLine::AddVertex (const IntPatch_Point& Pnt)
+{
+  svtx.Append(Pnt);
+}
+
+inline void IntPatch_WLine::Replace (const Standard_Integer Index,
+				     const IntPatch_Point& Pnt)
+{
+  svtx(Index) = Pnt;
+}
+
+inline void IntPatch_WLine::SetFirstPoint (const Standard_Integer IndFirst)
+{
+  fipt = Standard_True;
+  indf = IndFirst;
+}
+
+inline void IntPatch_WLine::SetLastPoint (const Standard_Integer IndLast)
+{
+  lapt = Standard_True;
+  indl = IndLast;
+}
+
+inline Standard_Integer IntPatch_WLine::NbPnts () const
+{
+  return curv->NbPoints();
+}
+
+inline const IntSurf_PntOn2S& IntPatch_WLine::Point (const Standard_Integer Index) const
+{
+  return curv->Value(Index);
+}
+
+inline Standard_Boolean IntPatch_WLine::HasFirstPoint () const
+{
+  return fipt;
+}
+
+inline Standard_Boolean IntPatch_WLine::HasLastPoint () const
+{
+  return lapt;
+}
+
+inline const IntPatch_Point& IntPatch_WLine::FirstPoint () const
+{
+  if (!fipt) {Standard_DomainError::Raise();}
+  return svtx(indf);
+}
+
+inline const IntPatch_Point& IntPatch_WLine::LastPoint () const
+{
+  if (!lapt) {Standard_DomainError::Raise();}
+  return svtx(indl);
+}
+
+inline const IntPatch_Point& IntPatch_WLine::FirstPoint (Standard_Integer& Indfirst) const
+{
+  if (!fipt) {Standard_DomainError::Raise();}
+  Indfirst = indf;
+  return svtx(indf);
+}
+
+inline const IntPatch_Point& IntPatch_WLine::LastPoint (Standard_Integer& Indlast) const
+{
+  if (!lapt) {Standard_DomainError::Raise();}
+  Indlast = indl;
+  return svtx(indl);
+}
+
+inline Standard_Integer IntPatch_WLine::NbVertex () const
+{
+  return svtx.Length();
+}
+
+inline const IntPatch_Point& IntPatch_WLine::Vertex (const Standard_Integer Index) const
+{
+  return svtx(Index);
+}

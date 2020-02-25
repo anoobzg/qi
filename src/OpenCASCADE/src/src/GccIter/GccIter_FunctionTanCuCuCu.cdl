@@ -1,0 +1,121 @@
+-- Created on: 1991-05-13
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+generic class FunctionTanCuCuCu from GccIter(
+    TheCurve     as any;
+    TheCurveTool as any) -- as CurvePGTool from GccInt (TheCurve)
+     
+inherits FunctionSetWithDerivatives from math
+     
+    ---Purpose: This abstract class describes a set on N Functions of 
+    --          M independant variables.
+
+uses Vector from math,
+     Matrix from math,
+     Circ2d from gp,
+     Lin2d  from gp,
+     Pnt2d  from gp,
+     Vec2d  from gp,
+     Type1  from GccIter 
+
+raises ConstructionError
+
+is
+
+    Create (C1  : TheCurve ;
+    	    C2  : TheCurve ;
+    	    C3  : TheCurve ) returns FunctionTanCuCuCu from GccIter;
+
+    Create (C1  : Circ2d    from gp ;
+    	    C2  : TheCurve          ;
+    	    C3  : TheCurve          ) returns FunctionTanCuCuCu from GccIter;
+
+    Create (C1  : Circ2d    from gp ;
+    	    C2  : Circ2d    from gp ;
+    	    C3  : TheCurve          ) returns FunctionTanCuCuCu from GccIter;
+
+    Create (C1  : Circ2d    from gp ;
+    	    L2  : Lin2d     from gp ;
+    	    C3  : TheCurve          ) returns FunctionTanCuCuCu from GccIter;
+
+    Create (L1  : Lin2d     from gp ;
+    	    L2  : Lin2d     from gp ;
+    	    C3  : TheCurve          ) returns FunctionTanCuCuCu from GccIter;
+
+    Create (L1  : Lin2d     from gp ;
+    	    C2  : TheCurve          ;
+    	    C3  : TheCurve          ) returns FunctionTanCuCuCu from GccIter;
+
+    Create (C1  : Circ2d    from gp ;
+    	    C2  : TheCurve          ;
+    	    P3  : Pnt2d     from gp ) returns FunctionTanCuCuCu from GccIter;
+
+    Create (L1  : Lin2d     from gp ;
+    	    C2  : TheCurve          ;
+    	    P3  : Pnt2d     from gp ) returns FunctionTanCuCuCu from GccIter;
+
+    Create (C1  : TheCurve          ;
+    	    P2  : Pnt2d     from gp ;
+    	    P3  : Pnt2d     from gp ) returns FunctionTanCuCuCu from GccIter;
+
+InitDerivative(me                         : in out                   ;
+    	       X                          :        Vector from math  ;
+	       Point1,Point2,Point3       :    out Pnt2d  from gp    ;
+	       Tan1,Tan2,Tan3,D21,D22,D23 :    out Vec2d  from gp    )
+raises ConstructionError
+is static;
+
+    NbVariables(me) returns Integer;
+    	---Purpose: Returns the number of variables of the function.
+
+    NbEquations(me) returns Integer;
+    	---Purpose: Returns the number of equations of the function.
+
+    Value(me : in out                 ; 
+    	  X  :        Vector from math; 
+    	  F  :    out Vector from math) returns Boolean;
+    	---Purpose: Computes the values of the Functions for the variable <X>.
+    
+    Derivatives(me : in out                 ;
+    	        X  :        Vector from math;
+    	        D  :    out Matrix from math) returns Boolean;
+    	---Purpose: Returns the values of the derivatives for the variable <X>.
+    
+    Values(me : in out                 ;
+    	   X  :        Vector from math;
+    	   F  :    out Vector from math;
+     	   D  :    out Matrix from math)    returns Boolean;
+    	---Purpose: Returns the values of the functions and the derivatives
+    	--          for the variable <X>.
+    
+fields
+
+Curv1   : TheCurve             ;
+Curv2   : TheCurve             ;
+Curv3   : TheCurve             ;
+Circ1   : Circ2d   from gp     ;
+Circ2   : Circ2d   from gp     ;
+Lin1    : Lin2d    from gp     ;
+Lin2    : Lin2d    from gp     ;
+TheType : Type1    from GccIter;
+
+end FunctionTanCuCuCu;
+

@@ -1,0 +1,87 @@
+-- Created on: 1992-08-26
+-- Created by: Remi GILET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class MakeDir2d from gce inherits Root from gce
+
+    ---Purpose : This class implements the following algorithms used 
+    --           to create a Dir2d from gp.
+    --           * Create a Dir2d with 2 points.
+    --           * Create a Dir2d with a Vec2d.
+    --           * Create a Dir2d with a XY from gp.
+    --           * Create a Dir2d with a 2 Reals (Coordinates).
+
+uses Pnt2d from gp,
+     Vec2d from gp,
+     Dir2d from gp,
+     XY    from gp,
+     Real  from Standard
+
+raises NotDone from StdFail
+
+is
+
+Create (V : Vec2d from gp)  returns MakeDir2d;
+    --- Purpose : Normalizes the vector V and creates a direction.
+    --            Status is "NullVector" if V.Magnitude() <= Resolution.
+
+Create (Coord : XY from gp) returns MakeDir2d;
+    --- Purpose : Creates a direction from a triplet of coordinates.
+    --            Status is "NullVector" if Coord.Modulus() <= 
+    --            Resolution from gp.
+
+Create ( Xv, Yv : Real from Standard)  returns MakeDir2d;
+    --- Purpose : Creates a direction with its 3 cartesian coordinates.
+    --            Status is "NullVector" if Sqrt(Xv*Xv + Yv*Yv ) 
+    --            <= Resolution
+
+Create(P1     :     Pnt2d from gp;
+       P2     :     Pnt2d from gp) returns MakeDir2d;
+    ---Purpose : Make a Dir2d from gp <TheDir> passing through 2 
+    --           Pnt <P1>,<P2>.
+    --           Status is "ConfusedPoints" if <P1> and <P2> are confused.
+    -- Warning
+    -- If an error occurs (that is, when IsDone returns
+    -- false), the Status function returns:
+    -- -   gce_ConfusedPoints if points P1 and P2 are coincident, or
+    -- -   gce_NullVector if one of the following is less
+    --   than or equal to gp::Resolution():
+    --   -   the magnitude of vector V,
+    --   -   the modulus of Coord,
+    --   -   Sqrt(Xv*Xv + Yv*Yv).
+        
+Value(me) returns Dir2d from gp
+    raises NotDone
+    is static;
+     ---C++: return const&
+     ---Purpose: Returns the constructed unit vector.
+     -- Exceptions StdFail_NotDone if no unit vector is constructed.
+
+Operator(me) returns Dir2d from gp
+    is static;
+    ---C++: return const&
+    ---C++: alias "Standard_EXPORT operator gp_Dir2d() const;"
+
+fields
+
+    TheDir2d : Dir2d from gp;
+    --The solution from gp.
+    
+end MakeDir2d;

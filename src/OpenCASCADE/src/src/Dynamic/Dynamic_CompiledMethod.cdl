@@ -1,0 +1,72 @@
+-- Created on: 1993-01-28
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class CompiledMethod from Dynamic
+
+inherits
+
+    MethodDefinition from Dynamic
+    ---Purpose: A Dynamic_CompiledMethod adds to the definition of the
+    --          Dynamic_Method the C++ mangled name of the function to
+    --          be  run. An application using  instances of this class
+    --          must bind the C++  name of  the  method with the  true
+    --          address in the executable.
+
+uses
+
+    CString from Standard,
+    HAsciiString from TCollection,
+    AsciiString  from TCollection
+
+
+is
+
+    Create(aname : CString from Standard;
+           afunction : CString from Standard) returns mutable CompiledMethod from Dynamic;
+    
+    ---Level: Advanced 
+    
+    ---Purpose: Creates  a compiled method   with <aname> as user name
+    --          and <afunction> as C++ mangled name.
+    
+    Function(me : mutable ; afunction : CString from Standard)
+    
+    ---Level: Advanced 
+    
+    ---Purpose: Sets the  C++ mangled name  of the method to the field
+    --          <thefunction>.
+    
+    is static;
+    
+    Function(me) returns AsciiString from TCollection
+    
+    ---Level: Advanced 
+    
+    ---Purpose: Returns the C++ mangled name of the function.
+    
+    is static;
+    
+fields
+
+    thefunction : HAsciiString from TCollection;
+
+end CompiledMethod;

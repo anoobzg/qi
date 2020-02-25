@@ -1,0 +1,106 @@
+-- Created on: 1993-08-11
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class Plane from ProjLib inherits Projector from ProjLib
+
+	---Purpose: Projects elementary curves on a plane.
+
+uses
+    CurveType  from GeomAbs,
+    Pln        from gp,
+    Lin        from gp,
+    Circ       from gp,
+    Elips      from gp,
+    Parab      from gp,
+    Hypr       from gp,
+    Lin2d      from gp,
+    Circ2d     from gp,
+    Elips2d    from gp,
+    Parab2d    from gp,
+    Hypr2d     from gp
+
+raises
+    NoSuchObject from Standard
+    
+is
+
+    Create returns Plane from ProjLib;
+	---Purpose: Undefined projection.
+
+    Create(Pl : Pln from gp) returns Plane from ProjLib;
+	---Purpose: Projection on the plane <Pl>.
+
+    Create(Pl : Pln from gp;
+           L  : Lin from gp) returns Plane from ProjLib;
+	---Purpose: Projection of the line <L> on the plane <Pl>.
+
+    Create(Pl : Pln  from gp;
+           C  : Circ from gp) returns Plane from ProjLib;
+	---Purpose: Projection of the circle <C> on the plane <Pl>.
+
+    Create(Pl : Pln from gp;
+           E  : Elips from gp) returns Plane from ProjLib;
+	---Purpose: Projection of the ellipse <E> on the plane <Pl>.
+
+    Create(Pl : Pln from gp;
+           P  : Parab from gp) returns Plane from ProjLib;
+	---Purpose: Projection of the parabola <P> on the plane <Pl>.
+
+    Create(Pl : Pln from gp;
+           H  : Hypr from gp) returns Plane from ProjLib;
+	---Purpose: Projection of the hyperbola <H> on the plane <Pl>.
+
+
+    Init(me : in out;
+    	 Pl : Pln from gp)
+    is static;
+	 
+    Project(me : in out;
+    	    L  : Lin from gp)
+    is redefined;
+
+    Project(me : in out;
+    	    C  : Circ from gp)
+    is redefined;
+
+    Project(me : in out;
+    	    E  : Elips from gp)
+    is redefined;
+
+    Project(me : in out;
+    	    P  : Parab from gp)
+    is redefined;
+
+    Project(me : in out;
+    	    H  : Hypr from gp)
+    is redefined;
+
+
+fields
+
+    myPlane : Pln from gp;
+
+end Plane;
+
+
+

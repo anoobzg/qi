@@ -1,0 +1,61 @@
+-- Created on: 1993-02-22
+-- Created by: Philippe DAUTRY
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Line from PGeom inherits Curve from PGeom
+
+        ---Purpose :   Defines   an   infinite   line.  	   The
+        --         parametrization range is ]-infinite, +infinite[.
+        --         
+	---See Also : Line from Geom.
+
+uses Ax1 from gp
+
+is
+
+
+  Create returns mutable Line;
+        ---Purpose : Creates a line with default values.
+    	---Level: Internal 
+
+
+  Create (aPosition : Ax1 from gp)   returns mutable Line;
+        ---Purpose : Creates   a  line  located    in  3D space   with
+        --         <aPosition>.  The Location   of <aPosition> is  the
+        --         origin of the line.
+    	---Level: Internal 
+
+
+  Position (me : mutable; aPosition : Ax1 from gp);
+        --- Purpose : Set the value of the field position with <aPosition>.
+    	---Level: Internal 
+
+
+  Position (me) returns Ax1 from gp;
+        --- Purpose : Returns the value of the field position.
+    	---Level: Internal 
+
+
+fields
+
+  position : Ax1 from gp;
+
+end;

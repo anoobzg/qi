@@ -1,0 +1,86 @@
+-- Created on: 1997-10-22
+-- Created by: Philippe MANGIN / Sergey SOKOLOV
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+deferred class Base from PLib inherits TShared from MMgt 
+
+---Purpose: To work with different polynomial's Bases 
+
+uses 
+    Array1OfReal from TColStd
+  
+is  
+    ToCoefficients (me ; Dimension, Degree : Integer;
+                    CoeffinBase  : Array1OfReal from TColStd ;
+                    Coefficients : out Array1OfReal from TColStd) 
+---Purpose:
+--   Convert the polynomial P(t) in the canonical base.
+    is deferred;
+
+    D0 (me : mutable; U : Real;  
+    	BasisValue : out Array1OfReal from TColStd) 
+---Purpose: Compute the values of the basis functions in u
+--     
+    is deferred;
+ 
+    D1 (me : mutable; U : Real;  
+      	BasisValue : out Array1OfReal from TColStd; 
+     	BasisD1    : out Array1OfReal from TColStd)
+---Purpose: Compute the values and the derivatives values of
+--          the basis functions in u
+    is deferred;
+  
+    D2 (me : mutable; U : Real;  
+    	BasisValue : out Array1OfReal from TColStd; 
+	BasisD1    : out Array1OfReal from TColStd; 
+    	BasisD2    : out Array1OfReal from TColStd) 
+---Purpose: Compute the values and the derivatives values of
+--          the basis functions in u
+    is deferred;
+
+    D3 (me : mutable; U : Real;  
+    	BasisValue : out Array1OfReal from TColStd; 
+	BasisD1    : out Array1OfReal from TColStd; 
+    	BasisD2    : out Array1OfReal from TColStd; 
+        BasisD3    : out Array1OfReal from TColStd)
+---Purpose: Compute the values and the derivatives values of
+--          the basis functions in u
+    is deferred; 
+
+    WorkDegree (me)  returns Integer    
+    --- Purpose: returns WorkDegree   
+    is  deferred; 
+
+    ReduceDegree ( me ; Dimension ,  MaxDegree  : Integer ;  Tol : Real ; 
+                   BaseCoeff :  in  out  Real;
+                   NewDegree : out Integer ;
+                   MaxError  : out Real)
+                            
+---Purpose:
+--   Compute NewDegree <= MaxDegree so that MaxError is lower
+--   than Tol. 
+--   MaxError can be greater than Tol if it is not possible
+--   to find a NewDegree <= MaxDegree.
+--   In this case NewDegree = MaxDegree
+-- 
+
+    is  deferred;
+
+end Base;

@@ -1,0 +1,77 @@
+-- Created on: 1993-06-10
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SimpleBinderOfTransient  from Transfer  inherits Binder
+
+    ---Purpose : An adapted instantiation of SimpleBinder for Transient Result,
+    --           i.e. ResultType can be computed from the Result itself,
+    --           instead of being static
+
+uses CString, Type, Transient
+
+raises TransferFailure
+
+is
+
+    Create returns mutable SimpleBinderOfTransient;
+    ---Purpose : Creates an empty SimpleBinderOfTransient
+
+--    IsMultiple (me) returns Boolean;
+    ---Purpose : Returns True if a starting object is bound with SEVERAL
+    --           results : Here, returns allways False
+    --           See Binder itself
+
+    ResultType (me) returns Type;
+    ---Purpose : Returns the Effective (Dynamic) Type of the Result
+    --           (Standard_Transient if no Result is defined)
+
+    ResultTypeName (me) returns CString;
+    ---Purpose : Returns the Effective Name of (Dynamic) Type of the Result
+    --           (void) if no result is defined
+
+    SetResult (me : mutable; res : any Transient)
+    ---Purpose : Defines the Result
+    	raises TransferFailure;
+    --           Error if the Result is already used (see class Binder)
+
+    Result (me) returns any Transient
+    ---Purpose : Returns the defined Result, if there is one
+    	raises TransferFailure;
+    --           Error if the Result is not defined (see class Binder)
+    ---C++ : return const &
+
+    GetTypedResult (myclass; bnd : Binder; atype : Type;
+    	res : out Transient) returns Boolean;
+    ---Purpose : Returns a transient result according to its type (IsKind)
+    --           i.e. the result itself if IsKind(atype), else searches in
+    --           NextResult, until first found, then returns True
+    --           If not found, returns False (res is NOT touched)
+    --           
+    --           This syntactic form avoids to do DownCast : if a result is
+    --           found with the good type, it is loaded in <res> and can be
+    --           immediately used, well initialised
+
+fields
+
+    theres : Transient;
+
+end SimpleBinderOfTransient;

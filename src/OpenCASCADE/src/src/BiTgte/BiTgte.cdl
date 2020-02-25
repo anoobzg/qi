@@ -1,0 +1,75 @@
+-- Created on: 1996-12-16
+-- Created by: Bruno DUMORTIER
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package BiTgte 
+
+	---Purpose: 
+
+uses
+    Adaptor3d,
+    Bnd,
+    GeomAbs,
+    Geom2d,
+    Geom,
+    TopoDS,
+    TopTools,
+    BRepAlgo,
+    BRepFill,
+    BRepOffset,
+    TCollection,
+    TColStd,
+    TColgp,
+    gp
+
+is
+    enumeration ContactType is
+    	FaceFace,
+	FaceEdge,
+	FaceVertex,
+    	EdgeEdge,
+	EdgeVertex,
+	VertexVertex
+    end ContactType;
+
+    class Blend;
+	---Purpose: Root class 
+
+    private class CurveOnEdge;
+	---Purpose: private class used  to create a filler rolling  on
+	--          an edge.
+
+    private class HCurveOnEdge instantiates 
+    	GenHCurve from Adaptor3d(CurveOnEdge from BiTgte);
+
+    private class CurveOnVertex;
+	---Purpose: private class used  to create a filler rolling  on
+	--          an edge.
+
+    private class HCurveOnVertex instantiates 
+    	GenHCurve from Adaptor3d(CurveOnVertex from BiTgte);
+
+    private class DataMapOfShapeBox instantiates 
+       	DataMap from TCollection(Shape          from TopoDS,
+	    	    	    	 Box            from Bnd,
+				 ShapeMapHasher from TopTools);
+
+end BiTgte;

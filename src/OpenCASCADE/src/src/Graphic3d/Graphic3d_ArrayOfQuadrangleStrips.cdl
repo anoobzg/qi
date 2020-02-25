@@ -1,0 +1,78 @@
+-- Created on: 2001-01-04
+-- Copyright (c) 2001-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ArrayOfQuadrangleStrips from Graphic3d inherits ArrayOfPrimitives from Graphic3d 
+
+is
+
+	-- constructor
+	Create (
+                maxVertexs: Integer from Standard;
+		maxStrips: Integer from Standard = 0;
+                hasVNormals: Boolean from Standard = Standard_False;
+                hasVColors: Boolean from Standard = Standard_False;
+                hasSColors: Boolean from Standard = Standard_False;
+                hasTexels: Boolean from Standard = Standard_False)
+	returns mutable ArrayOfQuadrangleStrips from Graphic3d;
+        ---Purpose: Creates an array of quadrangle strips,
+	-- a polygon can be filled as:
+	-- 1) creating a single strip defined with his vertexs.
+	--    i.e:
+	--    myArray = Graphic3d_ArrayOfQuadrangleStrips(7)
+	--    myArray->AddVertex(x1,y1,z1) 
+	--	....
+	--    myArray->AddVertex(x7,y7,z7) 
+	-- 2) creating separate strips defined with a predefined
+	--    number of strips and the number of vertex per strip.
+	--    i.e:
+	--    myArray = Graphic3d_ArrayOfQuadrangleStrips(8,2)
+	--    myArray->AddBound(4)
+	--    myArray->AddVertex(x1,y1,z1) 
+	--	....
+	--    myArray->AddVertex(x4,y4,z4) 
+	--    myArray->AddBound(4)
+	--    myArray->AddVertex(x5,y5,z5) 
+	--	....
+	--    myArray->AddVertex(x8,y8,z8) 
+	--
+	-- <maxVertexs> defined the maximun allowed vertex number in the array.
+	-- <maxStrips> defined the maximun allowed strip number in the array.
+	-- The number of quadrangle really drawn is :
+	-- VertexNumber()/2-Min(1,BoundNumber())
+	---Warning:
+	-- When <hasVNormals> is TRUE , you must use one of
+	--	AddVertex(Point,Normal) 
+	--  or  AddVertex(Point,Normal,Color)
+	--  or  AddVertex(Point,Normal,Texel) methods.
+	-- When <hasVColors> is TRUE , you must use one of
+	--	AddVertex(Point,Color)
+	--  or  AddVertex(Point,Normal,Color) methods.
+	-- When <hasTexels> is TRUE , you must use one of
+	--	AddVertex(Point,Texel) 
+	--  or  AddVertex(Point,Normal,Texel) methods.
+	-- When <hasBColors> is TRUE , <maxBounds> must be > 0 and
+	--	you must use the
+	--	AddBound(number,Color) method.
+	--  Warning:
+	-- the user is responsible about the orientation of the strip 
+	-- depending of the order of the created vertex and this
+	-- orientation must be coherent with the vertex normal optionnaly
+	-- given at each vertex (See the Orientate() methods).
+
+end;

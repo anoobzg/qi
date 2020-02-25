@@ -1,0 +1,129 @@
+-- Created on: 1995-12-04
+-- Created by: EXPRESS->CDL V0.2 Translator
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+
+package RWStepGeom 
+
+uses
+
+	StepData, Interface, TCollection, TColStd, StepGeom
+
+is
+
+
+--class ReadWriteModule;
+
+--class GeneralModule;
+
+class RWAxis1Placement;
+class RWAxis2Placement2d;
+class RWAxis2Placement3d;
+class RWBSplineCurve;
+class RWBSplineCurveWithKnots;
+class RWBSplineSurface;
+class RWBSplineSurfaceWithKnots;
+class RWBezierCurve;
+class RWBezierSurface;
+class RWBoundaryCurve;
+class RWBoundedCurve;
+class RWBoundedSurface;
+class RWCartesianPoint;
+class RWCartesianTransformationOperator;
+class RWCartesianTransformationOperator3d;
+class RWCircle;
+class RWCompositeCurve;
+class RWCompositeCurveOnSurface;
+class RWCompositeCurveSegment;
+class RWConic;
+class RWConicalSurface;
+class RWCurve;
+class RWCurveBoundedSurface;
+class RWCurveReplica;
+class RWCylindricalSurface;
+class RWDegeneratePcurve;
+class RWDegenerateToroidalSurface;
+class RWDirection;
+class RWElementarySurface;
+class RWEllipse;
+class RWEvaluatedDegeneratePcurve;
+class RWGeometricRepresentationContext;
+class RWGeometricRepresentationContextAndGlobalUnitAssignedContext;
+-- added by FMA:
+class RWGeometricRepresentationContextAndParametricRepresentationContext;
+-- added by FMA:
+class RWGeomRepContextAndGlobUnitAssCtxAndGlobUncertaintyAssCtx; 
+class RWGeometricRepresentationItem;
+class RWHyperbola;
+class RWIntersectionCurve;
+class RWLine;
+class RWOffsetCurve3d;
+class RWOffsetSurface;
+class RWOuterBoundaryCurve;
+class RWParabola;
+class RWPcurve;
+class RWPlacement;
+class RWPlane;
+class RWPoint;
+class RWPointOnCurve;
+class RWPointOnSurface;
+class RWPointReplica;
+class RWPolyline;
+class RWQuasiUniformCurve;
+class RWQuasiUniformSurface;
+class RWRationalBSplineCurve;
+class RWRationalBSplineSurface;
+class RWRectangularCompositeSurface;
+class RWRectangularTrimmedSurface;
+class RWReparametrisedCompositeCurveSegment;
+class RWSeamCurve;
+class RWSphericalSurface;
+class RWSurface;
+class RWSurfaceCurve;
+class RWSurfaceOfLinearExtrusion;
+class RWSurfaceOfRevolution;
+class RWSurfaceCurveAndBoundedCurve;
+class RWSurfacePatch;
+class RWSurfaceReplica;
+class RWSweptSurface;
+class RWToroidalSurface;
+class RWTrimmedCurve;
+class RWUniformCurve;
+class RWUniformSurface;
+class RWOrientedSurface; --  Added from AP214 DIS to IS 4.01.2002
+class RWVector;
+
+class RWUniformCurveAndRationalBSplineCurve;
+class RWBSplineCurveWithKnotsAndRationalBSplineCurve;
+class RWQuasiUniformCurveAndRationalBSplineCurve;
+class RWBezierCurveAndRationalBSplineCurve;
+class RWBSplineSurfaceWithKnotsAndRationalBSplineSurface;
+class RWUniformSurfaceAndRationalBSplineSurface;
+class RWQuasiUniformSurfaceAndRationalBSplineSurface;
+class RWBezierSurfaceAndRationalBSplineSurface;
+
+	---Package Method ---
+
+--	Init;
+	---Purpose: enforced the initialisation of the  libraries
+
+end RWStepGeom;

@@ -1,0 +1,90 @@
+-- Created on: 1993-09-22
+-- Created by: Didier PIFFAULT
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Edge from BRepMesh 
+
+  ---Purpose: 
+
+
+uses    Boolean from Standard,
+        Integer from Standard,
+        DegreeOfFreedom from BRepMesh
+
+
+is            Create
+              returns Edge from BRepMesh;
+    	          ---C++: inline
+    	          
+              Create       (vDebut    : Integer from Standard;
+                            vFin      : Integer from Standard;
+                            canMove   : DegreeOfFreedom from BRepMesh)
+              ---Purpose: Contructs a link beetween to vertices.
+              returns Edge from BRepMesh;
+
+
+            FirstNode      (me)
+              ---Purpose: Give the index of first node of the Link.
+              ---C++: inline
+              returns Integer from Standard
+              is static;
+
+
+            LastNode       (me)
+              ---Purpose: Give the index of Last node of the Link.
+              ---C++: inline
+              returns Integer from Standard
+              is static;
+
+
+            Movability     (me)
+              ---C++: inline
+              returns DegreeOfFreedom from BRepMesh
+              is static;
+
+
+            SetMovability  (me   : in out;
+                            Move : DegreeOfFreedom from BRepMesh)
+              is static;
+
+       HashCode       (me;
+                       Upper : Integer from Standard)
+          returns Integer from Standard
+          ---C++: function call
+          is static;
+
+
+        SameOrientation(me; Other : Edge from BRepMesh)
+          returns Boolean from Standard
+          is static;
+
+
+        IsEqual        (me; Other : Edge from BRepMesh)
+          returns Boolean from Standard
+          ---C++: alias operator ==
+          is static;
+
+
+        fields  myFirstNode  : Integer from Standard;
+                myLastNode   : Integer from Standard;
+                myMovability : DegreeOfFreedom from BRepMesh;
+
+        end Edge;

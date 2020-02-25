@@ -1,0 +1,78 @@
+-- Created on: 2003-08-29
+-- Created by: data exchange team
+-- Copyright (c) 2003-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ShapeMapTool from XCAFDoc inherits Attribute from TDF
+
+uses
+
+    SequenceOfHAsciiString from TColStd,
+    Shape from TopoDS,
+    IndexedMapOfShape from TopTools,
+    Label from TDF,
+    RelocationTable from TDF
+    
+is
+    GetID (myclass)   
+    ---C++: return const &  
+    returns GUID from Standard;    
+
+
+    Set (myclass; L : Label from TDF) returns ShapeMapTool from XCAFDoc;
+    ---Purpose: Create (if not exist) ShapeTool from XCAFDoc on <L>.
+
+
+    Create returns ShapeMapTool from XCAFDoc;
+    	---Purpose: Creates an empty tool
+    
+    
+    ---API: Analysis
+
+    
+    IsSubShape (me; sub: Shape from TopoDS) 
+    returns Boolean;
+    	---Purpose: Checks whether shape <sub> is subshape of shape stored on
+        --          label shapeL
+
+    SetShape (me: mutable; S: Shape from TopoDS);
+    	---Purpose: Sets representation (TopoDS_Shape) for top-level shape
+
+            ---Category: TDF_Attribute methods
+    --           =====================
+    
+    ID (me)
+    	---C++: return const & 
+    returns GUID from Standard;
+
+    Restore (me: mutable; with : Attribute from TDF);
+
+    NewEmpty (me)
+    returns mutable Attribute from TDF;
+
+    Paste (me; into : mutable Attribute from TDF;
+	       RT   : mutable RelocationTable from TDF);    
+
+    GetMap (me) returns IndexedMapOfShape from TopTools;
+    ---C++: return const & 
+
+fields
+
+    myMap: IndexedMapOfShape from TopTools;
+    
+end ShapeTool;

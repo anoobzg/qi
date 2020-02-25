@@ -1,0 +1,168 @@
+-- Created on: 1993-10-11
+-- Created by: Christophe MARION
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class PolyHLRToShape from HLRBRep
+
+
+    	--- Purpose: A framework for filtering the computation
+    	-- results of an HLRBRep_Algo algorithm by extraction.
+    	-- From the results calculated by the algorithm on
+    	-- a shape, a filter returns the type of edge you
+    	-- want to identify. You can choose any of the following types of output:
+    	-- -   visible sharp edges
+    	-- -   hidden sharp edges
+    	-- -   visible smooth edges
+    	-- -   hidden smooth edges
+    	-- -   visible sewn edges
+    	-- -   hidden sewn edges
+    	-- -   visible outline edges
+    	-- -   hidden outline edges.
+    	-- -   visible isoparameters and
+    	-- -   hidden isoparameters.
+    	-- Sharp edges present a C0 continuity (non G1).
+    	-- Smooth edges present a G1 continuity (non G2).
+    	-- Sewn edges present a C2 continuity.
+    	-- The result is composed of 2D edges in the
+    	-- projection plane of the view which the
+    	-- algorithm has worked with. These 2D edges
+    	-- are not included in the data structure of the visualized shape.
+    	-- In order to obtain a complete image, you must
+    	-- combine the shapes given by each of the chosen filters.
+    	-- The construction of the shape does not call a
+    	-- new computation of the algorithm, but only
+    	-- reads its internal results.
+uses
+    Boolean      from Standard,
+    Integer      from Standard,
+    Shape        from TopoDS,
+    ListOfBPnt2D from HLRBRep,
+    PolyAlgo     from HLRBRep
+
+is
+    Create
+    returns PolyHLRToShape from HLRBRep;
+    	---Purpose: Constructs a framework for filtering the results
+    	-- of the HLRBRep_Algo algorithm, A.
+    	-- Use the extraction filters to obtain the results you want for A.
+    Update(me : in out; A : PolyAlgo from HLRBRep)
+    is static;
+
+    Show(me : in out)
+    	---C++: inline
+    is static;
+
+    Hide(me : in out)
+    	---C++: inline
+    is static;
+
+    VCompound(me : in out) returns Shape from TopoDS
+    	---C++: inline
+    is static;
+
+    VCompound(me : in out;
+              S  : Shape from TopoDS) returns Shape from TopoDS
+    	---C++: inline
+    is static;
+
+    Rg1LineVCompound(me : in out) returns Shape from TopoDS
+    	---Purpose: Sets the extraction filter for visible smooth edges.
+      	---C++: inline
+    is static;
+
+    Rg1LineVCompound(me : in out;
+                     S  : Shape from TopoDS) returns Shape from TopoDS
+    	---C++: inline
+    is static;
+
+    RgNLineVCompound(me : in out) returns Shape from TopoDS
+    	--- Purpose: Sets the extraction filter for visible sewn edges.
+     	---C++: inline
+    is static;
+
+    RgNLineVCompound(me : in out;
+                     S  : Shape from TopoDS) returns Shape from TopoDS
+    	---C++: inline
+    is static;
+
+    OutLineVCompound(me : in out) returns Shape from TopoDS
+    	---C++: inline
+    is static;
+
+    OutLineVCompound(me : in out;
+                     S  : Shape from TopoDS) returns Shape from TopoDS
+    	---Purpose: Sets the extraction filter for visible outlines.
+        ---C++: inline
+    is static;
+
+    HCompound(me : in out) returns Shape from TopoDS
+    	---C++: inline
+    is static;
+
+    HCompound(me : in out;
+              S  : Shape from TopoDS) returns Shape from TopoDS
+    	---C++: inline
+    is static;
+
+    Rg1LineHCompound(me : in out) returns Shape from TopoDS
+    	---C++: inline
+    is static;
+
+    Rg1LineHCompound(me : in out;
+                     S  : Shape from TopoDS) returns Shape from TopoDS
+  	  ---C++: inline
+  	  --- Purpose: Sets the extraction filter for hidden smooth edges.
+    is static;
+
+    RgNLineHCompound(me : in out) returns Shape from TopoDS
+    	---C++: inline
+    is static;
+
+    RgNLineHCompound(me : in out;
+                     S  : Shape from TopoDS) returns Shape from TopoDS
+    	---Purpose: Sets the extraction filter for hidden sewn edges.
+       	---C++: inline
+    is static;
+
+    OutLineHCompound(me : in out) returns Shape from TopoDS
+    	---C++: inline
+    is static;
+
+    OutLineHCompound(me : in out;
+                     S  : Shape from TopoDS) returns Shape from TopoDS
+    	---Purpose: Sets the extraction filter for hidden outlines.
+    	-- Hidden outlines occur, for instance, in tori. In
+    	-- this case, the inner outlines of the torus seen on its side are hidden.
+       	---C++: inline
+    is static;
+
+    InternalCompound(me : in out; typ     : Integer from Standard;
+                                  visible : Boolean from Standard;
+                                  S       : Shape   from TopoDS)
+    returns Shape from TopoDS
+    is static private;
+    
+fields
+    myAlgo     : PolyAlgo     from HLRBRep;
+    myBiPntVis : ListOfBPnt2D from HLRBRep;
+    myBiPntHid : ListOfBPnt2D from HLRBRep;
+    myHideMode : Boolean      from Standard;
+
+end PolyHLRToShape;

@@ -1,0 +1,70 @@
+-- Created on: 1995-12-01
+-- Created by: EXPRESS->CDL V0.2 Translator
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class RightAngularWedge from StepShape 
+
+inherits GeometricRepresentationItem from StepGeom
+
+uses
+
+	Axis2Placement3d from StepGeom,
+	Real from Standard, 
+	HAsciiString from TCollection
+is
+
+	Create returns mutable RightAngularWedge;
+	---Purpose: Returns a RightAngularWedge
+
+
+	Init (me : mutable;
+	      aName : mutable HAsciiString from TCollection) is redefined;
+
+	Init (me : mutable;
+	      aName : mutable HAsciiString from TCollection;
+	      aPosition : mutable Axis2Placement3d from StepGeom;
+	      aX : Real from Standard;
+	      aY : Real from Standard;
+	      aZ : Real from Standard;
+	      aLtx : Real from Standard) is virtual;
+
+	-- Specific Methods for Field Data Access --
+
+	SetPosition(me : mutable; aPosition : mutable Axis2Placement3d);
+	Position (me) returns mutable Axis2Placement3d;
+	SetX(me : mutable; aX : Real);
+	X (me) returns Real;
+	SetY(me : mutable; aY : Real);
+	Y (me) returns Real;
+	SetZ(me : mutable; aZ : Real);
+	Z (me) returns Real;
+	SetLtx(me : mutable; aLtx : Real);
+	Ltx (me) returns Real;
+
+fields
+
+	position : Axis2Placement3d from StepGeom;
+	x : Real from Standard;
+	y : Real from Standard;
+	z : Real from Standard;
+	ltx : Real from Standard;
+
+end RightAngularWedge;

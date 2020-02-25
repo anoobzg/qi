@@ -1,0 +1,81 @@
+-- Created on: 1996-04-09
+-- Created by: Christian CAILLET
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package STEPControl
+
+    ---Purpose : This package provides external access and control for STEP,
+    --           especially to deal with Shapes
+
+uses 
+    Standard, 
+    gp,
+    TColStd, 
+    TCollection,
+    Interface, 
+    Transfer, 
+    IFSelect, 
+    XSControl,
+    TopoDS, 
+    TopTools, 
+    StepBasic, 
+    StepData, 
+    StepGeom, 
+    StepShape, 
+    StepRepr,
+    STEPConstruct,
+    TransferBRep,
+    StepToTopoDS, -- Non-manifold topology: STEP -> TopoDS (ssv; 13.11.2010)
+    MoniTool -- Non-manifold topology: TopoDS -> STEP (ssv; 13.11.2010)
+is
+
+    enumeration StepModelType is
+    	AsIs,
+    	ManifoldSolidBrep,
+	BrepWithVoids,
+	FacetedBrep,
+	FacetedBrepAndBrepWithVoids,
+	ShellBasedSurfaceModel,
+	GeometricCurveSet,
+	Hybrid
+    end StepModelType;
+        ---Purpose:  Gives you the choice of translation mode for an Open
+--   CASCADE shape that is being translated to STEP.
+--   - STEPControl_AsIs translates an Open CASCADE shape to its
+--   highest possible STEP representation.
+--   - STEPControl_ManifoldSolidBrep translates an Open CASCADE shape
+--   to a STEP manifold_solid_brep or brep_with_voids entity.
+--   - STEPControl_FacetedBrep translates an Open CASCADE shape
+--   into a STEP faceted_brep entity.
+-- -  STEPControl_ShellBasedSurfaceModel translates an Open CASCADE shape
+--   into a STEP shell_based_surface_model entity.
+--   - STEPControl_GeometricCurveSet
+--   translates an Open CASCADE shape into a STEP geometric_curve_set entity.
+
+    class Controller;
+
+    class Reader;
+    class Writer;
+
+    class ActorRead;
+    class ActorWrite;
+
+end STEPControl;

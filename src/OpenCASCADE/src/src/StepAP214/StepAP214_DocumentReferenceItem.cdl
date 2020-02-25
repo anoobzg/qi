@@ -1,0 +1,86 @@
+-- Created on: 1999-03-10
+-- Created by: data exchange team
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class DocumentReferenceItem from StepAP214 
+inherits SelectType from StepData 
+
+
+uses
+    	Approval from StepBasic,
+    	DescriptiveRepresentationItem from StepRepr,
+    	MaterialDesignation from StepRepr,
+	ProductDefinition from StepBasic,
+	ProductDefinitionRelationship from StepBasic,
+	PropertyDefinition from StepRepr,
+    	Representation from StepRepr,
+    	ShapeAspect from StepRepr,
+	ShapeAspectRelationship from StepRepr
+
+
+is
+    
+    	Create returns DocumentReferenceItem;
+	---Purpose : Returns a DocumentReferenceItem SelectType
+
+    	CaseNum (me; ent : Transient) returns Integer ;
+	---Purpose: Recognizes a DocumentReferenceItem Kind Entity that is :
+    	    	
+    	--        1 -> Approval  
+	--        2 -> DescriptiveRepresentationItem
+    	--        3 -> MaterialDesignation
+	--        4 -> ProductDefinition
+	--        5 -> ProductDefinitionRelationship
+	--        6 -> PropertyDefinition
+    	--    	  7 -> 	Representation
+    	--    	  8 -> 	ShapeAspect
+	--	  9 ->	ShapeAspectRelationship
+	--        0 else
+	 
+    	Approval (me) returns any Approval from StepBasic;
+       	---Purpose : returns Value as a Approval (Null if another type)
+	
+    	DescriptiveRepresentationItem (me) returns any DescriptiveRepresentationItem from StepRepr;
+	---Purpose : returns Value as a  (Null if another type)
+	
+    	MaterialDesignation (me) returns any MaterialDesignation from StepRepr;
+	---Purpose : returns Value as a MaterialDesignation (Null if another type)
+	
+    	ProductDefinition (me) returns any ProductDefinition from StepBasic;
+	---Purpose : returns Value as a ProductDefinition (Null if another type)
+
+    	ProductDefinitionRelationship (me) returns any ProductDefinitionRelationship from StepBasic; 
+	---Purpose : returns Value as aProductDefinitionRelationship (Null if another type)
+
+    	PropertyDefinition (me) returns any PropertyDefinition from StepRepr;
+	---Purpose : returns Value as a PropertyDefinition (Null if another type)
+	
+    	Representation(me) returns any Representation from StepRepr;
+	---Purpose : returns Value as a Representation (Null if another type)
+	
+	ShapeAspect(me) returns any ShapeAspect  from StepRepr;
+	---Purpose : returns Value as a ShapeAspect (Null if another type)
+	
+	ShapeAspectRelationship(me) returns any ShapeAspectRelationship from StepRepr;
+	---Purpose : returns Value as a ShapeAspectRelationship (Null if another type) 
+
+
+end DocumentReferenceItem;

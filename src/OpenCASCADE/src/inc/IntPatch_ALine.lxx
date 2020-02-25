@@ -1,0 +1,105 @@
+// Created on: 1992-04-06
+// Created by: Jacques GOUSSARD
+// Copyright (c) 1992-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include <Standard_DomainError.hxx>
+#include <Precision.hxx>
+#include <IntPatch_Point.hxx>
+
+
+inline void IntPatch_ALine::Replace (const Standard_Integer Index, const IntPatch_Point& Pnt)
+{
+  svtx(Index) = Pnt;
+}
+
+inline void IntPatch_ALine::SetFirstPoint (const Standard_Integer IndFirst)
+{
+  fipt = Standard_True;
+  indf = IndFirst;
+}
+
+inline void IntPatch_ALine::SetLastPoint (const Standard_Integer IndLast)
+{
+  lapt = Standard_True;
+  indl = IndLast;
+}
+
+inline Standard_Real IntPatch_ALine::FirstParameter (Standard_Boolean& IsIncluded) const
+{
+  Standard_Real bid,first;
+  curv.Domain(first,bid);
+  IsIncluded = !curv.IsFirstOpen();
+  return first;
+}
+
+inline Standard_Real IntPatch_ALine::LastParameter (Standard_Boolean& IsIncluded) const
+{
+  Standard_Real bid,last;
+  curv.Domain(bid,last);
+  IsIncluded = !curv.IsLastOpen();
+  return last;
+}
+
+inline gp_Pnt IntPatch_ALine::Value (const Standard_Real U)
+{
+  return curv.Value(U);// Value leve l exception DomainError
+}
+
+inline Standard_Boolean IntPatch_ALine::D1(const Standard_Real U, gp_Pnt& P, gp_Vec& Du)
+{
+  return curv.D1u(U,P,Du); // D1u leve l exception DomainError
+}
+
+inline Standard_Boolean IntPatch_ALine::FindParameter(const gp_Pnt& P, Standard_Real& Para) const
+{
+  return curv.FindParameter(P,Para);
+}
+
+inline Standard_Boolean IntPatch_ALine::HasFirstPoint () const
+{
+  return fipt;
+}
+
+inline Standard_Boolean IntPatch_ALine::HasLastPoint () const
+{
+  return lapt;
+}
+
+inline const IntPatch_Point& IntPatch_ALine::FirstPoint () const
+{
+  if (!fipt) {Standard_DomainError::Raise();}
+  return svtx(indf);
+}
+
+inline const IntPatch_Point& IntPatch_ALine::LastPoint () const
+{
+  if (!lapt) {Standard_DomainError::Raise();}
+  return svtx(indl);
+}
+
+inline Standard_Integer IntPatch_ALine::NbVertex () const
+{
+  return svtx.Length();
+}
+
+inline const IntPatch_Point& IntPatch_ALine::Vertex (const Standard_Integer Index) const
+{
+  return svtx(Index);
+}

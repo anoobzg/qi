@@ -1,0 +1,71 @@
+-- Created on: 1995-03-22
+-- Created by: Jean-Louis  Frenkel
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+private class StoreList from CDF inherits Transient from Standard
+
+uses
+    Document from CDM,
+    StackOfDocument from CDM,
+    MapOfDocument from CDM,
+    MapIteratorOfMapOfDocument from CDM,
+    StackIteratorOfStackOfDocument from CDM,
+    MetaData from CDM,
+    ExtendedString from TCollection,
+    StoreStatus from PCDM
+
+raises NoSuchObject from Standard
+is
+
+    Create(aDocument: Document from CDM)
+    returns mutable StoreList from CDF;
+    
+    IsConsistent(me) returns Boolean from Standard;
+
+    
+    Store(me: mutable; aMetaData: out MetaData from CDM;
+		       aStatusAssociatedText: out ExtendedString from TCollection)
+    returns StoreStatus from PCDM
+    ---Purpose: stores each object of the storelist in the reverse
+    --          order of which they had been added.
+    raises NoSuchObject from Standard;
+    ---Warning: if the active dbunit cannot be found
+
+
+     ---Category: Private methods.
+
+
+    Add(me: mutable; aDocument: Document from CDM)
+    is private;
+
+ ---Category: iteration methods
+    Init(me: mutable);
+    More(me) returns Boolean from Standard;
+    Next(me: mutable);
+    Value(me) returns Document from CDM;
+    
+    
+fields
+
+    myItems: MapOfDocument from CDM;
+    myStack: StackOfDocument from CDM;
+    myIterator: MapIteratorOfMapOfDocument from CDM;
+    myMainDocument: Document from CDM;
+end StoreList from CDF;

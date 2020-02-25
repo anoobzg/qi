@@ -1,0 +1,94 @@
+-- Created on: 1996-01-09
+-- Created by: Denis PASCAL
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package DrawDim 
+
+	---Purpose: This package provides Drawable Dimensions. 	
+	--          
+	--          The classes PlanarDimension and subclasses provide
+	--            services  to  build  drawable dimensions between
+	--          point line and circle in a given 3d plane.
+	--          
+	--           The   classes  Dimension and   subclasses provide
+	--            services  to build  drawable  dimensions between
+	--          plane and cylindrical surfaces.
+
+
+uses Draw, gp, TColgp, TopoDS, TCollection
+
+is
+
+
+
+    deferred class Dimension;
+    
+    ---Purpose: Dimension between planes and cylinder
+    --          =====================================
+    
+    	class Angle;
+	class Distance;
+	class Radius;
+
+    
+    ---Purpose: Dimensions between point, line and circle ON a plane
+    --          ====================================================
+
+    	deferred class PlanarDimension;
+	
+      	    class PlanarAngle;
+      	    class PlanarDistance;
+      	    class PlanarRadius; 
+    	    class PlanarDiameter;
+
+    ---Purpose: Commands
+    --          ========
+
+    DrawShapeName (ashape : Shape from TopoDS; aname : CString);
+    
+    AllCommands (I : in out Interpretor from Draw);
+    
+    PlanarDimensionCommands (I : in out Interpretor from Draw);
+
+    ---Purpose: tools
+    --          =====
+
+    Nearest (aShape : Shape from TopoDS; apoint : Pnt from gp)
+    returns Pnt from gp;
+
+    Lin (e : Edge from TopoDS; l           : in out Lin from gp; 
+                               infinite    : in out Boolean from Standard;
+                               first, last : in out Real from Standard)
+    ---Purpose: false if <e> is not a linear edge
+    returns Boolean from Standard;    
+
+    Circ (e : Edge from TopoDS; l : in out Circ from gp; first, last : in out Real from Standard)
+    ---Purpose: false if <e> is not a circular edge
+    returns Boolean from Standard;
+
+    Pln (f : Face from TopoDS; p : in out Pln from gp)    
+    ---Purpose: false if <f> is not a planar face
+    returns Boolean from Standard;
+    
+end DrawDim;
+
+
+

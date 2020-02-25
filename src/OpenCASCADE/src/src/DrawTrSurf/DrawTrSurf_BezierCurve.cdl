@@ -1,0 +1,97 @@
+-- Created on: 1992-05-22
+-- Created by: Jean Claude VAUTHIER
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class BezierCurve
+
+
+from DrawTrSurf
+
+
+inherits Curve from DrawTrSurf
+
+
+uses BezierCurve from Geom,
+     Color from Draw,
+     Display from Draw,
+     Drawable3D from Draw
+
+
+is
+
+
+  Create (C : BezierCurve from Geom)
+        --- Purpose :
+        --  creates a drawable Bezier curve from a Bezier curve of 
+        --  package Geom.
+     returns mutable BezierCurve from DrawTrSurf;
+
+
+  Create (C : BezierCurve from Geom;
+          CurvColor, PolesColor : Color from Draw;
+          ShowPoles : Boolean; Discret : Integer;Deflection : Real;
+          DrawMode : Integer)
+     returns mutable BezierCurve from DrawTrSurf;
+
+
+  DrawOn (me; dis : in out Display from Draw)
+     is redefined static;
+
+
+  ShowPoles (me : mutable)
+     is static;
+
+
+  ClearPoles (me : mutable)
+     is static;
+     
+  
+  FindPole(me; X,Y : Real; D : Display from Draw; Prec : Real; 
+           Index : in out Integer)
+        --- Purpose :
+        --  Returns in <Index> the index of the first pole  of the
+        --  curve projected by the Display <D> at a distance lower
+        --  than <Prec> from <X,Y>. If no pole  is found  index is
+        --  set to 0, else index is always  greater than the input
+        --  value of index.
+  is static;
+
+
+  SetPolesColor (me : mutable; aColor : Color from Draw)
+        ---C++: inline
+     is static;
+     
+
+  PolesColor (me)  returns Color from Draw
+        ---C++: inline
+     is static;
+    
+  Copy(me) returns mutable Drawable3D from Draw
+	---Purpose: For variable copy.
+  is redefined;
+  
+      
+fields
+
+  drawPoles  : Boolean;
+  polesLook  : Color from Draw;
+
+end BezierCurve;

@@ -1,0 +1,97 @@
+-- Created on: 1991-04-24
+-- Created by: Arnaud BOUZY
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred class Drawable3D from Draw inherits TShared from MMgt
+
+	---Purpose: 
+
+uses Color      from Draw,
+    Display     from Draw,
+    Interpretor from Draw,
+    OStream
+
+is
+
+    Initialize;
+
+    DrawOn(me; dis : in out Display)
+    is deferred;
+    
+    PickReject(me; X,Y,Prec : Real) returns Boolean
+	---Purpose: Returs True if the pick is outside the box
+    is virtual;
+    
+    Copy(me) returns mutable Drawable3D from Draw
+    is virtual;
+	---Purpose: For variable copy.
+	
+    Dump(me; S : in out OStream)
+    is virtual;
+	---Purpose: For variable dump.
+
+    Whatis(me; I : in out Interpretor from Draw)
+    is virtual;
+	---Purpose: For variable whatis command. Set  as a result  the
+	--          type of the variable.
+
+    Is3D(me) returns Boolean
+    is virtual;
+	---Purpose: Is a 3D object. (Default True).
+    
+    SetBounds(me : mutable; xmin,xmax,ymin,ymax : Real)
+    is static;
+    
+    Bounds(me; xmin,xmax,ymin,ymax : out Real)
+    is static;
+    
+    Visible(me) returns Boolean;
+	---C++: inline
+    
+    Visible(me : mutable; V : Boolean);
+	---C++: inline
+    
+    Protected(me) returns Boolean;
+	---C++: inline
+    
+    Protected(me : mutable; P : Boolean);
+	---C++: inline
+	
+    Name(me) returns CString;
+	---C++: inline
+	
+    Name(me : mutable; N : CString)
+    is virtual;
+	---C++: inline
+    
+    
+fields
+    
+    myXmin : Real;
+    myXmax : Real;
+    myYmin : Real;
+    myYmax : Real;
+    
+    isVisible   : Boolean;
+    isProtected : Boolean;
+    myName      : CString;
+    
+end Drawable3D;

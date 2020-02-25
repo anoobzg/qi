@@ -1,0 +1,85 @@
+-- Created on: 1993-07-06
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Update:      Frederic MAUPAS
+
+
+class CurveOnClosedSurface from PBRep inherits CurveOnSurface from PBRep
+
+	---Purpose: Representation  of a    curve by two  pcurves   on
+	--          a closed surface.
+
+uses
+    Curve    from PGeom2d,
+    Surface  from PGeom,
+    Location from PTopLoc,
+    Pnt2d    from gp,
+    Shape    from GeomAbs
+
+is
+
+    Create(PC1, PC2 : Curve    from PGeom2d;
+    	   CF       : Real     from Standard;
+    	   CL       : Real     from Standard;
+    	   S        : Surface  from PGeom;
+	   L        : Location from PTopLoc;
+	   C        : Shape    from GeomAbs)
+    returns mutable CurveOnClosedSurface from PBRep;
+    	---Purpose: CF is curve first parameter
+    	--          CL is curve last parameter
+    	--          The two curves are SameParameter.
+    	--          As far as they can't be computed from a Persistent Curve
+    	--          they are given in the CurveOnClosedSurface constructor
+
+    PCurve2(me) returns  Curve from PGeom2d
+    is static;
+    	---Level: Internal 
+    
+    Continuity(me) returns Shape from GeomAbs
+    is static;
+    	---Level: Internal 
+
+    IsCurveOnClosedSurface(me) returns Boolean
+	---Purpose: Returns True.
+    is redefined;
+    
+    IsRegularity(me) returns Boolean
+	---Purpose: Returns True
+    is redefined;
+    
+    SetUVPoints2(me : mutable; Pnt1, Pnt2 : Pnt2d from gp);
+    
+    FirstUV2(me) returns Pnt2d from gp;
+
+    LastUV2(me) returns Pnt2d from gp;
+    
+fields
+
+    myPCurve2    : Curve from PGeom2d;
+    myContinuity : Shape from GeomAbs;
+    myUV21       : Pnt2d from gp;
+    myUV22       : Pnt2d from gp;
+
+end CurveOnClosedSurface;
+
+
+
+
+

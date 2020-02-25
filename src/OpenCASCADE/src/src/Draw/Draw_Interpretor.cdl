@@ -1,0 +1,180 @@
+-- Created on: 1995-02-23
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Interpretor from Draw 
+
+	---Purpose: Provides  an  encapsulation of the TCL interpretor
+	--          to define Draw commands.
+
+uses
+
+        SStream         from Standard,
+	PInterp         from Draw,
+	CommandFunction from Draw,
+	AsciiString     from TCollection,
+	ExtendedString  from TCollection
+
+is
+
+    Create returns Interpretor from Draw;
+    
+    Init(me : in out);
+
+    Add(me : in out; Command  : CString;
+    	             Help     : CString;
+		     Function : CommandFunction from Draw;
+		     Group    : CString = "User Commands");
+	---Purpose: Creates a  new command  with name <Command>,  help
+	--          string <Help> in group <Group>.
+	--          <Function> implement the function.
+
+    Add(me : in out; Command  : CString;
+    	             Help     : CString;
+		     FileName : CString ; 
+		     Function : CommandFunction from Draw;
+    	    	     Group    : CString = "User Commands");
+	---Purpose: Creates a  new command  with name  <Command>, help
+	--          string   <Help>   in   group  <Group>.  <Function>
+	--          implement the function. 
+	--           <FileName> is the name of the file that contains
+	--           the implementation of the command
+        --
+
+    Remove(me : in out; Command : CString)
+    returns Boolean;
+	---Purpose: Removes   <Command>, returns true  if success (the
+	--          command existed).
+	
+    --
+    --  The result
+    --
+
+    Result(me) returns CString;
+    
+    Reset(me : in out);
+	---Purpose: Resets the result to empty string
+	
+    Append(me : in out; Result : CString) returns Interpretor from Draw; 
+	---Purpose: Appends to the result
+	---C++: return &
+	---C++: alias operator<<
+    	
+    Append(me : in out; Result : AsciiString from TCollection) 
+    returns Interpretor from Draw; 
+	---Purpose: Appends to the result
+	---C++: return &
+	---C++: alias operator<<
+    	
+    Append(me : in out; Result : ExtendedString from TCollection) 
+    returns Interpretor from Draw; 
+	---Purpose: Appends to the result
+	---C++: return &
+	---C++: alias operator<<
+    	
+    Append(me : in out; Result : Integer) returns Interpretor from Draw; 
+	---Purpose: Appends  to the result
+	---C++: return &
+	---C++: alias operator<<
+    	
+    Append(me : in out; Result : Real) returns Interpretor from Draw; 
+	---Purpose: Appends  to the result
+	---C++: return &
+	---C++: alias operator<<
+    	
+    Append(me : in out; Result : SStream) returns Interpretor from Draw; 
+	---Purpose: Appends  to the result
+	---C++: return &
+	---C++: alias operator<<
+    	
+    AppendElement(me : in out; Result : CString);
+	---Purpose: Appends to the result the string as a list element
+
+
+
+    --
+    --      Interpetation
+    --      
+    
+    Eval(me : in out; Script : CString) 
+    returns Integer;
+	---Purpose: Eval the script and returns OK = 0, ERROR = 1
+	
+    RecordAndEval(me : in out; Script : CString; Flags : Integer = 0) 
+    returns Integer;
+	---Purpose: Eval the script and returns OK = 0, ERROR = 1
+	--          Store the script in the history record.
+	
+    EvalFile(me : in out; FileName : CString) 
+    returns Integer;
+	---Purpose: Eval the content on the file and returns status
+	
+    Complete(myclass; Script : CString) returns Boolean;
+	---Purpose: Returns True if the script is complete, no pending
+	--          closing braces. (})
+    
+    Destroy(me : in out);
+	---C++: alias ~
+
+    --
+    --  Access to Tcl_Interp
+    --  
+
+    Create(anInterp : PInterp from Draw)
+    returns Interpretor from Draw;
+    
+    Set(me : in out; anInterp : PInterp from Draw);
+    
+    Interp (me) returns PInterp from Draw;
+
+    SetDoLog (me: in out; doLog: Boolean);
+    ---Purpose: Enables or disables logging of all commands and their
+    -- results
+    ---Level: Advanced
+
+    SetDoEcho (me: in out; doEcho: Boolean);
+    ---Purpose: Enables or disables eachoing of all commands and their
+    -- results to cout
+    ---Level: Advanced
+
+    GetDoLog (me) returns Boolean;
+    ---Purpose: Returns true if logging of commands is enabled
+    ---Level: Advanced
+
+    GetDoEcho (me) returns Boolean;
+    ---Purpose: Returns true if echoing of commands is enabled
+    ---Level: Advanced
+
+    Log (me: in out) returns SStream;
+    ---Purpose: Returns log stream
+    ---Level: Advanced
+    ---C++: return &
+	
+ fields
+ 
+    isAllocated : Boolean from Standard;
+    myInterp    : PInterp from Draw;
+
+    myDoLog: Boolean;
+    myDoEcho: Boolean;
+    myLog: SStream from Standard;
+
+end Interpretor;

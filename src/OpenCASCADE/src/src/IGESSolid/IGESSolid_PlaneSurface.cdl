@@ -1,0 +1,87 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( SIVA )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class PlaneSurface from IGESSolid  inherits IGESEntity
+
+        ---Purpose: defines PlaneSurface, Type <190> Form Number <0,1>
+        --          in package IGESSolid
+        --          A plane surface entity is defined by a point on the
+        --          surface and a normal to it.
+
+uses
+
+        Point           from IGESGeom,
+        Direction       from IGESGeom
+
+is
+
+        Create returns mutable PlaneSurface;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me        : mutable;
+              aLocation : Point;
+              aNormal   : Direction;
+              refdir    : Direction);
+        ---Purpose : This method is used to set the fields of the class
+        --           PlaneSurface
+        --       - aLocation : the point on the surface
+        --       - aNormal   : the surface normal direction
+        --       - refdir    : the reference direction (default NULL) for
+        --                    unparameterised curves
+
+        LocationPoint(me) returns Point;
+        ---Purpose : returns the point on the surface
+
+        Normal(me) returns Direction;
+        ---Purpose : returns the normal to the surface
+
+        ReferenceDir(me) returns Direction;
+        ---Purpose : returns the reference direction (for parameterised curve)
+        -- returns NULL for unparameterised curve
+
+        IsParametrised(me) returns Boolean;
+        ---Purpose : returns True if parameterised, else False
+
+fields
+
+--
+-- Class    : IGESSolid_PlaneSurface
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class PlaneSurface.
+--
+-- Reminder : A PlaneSurface instance is defined by :
+--            A plane surface entity is defined by a point(Location) on the
+--            surface and a normal(Normal) to it. In case of parameterised
+--            surface a reference direction (RefDir) is also given.
+--
+
+        theLocationPoint : Point;
+            -- the point on the surface
+
+        theNormal        : Direction;
+            -- the normal to the surface
+
+        theRefDir        : Direction;
+            -- the reference direction of the surface
+
+end PlaneSurface;

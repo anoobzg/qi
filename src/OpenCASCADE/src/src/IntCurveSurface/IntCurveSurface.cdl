@@ -1,0 +1,141 @@
+-- Created on: 1993-04-07
+-- Created by: Laurent BUCHARD
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package IntCurveSurface
+
+    ---Purpose: This package provides algorithmes to intersect a Curve 
+    --          and a Surface. 
+    --  Level: Internal
+    --
+    -- All the methods of the classes of this package are Internal.
+    -- except the methods of the classes <Intersection,
+    --                                    IntersectionPoint,
+    --                                    IntersectionSegment>
+    --
+     
+
+uses Standard, TCollection, TColStd, TColgp, gp, 
+     Bnd, Intf, IntAna,
+     IntImp, IntSurf, 
+     GeomAbs, StdFail ,
+     Adaptor3d, Geom,
+     math
+
+is    
+
+    --------------------------------------------------
+    enumeration TransitionOnCurve is
+        Tangent,In,Out;
+    ---Purpose:
+    --     
+    --     
+    --                    
+    --         \ Uo     ^        \ U1     ^
+    --          \       | n       \       | n
+    -- Surf  ====\======|===   ====\======|=== 
+    --            \                 \
+    --             \                 \
+    --          U1  \              Uo \
+    -- 
+    --        
+    --           ( In )            ( Out ) 
+    --
+    --     
+    --     
+    --       \           /
+    --        \         /
+    --         \       /
+    --          \     /
+    -- Surf =====-----=====
+    --                             
+    --       ( Tangent ) 
+    --    Crb and Surf are  C1 
+    --------------------------------------------------
+    deferred class Intersection;
+    --------------------------------------------------    
+    class IntersectionPoint;  
+    --------------------------------------------------    
+    class IntersectionSegment;
+    --------------------------------------------------
+    class SequenceOfPnt instantiates 
+    	Sequence from TCollection(
+	    IntersectionPoint from IntCurveSurface);
+    --------------------------------------------------	    
+    class SequenceOfSeg instantiates 
+    	Sequence from TCollection(
+	    IntersectionSegment from IntCurveSurface);
+    --------------------------------------------------
+    generic class CurveTool;
+    --------------------------------------------------    
+    generic class HCurveTool;
+    --------------------------------------------------
+    generic class SurfaceTool;
+    --------------------------------------------------    
+    generic class Polygon;
+    --------------------------------------------------
+    generic class Polyhedron;
+    --------------------------------------------------
+    generic class PolygonTool;
+    --------------------------------------------------
+    generic class PolyhedronTool;
+    --------------------------------------------------    
+    generic class QuadricCurveFunc;
+    --------------------------------------------------   
+    generic class QuadricCurveExactInter,
+                  TheQuadCurvFunc;
+    --------------------------------------------------
+    generic class Inter, 
+                  ThePolygon,
+                  ThePolygonTool,
+                  ThePolyhedron,
+                  ThePolyhedronTool,
+                  TheInterference,
+		  TheCSFunction,
+                  TheExactInter,
+                  TheQuadCurvExactInter;
+	
+    -------------------------------------------------	
+    
+    --class HCurveTool instantiates 
+    --	CurveTool from IntCurveSurface
+    --        (HCurve     from Adaptor3d); 
+
+    --class HInter instantiates 
+    --    Inter from IntCurveSurface (
+    --        HCurve        from Adaptor3d, 
+    --        HCurveTool    from IntCurveSurface,
+    --        HSurface      from Adaptor3d, 
+    --        HSurfaceTool  from IntCurveSurface);
+
+
+    class TheHCurveTool instantiates 
+    	HCurveTool from IntCurveSurface (
+	    HCurve from Adaptor3d);
+
+    class HInter instantiates 
+        Inter from IntCurveSurface (
+            HCurve        from Adaptor3d,
+            TheHCurveTool from IntCurveSurface,
+            HSurface      from Adaptor3d,
+            HSurfaceTool  from Adaptor3d);
+
+end IntCurveSurface;

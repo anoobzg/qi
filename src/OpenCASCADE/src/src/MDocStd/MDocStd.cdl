@@ -1,0 +1,75 @@
+-- Created on: 1999-04-15
+-- Created by: Denis PASCAL
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package MDocStd 
+
+	---Purpose: Drivers for TDocStd_Document
+
+uses TColStd, TCollection, PCollection, PTColStd,
+     CDM, PCDM,  
+     TDF, PDF, MDF,
+     TDocStd, PDocStd
+
+is
+
+    ---Purpose: Standard CAF Document drivers
+    --          =============================
+
+
+    class DocumentStorageDriver;
+     
+    class DocumentRetrievalDriver;
+    
+    
+    ---Purpose: External Reference Attribute  drivers
+    --          =====================================
+
+    class XLinkStorageDriver;
+    
+    class XLinkRetrievalDriver;
+    
+--    class PersistentMap instantiates Map from TCollection( Persistent from Standard,
+--    	                                                   MapPersistentHasher from PTColStd);
+
+--    class DocEntryList instantiates List from TCollection (AsciiString from TCollection);
+    
+
+    AddStorageDrivers(aDriverSeq : ASDriverHSequence from MDF; theMessageDriver : MessageDriver from CDM);
+	---Purpose: Adds the attribute storage driver(s) to <aDriverSeq>.
+
+    AddRetrievalDrivers(aDriverSeq : ARDriverHSequence from MDF; theMessageDriver : MessageDriver from CDM);
+	---Purpose: Adds the attribute retrieval driver(s) to <aDriverSeq>.
+    
+    
+--    WeightWatcher(aSource : Data from TDF;
+--                  aReloc   : SRelocationTable from MDF;
+--                  aEntry : DocEntryList from MDocStd);
+--    ---Purpose: suppresses the geometries  of the shapes from the XLink
+--    --          associated to  <aEntry>
+
+    ---Purpose: Factory method
+    --          ==============
+    
+    Factory(aGUID: GUID from Standard)
+    returns Transient from Standard;
+
+end MDocStd;

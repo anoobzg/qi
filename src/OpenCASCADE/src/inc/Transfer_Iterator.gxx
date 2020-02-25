@@ -1,0 +1,79 @@
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+//  Transfer_Iterator.gxx
+#include <Standard_NoSuchObject.hxx>
+
+
+//  TheStart est suppose Handle(Standard_Transient) ou (Transfer_Finder)
+//  Il a servi a instancier TheList qui est une HSequence
+
+
+Transfer_Iterator::Transfer_Iterator (const Standard_Boolean withstarts)
+    : Transfer_TransferIterator ()
+{  if (withstarts) thestarts = new TheList();  }
+
+
+    void  Transfer_Iterator::Add
+  (const Handle(Transfer_Binder)& binder)
+{
+  if (!thestarts.IsNull()) Standard_NoSuchObject::Raise
+    ("Transfer_Iterator : Add, Starting Object required not provided");
+  AddItem(binder);
+}
+
+    void  Transfer_Iterator::Add
+  (const Handle(Transfer_Binder)& binder, const TheStart& start)
+{
+  AddItem(binder);
+  if (!thestarts.IsNull()) thestarts->Append(start);
+}
+
+    void  Transfer_Iterator::Filter
+  (const Handle(TheList)& list, const Standard_Boolean keep)
+{
+  if (list.IsNull() || thestarts.IsNull()) return;
+  Standard_Integer i, j, nb = thestarts->Length();
+  if (nb == 0) return;
+  Handle(Transfer_Binder) factice;
+  Transfer_TransferMap amap (nb);
+  for (i = 1; i <= nb; i ++) {
+    j = amap.Add (thestarts->Value(i),factice);
+    SelectItem (j,!keep);
+  }
+
+//  Comparaison
+  nb = list->Length();
+  for (i = 1; i <= nb; i ++) {
+    j = amap.FindIndex (list->Value(i));
+    if (j > 0) SelectItem (j,keep);
+  }
+}
+
+    Standard_Boolean  Transfer_Iterator::HasStarting () const
+      {  return (!thestarts.IsNull());  }
+
+    const TheStart&  Transfer_Iterator::Starting () const
+{
+//  if (thecurr == 0 || thecurr > themaxi) Standard_NoSuchObject::Raise
+//    ("TransferIterator : Starting");
+//  if (theselect->Value(thecurr) == 0)    Standard_NoSuchObject::Raise
+//    ("TransferIterator : Starting");
+  if (thestarts.IsNull()) Standard_NoSuchObject::Raise
+    ("TransferIterator : No Starting defined at all");
+  return thestarts->Value(thecurr);
+}

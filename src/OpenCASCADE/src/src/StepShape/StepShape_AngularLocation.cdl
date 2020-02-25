@@ -1,0 +1,52 @@
+-- Created on: 2000-04-18
+-- Created by: Andrey BETENEV
+-- Copyright (c) 2000-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Generator:	ExpToCas (EXPRESS -> CASCADE/XSTEP Translator) V1.0
+
+class AngularLocation from StepShape
+inherits DimensionalLocation from StepShape
+
+    ---Purpose: Representation of STEP entity AngularLocation
+
+uses
+    HAsciiString from TCollection,
+    ShapeAspect from StepRepr,
+    AngleRelator from StepShape
+
+is
+    Create returns AngularLocation from StepShape;
+	---Purpose: Empty constructor
+
+    Init (me: mutable; aShapeAspectRelationship_Name: HAsciiString from TCollection;
+                       hasShapeAspectRelationship_Description: Boolean;
+                       aShapeAspectRelationship_Description: HAsciiString from TCollection;
+                       aShapeAspectRelationship_RelatingShapeAspect: ShapeAspect from StepRepr;
+                       aShapeAspectRelationship_RelatedShapeAspect: ShapeAspect from StepRepr;
+                       aAngleSelection: AngleRelator from StepShape);
+	---Purpose: Initialize all fields (own and inherited)
+
+    AngleSelection (me) returns AngleRelator from StepShape;
+	---Purpose: Returns field AngleSelection
+    SetAngleSelection (me: mutable; AngleSelection: AngleRelator from StepShape);
+	---Purpose: Set field AngleSelection
+
+fields
+    theAngleSelection: AngleRelator from StepShape;
+
+end AngularLocation;

@@ -1,0 +1,97 @@
+-- Created on: 1994-02-03
+-- Created by: Jean Marc LACHAUME
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Grid from Draw inherits Drawable3D from Draw
+
+uses
+    Display from Draw
+
+is
+
+    Create
+     
+    	---Purpose: Creates a grid.
+
+	returns mutable Grid from Draw ;
+
+
+    Steps (me : mutable; StepX, StepY, StepZ : Real from Standard)
+    
+    	---Purpose: Sets the steps along the X, Y & Z axis.
+
+    	is static ;
+
+
+    StepX (me)
+    
+    	---Purpose: Returns the step along the X axis.
+
+	---C++: inline
+
+    	returns Real from Standard
+    	is static ;
+
+
+    StepY (me)
+    
+    	---Purpose: Returns the step along the Y axis.
+
+	---C++: inline
+
+    	returns Real from Standard
+    	is static ;
+
+
+    StepZ (me)
+    
+    	---Purpose: Returns the step along the Z axis.
+
+	---C++: inline
+
+    	returns Real from Standard
+    	is static ;
+
+
+    IsActive (me)
+
+    	---Purpose: Returns if the grid is active or not.
+
+	---C++: inline
+
+    	returns Boolean from Standard
+	is static ;
+
+
+    DrawOn (me; Out : in out Display from Draw)
+
+    	---Purpose: Displays the grid.
+
+    	is static ;
+
+
+fields
+
+  myStepX    : Real    from Standard ;
+  myStepY    : Real    from Standard ;
+  myStepZ    : Real    from Standard ;
+  myIsActive : Boolean from Standard ;
+
+end Grid ;

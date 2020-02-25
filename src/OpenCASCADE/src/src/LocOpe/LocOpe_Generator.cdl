@@ -1,0 +1,133 @@
+-- Created on: 1996-01-09
+-- Created by: Jacques GOUSSARD
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class Generator from LocOpe
+
+	---Purpose: 
+
+uses GeneratedShape      from LocOpe,
+
+     Shape               from TopoDS,
+     Face                from TopoDS,
+     Edge                from TopoDS,
+     
+     ListOfShape         from TopTools,
+     DataMapOfShapeListOfShape from TopTools
+--     DataMapOfShapeShape from TopTools
+     
+     
+     
+raises NotDone      from StdFail,
+       NullObject   from Standard,
+       NoSuchObject from Standard
+
+is
+
+    Create
+	---Purpose: Empty constructor.
+    	returns Generator from LocOpe;
+    	---C++: inline
+
+
+    Create(S: Shape from TopoDS)
+	---Purpose: Creates the algorithm on the shape <S>.
+	---C++: inline
+    	returns Generator from LocOpe;
+
+
+    Init(me: in out; S: Shape from TopoDS)
+	---Purpose: Initializes the algorithm on the shape <S>.
+	---C++: inline
+    	is static;
+
+
+    Perform(me: in out; G: GeneratedShape from LocOpe)
+			
+	raises NullObject from Standard		
+    	is static;
+
+
+    IsDone(me)
+    
+	---C++: inline
+    	returns Boolean from Standard
+	is static;
+
+
+
+    ResultingShape(me)
+	---Purpose: Returns the new shape
+    	returns Shape from TopoDS
+	---C++: return const&
+	---C++: inline
+	raises NotDone from StdFail
+	is static;
+	
+
+    Shape(me)
+	---Purpose: Returns the initial shape
+    	returns Shape from TopoDS
+	---C++: return const&
+	---C++: inline
+	is static;
+
+
+    DescendantFace(me: in out; F: Face from TopoDS)
+    	---Purpose: Returns  the  descendant  face  of <F>.    <F> may
+    	--          belong to the original shape or to the "generated"
+    	--          shape.  The returned    face may be   a null shape
+    	--          (when <F> disappears). 
+	---C++: return const&
+    	returns ListOfShape from TopTools
+
+
+	raises NotDone from StdFail,
+	--- The exception is raised when IsDone returns <Standard_False>.
+	       NoSuchObject from Standard
+	--- The exception is  raised when <F> does  not  belong to the
+	--  original  shape or to the "generated" one.
+	is static;
+
+
+fields
+
+    myShape     : Shape                 from TopoDS;
+    myGen       : GeneratedShape        from LocOpe;
+    myDone      : Boolean               from Standard;
+    myRes       : Shape                 from TopoDS;
+    myModShapes : DataMapOfShapeListOfShape from TopTools;
+
+end Generator;
+
+
+
+
+
+
+
+
+
+
+
+
+

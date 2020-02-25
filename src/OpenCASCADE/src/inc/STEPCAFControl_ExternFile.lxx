@@ -1,0 +1,161 @@
+// Created on: 2000-09-28
+// Created by: Andrey BETENEV
+// Copyright (c) 2000-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+//=======================================================================
+//function : SetWS
+//purpose  : 
+//=======================================================================
+
+inline void STEPCAFControl_ExternFile::SetWS (const Handle(XSControl_WorkSession) &WS)
+{
+  myWS = WS;
+}
+
+//=======================================================================
+//function : GetWS
+//purpose  : 
+//=======================================================================
+
+inline Handle(XSControl_WorkSession) STEPCAFControl_ExternFile::GetWS () const
+{
+  return myWS;
+}
+
+//=======================================================================
+//function : SetLoadStatus
+//purpose  : 
+//=======================================================================
+
+inline void STEPCAFControl_ExternFile::SetLoadStatus (const IFSelect_ReturnStatus stat)
+{
+  myLoadStatus = stat;
+}
+
+//=======================================================================
+//function : GetLoadStatus
+//purpose  : 
+//=======================================================================
+
+inline IFSelect_ReturnStatus STEPCAFControl_ExternFile::GetLoadStatus () const
+{
+  return myLoadStatus;
+}
+
+//=======================================================================
+//function : SetTransferStatus
+//purpose  : 
+//=======================================================================
+
+inline void STEPCAFControl_ExternFile::SetTransferStatus (const Standard_Boolean isok)
+{
+  myTransferStatus = isok;
+}
+
+//=======================================================================
+//function : GetTransferStatus
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean STEPCAFControl_ExternFile::GetTransferStatus () const
+{
+  return myTransferStatus;
+}
+
+//=======================================================================
+//function : SetWriteStatus
+//purpose  : 
+//=======================================================================
+
+inline void STEPCAFControl_ExternFile::SetWriteStatus (const IFSelect_ReturnStatus stat)
+{
+  myWriteStatus = stat;
+}
+
+//=======================================================================
+//function : GetWriteStatus
+//purpose  : 
+//=======================================================================
+
+inline IFSelect_ReturnStatus STEPCAFControl_ExternFile::GetWriteStatus () const
+{
+  return myWriteStatus;
+}
+
+//=======================================================================
+//function : SetName
+//purpose  : 
+//=======================================================================
+
+inline void STEPCAFControl_ExternFile::SetName (const Handle(TCollection_HAsciiString) &name)
+{
+  myName = name;
+}
+
+//=======================================================================
+//function : GetName
+//purpose  : 
+//=======================================================================
+
+inline Handle(TCollection_HAsciiString) STEPCAFControl_ExternFile::GetName () const
+{
+  return myName;
+}
+
+/*
+//=======================================================================
+//function : SetShape
+//purpose  : 
+//=======================================================================
+
+inline void STEPCAFControl_ExternFile::SetShape (const TopoDS_Shape &Shape)
+{
+  myShape = Shape;
+}
+
+//=======================================================================
+//function : GetShape
+//purpose  : 
+//=======================================================================
+
+inline TopoDS_Shape STEPCAFControl_ExternFile::GetShape () const
+{
+  return myShape;
+}
+*/
+
+//=======================================================================
+//function : SetLabel
+//purpose  : 
+//=======================================================================
+
+inline void STEPCAFControl_ExternFile::SetLabel (const TDF_Label &Label)
+{
+  myLabel = Label;
+}
+
+//=======================================================================
+//function : GetLabel
+//purpose  : 
+//=======================================================================
+
+inline TDF_Label STEPCAFControl_ExternFile::GetLabel () const
+{
+  return myLabel;
+}

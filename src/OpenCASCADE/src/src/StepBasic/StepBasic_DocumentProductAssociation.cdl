@@ -1,0 +1,72 @@
+-- Created on: 2003-01-28
+-- Created by: data exchange team
+-- Copyright (c) 2003-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Generator:	ExpToCas (EXPRESS -> CASCADE/XSTEP Translator) V1.2
+
+class DocumentProductAssociation from StepBasic
+inherits TShared from MMgt
+
+    ---Purpose: Representation of STEP entity DocumentProductAssociation
+
+uses
+    HAsciiString from TCollection,
+    Document from StepBasic,
+    ProductOrFormationOrDefinition from StepBasic
+
+is
+    Create returns DocumentProductAssociation from StepBasic;
+	---Purpose: Empty constructor
+
+    Init (me: mutable; aName: HAsciiString from TCollection;
+                       hasDescription: Boolean;
+                       aDescription: HAsciiString from TCollection;
+                       aRelatingDocument: Document from StepBasic;
+                       aRelatedProduct: ProductOrFormationOrDefinition from StepBasic);
+	---Purpose: Initialize all fields (own and inherited)
+
+    Name (me) returns HAsciiString from TCollection;
+	---Purpose: Returns field Name
+    SetName (me: mutable; Name: HAsciiString from TCollection);
+	---Purpose: Set field Name
+
+    Description (me) returns HAsciiString from TCollection;
+	---Purpose: Returns field Description
+    SetDescription (me: mutable; Description: HAsciiString from TCollection);
+	---Purpose: Set field Description
+    HasDescription (me) returns Boolean;
+	---Purpose: Returns True if optional field Description is defined
+
+    RelatingDocument (me) returns Document from StepBasic;
+	---Purpose: Returns field RelatingDocument
+    SetRelatingDocument (me: mutable; RelatingDocument: Document from StepBasic);
+	---Purpose: Set field RelatingDocument
+
+    RelatedProduct (me) returns ProductOrFormationOrDefinition from StepBasic;
+	---Purpose: Returns field RelatedProduct
+    SetRelatedProduct (me: mutable; RelatedProduct: ProductOrFormationOrDefinition from StepBasic);
+	---Purpose: Set field RelatedProduct
+
+fields
+    theName: HAsciiString from TCollection;
+    theDescription: HAsciiString from TCollection; -- optional
+    theRelatingDocument: Document from StepBasic;
+    theRelatedProduct: ProductOrFormationOrDefinition from StepBasic;
+    defDescription: Boolean; -- flag "is Description defined"
+
+end DocumentProductAssociation;

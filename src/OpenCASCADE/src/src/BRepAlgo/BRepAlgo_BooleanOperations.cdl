@@ -1,0 +1,143 @@
+-- Created on: 1993-10-14
+-- Created by: Prestataire Mary FABIEN
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class BooleanOperations from BRepAlgo
+
+uses
+
+    State from TopAbs,
+    Shape from TopoDS,
+    Face from TopoDS,
+    Edge from TopoDS,
+    MapOfShape from TopTools,
+    ListOfShape from TopTools,
+    HBuilder from TopOpeBRepBuild,
+    HDataStructure from TopOpeBRepDS,
+    DSAccess from BRepAlgo
+    
+is
+
+    Create returns BooleanOperations from BRepAlgo;
+    
+    Shapes2d(me : in out; S1,S2 : Shape from TopoDS);
+    ---Purpose: S1 is a Shell with ALL faces supported by the SAME S2 is 
+    --          an Edge INCLUDED in that surface with pcurve.
+    --          this avoids a time-consuming 3D operation, compared to Shapes.
+
+    Shapes(me : in out; S1,S2 : Shape from TopoDS);
+    ---Purpose: Defines the arguments.
+
+    SetApproxParameters(me : in out; NbPntMax : Integer from Standard;
+                                     Tol3D, Tol2D : Real from Standard;
+                                     RelativeTol : Boolean from Standard);
+    ---Purpose: Sets different parameters for the curve approximations :
+    --          NbPntMax : Maximum number of points to be approximated at
+    --                     the same time in one curve.
+    --          Tol3D, Tol2D : Tolerances to be reached by the approximation.
+    --          RelativeTol : The given tolerances are relative.
+
+    Perform(me : in out)
+    ---Purpose: Performs the global boolean operation.
+    is private ;
+
+    Perform(me : in out; State1, State2 : State from TopAbs)
+    ---Purpose: Performs the global boolean operation and build the
+    --          result in regards of the given states.
+    is private ;
+
+    Define(me : in out; S1,S2 : Shape from TopoDS;
+    	    	    	HDS : in out HDataStructure from TopOpeBRepDS);
+    ---Purpose: 
+    
+    Common(me : in out)
+    ---Purpose: returns the common part of the shapes.
+    ---C++: return const &
+    returns Shape from TopoDS;
+    
+    Fus(me : in out)
+    ---Purpose: returns the fuse part of the shapes.
+    ---C++: return const &
+    returns Shape from TopoDS;
+    
+    Cut(me : in out)
+    ---Purpose: returns the cut part of the shapes.
+    ---C++: return const &
+    returns Shape from TopoDS;
+    
+    Section(me : in out)
+    ---Purpose: returns the intersection of the shapes.
+    ---C++: return const &
+    returns Shape from TopoDS;
+    
+    Shape(me : in out)
+    ---Purpose: returns the result of the boolean operation.
+    ---C++: return const &
+    returns Shape from TopoDS;
+
+    ShapeFrom(me : in out; S : Shape from TopoDS)
+    ---Purpose: Returns the shape(s) resulting of the boolean operation
+    --          issued from the shape <S>.
+    ---C++: return const &
+    returns Shape from TopoDS ;
+
+    Modified (me: in out; S : Shape from TopoDS)
+    ---Purpose: Returns the list of the descendant shapes of the shape <S>.
+    ---C++: return const & 
+    returns ListOfShape from TopTools ;
+
+    IsDeleted (me: in out; S : Shape from TopoDS)
+    ---Purpose: Returns the fact that the shape <S> has been deleted or not
+    --          by the boolean operation.
+    returns Boolean;
+
+    DataStructure(me) returns HDataStructure from TopOpeBRepDS;
+    ---C++: return const &
+
+    ChangeDataStructure(me : in out) returns HDataStructure from TopOpeBRepDS;
+    ---C++: return &
+
+    Builder(me) returns HBuilder from TopOpeBRepBuild;
+    ---C++: return const &
+
+    ChangeBuilder(me : in out) returns HBuilder from TopOpeBRepBuild;
+    ---C++: return &
+    --      
+    DataStructureAccess(me : in out) returns DSAccess from BRepAlgo;
+    ---Purpose: returns the member myDSA. It is useful to then access
+    --          the method GetSectionEdgeSet (wich is a member of DSAccess)
+    ---C++: return &
+
+
+fields
+
+    myDSA : DSAccess from BRepAlgo;
+    myS1 : Shape from TopoDS;
+    myS2 : Shape from TopoDS;
+    myShape : Shape from TopoDS;
+    myMapShape : MapOfShape from TopTools;
+--    myModified : ListOfShape from TopTools;
+    myResult : Shape from TopoDS;
+    myApproxNbPntMax : Integer from Standard;
+    myApproxTol3D : Real from Standard;
+    myApproxTol2D : Real from Standard;
+    myApproxRelativeTol : Boolean from Standard;
+
+end BooleanOperations from BRepAlgo;

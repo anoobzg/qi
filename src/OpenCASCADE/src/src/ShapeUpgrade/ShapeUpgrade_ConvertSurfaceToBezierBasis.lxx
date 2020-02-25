@@ -1,0 +1,100 @@
+// Created on: 1999-10-05
+// Created by: data exchange team
+// Copyright (c) 1999-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+//=======================================================================
+//function : SetPlaneMode
+//purpose  : 
+//=======================================================================
+
+inline void ShapeUpgrade_ConvertSurfaceToBezierBasis::SetPlaneMode(const Standard_Boolean mode)
+{
+  myPlaneMode = mode;
+}
+
+//=======================================================================
+//function : GetPlaneMode
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean ShapeUpgrade_ConvertSurfaceToBezierBasis::GetPlaneMode() const
+{
+  return myPlaneMode;
+}
+
+//=======================================================================
+//function : SetRevolutionMode
+//purpose  : 
+//=======================================================================
+
+inline void ShapeUpgrade_ConvertSurfaceToBezierBasis::SetRevolutionMode(const Standard_Boolean mode)
+{
+  myRevolutionMode = mode;
+}
+
+//=======================================================================
+//function : GetRevolutionMode
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean ShapeUpgrade_ConvertSurfaceToBezierBasis::GetRevolutionMode() const
+{
+  return myRevolutionMode;
+}
+
+//=======================================================================
+//function : SetExtrusionMode
+//purpose  : 
+//=======================================================================
+
+inline void ShapeUpgrade_ConvertSurfaceToBezierBasis::SetExtrusionMode(const Standard_Boolean mode)
+{
+  myExtrusionMode = mode;
+}
+
+//=======================================================================
+//function : GetExtrusionMode
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean ShapeUpgrade_ConvertSurfaceToBezierBasis::GetExtrusionMode() const
+{
+  return myExtrusionMode;
+}
+
+//=======================================================================
+//function : SetBSplineMode
+//purpose  : 
+//=======================================================================
+
+inline void ShapeUpgrade_ConvertSurfaceToBezierBasis::SetBSplineMode(const Standard_Boolean mode)
+{
+  myBSplineMode = mode;
+}
+
+//=======================================================================
+//function : GetBSplineMode
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean ShapeUpgrade_ConvertSurfaceToBezierBasis::GetBSplineMode() const
+{
+  return myBSplineMode;
+}

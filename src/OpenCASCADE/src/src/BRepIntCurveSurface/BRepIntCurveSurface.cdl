@@ -1,0 +1,88 @@
+-- Created on: 1994-02-07
+-- Created by: Modelistation
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+package BRepIntCurveSurface 
+
+	---Purpose: Inttantiates IntCurveSurface with Surfaces from BRep 
+	--          and Curves from Adaptor
+
+        ---Level: Public
+        --
+        -- All the methods of the classes of this package are public.
+        -- 
+
+uses  
+--modified by NIZNHY-PKV Sun Dec 15 16:54:16 2002  f
+    BRepTopAdaptor, 
+--modified by NIZNHY-PKV Sun Dec 15 16:54:28 2002  t     
+    IntCurveSurface, 
+     BRepAdaptor,
+     Geom2dInt,
+     GeomAdaptor, 
+     TopoDS,
+     BRepClass, 
+     TopAbs, 
+     TopExp,
+     StdFail,
+     gp
+
+is
+
+    --------------------------------------------------
+    -- Instantiation of IntCurveSurfaces algorithms --
+    -- The intersection is computed on the surfaces --
+    -- with their natural boundaries.               --
+    --------------------------------------------------
+
+--    class ICSSurfaceTool instantiates 
+--          SurfaceTool from IntCurveSurface(
+----	    HSurface     from BRepAdaptor) ;
+--
+----	    
+--    class ICSCurveTool instantiates 
+----    	  CurveTool from IntCurveSurface(
+--	    HCurve       from GeomAdaptor) ;
+----
+--   
+----    class ICSInter instantiates 
+--          Inter from IntCurveSurface(
+----	     HCurve           from GeomAdaptor,
+-- 	     ICSCurveTool    from BRepIntCurveSurface,
+----	     HSurface         from BRepAdaptor,
+--             ICSSurfaceTool  from BRepIntCurveSurface);
+--
+
+    ------------------------------------------------------
+    -- The Inter class provides intersection between    --
+    --  - a BRepAdaptor surface and a GeomAdaptor curve --
+    --  - a Shape               and a GeomAdaptor curve --
+    -- Only the points which are inside the surface     --
+    -- are returned.                                    --
+    ------------------------------------------------------
+
+    class Inter; 
+    
+    
+    
+    
+end BRepIntCurveSurface;

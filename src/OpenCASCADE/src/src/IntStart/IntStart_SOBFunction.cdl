@@ -1,0 +1,70 @@
+-- Created on: 1993-06-02
+-- Created by: Jacques GOUSSARD
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred generic class SOBFunction from IntStart 
+    (TheArc as any)
+
+inherits FunctionWithDerivative from math 
+
+
+	---Purpose: Template class for the function on an arc of restriction
+	--          used in the SearchOnBoundaries class.
+
+uses Pnt from gp
+
+
+is
+
+
+    Set(me: in out; A: TheArc)
+    
+    	is static;
+
+
+    Value(me: in out; X: Real from Standard; F: out Real from Standard)
+    
+    	returns Boolean from Standard;
+    
+    Derivative(me: in out; X: Real from Standard; D: out Real from Standard)
+    
+    	returns Boolean from Standard;
+    
+    Values(me: in out; X: Real from Standard; F,D: out Real from Standard)
+    
+    	returns Boolean from Standard;
+    
+
+    GetStateNumber(me: in out)
+
+    	returns Integer from Standard
+
+    	is redefined;
+	
+	
+    Valpoint(me; Index: Integer from Standard)
+    
+    	returns Pnt from gp
+	
+	is static;
+    
+
+end SOBFunction;

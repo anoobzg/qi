@@ -1,0 +1,92 @@
+-- Created on: 1992-08-27
+-- Created by: Christophe MARION
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class DrawablePolyEdgeTool from HLRTest inherits Drawable3D from Draw
+
+	---Purpose: 
+
+uses
+    Boolean      from Standard,
+    Integer      from Standard,
+    Display      from Draw,
+    PolyAlgo     from HLRBRep,
+    ListOfBPoint from HLRBRep
+
+is
+    Create(Alg    : PolyAlgo from HLRBRep;
+           ViewId : Integer  from Standard;
+           Debug  : Boolean  from Standard = Standard_False)
+    returns mutable DrawablePolyEdgeTool from HLRTest;
+    
+    Show(me : mutable)
+    	---C++: inline
+    is static;
+
+    Hide(me : mutable)
+    	---C++: inline
+    is static;
+
+    DisplayRg1Line(me : mutable; B : Boolean from Standard)
+	---C++: inline
+    is static;
+    
+    DisplayRg1Line(me) returns Boolean from Standard
+	---C++: inline
+    is static;
+    
+    DisplayRgNLine(me : mutable; B : Boolean from Standard)
+	---C++: inline
+    is static;
+    
+    DisplayRgNLine(me) returns Boolean from Standard
+	---C++: inline
+    is static;
+    
+    DisplayHidden(me : mutable; B : Boolean from Standard)
+	---C++: inline
+    is static;
+    
+    DisplayHidden(me) returns Boolean from Standard
+	---C++: inline
+    is static;
+    
+    DrawOn(me; D : in out Display from Draw);
+    
+    Debug(me) returns Boolean from Standard
+	---C++: inline
+    is static;
+    
+    Debug(me : mutable; B : Boolean from Standard)
+	---C++: inline
+    is static;
+    
+fields
+    myAlgo     : PolyAlgo     from HLRBRep;
+    myDispRg1  : Boolean      from Standard;
+    myDispRgN  : Boolean      from Standard;
+    myDispHid  : Boolean      from Standard;
+    myViewId   : Integer      from Standard;
+    myBiPntVis : ListOfBPoint from HLRBRep;
+    myBiPntHid : ListOfBPoint from HLRBRep;
+    myDebug    : Boolean      from Standard;
+    myHideMode : Boolean      from Standard;
+
+end DrawablePolyEdgeTool;

@@ -1,0 +1,65 @@
+-- Created on: 1995-06-08
+-- Created by: Robert COUBLANC
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class BasicTool from SelectBasics 
+
+	---Purpose: 
+
+uses
+    Pnt2d from gp,
+    Array1OfPnt2d from TColgp
+is
+
+    MatchSegments(myclass;
+    	    	  P1,P2 : Pnt2d from gp;
+    	    	  P3,P4 : Pnt2d from gp)
+    returns Boolean;
+    ---Purpose: returns True if The Segment {P1P2} is
+    --          intersected by the segment {P3P4}
+
+    MatchSegment(myclass;
+		 pBegin,pEnd : Pnt2d from gp;
+		 X,Y,aTol    : Real;
+	         DMin        : in out Real) returns Boolean;
+    ---Level: Internal
+    ---Purpose: return True if Segment(pBegin, pEnd) is Selected 
+ 
+    AutoInter(myclass; aPolyg2d: Array1OfPnt2d from TColgp)
+    returns Boolean;
+      
+    MatchPolyg2d (myclass;
+    	    	  tabpoint: Array1OfPnt2d from TColgp;
+    	    	  X,Y,aTol: Real;
+	          DMin    : in out Real;
+    	    	  Rank    : in out Integer) returns Boolean;
+    ---Level: Internal 
+    ---Purpose: package method used to find if a point 
+    --          is close enough to a polygon of 2D points
+    --          to be Used by Primitives like curves or faces...
+    --          Rank gives the index of the touched
+    --          segment
+
+    
+
+
+end BasicTool;

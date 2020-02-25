@@ -1,0 +1,117 @@
+-- Created on: 1997-08-01
+-- Created by: Jean-Louis Frenkel
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+package PCDM
+
+uses
+
+    CDM,TColStd,TCollection,Storage
+
+
+is 
+ 
+    enumeration ReaderStatus is  
+	    RS_OK, 
+	    RS_NoDriver, 
+	    RS_UnknownFileDriver, 
+	    RS_OpenError, 
+	    RS_NoVersion, 
+	    RS_NoSchema, 
+	    RS_NoDocument, 
+	    RS_ExtensionFailure,
+	    RS_WrongStreamMode, 
+	    RS_FormatFailure, 
+	    RS_TypeFailure,
+	    RS_TypeNotFoundInSchema, 
+	    RS_UnrecognizedFileFormat, 
+	    RS_MakeFailure,		     
+	    RS_PermissionDenied, 
+	    RS_DriverFailure,
+	    RS_AlreadyRetrievedAndModified,
+	    RS_AlreadyRetrieved,
+	    RS_UnknownDocument,
+	    RS_WrongResource,
+	    RS_NoModel
+    end ReaderStatus;
+    
+    enumeration StoreStatus is
+	    SS_OK,
+	    SS_DriverFailure,
+	    SS_WriteFailure,
+	    SS_Failure,
+	    SS_DiskWritingFailure,
+	    SS_UserRightsFailure,
+	    SS_Doc_IsNull,
+	    SS_No_Obj,
+	    SS_Info_Section_Error
+    end StoreStatus;
+    
+    deferred class Document;
+    class SequenceOfDocument instantiates Sequence from TCollection(Document from PCDM);
+
+    deferred class Reader;
+    deferred class Writer;
+    deferred class RetrievalDriver;    
+    deferred class StorageDriver;    
+
+    class ReferenceIterator;    
+---Category: exceptions
+
+    exception DriverError inherits Failure from Standard;
+    
+
+    ---Category: classes for versioning  reading/writing og the headers.
+    private class Reference;
+    private class SequenceOfReference instantiates Sequence from TCollection(Reference from PCDM);
+    private deferred class ReadWriter;
+    private class ReadWriter_1;
+    
+    ---Category: type of FileDriver;
+    --           
+    private enumeration TypeOfFileDriver is TOFD_File, TOFD_CmpFile, TOFD_Unknown
+    end TypeOfFileDriver from PCDM;
+    
+    private pointer BaseDriverPointer to BaseDriver from Storage;    
+    
+---Category: drivers plugin.
+--           
+    FindStorageDriver(aDocument: Document from CDM) 
+    returns Boolean from Standard;
+    
+    StorageDriver(aDocument: Document from CDM)
+    returns StorageDriver from PCDM
+    raises NoSuchObject from Standard;
+    ---Purpose:   gets   in the  EuclidDesktop   resource  the plugin
+    --          identifier of the driver plugs the driver.
+    --          
+    
+    Schema(aSchemaName: ExtendedString from TCollection;
+           anApplication: Application from CDM)
+    ---Purpose: returns a schema to be used during a Store or Retrieve
+    --          operation.
+    --          Schema will plug the schema defined by
+    --          the SchemaName method.
+    returns Schema from Storage;
+    
+    FileDriverType(aFileName: AsciiString from TCollection; aBaseDriver: out BaseDriverPointer from PCDM)
+    returns TypeOfFileDriver from PCDM
+    is private;
+end PCDM;

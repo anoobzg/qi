@@ -1,0 +1,104 @@
+-- Created on: 2000-08-11
+-- Created by: Andrey BETENEV
+-- Copyright (c) 2000-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package XCAFPrs 
+
+    ---Purpose: Presentation (visualiation, selection etc.) tools for
+    --          DECAF documents
+
+uses
+    Quantity,
+    TCollection,
+    TopAbs,
+    TopLoc,
+    TopoDS,
+    TopTools,
+    Graphic3d,
+    Prs3d,
+    PrsMgr,
+    TPrsStd,
+    AIS,
+    TDF,
+    XCAFDoc
+
+is
+
+    class Driver;
+    	---Purpose: Implements a presentation driver for DECAF
+
+    class AISObject;
+    	---Purpose: Implements an interactive object for DECAF
+
+    class Style;
+        ---Purpose: Object representing a set of style settings
+	
+    class DataMapOfShapeStyle instantiates
+    	DataMap from TCollection(Shape from TopoDS,
+	    	    	    	 Style from XCAFPrs,
+                                 ShapeMapHasher from TopTools);
+
+    class DataMapOfStyleShape instantiates
+    	DataMap from TCollection(Style from XCAFPrs,
+                                 Shape from TopoDS,
+	    	    	    	 Style from XCAFPrs);
+
+    class DataMapOfStyleTransient instantiates
+    	DataMap from TCollection(Style from XCAFPrs,
+                                 Transient from Standard,
+	    	    	    	 Style from XCAFPrs);
+
+    ---Methods: Work with styles of the document
+    
+    CollectStyleSettings (L: Label from TDF;
+			  loc: Location from TopLoc;
+			  settings: in out DataMapOfShapeStyle from XCAFPrs);
+    	---Purpose: Collect styles defined for shape on label L
+    	--          and its components and subshapes and fills a map of 
+	--          shape - style correspondence
+	--          The location <loc> is for internal use, it 
+	--          should be Null location for external call
+	
+    DispatchStyles (shape: Shape from TopoDS; 
+    	    	    settings: DataMapOfShapeStyle from XCAFPrs; 
+		    items: in out DataMapOfStyleShape from XCAFPrs;
+		    DefStyle: Style from XCAFPrs;
+		    force: Boolean = Standard_True;
+    	    	    context: ShapeEnum from TopAbs = TopAbs_SHAPE)
+    returns Boolean;
+    	---Purpose: Iterates on shape (recursively) and splits it
+	--          on parts each of which has its own style
+	--          (basing on settings collected by CollectStyleSettings())
+	--          The DefStyle is default style applied to a shape if
+	--          no specific style assignment is applied to it
+	--          If force is True, the <shape> is added to a map
+	--          even if no styles are redefined for it or its
+	--          subshapes
+	--          The context is for internal use, it indicates
+	--          the type of the shape to which <shape> belongs
+
+    SetViewNameMode ( viewNameMode: Boolean from Standard);
+
+    	---Purpose: Set ViewNameMode for indicate display names or not.
+	
+    GetViewNameMode returns Boolean;
+
+        	   	    	
+end XCAFPrs;

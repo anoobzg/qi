@@ -1,0 +1,94 @@
+-- Created on: 1992-03-06
+-- Created by: Isabelle GRIGNON
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred generic class PSurfaceTool from IntImp
+    (Surface as any)          
+                                   
+
+	---Purpose: Template class for a tool on a bi-parametrised surface.
+	--          It is possible to implement this tool with an
+	--          instantiation of the SurfaceTool from Adaptor3d.
+
+uses Pnt from gp,
+     Vec from gp
+ 
+is
+
+    UIntervalFirst(myclass ; S: Surface)
+	   
+	---Purpose: Returns the first U parameter of the surface.
+
+    	returns Real from Standard;
+    
+    
+    VIntervalFirst(myclass ; S: Surface)
+	   
+	---Purpose: Returns the first V parameter of the surface.
+
+    	returns Real from Standard;
+    
+    
+    UIntervalLast(myclass ; S: Surface)
+	   
+	---Purpose: Returns the last U parameter of the surface.
+
+    	returns Real from Standard;
+    
+    
+    VIntervalLast(myclass ; S: Surface)
+	   
+	---Purpose: Returns the last V parameter of the surface.
+
+    	returns Real from Standard;
+    
+    
+    Value (myclass ; S: Surface; U,V : Real from Standard)
+    
+    	---Purpose: Returns the point of parameter (U,V) on the surface.
+
+    	returns Pnt from gp;
+
+
+    D1(myclass; S: Surface; U,V: Real from Standard; 
+                P: out Pnt from gp; D1U,D1V: out Vec from gp);
+		
+	---Purpose: Returns the point of parameter (U,V) on the surface,
+	--          and the first derivatives in the directions u and v.
+
+    
+    UResolution(myclass; S : Surface; Tol3d: Real from Standard)
+    
+	---Purpose: Returns the numerical resolution in the U direction,
+	--          for a given resolution in 3d space.
+
+    	returns Real from Standard;
+
+
+    VResolution(myclass; S : Surface; Tol3d: Real from Standard)
+    
+	---Purpose: Returns the numerical resolution in the V direction,
+	--          for a given resolution in 3d space.
+
+    	returns Real from Standard;
+
+
+end PSurfaceTool;

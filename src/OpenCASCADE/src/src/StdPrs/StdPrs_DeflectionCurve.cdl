@@ -1,0 +1,165 @@
+-- Created on: 1992-12-15
+-- Created by: Jean Louis FRENKEL
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class DeflectionCurve from StdPrs 
+     
+inherits Root from Prs3d
+   
+    
+    	---Purpose: A framework to provide display of any curve with
+    	-- respect to the maximal chordal deviation defined in
+    	-- the Prs3d_Drawer attributes manager.
+
+uses
+    Presentation   from Prs3d,
+    Drawer         from Prs3d,
+    Length         from Quantity,
+    Curve          from Adaptor3d, 
+    SequenceOfPnt  from TColgp     
+
+is
+
+    Add(myclass; aPresentation: Presentation from Prs3d; 
+    	    	 aCurve       : in out Curve from Adaptor3d;
+    	    	 aDrawer      : Drawer       from Prs3d; 
+                 drawCurve    : Boolean      from Standard = Standard_True);
+
+    	---Purpose: adds to the presentation aPresentation the drawing of the curve
+    	--          aCurve with respect to the maximal chordial deviation defined
+    	--          by the drawer aDrawer.
+    	--          The aspect is defined by LineAspect in aDrawer.
+        --          If drawCurve equals Standard_False the curve will not be displayed,  
+        --          it is used if the curve is a part of some shape and PrimitiveArray  
+        --          visualization approach is activated (it is activated by default).   
+          
+    Add(myclass; aPresentation: Presentation from Prs3d; 
+    	    	 aCurve       : in out Curve from Adaptor3d;
+                 U1, U2       : Real         from Standard;
+    	    	 aDrawer      : Drawer       from Prs3d; 
+                 drawCurve    : Boolean      from Standard = Standard_True);
+		    
+    	---Purpose: adds to the presentation aPresentation the drawing of the curve
+    	--          aCurve with respect to the maximal chordial deviation defined
+    	--          by the drawer aDrawer.
+    	--          The aspect is defined by LineAspect in aDrawer.
+    	--          The drawing will be limited between the points of parameter U1 and U2.
+        --          If drawCurve equals Standard_False the curve will not be displayed,  
+        --          it is used if the curve is a part of some shape and PrimitiveArray  
+        --          visualization approach is activated (it is activated by default).   
+
+    Add(myclass; aPresentation: Presentation from Prs3d; 
+    	    	 aCurve       : in out Curve from Adaptor3d;
+    	    	 aDeflection  : Real         from Standard;
+    	    	 aLimit       : Real         from Standard;
+    	    	 anAngle      : Real         from Standard = 0.2; 
+                 drawCurve    : Boolean      from Standard = Standard_True);
+
+    	---Purpose: adds to the presentation aPresentation the drawing of the curve
+    	--          aCurve with respect to the maximal chordial deviation aDeflection.
+    	--          The aspect is the current aspect
+        --          If drawCurve equals Standard_False the curve will not be displayed,  
+        --          it is used if the curve is a part of some shape and PrimitiveArray  
+        --          visualization approach is activated (it is activated by default).   
+
+    Add(myclass; aPresentation: Presentation from Prs3d; 
+    	    	 aCurve       : in out Curve from Adaptor3d;
+    	    	 aDeflection  : Real         from Standard;
+    	    	 aDrawer      : Drawer       from Prs3d; 
+    	    	 Points       : out SequenceOfPnt from TColgp; 
+                 drawCurve    : Boolean      from Standard = Standard_True);
+
+   	---Purpose: adds to the presentation aPresentation the drawing of the curve
+    	--          aCurve with respect to the maximal chordial deviation aDeflection.
+    	--          The aspect is the current aspect
+        --          Points give a sequence of curve points. 
+        --          If drawCurve equals Standard_False the curve will not be displayed,  
+        --          it is used if the curve is a part of some shape and PrimitiveArray  
+        --          visualization approach is activated (it is activated by default).   
+
+    Add(myclass; aPresentation: Presentation from Prs3d; 
+    	    	 aCurve       : in out Curve from Adaptor3d;
+                 U1, U2       : Real         from Standard;
+    	    	 aDeflection  : Real         from Standard; 
+                 Points       : out SequenceOfPnt from TColgp;
+    	    	 anAngle      : Real         from Standard = 0.2; 
+                 drawCurve    : Boolean      from Standard = Standard_True);
+		 
+    	---Purpose: adds to the presentation aPresentation the drawing of the curve
+    	--          aCurve with respect to the maximal chordial deviation aDeflection.
+    	--          The aspect is the current aspect
+    	--          The drawing will be limited between the points of parameter U1 and U2. 
+        --          Points give a sequence of curve points. 
+        --          If drawCurve equals Standard_False the curve will not be displayed,  
+        --          it is used if the curve is a part of some shape and PrimitiveArray  
+        --          visualization approach is activated (it is activated by default).   
+
+    Match(myclass; X, Y, Z   : Length from Quantity;
+                   aDistance : Length from Quantity;
+    	    	   aCurve    : Curve  from Adaptor3d;
+    	    	   aDrawer   : Drawer from Prs3d) 
+    returns Boolean from Standard;
+    
+    	---Purpose: returns true if the distance between the point (X,Y,Z) and the
+    	--          drawing of the curve aCurve with respect of the maximal 
+    	--          chordial deviation defined by the drawer aDrawer is less then aDistance.
+
+
+    Match(myclass; X, Y, Z  : Length from Quantity;
+                   aDistance: Length from Quantity;
+    	    	   aCurve   : Curve  from Adaptor3d;
+                   U1, U2   : Real   from Standard;
+    	    	   aDrawer  : Drawer from Prs3d)
+    returns Boolean from Standard;
+    
+    	---Purpose: returns true if the distance between the point (X,Y,Z) and the
+    	--          drawing of the curve aCurve with respect of the maximal 
+    	--          chordial deviation defined by the drawer aDrawer is less 
+    	--          then aDistance. The drawing is considered between the points
+    	--          of parameter U1 and U2;
+
+    Match(myclass; X,Y,Z      : Length from Quantity;
+                   aDistance  : Length from Quantity;
+    	    	   aCurve     : Curve  from Adaptor3d;
+    	    	   aDeflection: Real   from Standard;
+                   aLimit     : Real   from Standard;
+    	    	   anAngle    : Real from Standard = 0.2)
+    returns Boolean from Standard;
+    
+    	---Purpose: returns true if the distance between the point (X,Y,Z) and the
+    	--          drawing with respect of the maximal chordial deviation 
+    	--          aDeflection is less then aDistance.
+
+
+    Match(myclass; X, Y, Z     : Length from Quantity;
+                   aDistance   : Length from Quantity;
+        	   aCurve      : Curve  from Adaptor3d;
+                   U1, U2      : Real   from Standard;
+    	    	   aDeflection : Real   from Standard;
+    	    	   anAngle     : Real   from Standard = 0.2)
+    returns Boolean from Standard;
+    
+    	---Purpose: returns true if the distance between the point (X,Y,Z) and the
+    	--          drawing with respect of the maximal chordial deviation 
+    	--          aDeflection is less then aDistance. The drawing is considered 
+    	--          between the points of parameter U1 and U2;
+
+end DeflectionCurve from StdPrs;

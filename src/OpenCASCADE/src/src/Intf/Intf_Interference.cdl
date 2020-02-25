@@ -1,0 +1,137 @@
+-- Created on: 1991-06-24
+-- Created by: Didier PIFFAULT
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred class Interference from Intf
+
+	---Purpose: Describes the   Interference  computation    result
+	--          between polygon2d or polygon3d or polyhedron.
+
+uses    SectionPoint      from Intf,
+    	SeqOfSectionPoint from Intf,
+    	SectionLine       from Intf,
+    	SeqOfSectionLine  from Intf,
+    	TangentZone       from Intf,
+    	SeqOfTangentZone  from Intf
+
+
+raises  OutOfRange from Standard
+
+
+is  Initialize(Self : Boolean from Standard);
+
+    SelfInterference(me   : in out;
+    	    	     Self : Boolean from Standard) is protected;
+    ---Purpose: Only one argument for the intersection.
+
+    NbSectionPoints(me)
+    	    	    returns Integer is static;
+    ---Purpose: Gives the number   of  points of  intersection  in the
+    --          interference.
+    ---C++: inline
+
+    PntValue       (me;
+    	    	    Index      : in Integer)
+		    returns SectionPoint from Intf
+    	    	    raises OutOfRange from Standard
+    	    	    is static;
+    ---Purpose: Gives the point of  intersection of address  Index in
+    --          the interference.
+    --
+    ---C++: return const &
+    ---C++: inline
+
+    NbSectionLines (me)
+    	    	    returns Integer is static;
+    ---Purpose: Gives the number  of polylines of  intersection in the
+    --          interference.
+    ---C++: inline
+
+    LineValue      (me;
+    	    	    Index      : in Integer)
+    	    	    returns SectionLine from Intf
+    	    	    raises OutOfRange from Standard
+    	    	    is static;
+    ---Purpose: Gives the polyline of intersection at address <Index> in
+    --          the interference.
+    --
+    ---C++: return const &
+    ---C++: inline
+
+    NbTangentZones  (me)
+    	    	    returns Integer is static;
+    ---Purpose: Gives the number of zones of tangence in the interference.
+    ---C++: inline
+
+    ZoneValue      (me;
+    	    	    Index      : in Integer)
+    	    	    returns TangentZone from Intf
+    	    	    raises OutOfRange from Standard
+    	    	    is static;
+    ---Purpose: Gives  the zone of  tangence at address   Index in the
+    --          interference.
+    --
+    ---C++: return const &
+    ---C++: inline
+
+    GetTolerance   (me)
+    	    	    returns Real
+    	    	    is static;
+    ---Purpose: Gives the tolerance used for the calculation.
+    ---C++: inline
+
+-- Implementation functions :
+
+    Contains       (me;
+     	    	    ThePnt : in SectionPoint from Intf)
+		    returns Boolean
+    	    	    is static;
+    ---Purpose: Tests if the polylines of  intersection or the zones of
+    --          tangence contain the point of intersection <ThePnt>.
+
+
+    Insert         (me         : in out;
+     	    	    TheZone    : in TangentZone from Intf)
+		    returns Boolean
+    	    	    is static;
+    ---Purpose: Inserts a new zone of tangence in  the current list of
+    --          tangent zones of  the interference  and  returns  True
+    --          when done.
+
+
+    Insert         (me         : in out;
+     	    	    pdeb       : in SectionPoint from Intf;
+     	    	    pfin       : in SectionPoint from Intf)
+    	    	    is static;
+    ---Purpose: Insert a new segment of intersection in the current  list of
+    --          polylines of intersection of the interference.
+
+
+    Dump           (me) is static;
+
+
+fields    mySPoins  : SeqOfSectionPoint from Intf is protected;
+    	  mySLines  : SeqOfSectionLine  from Intf is protected;
+    	  myTZones  : SeqOfTangentZone  from Intf is protected;
+    	  SelfIntf  : Boolean from Standard is protected;
+          Tolerance : Real from Standard is protected;
+
+end Interference;

@@ -1,0 +1,107 @@
+-- Created on: 2000-03-01
+-- Created by: Denis PASCAL
+-- Copyright (c) 2000-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package DDocStd 
+
+	---Purpose: This package   provides Draw services to test  CAF
+	--          standard documents (see TDocStd package)
+	--          
+	--          It provides :
+	--          
+	--          * Modification registration and Update management.
+	--          
+	--          * External references mechanism
+	--          
+	--          * UNDO/REDO
+	--          
+	--          * Document Creation, Save and Restore
+
+
+uses
+
+    Standard,
+    TCollection,
+    TColStd,
+    Draw,
+    TDF,
+    TDocStd,
+    DDF
+
+is
+
+
+    ---Category: Draw variable wich handle a CAF document
+    --           ========================================
+    
+    class DrawDocument;
+
+    
+    ---Category: draw Application/Document/Label/Attribute tools
+    -- =========================================================
+
+    Find (Appli    : in out Application from TDocStd;
+          Complain : in     Boolean  from Standard = Standard_True)   
+    ---Purpose: return the application of the session. False
+    --          if there is noone current application.
+    returns Boolean from Standard;
+
+	
+    GetDocument (Name     : in out CString  from Standard; 
+                 Doc      : in out Document from TDocStd;
+                 Complain : in     Boolean  from Standard = Standard_True)
+    returns Boolean from Standard;
+    
+    Find (Document : in     Document from TDocStd; 
+          Entry    : in     CString  from Standard;
+	  Label    : in out Label    from TDF;
+          Complain : in     Boolean  from Standard = Standard_True)
+    returns Boolean from Standard;
+    
+    Find (Document : in     Document  from TDocStd; 
+          Entry    : in     CString   from Standard;
+    	  ID       : in     GUID      from Standard;
+          A        : in out Attribute from TDF;
+          Complain : Boolean from Standard = Standard_True)
+    returns Boolean;
+    
+    ReturnLabel(theCommands : in out Interpretor from Draw; L : Label from TDF)
+    returns Interpretor from Draw;  	
+    ---C++: return &         
+
+    ---Category: Commands
+    -- ==================
+				    
+    AllCommands(theCommands : in out Interpretor from Draw);
+
+    ApplicationCommands (theCommands : in out Interpretor from Draw);
+    ---Purpose: NewDocument, Open, SaveAs, Save
+    
+    DocumentCommands (theCommands : in out Interpretor from Draw); 
+    ---Purpose: Undo, Redo, SetModified, Propagate
+
+    ToolsCommands (theCommands : in out Interpretor from Draw);    
+    ---Purpose : Modified, Update
+
+    MTMCommands (theCommands : in out Interpretor from Draw);    
+    ---Purpose : Create, Add, Remove, Open, Commit, Undo, Redo, SetNestedMode
+
+
+end DDocStd;

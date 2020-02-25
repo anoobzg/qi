@@ -1,0 +1,56 @@
+-- Created on: 1998-06-03
+-- Created by: data exchange team
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Geom from ShapeAnalysis 
+
+    ---Purpose: Analyzing tool aimed to work on primitive geometrical objects
+
+uses
+    HArray2OfReal from TColStd,
+    Trsf from gp,
+    Pln from gp,
+    Array1OfPnt from TColgp
+
+raises
+   OutOfRange from Standard
+    
+is
+    NearestPlane (myclass; Pnts: Array1OfPnt from TColgp;
+    	    	     	   aPln: out Pln from gp;
+    	    	    	   Dmax: out Real)
+    returns Boolean;
+    	---Purpose : Builds a plane out of a set of points in array
+	--           Returns in <dmax> the maximal distance between the produced
+	--           plane and given points
+
+    PositionTrsf (myclass; coefs: HArray2OfReal from TColStd;
+                    	   trsf: out Trsf from gp;
+    	    	           unit, prec : Real)
+    returns Boolean
+    	---Purpose: Builds transfromation object out of matrix.
+	--          Matrix must be 3 x 4.
+    	--          Unit is used as multiplier.
+    raises OutOfRange from Standard;
+    	--          If numer of rows is greater than 3 or number of columns is
+    	--          greater than 4
+
+end Geom;

@@ -1,0 +1,91 @@
+// Created on: 1992-03-31
+// Created by: Laurent BUCHARD
+// Copyright (c) 1992-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+
+
+#include <Standard_DomainError.hxx>
+
+//-------------------------------------------------
+//-- hasfirst <--> status & 1 
+//-- haslast  <--> status & 2 
+//-- closed   <--> status & 4 
+//-------------------------------------------------
+
+
+inline void IntRes2d_Domain::SetEquivalentParameters
+        (const Standard_Real p_first,
+	 const Standard_Real p_last)  {
+  if((status&3)!=3) { Standard_DomainError::Raise(); }
+  status|=4;
+  periodfirst=p_first;
+  periodlast=p_last;
+}
+
+inline Standard_Boolean IntRes2d_Domain::HasFirstPoint () const {
+  return (status & 1) ? Standard_True : Standard_False;
+}
+
+inline Standard_Real IntRes2d_Domain::FirstParameter () const {
+  if(!(status&1)) { Standard_DomainError::Raise(); }
+  return(first_param);
+}
+
+inline const gp_Pnt2d& IntRes2d_Domain::FirstPoint () const {
+  if(!(status&1)) { Standard_DomainError::Raise(); }
+  return(first_point);
+}
+
+inline Standard_Real IntRes2d_Domain::FirstTolerance () const {
+  if(!(status&1)) { Standard_DomainError::Raise(); }
+  return(first_tol);
+}
+
+
+
+inline Standard_Boolean IntRes2d_Domain::HasLastPoint () const {
+  return (status & 2) ? Standard_True : Standard_False;
+}
+
+inline Standard_Real IntRes2d_Domain::LastParameter () const {
+  if(!(status&2)) { Standard_DomainError::Raise(); }
+  return(last_param);
+}
+
+inline const gp_Pnt2d& IntRes2d_Domain::LastPoint () const {
+  if(!(status&2)) { Standard_DomainError::Raise(); }
+  return(last_point);
+}
+
+inline Standard_Real IntRes2d_Domain::LastTolerance () const {
+  if(!(status&2)) { Standard_DomainError::Raise(); }
+  return(last_tol);
+}
+
+inline Standard_Boolean IntRes2d_Domain::IsClosed () const {
+  return (status & 4) ? Standard_True : Standard_False;
+}
+
+inline void IntRes2d_Domain::EquivalentParameters(Standard_Real& p_first,
+						  Standard_Real& p_last) const
+{
+  p_first=periodfirst;
+  p_last=periodlast;
+}

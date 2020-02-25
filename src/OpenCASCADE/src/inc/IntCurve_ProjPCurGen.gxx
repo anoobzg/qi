@@ -1,0 +1,75 @@
+// Created on: 1992-10-13
+// Created by: Laurent BUCHARD
+// Copyright (c) 1992-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+
+#include <Extrema_POnCurv2d.hxx>
+
+Standard_Real IntCurve_ProjPCurGen::FindParameter 
+  (const TheCurve& C,
+   const gp_Pnt2d& P,
+   const Standard_Real LowParameter,
+   const Standard_Real HighParameter,
+   const Standard_Real) 
+{
+  Standard_Real theparam,defaultparam;
+  Standard_Integer NbPts = TheCurveTool::NbSamples(C);
+  Standard_Real theEpsX  = TheCurveTool::EpsX(C);
+  Extrema_POnCurv2d POnC;
+  
+  IntCurve_TheCurveLocator::Locate(P,C,NbPts,LowParameter,HighParameter,POnC);
+  defaultparam = POnC.Parameter();
+  IntCurve_TheLocateExtPC Loc(P,C,defaultparam,theEpsX);
+
+  if(Loc.IsDone() == Standard_False) {
+    //-- cout<<"\n Erreur dans LocateExtPC "<<endl;
+    theparam = defaultparam;
+  }
+  else {
+    if(Loc.IsMin() == Standard_False) { 
+      //-- cout<<"\n Erreur dans LocateExtPC (Maximum trouve) "<<endl;
+      theparam = defaultparam;
+    }
+    else {
+      theparam = Loc.Point().Parameter();
+    }
+  }
+  return theparam;
+}
+
+
+Standard_Real IntCurve_ProjPCurGen::FindParameter
+  (const TheCurve& C,
+   const gp_Pnt2d& P,
+   const Standard_Real Tol) 
+{
+
+  Standard_Real theParam;
+  theParam = FindParameter( C
+			   ,P
+			   ,TheCurveTool::FirstParameter(C)
+			   ,TheCurveTool::LastParameter(C)
+			   ,Tol);
+  return theParam;
+}
+
+
+
+

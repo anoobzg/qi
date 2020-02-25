@@ -1,0 +1,65 @@
+-- Created on: 1993-04-15
+-- Created by: Jean-Louis Frenkel
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Arrow from Prs3d 
+    
+inherits Root from Prs3d
+
+	---Purpose: provides class methods to draw an arrow at a given
+	--          location, along a given direction and using a given 
+	--          angle. 
+	
+uses
+    Pnt from gp,
+    Dir from gp,
+    PlaneAngle from Quantity,
+    Length from Quantity,
+    Presentation from Prs3d  
+
+   
+is
+    Draw(myclass; aPresentation: Presentation from Prs3d;
+    	    	  aLocation: Pnt from gp; 
+    	    	  aDirection: Dir from gp;
+		  anAngle: PlaneAngle from Quantity;
+                  aLength: Length from Quantity);
+    	---Purpose: Defines the representation of the arrow defined by
+    	-- the location point aLocation, the direction
+    	-- aDirection and the length aLength.
+    	-- The angle anAngle defines the angle of opening of the arrow head.
+    	-- The presentation object aPresentation stores the
+    	-- information defined in this framework.
+        
+    Fill(myclass; aPresentation: Presentation from Prs3d;
+    	    	  aLocation: Pnt from gp; 
+    	    	  aDirection: Dir from gp;
+		  anAngle: PlaneAngle from Quantity;
+                  aLength: Length from Quantity);
+    	---Purpose: Defines the representation of the arrow defined by
+    	-- the location point aLocation, the direction vector
+    	-- aDirection and the length aLength.
+    	-- The angle anAngle defines the angle of opening of
+    	-- the arrow head, and the drawer aDrawer specifies
+    	-- the display attributes which arrows will have.
+    	--  With this syntax, no presentation object is created.
+    
+end Arrow from Prs3d;

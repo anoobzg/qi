@@ -1,0 +1,180 @@
+-- Created on: 1992-04-30
+-- Created by: Remi GILET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+package gce
+
+uses gp,
+     StdFail
+
+      	--- Level : Public  
+      	--  All methods of all  classes will be public.
+
+
+
+is
+
+enumeration ErrorType is Done, ConfusedPoints, NegativeRadius, ColinearPoints,
+    	    	      IntersectionError, NullAxis, NullAngle, NullRadius,
+    	    	      InvertAxis,BadAngle,InvertRadius,NullFocusLength,
+    	    	      NullVector,BadEquation;
+    	--- Purpose: Indicates the outcome of a construction, i.e.
+    	-- whether it is successful or not, as explained below.
+    	-- gce_Done: Construction was successful.
+    	-- gce_ConfusedPoints: Two points are coincident.
+    	-- gce_NegativeRadius: Radius value is negative.
+    	-- gce_ColinearPoints: Three points are collinear.
+    	-- gce_IntersectionError: Intersection cannot be computed.
+    	-- gce_NullAxis: Axis is undefined.
+    	-- gce_NullAngle: Angle value is invalid (usually null).
+    	-- gce_NullRadius: Radius is null.
+    	-- gce_InvertAxis: Axis value is invalid.
+    	-- gce_BadAngle: Angle value is invalid.
+    	-- gce_InvertRadius: Radius value is incorrect
+    	-- (usually with respect to another radius).
+    	-- gce_NullFocusLength: Focal distance is null.
+    	-- gce_NullVector: Vector is null.
+    	-- gce_BadEquation: Coefficients are
+    	-- incorrect (applies to the equation of a geometric object).
+
+
+private deferred class Root;
+    	---Purpose: Root of classes with error report.
+
+class MakeDir2d;
+    	---Purpose: Makes a dir2d from gp.
+
+class MakeLin2d;
+    	---Purpose: Makes a Lin2d from gp.
+	
+class MakeCirc2d;
+    	---Purpose: Makes a Circ2d from gp.
+
+class MakeHypr2d;
+    	---Purpose: Makes an hypr2d from gp.
+
+class MakeElips2d;
+    	---Purpose: Makes an Elips2d from gp.
+
+class MakeParab2d;
+    	---Purpose: Makes a parab2d from gp.
+
+---------------------------------------------------------------------------
+    ---Purpose : Constructions of Trsf2d from gp.
+---------------------------------------------------------------------------
+
+class MakeTranslation2d;
+    	---Purpose: Returns a translation transformation.
+
+class MakeMirror2d;
+    	---Purpose: Returns a symmetry transformation.
+
+class MakeRotation2d;
+    	---Purpose: Returns a rotation transformation.
+ 
+class MakeScale2d;
+    	---Purpose: Returns a scaling transformation.
+
+---------------------------------------------------------------------------
+    ---Purpose: scalar product.
+---------------------------------------------------------------------------
+
+--class MakeDot;
+    ---Purpose: Makes a scalar product between the two vectors P1P2 and P3P4.
+
+---------------------------------------------------------------------------
+    ---Purpose: vector product.
+---------------------------------------------------------------------------
+
+--class MakeCross2d;
+    ---Purpose: Makes a Cross between the two vectors P1P2 and P1P3.
+
+--class MakeDotCross;
+    ---Purpose: Makes the triple scalar product P1P2 * (P3P4 ^ P5P6).
+
+---------------------------------------------------------------------------
+    ---Purpose : Constructions of 3d geometrical elements from gp.
+---------------------------------------------------------------------------
+
+class MakeDir;
+    	---Purpose: Makes a dir from gp.
+
+class MakeLin;
+    	---Purpose: Makes a Line <L> from gp.
+	
+class MakeCirc;
+    	---Purpose: Makes a Circle <C> from gp.
+
+class MakeHypr;
+    	---Purpose: Makes an hyperbola <H> from gp.
+
+class MakeElips;
+    	---Purpose: Makes an ellipse <E> from gp.
+
+class MakeParab;
+    	---Purpose: Makes a parabola <P> from gp.
+
+---------------------------------------------------------------------------
+    ---Purpose : Constructions of planes from gp.
+---------------------------------------------------------------------------
+
+class MakePln;
+    	---Purpose: Makes a plane <Pl> from gp.
+
+---------------------------------------------------------------------------
+    ---Purpose: Construction of surfaces from gp.
+---------------------------------------------------------------------------
+
+class MakeCylinder;
+    ---Purpose: Makes a cylinder <Cyl> from gp.
+ 
+class MakeCone;
+    ---Purpose: Makes a cone <Cone> from gp.
+
+---------------------------------------------------------------------------
+    ---Purpose : Constructions of Trsf from gp.
+---------------------------------------------------------------------------
+
+class MakeTranslation;
+    	---Purpose: returns a translation transformation.
+
+class MakeMirror;
+    	---Purpose: returns a symmetry transformation.
+
+class MakeRotation;
+    	---Purpose: returns a rotation transformation.
+ 
+class MakeScale;
+    	---Purpose: returns a scaling transformation.
+ 
+---------------------------------------------------------------------------
+    ---Purpose: vector product.
+---------------------------------------------------------------------------
+
+--class MakeCross;
+    ---Purpose: Makes a Cross product between the two vectors P1P2 and P1P3.
+
+--class MakeDotCross;
+    ---Purpose: Makes the triple scalar product P1P2 * (P3P4 ^ P5P6).
+
+end gce;
+
+
+

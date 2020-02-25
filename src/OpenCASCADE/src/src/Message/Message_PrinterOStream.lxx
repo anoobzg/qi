@@ -1,0 +1,72 @@
+// Created on: 2007-06-28
+// Created by: Pavel TELKOV
+// Copyright (c) 2007-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include <Message_PrinterOStream.hxx>
+
+//=======================================================================
+//function : GetTraceLevel
+//purpose  : 
+//=======================================================================
+
+inline Message_Gravity Message_PrinterOStream::GetTraceLevel() const
+{
+  return myTraceLevel;
+}
+
+//=======================================================================
+//function : SetTraceLevel
+//purpose  : 
+//=======================================================================
+
+inline void Message_PrinterOStream::SetTraceLevel (const Message_Gravity theTraceLevel)
+{
+  myTraceLevel = theTraceLevel;
+}
+
+//=======================================================================
+//function : GetUseUtf8
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean Message_PrinterOStream::GetUseUtf8() const
+{
+  return myUseUtf8;
+}
+
+//=======================================================================
+//function : SetUseUtf8
+//purpose  : 
+//=======================================================================
+
+inline void Message_PrinterOStream::SetUseUtf8 (const Standard_Boolean useUtf8)
+{
+  myUseUtf8 = useUtf8;
+}
+
+//=======================================================================
+//function : GetStream
+//purpose  : 
+//=======================================================================
+
+inline Standard_OStream& Message_PrinterOStream::GetStream () const
+{
+  return *(Standard_OStream*)myStream;
+}
+

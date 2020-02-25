@@ -1,0 +1,53 @@
+-- Created on: 1995-05-30
+-- Created by: Christian CAILLET
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+generic class JaggedArray  from Interface
+    (TheKey as TShared)
+    inherits TShared
+
+    ---Purpose : This class allows to define an HArray1 Of HArray1 ...
+    --           which is not possible with the actual system of
+    --           genericity supported by CasCade
+
+uses Array1OfTransient
+
+is
+
+    Create (low, up : Integer) returns mutable JaggedArray;
+
+    Lower  (me) returns Integer;
+    Upper  (me) returns Integer;
+    Length (me) returns Integer;
+
+    SetValue (me : mutable; num : Integer; val : any TheKey);
+
+    Value (me; num : Integer) returns any TheKey;
+    -- C++ : return const & (NO , DownCast required)
+
+--    ChangeValue (me : mutable; num : Integer) returns any TheKey;
+    -- C++ : return & (NO , DownCast required !)
+
+fields
+
+    thelist : Array1OfTransient;
+
+end JaggedArray;

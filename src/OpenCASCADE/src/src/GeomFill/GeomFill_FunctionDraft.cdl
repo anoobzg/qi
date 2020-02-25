@@ -1,0 +1,124 @@
+-- Created on: 1998-04-27
+-- Created by: Stephanie HUMEAU
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+private  class FunctionDraft  from  GeomFill   
+inherits  FunctionSetWithDerivatives  from  math 
+
+uses   
+
+    Vector from math,  
+    Matrix from math, 
+    HSurface  from  Adaptor3d, 
+    HCurve  from  Adaptor3d, 
+    Vec  from  gp, 
+    Tensor  from  GeomFill
+
+is
+ 
+    Create(S  :  HSurface  from  Adaptor3d ;  C  :  HCurve  from  Adaptor3d)   
+    returns FunctionDraft  from  GeomFill ;
+
+    NbVariables(me)
+    	---Purpose: returns the number of variables of the function.
+
+    returns Integer  is  redefined;
+    
+    
+    NbEquations(me)
+    	---Purpose: returns the number of equations of the function.
+
+    returns Integer  is redefined;
+    
+    
+    Value(me: in out; X: Vector; F: out Vector)
+    	---Purpose: computes the values <F> of the Functions for the 
+    	--          variable <X>.
+    	--          Returns True if the computation was done successfully, 
+    	--          False otherwise.
+
+    returns Boolean  is redefined;
+    
+    
+    Derivatives(me: in out; X: Vector; D: out Matrix)
+    	---Purpose: returns the values <D> of the derivatives for the 
+    	--          variable <X>.
+    	--          Returns True if the computation was done successfully, 
+    	--          False otherwise.
+
+    returns Boolean  is redefined;
+    
+    
+    Values(me: in out; X: Vector; F: out Vector; D: out Matrix)
+    	---Purpose: returns the values <F> of the functions and the derivatives
+    	--          <D> for the variable <X>.
+    	--          Returns True if the computation was done successfully, 
+    	--          False otherwise.
+
+    returns Boolean  is redefined;
+   
+
+    DerivT(me: in out;   
+    	   C  :  HCurve  from  Adaptor3d; 
+	   Param  :  Real  from  Standard;
+	   W  :  Real  from  Standard; 
+ 	   dN  :  Vec  from  gp; 
+    	   teta  :  Real;  
+    	   F: out Vector) 
+    	---Purpose: returns the values <F> of the T derivatives for
+    	--          the parameter Param .
+    returns Boolean  is static;
+ 
+
+    Deriv2T(me: in out;  
+    	    C  :  HCurve  from  Adaptor3d; 
+	    Param  :  Real  from  Standard;  
+       	    W  :  Real  from  Standard;  
+ 	    d2N  :  Vec  from  gp; 
+    	    teta  :  Real;  
+    	    F: out Vector)	 
+    	---Purpose: returns the values <F> of the T2 derivatives for
+    	--          the parameter Param .
+    returns Boolean  is static;    
+   
+  
+    DerivTX(me: in out;  
+    	    dN  :  Vec  from  gp; 
+    	    teta  :  Real;  
+    	    D: out Matrix)	 
+    	---Purpose: returns the values <D> of  the TX derivatives for
+    	--          the parameter Param .
+    returns Boolean  is static;        
+   
+      
+    Deriv2X(me: in out;  
+    	    X  :  Vector  from  math; 
+      	    T: out Tensor)	 
+	 ---Purpose: returns the values <T> of  the X2 derivatives for
+    	--          the parameter Param .   
+    returns Boolean  is static;     
+     
+     
+    
+fields   
+    TheCurve  :  HCurve  from  Adaptor3d;
+    TheSurface  :  HSurface  from  Adaptor3d;
+
+end  FunctionDraft;

@@ -1,0 +1,77 @@
+-- Created on: 1993-06-11
+-- Created by: Jean-Louis FRENKEL
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Modified	GG : GER61351 01/02/00 Add SetColor() & Aspect() methods
+
+
+class ArrowAspect from Prs3d inherits CompositeAspect from Prs3d
+    	---Purpose: A framework for displaying arrows in representations
+    	-- of dimensions and relations.
+uses
+    Length from Quantity,
+    PlaneAngle from Quantity,
+    NameOfColor from Quantity,
+    Color       from Quantity,
+    AspectLine3d from Graphic3d
+    
+raises
+    InvalidAngle from Prs3d
+    
+is
+    Create returns mutable ArrowAspect from Prs3d;
+    	---Purpose: Constructs an empty framework for displaying arrows
+    	-- in representations of lengths. The lengths displayed
+    	-- are either on their own or in chamfers, fillets,
+    	-- diameters and radii.    
+    Create (anAngle: PlaneAngle from Quantity; aLength: Length from Quantity)
+    returns mutable ArrowAspect from Prs3d;
+    	--- Purpose: Constructs a framework to display an arrow with a
+    	-- shaft of the length aLength and having a head with
+    	-- sides at the angle anAngle from each other.   
+        
+    SetAngle(me: mutable; anAngle: PlaneAngle from Quantity)
+    	---Purpose: defines the angle of the arrows.
+    raises InvalidAngle from Prs3d
+    is static;
+    
+    Angle(me) returns PlaneAngle from Quantity
+    	---Purpose: returns the current value of the angle used when drawing an arrow.
+    is static;
+    
+    SetLength(me: mutable; aLength: Length from Quantity)
+	---Purpose: defines the length of the arrows.
+    is static;
+    
+    Length(me) returns Length from Quantity
+	---Purpose: returns the current value of the length used when drawing an arrow.
+    is static;
+
+    SetColor(me: mutable; aColor:  Color  from  Quantity);
+
+    SetColor(me: mutable; aColor:  NameOfColor  from  Quantity);
+
+    Aspect(me) returns AspectLine3d  from  Graphic3d;
+
+fields
+	    myArrowAspect: AspectLine3d  from  Graphic3d;
+	    myAngle: PlaneAngle from Quantity;
+	    myLength: Length from Quantity;
+
+end ArrowAspect from Prs3d;

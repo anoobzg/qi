@@ -1,0 +1,146 @@
+-- Created on: 1995-10-12
+-- Created by: Bruno DUMORTIER
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+package BRepOffset 
+
+	---Purpose: 
+
+uses
+    MMgt,
+    Geom,
+    TopoDS,
+    TopAbs,	
+    TCollection,
+    TopTools,
+    GeomAbs,
+    BRepAlgo, 
+    BOPAlgo, 
+    BOPDS, 
+    BOPTools
+
+is
+    enumeration Type is 
+    	Concave, 
+    	Convex, 
+    	Tangent,
+	FreeBoundary,
+	Other
+    end Type;
+    
+    enumeration Mode is 
+    	Skin,
+    	Pipe,
+    	RectoVerso 
+    end Mode;
+---Purpose:
+-- Lists the offset modes. These are the following:
+-- - BRepOffset_Skin which describes the offset along
+--   the surface of a solid, used to obtain a manifold topological space,
+-- - BRepOffset_Pipe which describes the offset of a
+--   curve, used to obtain a pre-surface,
+-- - BRepOffset_RectoVerso which describes the offset
+--   of a given surface shell along both sides of the surface.
+        
+    enumeration Status is 
+	---Purpose: status of an offset face
+	--          Good : 
+	--          Reversed : e.g. Offset > Radius of a cylinder
+	--          Degenerated : e.g. Offset = Radius of a cylinder
+	--          Unknown : e.g. for a Beziersurf
+    	Good,
+	Reversed,
+	Degenerated,
+    	Unknown
+    end Status;
+    	    
+    enumeration Error is
+        NoError,		    	
+	OffsetSurfaceFailed,
+	UnCorrectClosingFace,
+        ExtentFaceFailed,
+	RadiusEqualOffset,
+	UnknownError
+    end Error;
+    
+    class MakeOffset;
+    	
+    --class Loop;
+    
+    class Inter3d;
+    
+    class Inter2d;
+    
+    class Offset;
+    	---Purpose: This class compute elemenary offset surface.
+	--          Evaluate the offset generated :
+	--               1 - from a face.
+	--               2 - from an edge.
+	--               3 - from a vertex.
+	--               
+
+    class Analyse;
+
+    class MakeLoops;
+    
+    class Tool;
+
+    --class Image;
+    
+    --class AsDes;
+
+
+    class Interval;
+   
+    class ListOfInterval instantiates 
+    	List from TCollection  (Interval from BRepOffset);
+    
+    class DataMapOfShapeListOfInterval  instantiates
+    	DataMap from TCollection(Shape           from TopoDS,
+	    	    	    	 ListOfInterval  from BRepOffset,
+				 ShapeMapHasher  from TopTools );   
+    
+    class DataMapOfShapeOffset instantiates
+    	DataMap from TCollection(Shape           from TopoDS,
+	    	    	    	 Offset          from BRepOffset,
+				 ShapeMapHasher  from TopTools );   
+				 
+    class DataMapOfShapeMapOfShape instantiates
+	DataMap from TCollection(Shape           from TopoDS,
+	    	    	    	 MapOfShape      from TopTools,
+				 ShapeMapHasher  from TopTools);     
+
+  
+    Surface( Surface : in  Surface from Geom;
+    	     Offset  : in  Real    from Standard;
+    	     Status  : out Status  from BRepOffset)
+	---Purpose: returns   the  Offset  surface  computed from  the
+	--          surface <Surface> at an OffsetDistance <Offset>.
+	--          
+	--          If possible, this method returns  the real type of
+	--          the surface ( e.g. An Offset of a plane is a plane).
+	--          
+	--          If  no particular  case  is detected, the returned
+	--          surface will have the Type Geom_OffsetSurface.
+    returns Surface from Geom;
+
+end BRepOffset;

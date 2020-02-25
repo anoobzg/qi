@@ -1,0 +1,118 @@
+-- Created on: 1996-06-06
+-- Created by: Stagiaire Xuan Trang PHAMPHU
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ChamfInv from BlendFunc
+
+inherits FuncInv from Blend
+
+	---Purpose: 
+
+uses Vector   from math,
+     Matrix   from math,
+     HCurve2d from Adaptor2d,
+     HCurve   from Adaptor3d,
+     HSurface from Adaptor3d,
+     Corde    from BlendFunc
+    
+is
+    Create(S1,S2: HSurface from Adaptor3d; C: HCurve from Adaptor3d)
+    
+    	returns ChamfInv from BlendFunc;
+	
+    Set(me: in out; OnFirst: Boolean from Standard;
+    	            COnSurf: HCurve2d from Adaptor2d)
+
+    	;
+
+
+    GetTolerance(me; Tolerance: out Vector from math; Tol: Real from Standard)
+    
+    	;
+
+
+    GetBounds(me; InfBound,SupBound: out Vector from math)
+    
+    	;
+
+
+    IsSolution(me: in out; Sol: Vector from math; Tol: Real from Standard)
+    
+    	returns Boolean from Standard
+    
+    	;
+
+
+    NbEquations(me)
+    	---Purpose: returns the number of equations of the function.
+    	returns Integer from Standard
+    	is redefined static ;
+
+    Value(me: in out; X: Vector; F: out Vector)
+    	---Purpose: computes the values <F> of the Functions for the 
+    	--          variable <X>.
+    	--          Returns True if the computation was done successfully, 
+    	--          False otherwise.
+
+    	returns Boolean from Standard
+    	is redefined static ;
+    
+    
+    Derivatives(me: in out; X: Vector; D: out Matrix)
+    	---Purpose: returns the values <D> of the derivatives for the 
+    	--          variable <X>.
+    	--          Returns True if the computation was done successfully, 
+    	--          False otherwise.
+
+    returns Boolean from Standard
+    is redefined static	;
+    
+    
+    Values(me: in out; X: Vector; F: out Vector; D: out Matrix)
+    	---Purpose: returns the values <F> of the functions and the derivatives
+    	--          <D> for the variable <X>.
+    	--          Returns True if the computation was done successfully, 
+    	--          False otherwise.
+
+    returns Boolean from Standard
+    	is redefined static ;
+
+-- methodes hors template (en plus du create)
+
+    Set(me: in out; Dist1, Dist2: Real from Standard; Choix: Integer from Standard)
+
+    is static;
+
+
+fields
+
+    surf1 : HSurface from Adaptor3d;
+    surf2 : HSurface from Adaptor3d;
+    dis1  : Real from Standard;
+    dis2  : Real from Standard;    
+    curv  : HCurve from Adaptor3d;
+    csurf : HCurve2d from Adaptor2d;
+    choix : Integer from Standard;
+    first : Boolean from Standard;
+    corde1: Corde from BlendFunc;
+    corde2: Corde from BlendFunc;
+    
+end ChamfInv;

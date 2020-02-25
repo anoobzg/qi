@@ -1,0 +1,78 @@
+-- Created on: 1993-04-15
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class Color from Materials
+
+	---Purpose: This class  encapsulates   a Quantity_Color  in  a
+	--          Transient object, to be used in an ObjectProperty
+	--          from the package Dynamic.
+
+inherits
+
+    Transient
+    
+uses
+
+    Color from Quantity, TypeOfColor from Quantity, NameOfColor from Quantity
+
+--raises
+
+is
+
+    Create returns mutable Color from Materials;    
+    ---Level: Internal     
+    ---Purpose: Creates an empty instance of Color.
+    
+    Create(acolor : Color from Quantity)
+    ---Level: Internal     
+    ---Purpose: Creates an instance of Color, with <acolor> as color.
+    
+    returns mutable Color from Materials;
+    
+    Color(me : mutable ; acolor : Color from Quantity)    
+    ---Level: Internal     
+    ---Purpose: Sets <acolor> into <me>.    
+    is static;
+
+    Color(me) returns Color from Quantity   
+    ---Level: Internal     
+    ---Purpose: Returns a Quantity_Color corresponding to <me>.    
+    is static;
+
+    Color(me; aTypeOfColor : in TypeOfColor from Quantity; Reel1, Reel2, Reel3 : out Real from Standard);
+    ---Purpose: Get the values ( RGB or HLS )  between 0.0 and 1.0
+
+    Color255(me; aTypeOfColor : in TypeOfColor from Quantity; Reel1, Reel2, Reel3 : out Real from Standard);
+    ---Purpose: Get the values ( RGB or HLS )  between 0.0 and 255.0
+
+    SetColor(me : mutable; aTypeOfColor : in TypeOfColor from Quantity; Reel1, Reel2, Reel3 : in Real from Standard);
+    ---Purpose: Set the values ( RGB or HLS )  between 0.0 and 1.0
+
+    SetColor255(me : mutable; aTypeOfColor : in TypeOfColor from Quantity; Reel1, Reel2, Reel3 : in Real from Standard);
+   ---Purpose: Set the values ( RGB or HLS )  between 0.0 and 255.0
+
+fields
+
+    thecolor : Color from Quantity;
+
+end Color;

@@ -1,0 +1,84 @@
+-- Created on: 1991-10-10
+-- Created by: Jean Claude VAUTHIER
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+
+
+class SphereToBSplineSurface   from Convert
+
+        --- Purpose :
+        --  This algorithm converts a bounded Sphere into a rational 
+        --  B-spline surface. The sphere is a Sphere from package gp. 
+        --  The parametrization of the sphere is
+        --  P (U, V) = Loc  + Radius * Sin(V) * Zdir +
+        --             Radius * Cos(V) * (Cos(U)*Xdir + Sin(U)*Ydir)
+        --  where Loc is the center of the sphere Xdir, Ydir and Zdir are the
+        --  normalized directions of the local cartesian coordinate system of
+        --  the sphere. The parametrization range is U [0, 2PI] and
+        --  V [-PI/2, PI/2].
+        --- KeyWords :
+        --  Convert, Sphere, BSplineSurface.
+
+inherits ElementarySurfaceToBSplineSurface
+
+uses Sphere from gp
+
+raises DomainError from Standard
+
+is
+
+  Create (Sph : Sphere; U1, U2, V1, V2 : Real)  returns SphereToBSplineSurface
+       --- Purpose : 
+       --  The equivalent B-spline surface as the same orientation as the 
+       --  sphere in the U and V parametric directions.
+     raises DomainError;
+       --- Purpose :
+       --  Raised if U1 = U2 or U1 = U2 + 2.0 * Pi
+       --  Raised if V1 = V2.
+
+
+  Create (Sph : Sphere; 
+          Param1, Param2 : Real; 
+          UTrim : Boolean = Standard_True) 
+        returns SphereToBSplineSurface
+       --- Purpose : 
+       --  The equivalent B-spline surface as the same orientation
+       --  as the sphere in the U and V parametric directions.
+     raises DomainError;
+       --- Purpose :
+       --  Raised if UTrim = True and Param1 = Param2 or 
+       --            Param1 = Param2 + 2.0 * Pi
+       --  Raised if UTrim = False and Param1 = Param2 
+
+
+  Create (Sph : Sphere)   returns SphereToBSplineSurface;
+       --- Purpose : 
+       --  The equivalent B-spline surface as the same orientation
+       --  as the sphere in the U and V parametric directions.
+
+
+
+end SphereToBSplineSurface;
+
+
+
+

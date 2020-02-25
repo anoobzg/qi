@@ -1,0 +1,69 @@
+-- Created on: 1992-03-09
+-- Created by: Isabelle GRIGNON
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+deferred generic class LoopPointTool from IntWalk 
+    (LoopPoint as any)
+
+	---Purpose: template class to describe the necessary ressources 
+	--          for a point usedas a starting point for a marching 
+	--          algorithm.
+	--          The 'marching algorithm' determines the intersection 
+	--          between an implicit surface and a parametrized surface.
+	--          these point are inside the surface not on the boundaries.
+
+uses Pnt from gp,
+     Vec from gp,
+     Dir2d from gp
+
+is
+
+    Value3d(myclass; PStart: LoopPoint)
+    
+      	---Purpose: Returns the 3d coordinates of the starting point.
+
+    	returns Pnt from gp;
+
+
+    Value2d(myclass; PStart: LoopPoint; U, V: out Real from Standard);
+    
+	---Purpose: Returns the <U,V> parameters which are associated 
+	--          with <P>
+	--          it's the parameters which start the marching algorithm
+
+
+    Direction3d(myclass; PStart: LoopPoint)
+    
+        ---Purpose: returns the tangent at the intersectin in 3d space
+        --          associated to <P>
+
+    	returns Vec from gp;
+
+
+    Direction2d(myclass; PStart: LoopPoint)
+    
+        ---Purpose: returns the tangent at the intersectin in the
+        --          parametric space of the parametrized surface.This tangent
+        --          is associated to the value2d
+
+    	returns Dir2d from gp;
+
+
+end LoopPointTool;

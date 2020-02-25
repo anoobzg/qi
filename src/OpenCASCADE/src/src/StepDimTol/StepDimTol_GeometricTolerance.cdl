@@ -1,0 +1,68 @@
+-- Created on: 2003-06-04
+-- Created by: Galina KULIKOVA
+-- Copyright (c) 2003-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Generator:	ExpToCas (EXPRESS -> CASCADE/XSTEP Translator) V1.2
+
+class GeometricTolerance from StepDimTol
+inherits TShared from MMgt
+
+    ---Purpose: Representation of STEP entity GeometricTolerance
+
+uses
+    HAsciiString from TCollection,
+    MeasureWithUnit from StepBasic,
+    ShapeAspect from StepRepr
+
+is
+    Create returns GeometricTolerance from StepDimTol;
+	---Purpose: Empty constructor
+
+    Init (me: mutable; aName: HAsciiString from TCollection;
+                       aDescription: HAsciiString from TCollection;
+                       aMagnitude: MeasureWithUnit from StepBasic;
+                       aTolerancedShapeAspect: ShapeAspect from StepRepr);
+	---Purpose: Initialize all fields (own and inherited)
+
+    Name (me) returns HAsciiString from TCollection;
+	---Purpose: Returns field Name
+    SetName (me: mutable; Name: HAsciiString from TCollection);
+	---Purpose: Set field Name
+
+    Description (me) returns HAsciiString from TCollection;
+	---Purpose: Returns field Description
+    SetDescription (me: mutable; Description: HAsciiString from TCollection);
+	---Purpose: Set field Description
+
+    Magnitude (me) returns MeasureWithUnit from StepBasic;
+	---Purpose: Returns field Magnitude
+    SetMagnitude (me: mutable; Magnitude: MeasureWithUnit from StepBasic);
+	---Purpose: Set field Magnitude
+
+    TolerancedShapeAspect (me) returns ShapeAspect from StepRepr;
+	---Purpose: Returns field TolerancedShapeAspect
+    SetTolerancedShapeAspect (me: mutable; TolerancedShapeAspect: ShapeAspect from StepRepr);
+	---Purpose: Set field TolerancedShapeAspect
+
+fields
+    theName: HAsciiString from TCollection;
+    theDescription: HAsciiString from TCollection;
+    theMagnitude: MeasureWithUnit from StepBasic;
+    theTolerancedShapeAspect: ShapeAspect from StepRepr;
+
+end GeometricTolerance;

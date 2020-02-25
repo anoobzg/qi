@@ -1,0 +1,8 @@
+puts "TODO OCC22911 ALL: Error : The area of the resulting shape is"
+
+restore [locate_data_file CTO909_shape.brep] a
+restore [locate_data_file tool_1.brep] b
+
+bfuse result a b
+
+set square 898457

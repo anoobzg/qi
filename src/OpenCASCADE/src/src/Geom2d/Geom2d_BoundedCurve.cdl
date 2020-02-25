@@ -1,0 +1,63 @@
+-- Created on: 1993-03-24
+-- Created by: JCV
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+
+deferred class BoundedCurve from Geom2d inherits Curve from Geom2d 
+
+    	--- Purpose : The abstract class BoundedCurve describes the
+    	-- common behavior of bounded curves in 2D space. A
+    	-- bounded curve is limited by two finite values of the
+    	-- parameter, termed respectively "first parameter" and
+    	-- "last parameter". The "first parameter" gives the "start
+    	-- point" of the bounded curve, and the "last parameter"
+    	-- gives the "end point" of the bounded curve.
+    	-- The length of a bounded curve is finite.
+    	-- The Geom2d package provides three concrete
+    	-- classes of bounded curves:
+    	-- - two frequently used mathematical formulations of complex curves:
+    	--   - Geom2d_BezierCurve,
+    	--   - Geom2d_BSplineCurve, and
+    	-- - Geom2d_TrimmedCurve to trim a curve, i.e. to
+    	--   only take part of the curve limited by two values of
+    	--   the parameter of the basis curve.
+
+uses Pnt2d from gp
+
+
+is
+
+  EndPoint (me)   returns Pnt2d  is deferred;
+        --- Purpose : 
+        --  Returns the end point of the curve.
+        --  The end point is the value of the curve for the 
+        --  "LastParameter" of the curve.
+
+
+  StartPoint (me)  returns Pnt2d   is deferred;
+        --- Purpose : 
+        --  Returns the start point of the curve.
+        --  The start point is the value of the curve for the 
+        --  "FirstParameter" of the curve.
+
+
+end;

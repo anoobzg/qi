@@ -1,0 +1,60 @@
+-- Created on: 1994-05-26
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class GeometryData from TopOpeBRepDS 
+
+    ---Purpose: mother-class of SurfaceData, CurveData, PointData 
+
+uses
+
+    Interference from TopOpeBRepDS,
+    ListOfInterference from TopOpeBRepDS
+
+is
+
+    Create returns GeometryData from TopOpeBRepDS; 
+     
+--modified by NIZNHY-PKV Tue Oct 30 09:24:30 2001  f 
+    Create  (Other:GeometryData from TopOpeBRepDS) 
+    	returns GeometryData from TopOpeBRepDS;  
+    
+    Assign (me:out; 
+    	    Other:GeometryData from TopOpeBRepDS); 
+    ---C++: alias operator=	 
+--modified by NIZNHY-PKV Tue Oct 30 09:24:33 2001  t
+
+    Interferences(me) returns ListOfInterference from TopOpeBRepDS
+    ---C++: return const &
+    is static;
+
+    ChangeInterferences(me : in out) 
+    returns ListOfInterference from TopOpeBRepDS
+    ---C++: return &
+    is static;
+    
+    AddInterference(me : in out; I : Interference from TopOpeBRepDS)
+    is static;
+    
+fields
+
+    myInterferences : ListOfInterference from TopOpeBRepDS;
+    
+end GeometryData from TopOpeBRepDS;

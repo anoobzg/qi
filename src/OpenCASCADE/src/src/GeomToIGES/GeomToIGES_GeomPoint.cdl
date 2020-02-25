@@ -1,0 +1,62 @@
+-- Created on: 1994-11-16
+-- Created by: Marie Jose MARTZ
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class GeomPoint from GeomToIGES inherits GeomEntity from GeomToIGES
+
+    ---Purpose: This class implements the transfer of the Point Entity from Geom
+    --          to IGES . These are :
+    --          . Point
+    --              * CartesianPoint 
+
+  
+uses
+
+    Point          from Geom,
+    CartesianPoint from Geom,
+    Point          from IGESGeom,
+    GeomEntity     from GeomToIGES
+     
+is 
+    
+    Create returns GeomPoint from GeomToIGES;
+
+
+    Create(GE : GeomEntity from GeomToIGES)  
+    	 returns GeomPoint from GeomToIGES;
+    ---Purpose : Creates a tool GeomPoint ready to run and sets its
+    --         fields as GE's.
+
+    TransferPoint            (me    : in out;
+                              start : Point from Geom)
+    	 returns mutable Point from IGESGeom;
+    ---Purpose :  Transfert  a  Point from Geom to IGES. If this
+    --            Entity could not be converted, this member returns a NullEntity.
+
+    TransferPoint            (me    : in out;
+                              start : CartesianPoint from Geom)
+    	 returns mutable Point from IGESGeom;
+    ---Purpose :  Transfert  a  CartesianPoint from Geom to IGES. If this
+    --            Entity could not be converted, this member returns a NullEntity.
+
+
+end GeomPoint;
+
+

@@ -1,0 +1,213 @@
+// Created on: 1991-10-11
+// Created by: Denis PASCAL
+// Copyright (c) 1991-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+//		<dp>
+
+# include <Standard_NoSuchObject.hxx>
+# include <Standard_DomainError.hxx>
+
+//=======================================================================
+//function : GraphDS_Relation
+//purpose  : 
+//=======================================================================
+
+GraphDS_Relation::GraphDS_Relation 
+  (const GraphDS_Attribute& att) : myAttribute(att)
+{
+}
+
+
+//=======================================================================
+//function : GetAttribute
+//purpose  : 
+//=======================================================================
+
+const GraphDS_Attribute& GraphDS_Relation::GetAttribute ()  const
+{
+  return myAttribute;
+}
+
+
+//=======================================================================
+//function : Contains
+//purpose  : 
+//=======================================================================
+
+Standard_Boolean GraphDS_Relation::Contains 
+  (const Handle(GraphDS_Entity)& E) const 
+{
+  return myEntities.IsBound(E);
+}
+
+
+//=======================================================================
+//function : IsEmpty
+//purpose  : 
+//=======================================================================
+
+Standard_Boolean GraphDS_Relation::IsEmpty () const
+{
+  return myEntities.IsEmpty();
+}
+
+
+//=======================================================================
+//function : Add
+//purpose  : 
+//=======================================================================
+
+void GraphDS_Relation::Add 
+  (const Handle(GraphDS_Entity)& E, const GraphDS_EntityRole R) 
+{
+  myEntities.Bind(E,R);
+}
+
+//=======================================================================
+//function : SetRole
+//purpose  : 
+//=======================================================================
+
+void GraphDS_Relation::SetRole
+  (const Handle(GraphDS_Entity)& E, const GraphDS_EntityRole R) 
+{
+  myEntities(E) = R;
+}
+
+
+//=======================================================================
+//function : Remove
+//purpose  : 
+//=======================================================================
+
+void GraphDS_Relation::Remove (const Handle(GraphDS_Entity)& E)
+{
+  myEntities.UnBind(E);
+}
+
+
+//=======================================================================
+//function : GetRole
+//purpose  : 
+//=======================================================================
+
+GraphDS_EntityRole GraphDS_Relation::GetRole
+  (const Handle(GraphDS_Entity)& E) const 
+{
+  return myEntities(E);
+}
+
+
+//=======================================================================
+//function : IsInput
+//purpose  : 
+//=======================================================================
+
+Standard_Boolean GraphDS_Relation::IsInput
+  (const Handle(GraphDS_Entity)& E) const 
+{
+  return (myEntities(E) != GraphDS_OnlyOutput);
+}
+
+
+//=======================================================================
+//function : IsOutput
+//purpose  : 
+//=======================================================================
+
+Standard_Boolean GraphDS_Relation::IsOutput
+  (const Handle(GraphDS_Entity)& E) const 
+{
+  return (myEntities(E) != GraphDS_OnlyInput);
+}
+
+
+//=======================================================================
+//function : GetEntities
+//purpose  : 
+//=======================================================================
+
+const GraphDS_EntityRoleMap& GraphDS_Relation::GetEntities() const 
+{
+  return myEntities;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

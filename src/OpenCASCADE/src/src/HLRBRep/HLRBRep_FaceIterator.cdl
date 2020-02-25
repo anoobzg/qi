@@ -1,0 +1,109 @@
+-- Created on: 1997-04-17
+-- Created by: Christophe MARION
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class FaceIterator from HLRBRep
+
+uses
+    Integer     from Standard,
+    Boolean     from Standard,
+    Orientation from TopAbs,
+    WiresBlock  from HLRAlgo,
+    EdgesBlock  from HLRAlgo,
+    FaceData    from HLRBRep
+
+is
+    Create returns FaceIterator from HLRBRep;
+
+    InitEdge(me : in out;
+             fd :    out FaceData from HLRBRep)
+	---Purpose: Begin an exploration of the edges of the face <fd>
+    is static;
+    
+    MoreEdge(me) returns Boolean from Standard
+	---C++: inline
+    is static;
+    
+    NextEdge(me : in out)
+    is static;
+    
+    BeginningOfWire(me) returns Boolean from Standard
+	---Purpose: Returns True if the current edge is the first of a
+	--          wire.
+	--          
+	---C++: inline
+    is static;
+    
+    EndOfWire(me) returns Boolean from Standard
+	---Purpose: Returns True if the current edge is the  last of a
+	--          wire.
+	--          
+	---C++: inline
+    is static;
+    
+    SkipWire(me : in out)
+	---Purpose: Skip the current wire in the exploration.
+	--          
+	---C++: inline
+    is static;
+    
+    Wire(me) returns any EdgesBlock from HLRAlgo
+	---Purpose: Returns the edges of the current wire.
+	--          
+	---C++: inline
+    is static;
+    
+    Edge(me) returns Integer from Standard
+	---C++: inline
+    is static;
+    
+    Orientation(me) returns Orientation from TopAbs
+	---C++: inline
+    is static;
+	
+    OutLine(me)
+    returns Boolean from Standard
+    	---C++: inline
+    is static;
+
+    Internal(me)
+    returns Boolean from Standard
+    	---C++: inline
+    is static;
+
+    Double(me)
+    returns Boolean from Standard
+    	---C++: inline
+    is static;
+
+    IsoLine(me)
+    returns Boolean from Standard
+    	---C++: inline
+    is static;
+
+fields
+    iWire   : Integer    from Standard;
+    nbWires : Integer    from Standard;
+    iEdge   : Integer    from Standard;
+    nbEdges : Integer    from Standard;
+    myWires : WiresBlock from HLRAlgo;
+    myEdges : EdgesBlock from HLRAlgo;
+    
+end FaceIterator;

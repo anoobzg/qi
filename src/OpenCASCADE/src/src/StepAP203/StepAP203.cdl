@@ -1,0 +1,106 @@
+-- Created on: 1999-11-09
+-- Created by: data exchange team
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package StepAP203 
+
+    ---Purpose: Contains implementation of STEP entities specific for AP203
+
+uses
+    TCollection,
+    StepBasic,
+    StepRepr
+
+is
+
+    class ApprovedItem;
+    class CcDesignApproval;
+    class CcDesignCertification;
+    class CcDesignContract;
+    class CcDesignDateAndTimeAssignment;
+    class CcDesignPersonAndOrganizationAssignment;
+    class CcDesignSecurityClassification;
+    class CcDesignSpecificationReference;
+    class CertifiedItem;
+    class Change;
+    class ChangeRequest;
+    class ChangeRequestItem;
+    class ClassifiedItem;
+    class ContractedItem;
+    class DateTimeItem;
+    class PersonOrganizationItem;
+    class SpecifiedItem;
+    class StartRequest;
+    class StartRequestItem;
+    class StartWork;
+    class WorkItem;
+
+    class Array1OfApprovedItem instantiates 
+    	  Array1 from TCollection (ApprovedItem);
+    class HArray1OfApprovedItem instantiates 
+    	  HArray1 from TCollection (ApprovedItem, Array1OfApprovedItem);
+
+    class Array1OfCertifiedItem instantiates 
+    	  Array1 from TCollection (CertifiedItem);
+    class HArray1OfCertifiedItem instantiates 
+    	  HArray1 from TCollection (CertifiedItem, Array1OfCertifiedItem);
+
+    class Array1OfClassifiedItem instantiates 
+    	  Array1 from TCollection (ClassifiedItem);
+    class HArray1OfClassifiedItem instantiates 
+    	  HArray1 from TCollection (ClassifiedItem, Array1OfClassifiedItem);
+
+    class Array1OfContractedItem instantiates 
+    	  Array1 from TCollection (ContractedItem);
+    class HArray1OfContractedItem instantiates 
+    	  HArray1 from TCollection (ContractedItem, Array1OfContractedItem);
+
+    class Array1OfDateTimeItem instantiates 
+    	  Array1 from TCollection (DateTimeItem);
+    class HArray1OfDateTimeItem instantiates 
+    	  HArray1 from TCollection (DateTimeItem, Array1OfDateTimeItem);
+
+    class Array1OfPersonOrganizationItem instantiates 
+    	  Array1 from TCollection (PersonOrganizationItem);
+    class HArray1OfPersonOrganizationItem instantiates 
+    	  HArray1 from TCollection (PersonOrganizationItem, Array1OfPersonOrganizationItem);
+
+    class Array1OfSpecifiedItem instantiates 
+    	  Array1 from TCollection (SpecifiedItem);
+    class HArray1OfSpecifiedItem instantiates 
+    	  HArray1 from TCollection (SpecifiedItem, Array1OfSpecifiedItem);
+
+    class Array1OfWorkItem instantiates 
+    	  Array1 from TCollection (WorkItem);
+    class HArray1OfWorkItem instantiates 
+    	  HArray1 from TCollection (WorkItem, Array1OfWorkItem);
+
+    class Array1OfChangeRequestItem instantiates 
+    	  Array1 from TCollection (ChangeRequestItem);
+    class HArray1OfChangeRequestItem instantiates 
+    	  HArray1 from TCollection (ChangeRequestItem, Array1OfChangeRequestItem);
+
+    class Array1OfStartRequestItem instantiates 
+    	  Array1 from TCollection (StartRequestItem);
+    class HArray1OfStartRequestItem instantiates 
+    	  HArray1 from TCollection (StartRequestItem, Array1OfStartRequestItem);
+
+end StepAP203;

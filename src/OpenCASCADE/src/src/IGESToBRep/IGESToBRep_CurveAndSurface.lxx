@@ -1,0 +1,311 @@
+// Created on: 2000-01-31
+// Created by: data exchange team
+// Copyright (c) 2000-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include <Transfer_TransientProcess.hxx>
+
+//=======================================================================
+//function : SetEpsilon
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SetEpsilon(const Standard_Real eps) 
+{
+  myEps = eps;
+}
+
+ 
+//=======================================================================
+//function : GetEpsilon
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Real IGESToBRep_CurveAndSurface::GetEpsilon() const
+{
+  return myEps;
+}
+
+ 
+//=======================================================================
+//function : SetEpsCoeff
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SetEpsCoeff(const Standard_Real eps) 
+{
+  myEpsCoeff = eps;
+}
+
+ 
+//=======================================================================
+//function : GetEpsCoeff
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Real IGESToBRep_CurveAndSurface::GetEpsCoeff() const
+{
+  return myEpsCoeff;
+}
+
+ 
+//=======================================================================
+//function : GetEpsGeom
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Real IGESToBRep_CurveAndSurface::GetEpsGeom() const
+{
+  return myEpsGeom;
+}
+
+ 
+//=======================================================================
+//function : SetMinTol
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SetMinTol(const Standard_Real mintol) 
+{
+  myMinTol = mintol;
+}
+
+ 
+//=======================================================================
+//function : SetMaxTol
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SetMaxTol(const Standard_Real maxtol) 
+{
+  myMaxTol = maxtol;
+}
+
+ 
+//=======================================================================
+//function : GetMinTol
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Real IGESToBRep_CurveAndSurface::GetMinTol() const
+{
+  return myMinTol;
+}
+
+ 
+//=======================================================================
+//function : GetMaxTol
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Real IGESToBRep_CurveAndSurface::GetMaxTol() const
+{
+  return myMaxTol;
+}
+
+ 
+//=======================================================================
+//function : SetModeApprox
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SetModeApprox(const Standard_Boolean mode) 
+{
+  myModeApprox = mode; 
+}
+
+ 
+//=======================================================================
+//function : GetModeApprox
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Boolean IGESToBRep_CurveAndSurface::GetModeApprox() const
+{
+  return myModeApprox;
+}
+
+ 
+//=======================================================================
+//function : SetModeTransfer
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SetModeTransfer(const Standard_Boolean mode) 
+{
+  myModeIsTopo = mode;
+}
+
+ 
+//=======================================================================
+//function : GetModeTransfer
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Boolean IGESToBRep_CurveAndSurface::GetModeTransfer() const
+{
+  return myModeIsTopo;
+}
+
+ 
+//=======================================================================
+//function : SetOptimized
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SetOptimized(const Standard_Boolean optimized) 
+{
+  myContIsOpti = optimized;
+}
+
+ 
+//=======================================================================
+//function : GetOptimized
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Boolean IGESToBRep_CurveAndSurface::GetOptimized() const
+{
+  return myContIsOpti;
+}
+
+ 
+//=======================================================================
+//function : GetUnitFactor
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Real IGESToBRep_CurveAndSurface::GetUnitFactor() const
+{
+  return myUnitFactor;
+}
+
+ 
+//=======================================================================
+//function : SetSurfaceCurve
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SetSurfaceCurve(const Standard_Integer ival) 
+{
+  mySurfaceCurve = ival;
+}
+
+ 
+//=======================================================================
+//function : GetSurfaceCurve
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Integer IGESToBRep_CurveAndSurface::GetSurfaceCurve() const
+{
+  return mySurfaceCurve;
+}
+
+ 
+//=======================================================================
+//function : GetModel
+//purpose  : 
+//=======================================================================
+
+inline  Handle(IGESData_IGESModel) IGESToBRep_CurveAndSurface::GetModel() const
+{
+  return myModel;
+}
+
+ 
+//=======================================================================
+//function : SetContinuity
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SetContinuity(const Standard_Integer continuity) 
+{
+  myContinuity = continuity;
+}
+
+ 
+//=======================================================================
+//function : GetContinuity
+//purpose  : 
+//=======================================================================
+
+inline  Standard_Integer IGESToBRep_CurveAndSurface::GetContinuity() const
+{
+  return myContinuity;
+}
+
+ 
+//=======================================================================
+//function : SetTransferProcess
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SetTransferProcess(const Handle(Transfer_TransientProcess)& TP) 
+{
+  myTP = TP;
+}
+
+ 
+//=======================================================================
+//function : GetTransferProcess
+//purpose  : 
+//=======================================================================
+
+inline  Handle(Transfer_TransientProcess) IGESToBRep_CurveAndSurface::GetTransferProcess() const
+{
+  return myTP;
+}
+
+ 
+//=======================================================================
+//function : SendFail
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SendFail (const Handle(IGESData_IGESEntity)& start,
+						   const Message_Msg& amsg)
+{
+  GetTransferProcess()->SendFail(start,amsg);
+}
+
+
+//=======================================================================
+//function : SendWarning
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SendWarning (const Handle(IGESData_IGESEntity)& start,
+						      const Message_Msg& amsg)
+{
+  GetTransferProcess()->SendWarning(start,amsg);
+}
+
+
+//=======================================================================
+//function : SendMsg
+//purpose  : 
+//=======================================================================
+
+inline  void IGESToBRep_CurveAndSurface::SendMsg (const Handle(IGESData_IGESEntity)& start,
+						  const Message_Msg& amsg)
+{
+  GetTransferProcess()->SendMsg(start,amsg);
+}
+
+

@@ -1,0 +1,94 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( SIVA )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class CylindricalSurface from IGESSolid  inherits IGESEntity
+
+        ---Purpose: defines CylindricalSurface, Type <192> Form Number <0,1>
+        --          in package IGESSolid
+
+uses
+
+        Point           from IGESGeom,
+        Direction       from IGESGeom,
+        Pnt             from gp
+
+is
+
+        Create returns mutable CylindricalSurface;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me        : mutable;
+              aLocation : Point;
+              anAxis    : Direction;
+              aRadius   : Real;
+              aRefdir   : Direction);
+        ---Purpose : This method is used to set the fields of the class
+        --           CylindricalSurface
+        --       - aLocation : the location of the point on axis
+        --       - anAxis    : the direction of the axis
+        --       - aRadius   : the radius at the axis point
+        --       - aRefdir   : the reference direction (parametrised surface)
+        --                     default NULL (unparametrised surface)
+
+        LocationPoint(me) returns Point;
+        ---Purpose : returns the point on the axis
+
+        Axis(me) returns Direction;
+        ---Purpose : returns the direction on the axis
+
+        Radius(me) returns Real;
+        ---Purpose : returns the radius at the axis point
+
+        IsParametrised(me) returns Boolean;
+        ---Purpose : returns whether the surface is parametrised or not
+
+        ReferenceDir(me) returns Direction;
+        ---Purpose : returns the reference direction only for parametrised surface
+        -- else returns NULL
+
+fields
+
+--
+-- Class    : IGESSolid_CylindricalSurface
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class CylindricalSurface.
+--
+-- Reminder : A CylindricalSurface instance is defined by :
+--            a point on the axis of the cylinder(Location), the direction
+--            of the axis of the cylinder(Axis) and a radius(Radius).In case
+--            of parametrised surface, a reference direction (RefDir) is
+--            provided.
+
+        theLocationPoint : Point;
+            -- the location of the point on the axis
+
+        theAxis          : Direction;
+            -- the direction of the axis of the surface
+
+        theRadius        : Real;
+            -- the radius at the cylinder
+
+        theRefDir        : Direction;
+            -- the reference direction (for parametrised surface)
+
+end CylindricalSurface;

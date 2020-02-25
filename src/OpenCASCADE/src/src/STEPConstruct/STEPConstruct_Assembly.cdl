@@ -1,0 +1,86 @@
+-- Created on: 1998-07-07
+-- Created by: Christian CAILLET
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Assembly  from STEPConstruct
+
+    ---Purpose : This operator creates an item of an assembly, from its
+    --           basic data : a ShapeRepresentation, a Location ...
+    --           
+    --           Three ways of coding such item from a ShapeRepresentation :
+    --           - do nothing : i.e. informations for assembly are ignored
+    --           - create a MappedItem
+    --           - create a RepresentationRelationship (WithTransformation)
+
+uses
+    Trsf from gp,
+    InterfaceModel from Interface, 
+    Axis2Placement3d from StepGeom,
+    ShapeRepresentation from StepShape,
+    ShapeDefinitionRepresentation from StepShape,
+    NextAssemblyUsageOccurrence from StepRepr,
+    ContextDependentShapeRepresentation from StepShape
+is
+
+    Create returns Assembly from STEPConstruct;
+
+    Init (me: in out; aSR, SDR0: ShapeDefinitionRepresentation from StepShape;
+    	              Ax0, Loc : Axis2Placement3d from StepGeom);
+    ---Purpose : Initialises with starting values
+    --           Ax0 : origin axis (typically, standard XYZ)
+    --           Loc : location to which place the item
+
+--    MakeMappedItem (me: in out);
+    ---Purpose : Makes a MappedItem
+    --           Resulting Value is returned by ItemValue
+
+    MakeRelationship (me: in out);
+    ---Purpose : Make a (ShapeRepresentationRelationship,...WithTransformation)
+    --           Resulting Value is returned by ItemValue
+
+    ItemValue (me) returns Transient;
+    ---Purpose : Returns the Value
+    --           If no Make... has been called, returns the starting SR
+
+    ItemLocation (me) returns Axis2Placement3d from StepGeom;
+    ---Purpose : Returns the location of the item, computed from starting aLoc
+
+    GetNAUO (me) returns NextAssemblyUsageOccurrence from StepRepr;
+    	---Purpose: Returns NAUO object describing the assembly link
+
+    CheckSRRReversesNAUO (myclass; Model: InterfaceModel from Interface; 
+    	    	    	           CDSR : ContextDependentShapeRepresentation from StepShape)
+    returns Boolean;
+    	---Purpose: Checks whether SRR's definition of assembly and component contradicts
+        --          with NAUO definition or not, according to model schema (AP214 or AP203)
+	--          
+	
+fields
+
+    thesdr : ShapeDefinitionRepresentation from StepShape;
+    thesdr0: ShapeDefinitionRepresentation from StepShape;
+    thesr  : ShapeRepresentation from StepShape;
+    thesr0 : ShapeRepresentation from StepShape;
+    theval : Transient;
+    theloc : Axis2Placement3d from StepGeom;
+    theax0 : Axis2Placement3d from StepGeom;
+
+end Assembly;

@@ -1,0 +1,138 @@
+-- Created on: 1993-04-06
+-- Created by: Philippe DAUTRY
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class BSplineCurve from PGeom2d inherits BoundedCurve from PGeom2d
+
+        ---Purpose :  Definition of  a  B_spline   curve (it can    be
+        --         periodic, rational and non uniform : NURBS).
+        --         
+	---See Also : BSplineCurve from Geom2d.
+
+uses  HArray1OfInteger from PColStd,
+      HArray1OfReal    from PColStd,
+      HArray1OfPnt2d     from PColgp
+
+is
+
+
+  Create returns mutable BSplineCurve from PGeom2d;
+	---Purpose: Creates a BSplineCurve with default values.
+	---Level: Internal 
+
+
+  Create (
+    	    aRational       : Boolean from Standard;
+    	    aPeriodic       : Boolean from Standard;
+    	    aSpineDegree    : Integer from Standard;
+    	    aPoles          : HArray1OfPnt2d from PColgp;
+    	    aWeights        : HArray1OfReal from PColStd;
+    	    aKnots          : HArray1OfReal from PColStd;
+    	    aMultiplicities : HArray1OfInteger from PColStd)
+     returns mutable BSplineCurve from PGeom2d;
+	---Purpose: Creates a BSplineCurve with these field values.
+	---Level: Internal 
+
+
+  Periodic (me: mutable; aPeriodic: Boolean from Standard);
+        ---Purpose :Set the field periodic with <aPeriodic>.
+	---Level: Internal 
+
+
+  Periodic (me) returns Boolean from Standard;
+        ---Purpose :Returns the value of the field periodic.
+	---Level: Internal 
+
+
+  Rational (me: mutable; aRational: Boolean from Standard);
+        ---Purpose :Set  the   value  of  the    field rational   with
+        --         <aRational>.
+	---Level: Internal 
+    
+    
+  Rational (me) returns Boolean from Standard;
+        ---Purpose :Returns the value of the field rational.
+	---Level: Internal 
+    
+    
+  SpineDegree (me: mutable; aSpineDegree: Integer from Standard);
+	---Purpose: Set the value of the field spineDegree with <aSpineDegree>.
+	---Level: Internal 
+
+
+  SpineDegree (me)  returns Integer from Standard;
+	---Purpose: Returns the value of the field spineDegree.
+	---Level: Internal 
+
+
+  Poles (me: mutable; aPoles: HArray1OfPnt2d from PColgp);
+        ---Purpose : Set the value of the field poles with <aPoles>.
+	---Level: Internal 
+
+
+  Poles (me) returns HArray1OfPnt2d from PColgp;
+        ---Purpose : Returns the value of the field poles.
+	---Level: Internal 
+
+
+  Weights (me: mutable; aWeights : HArray1OfReal from PColStd);
+        ---Purpose : Set the value of the field weights with <aWeights>.
+	---Level: Internal 
+
+
+  Weights (me) returns HArray1OfReal from PColStd;
+        ---Purpose : Returns the the value of the field weights.
+	---Level: Internal 
+
+
+  Knots (me: mutable; aKnots : HArray1OfReal);
+	---Purpose :  Set the field knots with <aKnots>.
+        --  The multiplicity of the knots are not modified.
+	---Level: Internal 
+
+
+  Knots (me) returns HArray1OfReal from PColStd;
+        ---Purpose : returns the value of the field knots.
+	---Level: Internal 
+
+
+  Multiplicities (me: mutable; aMultiplicities : HArray1OfInteger);
+	---Purpose :  Set the field multiplicities with <aMultiplicities>.
+	---Level: Internal 
+
+
+  Multiplicities (me) returns HArray1OfInteger from PColStd;
+        ---Purpose : returns the value of the field multiplicities.
+	---Level: Internal 
+
+
+fields
+
+  rational       : Boolean from Standard;
+  periodic       : Boolean from Standard;
+  spineDegree    : Integer from Standard;
+  poles          : HArray1OfPnt2d from PColgp;
+  weights        : HArray1OfReal from PColStd;
+  knots          : HArray1OfReal from PColStd;
+  multiplicities : HArray1OfInteger from PColStd;
+
+end;

@@ -1,0 +1,93 @@
+-- Created on: 2007-07-31
+-- Created by: Sergey ZARITCHNY
+-- Copyright (c) 2007-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class AsciiString from TDataStd inherits Attribute from TDF
+
+        ---Purpose: Used to define an AsciiString attribute containing a TCollection_AsciiString
+
+uses 
+    Attribute         from TDF,
+    Label             from TDF,
+    GUID              from Standard,
+    AsciiString       from TCollection,
+    RelocationTable   from TDF
+
+is
+    ---Purpose: class methods
+    --          =============
+
+    GetID (myclass)   
+        ---C++: return const & 
+        ---Purpose: Returns the GUID of the attribute.  
+    returns GUID from Standard;    
+
+    Set (myclass; label : Label from TDF; string  : AsciiString from TCollection)
+    ---Purpose: Finds, or creates an AsciiString attribute and sets the string.
+    --          the AsciiString attribute is returned.
+    returns AsciiString from TDataStd;
+    
+    ---Purpose: AsciiString methods
+    --          ===================
+    
+    Create 
+    returns mutable AsciiString from TDataStd;
+    -- Constructor    
+    
+    Set (me : mutable; S : AsciiString from TCollection);
+    -- Sets the ascii string <S>
+    
+    Get (me)
+    returns AsciiString from TCollection;         
+    -- Returns the AsciiString  <myString>
+    ---C++: return const &
+     
+    IsEmpty(me) 
+    returns Boolean from Standard;
+    -- Returns True if the string of <me> contains zero characters. 
+    
+    ---Category: TDF_Attribute methods
+    --           =====================
+    
+    ID (me)
+        ---C++: return const & 
+    returns GUID from Standard;
+
+    Restore (me: mutable; with : Attribute from TDF);
+    --  Restores the backuped content from <with> into this one. 
+    
+    NewEmpty (me)
+    returns mutable Attribute from TDF;
+    -- Returns an new empty AsciiString attribute. 
+    
+    Paste (me; into : mutable Attribute from TDF;
+               RT   : mutable RelocationTable from TDF);    
+    -- This method is used when copying an attribute from a source structure 
+    -- into a target structure. 
+    
+    Dump(me; anOS : in out OStream from Standard)
+        returns OStream from Standard
+        is redefined;
+        ---C++: return &
+    -- This method dumps the attribute value into the stream
+fields
+    myString : AsciiString from TCollection; 
+    
+end AsciiString;

@@ -1,0 +1,56 @@
+-- Created on: 1999-02-26
+-- Created by: Christian CAILLET
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SetLabel  from IGESSelect    inherits ModelModifier from IGESSelect
+
+    ---Purpose : Sets/Clears Short Label of Entities, those designated by the
+    --           Selection. No Selection means all the file
+    --           
+    --           May enforce, else it sets only if no label is yet set
+    --           Mode : 0 to clear (always enforced)
+    --                  1 to set label to DE number (changes it if already set)
+
+uses AsciiString from TCollection,
+     IGESModel, CopyTool, ContextModif
+ 
+is
+
+    Create (mode : Integer; enforce : Boolean) returns SetLabel;
+    ---Purpose : Creates a SetLabel for IGESEntity
+    --           Mode : see Purpose of the class
+
+    Performing (me; ctx : in out ContextModif;
+                target  : mutable IGESModel;
+                TC      : in out CopyTool);
+    ---Purpose : Specific action : Sets or Clears the Label
+
+    Label (me) returns AsciiString from TCollection;
+    ---Purpose : Returns a text which is
+    --           "Clear Short Label"  or  "Set Label to DE"
+    --           With possible additional information " (enforced)"
+
+fields
+
+    themode  : Integer;
+    theforce : Boolean;
+
+end SetLabel;

@@ -1,0 +1,81 @@
+-- Created on: 1995-03-15
+-- Created by: Christian CAILLET
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Controller from IGESControl inherits Controller from XSControl
+
+    ---Purpose : Controller for IGES-5.1
+
+uses
+
+    CString,
+    Protocol from Interface,
+    InterfaceModel from Interface,
+    WorkLibrary from IFSelect,
+    ReturnStatus from IFSelect,
+    ActorOfTransientProcess from Transfer,
+    FinderProcess from Transfer,
+    ActorOfFinderProcess from Transfer,
+    WorkSession from XSControl,
+    Shape from TopoDS
+
+is
+
+    Create (modefnes : Boolean = Standard_False)
+    	returns mutable Controller from IGESControl;
+    ---Purpose : Initializes the use of IGES Norm (the first time) and returns
+    --           a Controller for IGES-5.1
+    --           If <modefnes> is True, sets it to internal FNES format
+
+    NewModel     (me) returns mutable InterfaceModel from Interface;
+    ---Purpose : Creates a new empty Model ready to receive data of the Norm.
+    --           It is taken from IGES Template Model
+
+    ActorRead    (me; model : InterfaceModel)
+                 returns mutable ActorOfTransientProcess from Transfer;
+    ---Purpose : Returns the Actor for Read attached to the pair (norm,appli)
+    --           It is an Actor from IGESToBRep, adapted from an IGESModel :
+    --           Unit, tolerances
+
+    TransferWriteShape (me; shape : Shape from TopoDS;
+    	    	    	FP        : mutable FinderProcess  from Transfer;
+    	    	        model     : mutable InterfaceModel from Interface;
+			modetrans : Integer = 0)
+      returns ReturnStatus  is redefined;
+    ---Purpose : Takes one Shape and transfers it to the InterfaceModel
+    --           (already created by NewModel for instance)
+    --           <modetrans> is to be interpreted by each kind of XstepAdaptor
+    --           Returns a status : 0 OK  1 No result  2 Fail  -1 bad modeshape
+    --               -2 bad model (requires an IGESModel)
+    --           modeshape : 0  groupe of face (version < 5.1)
+    --                       1  BREP-version 5.1 of IGES
+
+    Init (myclass) returns Boolean;
+    ---Purpose : Standard Initialisation. It creates a Controller for IGES and
+    --           records it to various names, available to select it later
+    --           Returns True when done, False if could not be done
+    --           Also, it creates and records an Adaptor for FNES
+    Customise (me: mutable; WS : in out WorkSession from XSControl) is redefined;
+fields
+
+    themode : Boolean;
+
+end Controller;

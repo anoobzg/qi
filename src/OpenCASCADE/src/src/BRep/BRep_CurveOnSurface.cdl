@@ -1,0 +1,91 @@
+-- Created on: 1993-07-06
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class CurveOnSurface from BRep inherits GCurve from BRep
+
+	---Purpose: Representation  of a  curve   by a   curve  in the
+	--          parametric space of a surface.
+
+uses
+    Pnt                 from gp,
+    Pnt2d               from gp,
+    Box2d               from Bnd,
+    Curve               from Geom2d,
+    Surface             from Geom,
+    Location            from TopLoc,
+    CurveRepresentation from BRep
+
+is
+
+    Create(PC : Curve    from Geom2d; 
+    	   S  : Surface  from Geom; 
+    	   L  : Location from  TopLoc)
+    returns mutable CurveOnSurface from BRep;
+
+    SetUVPoints(me : mutable; P1, P2 : Pnt2d from gp)
+	---C++: inline
+    is static;
+
+    UVPoints(me; P1, P2 : out Pnt2d from gp)
+	---C++: inline
+    is static;
+    
+    D0(me; U : Real; P : out Pnt from gp);
+	---Purpose: Computes the point at parameter U.
+
+    IsCurveOnSurface(me) returns Boolean
+	---Purpose: Returns True.
+    is redefined;
+    
+    IsCurveOnSurface(me; S : Surface from Geom; L : Location from TopLoc) 
+    returns Boolean
+	---Purpose: A curve in the parametric space of a surface.
+    is redefined;
+    
+    Surface(me) returns any Surface from Geom
+	---C++: return const &
+    is redefined;
+
+    PCurve(me) returns any Curve from Geom2d
+	---C++: return const &
+    is redefined;
+
+    PCurve(me : mutable; C : Curve from Geom2d)
+    is redefined;
+
+    Copy(me) returns mutable CurveRepresentation from BRep is virtual;
+	---Purpose: Return a copy of this representation.
+
+    Update(me : mutable)
+	---Purpose: Recomputes any derived data after a modification.
+	--          This is called when the range is modified.
+    is redefined;
+
+fields
+    
+    myPCurve      : Curve from Geom2d;
+    mySurface     : Surface from Geom;
+    myUV1         : Pnt2d from gp  is protected;
+    myUV2         : Pnt2d from gp  is protected;
+
+end CurveOnSurface;

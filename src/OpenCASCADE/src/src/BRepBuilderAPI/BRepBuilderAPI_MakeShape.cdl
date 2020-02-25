@@ -1,0 +1,101 @@
+-- Created on: 1993-07-21
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred class MakeShape from BRepBuilderAPI inherits Command from BRepBuilderAPI
+
+	---Purpose: This    is  the  root     class for     all  shape
+	--          constructions.  It stores the result.
+	--          
+	--          It  provides deferred methods to trace the history
+	--          of sub-shapes.
+
+uses
+    Shape             from TopoDS,
+    Face              from TopoDS,
+    Edge              from TopoDS,
+    Vertex            from TopoDS,
+    ShapeModification from BRepBuilderAPI,
+    ListOfShape       from TopTools
+    
+    
+raises
+    NotDone           from StdFail
+
+is
+    Delete(me:out) is redefined;
+    ---C++: alias "Standard_EXPORT virtual ~BRepBuilderAPI_MakeShape(){Delete() ; }"
+    
+    Initialize;
+    
+    Build(me : in out)
+	---Purpose: This is  called by  Shape().  It does  nothing but
+	--          may be redefined.
+	---Level: Public
+    is virtual;
+	
+    Shape(me) returns Shape from TopoDS
+    	---Purpose: Returns a shape built by the shape construction algorithm.
+    	-- Raises exception StdFail_NotDone if the shape was not built.
+	---C++: return const &
+	---C++: alias "Standard_EXPORT operator TopoDS_Shape() const;"
+	---Level: Public
+	    raises
+    	NotDone from StdFail
+    is static;
+
+
+    ------------------------------------------------------------------
+    --- The following methods are not implemented at this level.
+    --  An empty list is returned.
+    --- They are optional and must be redefined. 
+    ------------------------------------------------------------------
+
+    Generated (me: in out; S : Shape from TopoDS)
+    	---Purpose: Returns the  list   of shapes generated   from the
+    	--          shape <S>. 
+        ---C++: return const & 
+        ---Level: Public
+    returns ListOfShape from TopTools
+    is virtual;
+    
+
+    Modified (me: in out; S : Shape from TopoDS)
+    	---Purpose: Returns the list  of shapes modified from the shape
+    	--          <S>. 
+        ---C++: return const & 
+        ---Level: Public
+    returns ListOfShape from TopTools
+    is virtual;
+
+
+    IsDeleted (me: in out; S : Shape from TopoDS)
+    returns Boolean
+    is virtual;
+    	---Purpose: Returns true if the shape S has been deleted.
+
+    
+fields
+ 
+    myShape      : Shape       from TopoDS   is protected;
+    myGenerated  : ListOfShape from TopTools is protected;
+    
+end MakeShape;

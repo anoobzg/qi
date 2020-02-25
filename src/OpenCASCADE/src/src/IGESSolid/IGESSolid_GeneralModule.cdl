@@ -1,0 +1,66 @@
+-- Created on: 1993-05-10
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class GeneralModule  from IGESSolid     inherits  GeneralModule  from IGESData
+
+    ---Purpose : Definition of General Services for IGESSolid (specific part)
+    --           This Services comprise : Shared & Implied Lists, Copy, Check
+
+uses OStream,
+     Check, ShareTool, EntityIterator, CopyTool,
+     IGESEntity, DirChecker
+
+is
+
+    Create returns mutable GeneralModule from IGESSolid;
+    ---Purpose : Creates a GeneralModule from IGESSolid and puts it into GeneralLib
+
+    OwnSharedCase  (me; CN : Integer; ent : IGESEntity;
+    	    	    iter : in out EntityIterator);
+    ---Purpose : Lists the Entities shared by a given IGESEntity <ent>, from
+    --           its specific parameters : specific for each type
+
+    DirChecker (me; CN : Integer; ent : IGESEntity) returns DirChecker;
+    ---Purpose : Returns a DirChecker, specific for each type of Entity
+    --           (identified by its Case Number) : this DirChecker defines
+    --           constraints which must be respected by the DirectoryPart
+
+    OwnCheckCase (me; CN : Integer; ent : IGESEntity; shares : ShareTool;
+    	          ach    : in out Check);
+    ---Purpose : Performs Specific Semantic Check for each type of Entity
+
+
+    NewVoid (me; CN : Integer; entto : out mutable Transient)
+    	returns Boolean;
+    ---Purpose : Specific creation of a new void entity
+
+    OwnCopyCase (me; CN : Integer;
+    	         entfrom : IGESEntity; entto : mutable IGESEntity;
+    	         TC : in out CopyTool);
+    ---Purpose : Copies parameters which are specific of each Type of Entity
+
+    CategoryNumber (me; CN : Integer; ent : Transient; shares : ShareTool)
+    	returns Integer  is redefined;
+    ---Purpose : Returns a category number which characterizes an entity
+    --           Shape for all
+
+end GeneralModule;

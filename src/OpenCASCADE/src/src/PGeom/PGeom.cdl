@@ -1,0 +1,101 @@
+-- Created on: 1993-02-22
+-- Created by: Philippe DAUTRY
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package PGeom 
+
+        ---Purpose :  This  package contains   the definition   of the
+        --         geometric persistent objects such as point, vector,
+        --         axis placement, curves, surfaces.
+        --  
+        --  All these entities are defined in 3D space.
+        --  This package gives the possibility :
+        --    . to create geometric objects with given or default field values,
+        --    . to set field values,
+        --    . to get field values.
+
+
+uses PColStd, gp, PColgp, GeomAbs
+
+is
+
+
+  class Transformation from PGeom;
+
+
+  deferred class Geometry from PGeom;
+
+
+     deferred class Point from PGeom;
+              class  CartesianPoint from PGeom;
+
+
+     deferred class Vector from PGeom;
+              class Direction from PGeom;
+              class VectorWithMagnitude from PGeom;
+     
+
+     deferred class AxisPlacement from PGeom;
+              class Axis1Placement from PGeom;
+              class Axis2Placement from PGeom;
+
+
+     deferred class Curve from PGeom;
+
+              class Line from PGeom;
+
+              deferred class Conic from PGeom;
+                       class Circle from PGeom;
+                       class Ellipse from PGeom;
+                       class Hyperbola from PGeom;
+                       class Parabola from PGeom;
+
+              deferred class BoundedCurve from PGeom;
+                       class BezierCurve from PGeom;
+                       class BSplineCurve from PGeom;
+                       class TrimmedCurve from PGeom;
+
+              class  OffsetCurve from PGeom;
+
+
+     deferred class Surface from PGeom;
+
+              deferred class ElementarySurface from PGeom;
+                       class Plane from PGeom;
+                       class ConicalSurface from PGeom;
+                       class CylindricalSurface from PGeom;
+                       class SphericalSurface from PGeom;
+                       class ToroidalSurface from PGeom;
+
+              deferred class SweptSurface from PGeom;
+                       class SurfaceOfLinearExtrusion from PGeom;
+                       class SurfaceOfRevolution from PGeom;
+
+              deferred class BoundedSurface from PGeom;
+                       class BezierSurface from PGeom;
+                       class BSplineSurface from PGeom;
+                       class RectangularTrimmedSurface from PGeom;
+
+              
+              class OffsetSurface from PGeom;
+
+
+end PGeom;

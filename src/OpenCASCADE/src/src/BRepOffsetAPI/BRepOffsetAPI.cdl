@@ -1,0 +1,125 @@
+-- Created on: 1999-10-11
+-- Created by: Atelier CAS2000
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+package  BRepOffsetAPI 
+
+uses   
+    Standard, 
+    StdFail,
+    gp, 
+    GeomAbs,
+    Geom,
+    GeomFill,
+    Approx,
+    TopoDS,
+    TopTools, 
+    BRepAlgo,
+    BRepBuilderAPI, 
+    BRepSweep, 
+    BRepPrimAPI,  	     
+    BRepFill, 
+    Law, 
+    Draft, 
+    BRepOffset, 
+     
+    TColStd,
+    TCollection
+
+is 
+
+
+    --
+    -- Sweeping
+    -- 
+
+    class MakePipe;        ---  inherits MakeSweep from BRepPrimAPI    
+	---Purpose: To create shape by pipe
+	          
+    class MakePipeShell;  ---  inherits MakeSweep from BRepPrimAPI
+    	---Purpose: Numerous posibilities to create shell by sweeping          
+     
+
+
+    class  MakeDraft; ---  inherits MakeShape from BRepBuilderAPI
+    
+    class DraftAngle; ---  inherits MakeShape from BRepBuilderAPI
+
+
+
+
+    class FindContigousEdges;
+      ---Purpose: find the contigous edges of shapes for control
+      --          (continuity C0, C1, ...)
+
+    alias Sewing  is  Sewing from BRepBuilderAPI;
+      ---Purpose: sew the shapes along their common edges
+   
+
+
+    --
+    -- Evolved and Offseting
+    -- 
+    
+    class MakeOffset;     ---  inherits MakeShape from BRepBuilderAPI
+	---Purpose: Offsets to a set of plane wires.
+    
+    class MakeOffsetShape; ---  inherits MakeShape from BRepBuilderAPI
+    	--Purpose: Offset shape to shells or solids.
+
+    class MakeThickSolid;    ---   inherits MakeOffsetShape from BRepOffsetAPI
+	---Purpose: Thick solid to shells or solids.
+
+    class MakeEvolved;    ---  inherits MakeShape from BRepBuilderAPI
+
+ 
+    --
+    -- Construction of Shape through sections.
+    -- 
+
+    class ThruSections;	      ---  inherits  MakeShape  from  BRepBuilderAPI
+
+    class NormalProjection ;  ---  inherits  MakeShape  from  BRepBuilderAPI
+
+    class MiddlePath;	      ---  inherits  MakeShape  from  BRepBuilderAPI
+    
+    -- 
+    --   Plate
+    --     
+    class MakeFilling;  ---  inherits MakeShape from BRepBuilderAPI
+
+	---Purpose: N-Side Filling
+	--  This algorithm avoids to build a face from:
+	--  * a set of edges defining the bounds of the face and some
+	--    constraints the surface of the face has to satisfy
+	--  * a set of edges and points defining some constraints
+	--    the support surface has to satisfy
+	--  * an initial surface to deform for satisfying the constraints
+	--  * a set of parameters to control the constraints.
+     
+    class SequenceOfSequenceOfReal instantiates 
+    	Sequence from TCollection (SequenceOfReal from TColStd);
+
+    class SequenceOfSequenceOfShape instantiates 
+    	Sequence from TCollection (SequenceOfShape from TopTools);
+
+end;

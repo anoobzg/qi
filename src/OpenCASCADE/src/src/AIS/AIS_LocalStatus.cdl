@@ -1,0 +1,111 @@
+-- Created on: 1997-01-20
+-- Created by: Robert COUBLANC
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+private class LocalStatus from AIS inherits TShared from MMgt
+
+	---Purpose: Stored Info about temporary objects.
+uses 
+    ListOfInteger from TColStd,
+    NameOfColor   from Quantity
+is
+
+    Create(IsTemporary   : Boolean from Standard = Standard_True;
+    	   Decompose     : Boolean from Standard = Standard_False; 
+    	   DisplayMode   : Integer from Standard = -1;
+    	   SelectionMode : Integer from Standard = -1; 
+	   HilightMode   : Integer from Standard = 0;
+    	   SubIntensity  : Boolean from Standard = 0;
+    	   TheHiCol      : NameOfColor from Quantity = Quantity_NOC_WHITE)
+     returns mutable LocalStatus from AIS;
+    
+
+
+		    ---Category: Read
+
+    Decomposed(me) returns Boolean from Standard;
+    ---C++: inline
+    IsTemporary(me) returns Boolean from Standard;
+    ---C++: inline
+    DisplayMode(me) returns Integer from Standard;
+    ---C++: inline
+    SelectionModes(me) returns ListOfInteger from TColStd;
+    ---C++: return const&
+    ---C++: inline
+    IsActivated(me; aSelMode :Integer from Standard) 
+    returns Boolean from Standard;
+    HilightMode(me) returns Integer from Standard;
+    ---C++: inline
+    IsSubIntensityOn(me) returns Boolean from Standard;
+    ---C++: inline
+    HilightColor(me) returns NameOfColor from Quantity;
+    ---C++: inline
+
+
+    SetDecomposition (me:mutable; astatus : Boolean from Standard);
+    ---C++: inline
+    SetTemporary     (me:mutable; astatus : Boolean from Standard);
+    ---C++: inline
+    SetDisplayMode   (me:mutable; aMode   : Integer from Standard);
+    ---C++: inline
+    SetFirstDisplay  (me:mutable; aStatus :  Boolean  from  Standard) ; 
+    ---C++: inline
+    IsFirstDisplay(me)  returns  Boolean  from  Standard;
+    ---C++: inline
+      
+    AddSelectionMode (me:mutable; aMode   : Integer from Standard);
+
+    RemoveSelectionMode(me:mutable; aMode   : Integer from Standard);
+
+    ClearSelectionModes(me:mutable);
+    
+    IsSelModeIn(me;aMode:Integer from Standard)
+    returns Boolean from Standard;    
+
+    SetHilightMode   (me:mutable; aMode   : Integer from Standard);
+    ---C++: inline
+    SetHilightColor (me:mutable;aHiCol:NameOfColor from Quantity);
+    ---C++: inline
+    SubIntensityOn  (me:mutable);
+    ---C++: inline
+    SubIntensityOff (me:mutable);
+    ---C++: inline
+
+
+    SetPreviousState(me:mutable;aStatus : Transient from Standard);
+    ---C++: inline
+    PreviousState(me) returns any Transient from Standard;
+    ---C++: inline
+    ---C++: return const &
+
+fields
+    myDecomposition : Boolean       from Standard;
+    myIsTemporary   : Boolean       from Standard;
+    myDMode         : Integer       from Standard; 
+    myFirstDisplay  : Boolean       from  Standard;
+    myHMode         : Integer       from Standard;
+    mySModes        : ListOfInteger from TColStd;
+    mySubIntensity  : Boolean       from Standard;
+    myHiCol         : NameOfColor   from Quantity;
+    
+    myPreviousState : Transient     from  Standard;
+    
+end LocalStatus;

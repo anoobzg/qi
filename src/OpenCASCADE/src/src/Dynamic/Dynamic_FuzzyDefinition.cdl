@@ -1,0 +1,72 @@
+-- Created on: 1993-01-22
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class FuzzyDefinition from Dynamic
+inherits
+
+    FuzzyClass from Dynamic
+    
+	---Purpose: It  is the class  useful for  setting a particular
+	--          definition   of  an   object.  This  definition is
+	--          caracterized by  a  collection of parameters. Each
+	--          parameter  is identified by its  name, the type of
+	--          its referenced   value and if  necessary a default
+	--          value.
+
+uses
+
+    OStream from Standard,
+    CString from Standard,
+    HAsciiString from TCollection,
+    AsciiString  from TCollection
+
+
+is
+
+    Create(aname : CString from Standard) returns mutable FuzzyDefinition from Dynamic;
+    
+    ---Level: Public 
+    
+    ---Purpose: Creates a FuzzyDefinition with <aname> as type.
+    
+    Type(me) returns AsciiString from TCollection
+    
+    ---Level: Public 
+    
+    ---Purpose: Returns the type of object.
+    
+    is redefined;
+    
+    Dump(me ; astream : in out OStream from Standard)
+    
+    ---Level: Internal 
+    
+    ---Purpose: Useful for debugging.
+
+    is redefined;
+    
+fields
+
+    thename : HAsciiString from TCollection;
+
+end FuzzyDefinition;

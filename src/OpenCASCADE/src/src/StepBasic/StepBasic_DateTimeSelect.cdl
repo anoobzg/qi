@@ -1,0 +1,57 @@
+-- Created on: 1995-12-01
+-- Created by: EXPRESS->CDL V0.2 Translator
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class DateTimeSelect from StepBasic inherits SelectType from StepData
+
+	-- <DateTimeSelect> is an EXPRESS Select Type construct translation.
+	-- it gathers : Date, LocalTime, DateAndTime
+
+uses
+
+	Date,
+	LocalTime,
+	DateAndTime
+is
+
+	Create returns DateTimeSelect;
+	---Purpose : Returns a DateTimeSelect SelectType
+
+	CaseNum (me; ent : Transient) returns Integer;
+	---Purpose: Recognizes a DateTimeSelect Kind Entity that is :
+	--        1 -> Date
+	--        2 -> LocalTime
+	--        3 -> DateAndTime
+	--        0 else
+
+	Date (me) returns any Date;
+	---Purpose : returns Value as a Date (Null if another type)
+
+	LocalTime (me) returns any LocalTime;
+	---Purpose : returns Value as a LocalTime (Null if another type)
+
+	DateAndTime (me) returns any DateAndTime;
+	---Purpose : returns Value as a DateAndTime (Null if another type)
+
+
+end DateTimeSelect;
+

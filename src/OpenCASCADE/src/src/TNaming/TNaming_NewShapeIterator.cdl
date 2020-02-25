@@ -1,0 +1,107 @@
+-- Created on: 1996-12-17
+-- Created by: Remi Lequette
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class NewShapeIterator from TNaming 
+
+	---Purpose: Iterates on all the descendants of a shape
+
+uses
+    Shape       from TopoDS,
+    UsedShapes  from TNaming,
+    NamedShape  from TNaming,
+    Iterator    from TNaming,
+    Label       from TDF,
+    PtrNode     from TNaming 	
+
+raises
+     NoMoreObject from Standard,
+     NoSuchObject from Standard 
+
+is
+
+    Create (aShape      : Shape     from TopoDS; 
+    	    Transaction : Integer    from Standard;
+    	    Shapes      : UsedShapes from TNaming)
+    returns NewShapeIterator from TNaming
+    is private;
+
+    Create (aShape      : Shape     from TopoDS; 
+    	    Shapes      : UsedShapes from TNaming)
+    returns NewShapeIterator from TNaming 
+    is private;  
+
+    Create (aShape      : Shape     from TopoDS; 
+    	    Transaction : Integer    from Standard;
+    	    access      : Label from TDF)
+    returns NewShapeIterator from TNaming;
+
+    Create (aShape : Shape     from TopoDS; 
+    	    access : Label from TDF)
+    returns NewShapeIterator from TNaming;
+    
+    Create (anIterator : NewShapeIterator from TNaming)
+    returns NewShapeIterator from TNaming;
+	---Purpose: Iterates from the current Shape in <anIterator>
+
+    Create (anIterator  : Iterator from TNaming)
+    returns NewShapeIterator from TNaming;
+	---Purpose: Iterates from the current Shape in <anIterator>
+	
+    More(me) returns Boolean;
+    	---C++: inline
+    
+    Next(me : in out)
+    raises
+       NoMoreObject from Standard;
+       
+    Label(me) returns Label from TDF
+    raises
+	NoSuchObject from Standard;
+
+    NamedShape(me) returns NamedShape from TNaming
+    raises
+	NoSuchObject from Standard;
+		
+    Shape(me) returns Shape from TopoDS
+	---C++: return const&
+       	---Purpose:  Warning! Can be a Null Shape if a descendant is deleted.
+    raises
+	NoSuchObject from Standard;
+	
+    IsModification(me) returns Boolean;
+	---Purpose: True if the new  shape is a modification  (split,
+	--          fuse,etc...) of the old shape.
+    
+fields
+    
+    myNode  : PtrNode from TNaming;	
+    myTrans : Integer from Standard; -- is < 0 means in Current Transaction.
+
+friends
+
+    class Tool   from TNaming,
+    class Name   from TNaming,
+    class Naming from TNaming  
+    
+end NewShapeIterator;
+
+
+

@@ -1,0 +1,82 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( Anand NATRAJAN )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ExternalRefFileIndex from IGESBasic  inherits IGESEntity
+
+        ---Purpose: defines ExternalRefFileIndex, Type <402> Form <12>
+        --          in package IGESBasic
+        --          Contains a list of the symbolic names used by the
+        --          referencing files and the DE pointers to the
+        --          corresponding definitions within the referenced file
+
+uses
+
+        HAsciiString from TCollection,
+        HArray1OfHAsciiString     from Interface,
+        HArray1OfIGESEntity from IGESData
+
+raises DimensionMismatch, OutOfRange
+
+is
+
+        Create returns mutable ExternalRefFileIndex;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me : mutable; aNameArray : HArray1OfHAsciiString;
+              allEntities : HArray1OfIGESEntity)
+        raises DimensionMismatch;
+        ---Purpose : This method is used to set the fields of the class
+        --           ExternalRefFileIndex
+        --       - aNameArray  : External Reference Entity symbolic names
+        --       - allEntities : External Reference Entities
+        -- raises exception if array lengths are not equal
+        -- if size of aNameArray is not equal to size of allEntities
+
+        NbEntries (me) returns Integer;
+        ---Purpose : returns number of index entries
+
+        Name (me; Index : Integer) returns HAsciiString from TCollection
+        raises OutOfRange;
+        ---Purpose : returns the External Reference Entity symbolic name
+        -- raises exception if Index <= 0 or Index > NbEntries()
+
+        Entity (me; Index : Integer) returns IGESEntity
+        raises OutOfRange;
+        ---Purpose : returns the internal entity
+        -- raises exception if Index <= 0 or Index > NbEntries()
+
+fields
+
+--
+-- Class    : IGESBasic_ExternalRefFileIndex
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class ExternalRefFileIndex.
+--
+-- Reminder : A ExternalRefFileIndex instance is defined by :
+--            - External Reference Entity symbolic names
+--            - External Reference Entities
+
+        theNames    : HArray1OfHAsciiString;
+        theEntities : HArray1OfIGESEntity;
+
+end ExternalRefFileIndex;

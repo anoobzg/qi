@@ -1,0 +1,73 @@
+-- Created on: 1996-08-21
+-- Created by: Jacques MINOT
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+--              modified 12-january-98  by  Sergey ZARITCHNY
+
+class DiameterPresentation from DsgPrs
+        
+    	---Purpose: A framework for displaying diameters in shapes.  
+        
+        
+uses
+    Presentation from Prs3d,
+    Pnt from gp,
+    Circ from gp,
+    Drawer from Prs3d,
+    ArrowSide from DsgPrs,
+    ExtendedString from TCollection
+    	
+is  
+    Add( myclass; aPresentation   : Presentation   from Prs3d;
+    	    	  aDrawer         : Drawer         from Prs3d;
+		  aText           : ExtendedString from TCollection;
+                  AttachmentPoint : Pnt            from gp;
+		  aCircle         : Circ           from gp; 
+	          ArrowSide: ArrowSide             from DsgPrs;
+    	    	  IsDiamSymbol    : Boolean        from Standard );
+	---Purpose: Draws the diameter of the circle aCircle displayed in
+    	-- the presentation aPresentation and with attributes
+    	-- defined by the attribute manager aDrawer. The point
+    	-- AttachmentPoint defines the point of contact
+    	-- between the circle and the diameter presentation.
+    	-- The value of the enumeration ArrowSide controls
+    	-- whether arrows will be displayed at either or both
+    	-- ends of the length. The text aText labels the diameter.
+		   
+
+    Add( myclass; aPresentation   : Presentation   from Prs3d;
+    	    	  aDrawer         : Drawer         from Prs3d;
+		  aText           : ExtendedString from TCollection;
+                  AttachmentPoint : Pnt            from gp;
+		  aCircle         : Circ           from gp; 
+		  uFirst          : Real           from Standard; 
+		  uLast           : Real           from Standard;
+	          ArrowSide       : ArrowSide      from DsgPrs; 
+    	    	  IsDiamSymbol    : Boolean        from Standard);
+	---Purpose: Draws the diameter of the arc anArc displayed in the
+    	-- presentation aPresentation and with attributes
+    	-- defined by the attribute manager aDrawer. The point
+    	-- AttachmentPoint defines the point of contact
+    	-- between the arc and the diameter presentation. The
+    	-- value of the enumeration ArrowSide controls whether
+    	-- arrows will be displayed at either or both ends of the
+    	-- length. The parameters uFirst and uLast define the
+    	-- first and last points of the arc. The text aText labels the diameter.
+
+end DiameterPresentation;

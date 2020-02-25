@@ -1,0 +1,79 @@
+-- Created on: 1997-05-27
+-- Created by: Jacques GOUSSARD
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+-- Modified by skv - Mon May 31 12:26:27 2004 OCC5865
+
+
+private class BuildWires from LocOpe 
+
+	---Purpose: 
+
+-- Modified by skv - Mon May 31 12:53:04 2004 OCC5865 Begin
+uses ListOfShape from TopTools,
+     ProjectedWires from LocOpe
+-- Modified by skv - Mon May 31 12:53:05 2004 OCC5865 End
+
+raises NotDone from StdFail
+
+is
+
+    Create
+    
+    	returns BuildWires from LocOpe;
+
+
+-- Modified by skv - Mon May 31 12:54:10 2004 OCC5865 Begin
+    Create(Ledges: ListOfShape from TopTools;
+    	   PW    : ProjectedWires  from  LocOpe)
+-- Modified by skv - Mon May 31 12:54:11 2004 OCC5865 End
+    
+    	returns BuildWires from LocOpe;
+
+
+-- Modified by skv - Mon May 31 12:54:10 2004 OCC5865 Begin
+    Perform(me: in out; Ledges: ListOfShape from TopTools; 
+    	    	        PW    : ProjectedWires  from  LocOpe)
+-- Modified by skv - Mon May 31 12:54:11 2004 OCC5865 End
+    
+    	is static;
+
+
+    IsDone(me)
+    
+    	returns Boolean from Standard
+	is static;
+
+
+    Result(me)
+    
+    	returns ListOfShape from TopTools
+	---C++: return const&
+    	raises NotDone from StdFail
+	is static;
+
+
+
+fields
+
+    myDone : Boolean from Standard;
+    myRes  : ListOfShape from TopTools;
+
+end BuildWires;

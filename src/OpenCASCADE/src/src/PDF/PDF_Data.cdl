@@ -1,0 +1,79 @@
+-- Created by: DAUTRY Philippe
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+--      	------------
+
+---Version:	0.0
+--Version	Date		Purpose
+--		0.0	Mar 13 1997	Creation
+
+
+class Data from PDF
+    inherits Persistent from Standard
+
+	---Purpose: Persistent equivalent of Data from TDF.
+
+uses
+
+    HArray1OfInteger from PColStd,
+    HAttributeArray1 from PDF
+
+-- raises
+
+is
+
+    Create
+    	returns mutable Data from PDF;
+
+    Create(aVersionNumber : Integer from Standard)
+    	returns mutable Data from PDF;
+
+    VersionNumber(me)
+    	returns Integer from Standard;
+	---Purpose: Returns the value of the field <myVersion>.
+	---C++: inline
+
+
+    Labels(me : mutable;
+    	   theLabels : HArray1OfInteger from PColStd);
+	---Purpose: Sets the field <myLabels> with <theLabels>.
+	---C++: inline
+
+    Labels(me)
+    	returns HArray1OfInteger from PColStd;
+	---Purpose: Returns the value of the field <myLabels>.
+	---C++: inline
+
+    Attributes(me : mutable;
+    	   theAttributes : HAttributeArray1 from PDF);
+	---Purpose: Sets the field <myAttributes> with <theAttributes>.
+	---C++: inline
+
+    Attributes(me)
+    	returns HAttributeArray1 from PDF;
+	---Purpose: Returns the value of the field <myAttributes>.
+	---C++: inline
+
+fields
+
+    myVersion    : Integer          from Standard;
+    myLabels     : HArray1OfInteger from PColStd;
+    myAttributes : HAttributeArray1 from PDF;
+
+end Data;

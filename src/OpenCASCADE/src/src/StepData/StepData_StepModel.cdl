@@ -1,0 +1,105 @@
+-- Created on: 1992-02-11
+-- Created by: Christian CAILLET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class StepModel  from StepData  inherits InterfaceModel
+
+    ---Purpose : Gives access to
+    -- - entities in a STEP file,
+    -- - the STEP file header.
+
+uses Type, HAsciiString from TCollection,
+     Messenger from Message,
+     HArray1OfInteger from TColStd,
+     EntityList, EntityIterator, Check
+
+raises NoSuchObject
+
+is
+
+    Create returns mutable StepModel;
+    ---Purpose: Creates an empty STEP model with an empty header.
+    
+    Entity (me; num : Integer) returns Transient;
+    ---Purpose : returns entity given its rank.
+    --           Same as InterfaceEntity, but with a shorter name
+
+    GetFromAnother (me : mutable; other : InterfaceModel);
+    ---Purpose : gets header from another Model (uses Header Protocol)
+
+    NewEmptyModel (me) returns mutable InterfaceModel;
+    ---Purpose : Returns a New Empty Model, same type as <me>, i.e. StepModel
+
+    	-- --   Header management   -- --
+
+    Header (me) returns EntityIterator;
+    ---Purpose : returns Header entities under the form of an iterator
+
+    HasHeaderEntity(me; atype : any Type) returns Boolean;
+    ---Purpose : says if a Header entity has a specifed type
+
+    HeaderEntity (me; atype : any Type) returns mutable Transient
+    ---Purpose : Returns Header entity with specified type, if there is
+    	raises NoSuchObject;
+    --           Error if no Header Entity matches <atype>
+
+    ClearHeader (me : mutable);
+    ---Purpose : Clears the Header
+
+    AddHeaderEntity (me : mutable; ent : mutable Transient);
+    ---Purpose : Adds an Entity to the Header
+
+    VerifyCheck (me; ach : in out Check) is redefined;
+    ---Purpose : Specific Check, checks Header Items with HeaderProtocol
+
+    DumpHeader (me; S : Messenger from Message; level : Integer = 0);
+    ---Purpose : Dumps the Header, with the Header Protocol of StepData.
+    --           If the Header Protocol is not defined, for each Header Entity,
+    --           prints its Type. Else sends the Header under the form of
+    --           HEADER Section of an Ascii Step File
+    --           <level> is not used because Header is not so big
+
+
+    ClearLabels (me : mutable);
+    ---Purpose : erases specific labels, i.e. clears the map (entity-ident)
+
+    SetIdentLabel (me : mutable; ent : Transient; ident : Integer);
+    ---Purpose : Attaches an ident to an entity to produce a label
+    --           (does nothing if <ent> is not in <me>)
+
+    IdentLabel (me; ent : Transient) returns Integer;
+    ---Purpose : returns the label ident attached to an entity, 0 if not in me
+
+    PrintLabel (me; ent : Transient; S : Messenger from Message);
+    ---Purpose : Prints label specific to STEP norm for a given entity, i.e.
+    --           if a LabelIdent has been recorded, its value with '#', else
+    --           the number in the model with '#' and between ()
+
+    StringLabel (me; ent : Transient) returns HAsciiString from TCollection;
+    ---Purpose : Returns a string with the label attached to a given entity,
+    --           same form as for PrintLabel
+
+fields
+
+    theheader : EntityList;
+    theidnums : HArray1OfInteger from TColStd;
+
+end StepModel;

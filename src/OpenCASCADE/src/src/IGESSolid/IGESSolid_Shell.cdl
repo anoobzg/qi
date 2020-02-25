@@ -1,0 +1,94 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( SIVA )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Shell from IGESSolid  inherits IGESEntity
+
+        ---Purpose: defines Shell, Type <514> Form Number <1>
+        --          in package IGESSolid
+        --          Shell entity is a connected entity of dimensionality 2
+        --          which divides R3 into two arcwise connected open subsets,
+        --          one of which is finite. Inside of the shell is defined to
+        --          be the finite region.
+        --          From IGES-5.3, Form can be <1> for Closed or <2> for Open
+
+uses
+
+        Face             from IGESSolid,
+        HArray1OfFace    from IGESSolid,
+        HArray1OfInteger from TColStd
+
+raises DimensionMismatch, OutOfRange
+
+is
+
+        Create returns mutable Shell;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me        : mutable;
+              allFaces  : HArray1OfFace;
+              allOrient : HArray1OfInteger)
+        raises DimensionMismatch;
+        ---Purpose : This method is used to set the fields of the class Shell
+        --       - allFaces  : the faces comprising the shell
+        --       - allOrient : the orientation flags of the shell
+        -- raises exception if length of allFaces & allOrient do not match
+
+    	IsClosed (me) returns Boolean;
+	---Purpose : Tells if a Shell is Closed, i.e. if its FormNumber is 1
+	--           (this is the default)
+
+    	SetClosed (me : mutable; closed : Boolean);
+	---Purpose : Sets or Unsets the Closed status (FormNumber = 1 else 2)
+
+        NbFaces (me) returns Integer;
+        ---Purpose : returns the number of the face entities in the shell
+
+        Face (me; Index : Integer) returns Face
+        raises OutOfRange;
+        ---Purpose : returns the Index'th face entity of the shell
+        -- raises exception if Index <= 0 or Index > NbFaces()
+
+        Orientation (me; Index : Integer) returns Boolean
+        raises OutOfRange;
+        ---Purpose : returns the orientation of Index'th face w.r.t the direction of
+        -- the underlying surface
+        -- raises exception if Index <= 0 or Index > NbFaces()
+
+fields
+
+--
+-- Class    : IGESSolid_Shell
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class Shell.
+--
+-- Reminder : A Shell instance is defined by :
+--            a number of face entities defined with their orientation
+--            with respect to the direction of the underlying surface
+
+        theFaces       : HArray1OfFace;
+            -- the faces comprising the shell
+
+        theOrientation : HArray1OfInteger;
+            -- the orientation of the corresponding face
+
+end Shell;

@@ -1,0 +1,50 @@
+-- Created on: 1998-06-11
+-- Created by: data exchange team
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Vertex from ShapeBuild 
+
+    ---Purpose: Provides low-level functions used for constructing vertices
+
+uses
+    Pnt from gp,
+    Vertex from TopoDS
+
+is
+
+    CombineVertex ( me; V1, V2: Vertex from TopoDS; tolFactor: Real = 1.0001 ) 
+    returns Vertex from TopoDS;
+    	---Purpose: Combines new vertex from two others. This new one is the 
+    	--          smallest vertex which comprises both of the source vertices. 
+    	--          The function takes into account the positions and tolerances 
+        --          of the source vertices.
+    	--          The tolerance of the new vertex will be equal to the minimal
+        --          tolerance that is required to comprise source vertices 
+    	--          multiplied by tolFactor (in order to avoid errors because
+	--          of discreteness of calculations).
+
+    CombineVertex ( me; pnt1, pnt2: Pnt from gp; tol1, tol2: Real;
+    	    	    tolFactor: Real = 1.0001 ) 
+    returns Vertex from TopoDS;
+    	---Purpose: The same function as above, except that it accepts two points
+	--          and two tolerances instead of vertices
+
+end Vertex;

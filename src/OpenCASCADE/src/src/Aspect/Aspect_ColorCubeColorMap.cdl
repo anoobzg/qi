@@ -1,0 +1,99 @@
+-- Created on: 1993-03-23
+-- Created by: BBL
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ColorCubeColorMap from Aspect inherits ColorMap from Aspect
+
+	---Version: 0.0
+
+	---Purpose: This class defines a ColorCube ColorMap object.
+	---Keywords:
+	---Warning:
+	---References:
+
+uses
+	Color		from Quantity,
+	ColorMapEntry 	from Aspect
+
+raises
+	BadAccess 	from Aspect,
+	RangeError from Standard
+
+is
+	Create( base_pixel, redmax,   redmult,
+			    greenmax, greenmult,
+			    bluemax,  bluemult : in Integer from Standard )
+	returns mutable ColorCubeColorMap from Aspect
+	raises RangeError from Standard ;
+	---Level: Public
+	---Purpose : Create a ColorCube ColorMap.
+
+	ColorCubeDefinition( me : in ;
+			  base_pixel,
+			  redmax,   redmult,
+			  greenmax, greenmult,
+			  bluemax,  bluemult : out Integer from Standard );
+
+	FindColorMapIndex ( me ;
+			AColorMapEntryIndex : Integer from Standard )
+	returns Integer from Standard
+	raises BadAccess from Aspect ;
+	---Level: Public
+	---Purpose: Returns the index in the ColorMap of the
+	--	    ColorMapEntry.Index() equal to <AnEntryIndex>.
+	--  Warning: Raises BadAccess if the index is not defined in the
+	--	    ColorMap.
+
+	FindEntry ( me ; AColorMapEntryIndex : Integer from Standard )
+	returns ColorMapEntry from Aspect
+	raises BadAccess from Aspect ;
+	---Level: Public
+	---Purpose: Returns the ColorMapEntry with ColorMapEntry.Index()
+	--	    equal to <AnEntryIndex>.
+	--  Warning: Raises BadAccess if the index is not defined in the
+	--	    ColorMap.
+    	---C++: return const &
+
+	NearestColorMapIndex( me ; aColor : Color from Quantity )
+	returns Integer from Standard ;
+	---Level: Public
+	---Purpose: Returns the index in the ColorMap of the nearest
+	--	    matching ColorMapEntry
+
+	NearestEntry( me ; aColor : Color from Quantity )
+	returns ColorMapEntry from Aspect ;
+	---Level: Public
+	---Purpose: Returns the nearest ColorMapEntry that match aColor .
+    	---C++: return const &
+
+        AddEntry (me : mutable; aColor : Color from Quantity)
+                returns Integer from Standard;
+        ---Level: Public
+        ---Purpose: Search an identical color entry in the color map <me>
+        -- or returns the nearest ColorMapEntry Index.
+
+fields
+	mybasepixel 		 : Integer from Standard ;
+	mygreenmax , mygreenmult : Integer from Standard ;
+	myredmax   , myredmult   : Integer from Standard ;
+	mybluemax  , mybluemult  : Integer from Standard ;
+		-- ColorCube definition for a ColorCube ColorMap.
+
+end ColorCubeColorMap ;

@@ -1,0 +1,82 @@
+// Copyright (c) 1995-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+inline void IntSurf_PntOn2S::SetValue (const gp_Pnt& Pt ) {
+
+  pt = Pt;
+}
+
+
+inline void IntSurf_PntOn2S::SetValue (const gp_Pnt& Pt,
+				       const Standard_Real U1,
+				       const Standard_Real V1,
+				       const Standard_Real U2,
+				       const Standard_Real V2) {
+
+  pt = Pt;
+  u1 = U1;
+  v1 = V1;
+  u2 = U2;
+  v2 = V2;
+}
+
+inline void IntSurf_PntOn2S::SetValue (const Standard_Real U1,
+				       const Standard_Real V1,
+				       const Standard_Real U2,
+				       const Standard_Real V2) {
+  u1 = U1;
+  v1 = V1;
+  u2 = U2;
+  v2 = V2;
+}
+
+
+inline const gp_Pnt& IntSurf_PntOn2S::Value () const {
+
+  return pt;
+}
+
+
+inline void IntSurf_PntOn2S::ParametersOnS1 (Standard_Real& U1,
+					     Standard_Real& V1) const
+{
+  U1 = u1;
+  V1 = v1;
+}
+
+
+inline void IntSurf_PntOn2S::ParametersOnS2 (Standard_Real& U2,
+					     Standard_Real& V2) const
+{
+  U2 = u2;
+  V2 = v2;
+}
+
+inline void IntSurf_PntOn2S::Parameters (Standard_Real& U1,
+					 Standard_Real& V1,
+					 Standard_Real& U2,
+					 Standard_Real& V2) const
+{
+  U1 = u1;
+  V1 = v1;
+  U2 = u2;
+  V2 = v2;
+}
+
+
+

@@ -1,0 +1,62 @@
+-- Created on: 1995-02-01
+-- Created by: Marie Jose MARTZ
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Geom2dPoint from Geom2dToIGES inherits Geom2dEntity from Geom2dToIGES
+
+    ---Purpose: This class implements the transfer of the Point Entity from Geom2d
+    --          to IGES . These are :
+    --          . 2dPoint
+    --              * 2dCartesianPoint 
+
+  
+uses
+
+    Point          from Geom2d,
+    CartesianPoint from Geom2d,
+    Point          from IGESGeom,
+    Geom2dEntity   from Geom2dToIGES
+     
+is 
+    
+    Create returns Geom2dPoint from Geom2dToIGES;
+
+
+    Create(G2dE : Geom2dEntity from Geom2dToIGES)  
+    	 returns Geom2dPoint from Geom2dToIGES;
+    ---Purpose : Creates a tool Geom2dPoint ready to run and sets its
+    --         fields as G2dE's.
+
+    Transfer2dPoint            (me    : in out;
+                                start : Point from Geom2d)
+    	 returns mutable Point from IGESGeom;
+    ---Purpose :  Transfert  a  Point from Geom to IGES. If this
+    --            Entity could not be converted, this member returns a NullEntity.
+
+    Transfer2dPoint            (me    : in out;
+                                start : CartesianPoint from Geom2d)
+    	 returns mutable Point from IGESGeom;
+    ---Purpose :  Transfert  a  CartesianPoint from Geom to IGES. If this
+    --            Entity could not be converted, this member returns a NullEntity.
+
+
+end Geom2dPoint;
+
+

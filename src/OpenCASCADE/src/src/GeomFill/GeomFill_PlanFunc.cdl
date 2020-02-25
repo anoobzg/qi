@@ -1,0 +1,83 @@
+-- Created on: 1998-10-29
+-- Created by: Philippe MANGIN
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+private  class PlanFunc from GeomFill   
+inherits  FunctionWithDerivative from math
+
+	---Purpose: 
+
+uses 
+  HCurve  from Adaptor3d, 
+  Pnt     from  gp, 
+  Vec     from  gp, 
+  XYZ     from  gp 
+  
+is 
+    Create(P  :  Pnt;  V  :  Vec;  C  :  HCurve  from  Adaptor3d)   
+    returns  PlanFunc from GeomFill;
+
+    Value(me: in out; X: Real; F: out Real)
+        ---Purpose: computes the value <F>of the function for the variable <X>.
+    	--          Returns True if the calculation were successfully done, 
+    	--          False otherwise.
+
+    returns Boolean
+    is redefined;
+ 
+    Derivative(me: in out; X: Real; D: out Real)
+         ---Purpose: computes the derivative <D> of the function 
+         --          for the variable <X>.
+    	--           Returns True if the calculation were successfully done, 
+    	--           False otherwise.
+
+    returns Boolean
+    is redefined;    
+
+    Values(me: in out; X: Real; F, D: out Real)
+    	---Purpose: computes the value <F> and the derivative <D> of the 
+    	--          function for the variable <X>.
+    	--          Returns True if the calculation were successfully done,
+    	--          False otherwise.
+    returns Boolean
+    is redefined;  
+     
+    D2(me:in  out;  X:Real;  F,  D1,  D2: out Real) 
+    is  static; 
+     
+    DEDT(me :  in  out;  X:Real; 
+         DP, DV  :  Vec; 
+         DF  :  out  Real) 
+    is  static;   
+     
+    D2E(me :  in  out;  X:Real; 
+        DP, D2P  :  Vec;  
+	DV,  D2V :  Vec;
+        DFDT,  D2FDT2,  D2FDTDX :  out  Real) 
+    is  static;     
+    
+fields 
+  myPnt  :  XYZ; 
+  myVec  :  XYZ; 
+  V      :  XYZ; 
+  G      :  Pnt; 
+  myCurve  :  HCurve  from  Adaptor3d;
+end PlanFunc;

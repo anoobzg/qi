@@ -1,0 +1,79 @@
+-- Created on: 1997-06-26
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+private class Classifier from BRepMesh
+
+
+
+uses  
+    Pnt2d                         from gp,
+    SequenceOfPnt2d               from TColgp,
+    Face                          from TopoDS,
+    State                         from TopAbs,
+    SequenceOfInteger             from TColStd,
+    SeqOfPtr                      from BRepTopAdaptor, 
+    DataMapOfShapePairOfPolygon   from BRepMesh,
+    IndexedMapOfInteger           from TColStd,
+    IndexedMapOfVertex            from BRepMesh,
+    Status                        from BRepMesh,
+    DataStructureOfDelaun         from BRepMesh
+
+is 
+    
+    Create   (theFace      : Face                          from TopoDS; 
+              theTolUV     : Real                          from Standard;
+              theEdges     : DataMapOfShapePairOfPolygon   from BRepMesh;
+              theMap       : IndexedMapOfInteger           from TColStd;
+              theStructure : DataStructureOfDelaun         from BRepMesh;
+              theUmin, theUmax, theVmin, theVmax : Real    from Standard)
+    returns Classifier from BRepMesh;
+
+
+    Perform(me; thePoint: Pnt2d from gp)
+    returns State from TopAbs;
+
+
+    State (me)
+    returns Status from BRepMesh;
+        ---C++: inline
+
+
+    Destroy(me: in out);
+        ---C++: alias ~
+
+
+    AnalizeWire (me          : in out;
+                 theSeqPnt2d : in SequenceOfPnt2d from TColgp;
+                 theUmin, theUmax, theVmin, theVmax: in Real from Standard)
+    is private;
+    -- Private method called from constructor after some (piece of) wire 
+    -- has been explored and put into <theSeqPnt2d>. 
+    -- Here it is triangulated if it is a hole and anyway added to the bulk.
+    
+fields 
+
+    myTabClass  : SeqOfPtr          from BRepTopAdaptor;
+    myTabOrient : SequenceOfInteger from TColStd;
+    myTolUV     : Real              from Standard;
+    myFace      : Face              from TopoDS;
+    myState     : Status            from BRepMesh;
+
+end Classifier from BRepMesh;

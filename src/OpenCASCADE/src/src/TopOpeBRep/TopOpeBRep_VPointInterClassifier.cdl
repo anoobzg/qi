@@ -1,0 +1,65 @@
+-- Created on: 1993-11-17
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class VPointInterClassifier from TopOpeBRep
+
+uses 
+
+    State from TopAbs,
+    Shape from TopoDS,
+    VPointInter from TopOpeBRep,
+    FaceClassifier from BRepClass,
+    PointClassifier from TopOpeBRep
+    
+is
+
+    Create returns VPointInterClassifier from TopOpeBRep;
+
+    VPointPosition(me : in out; F : Shape from TopoDS;
+    			        VP : in out VPointInter from TopOpeBRep;
+                                ShapeIndex : Integer from Standard;
+    	    	    	    	PC : in out PointClassifier from TopOpeBRep;
+				AssumeINON : Boolean from Standard; Tol : Real)
+    ---Purpose: compute position of VPoint <VP> regarding with face <F>.
+    -- <ShapeIndex> (= 1,2) indicates which (u,v) point of <VP> is used.
+    -- when state is ON, set VP.EdgeON() with the edge containing <VP>
+    -- and associated parameter.
+    -- returns state of VP on ShapeIndex.
+    returns State from TopAbs is static;
+        
+    Edge(me) 
+    ---Purpose: returns the edge containing the VPoint <VP> used in the
+    -- last VPointPosition() call. Edge is defined if the state previously 
+    -- computed is ON, else Edge is a null shape.
+    ---C++: return const &
+    returns Shape from TopoDS is static;
+    	
+    EdgeParameter(me) 
+    ---Purpose: returns the parameter of the VPoint <VP> on Edge()
+    returns Real from Standard is static;
+    	
+fields
+
+    mySlowFaceClassifier : FaceClassifier from BRepClass;
+    myState          : State from TopAbs;
+    myNullShape      : Shape from TopoDS; -- dummy, needed by Edge()
+    
+end VPointInterClassifier from TopOpeBRep;

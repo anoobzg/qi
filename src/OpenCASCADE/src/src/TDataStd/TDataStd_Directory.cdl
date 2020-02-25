@@ -1,0 +1,100 @@
+-- Created on: 1999-06-25
+-- Created by: Sergey RUIN
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class Directory from TDataStd inherits Attribute from TDF
+
+    	---Purpose: Associates a directory in the data framework with
+    	-- a TDataStd_TagSource attribute.
+    	-- You can create a new directory label and add
+    	-- sub-directory or object labels to it,
+
+
+uses Attribute       from TDF,
+     Label           from TDF,
+     GUID            from Standard,
+     DataSet         from TDF,
+     RelocationTable from TDF
+is
+
+
+    ---Purpose: class methods
+    --          =============
+
+
+    Find (myclass; current : Label from TDF; D : in out Directory from TDataStd)
+    	---Purpose: Searches for a directory attribute on the label
+    	-- current, or on one of the father labels of current.
+    	-- If a directory attribute is found, true is returned,
+    	-- and the attribute found is set as D.
+    returns Boolean from Standard;
+
+    New (myclass; label : Label from TDF)
+    	---Purpose:  Creates  an  enpty   Directory attribute,  located  at
+    	--          <label>. Raises if <label> has attribute
+    returns Directory from TDataStd;
+    
+    AddDirectory (myclass; dir : Directory from TDataStd)
+    	---Purpose:  Creates a new sub-label and sets the
+    	-- sub-directory dir on that label. 
+    returns Directory from TDataStd;
+
+    MakeObjectLabel (myclass; dir : Directory from TDataStd)
+    	---Purpose:  Makes new label and returns it to insert 
+    	--           other object attributes (sketch,part...etc...) 
+    returns Label from TDF;
+
+
+    GetID (myclass)   
+    	---C++: return const &  
+    returns GUID from Standard;
+
+
+    ---Purpose: Directory methods
+    --          ===============
+
+    Create
+    returns mutable Directory from TDataStd;
+    
+    ---Category: methodes de TDF_Attribute
+    --           =========================
+	
+    ID (me)
+    ---C++: return const & 
+    returns GUID from Standard;
+
+    Restore (me: mutable; with : Attribute from TDF);
+
+    NewEmpty (me)
+    returns mutable Attribute from TDF;
+
+    Paste (me; into : mutable Attribute from TDF;
+	       RT   : mutable RelocationTable from TDF);     
+
+    References (me; DS : DataSet from TDF) is redefined;     
+
+    Dump(me; anOS : in out OStream from Standard)
+    returns OStream from Standard
+     is redefined;
+	---C++: return &
+
+end Directory;

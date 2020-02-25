@@ -1,0 +1,115 @@
+-- Created on: 1994-04-26
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package TestTopOpeTools
+
+---Purpose: 
+--          
+--  Provide Trace control on packages involved in
+--  topological operations kernel, from Draw command interpretor.
+--          
+--  They may be used by users of topological operation kernel, such as :
+--          
+--  * topological operation performer,
+--  * hidden line removal performer,
+--  * fillet, chamfer performer
+--          
+--  Trace  control   consists  in  management  of
+--  control functions,  activating/desactivating  execution  of
+--  instructions considered as purely PASSIVE code,
+--  performing dumps, prints, and drawing of internal objects
+--  dealed by some topological operation packages.
+--          
+--  All of the Trace controls in top.ope. kernel
+--  are enclosed by the C conditional compilation statements :
+--  #ifdef DEB  ...  #endif
+--          
+--  The "Traced" packages of topological operation kernel are :
+--     - TopBuild
+--     - TopOpeBRepTool
+--     - TopOpeBRepDS
+--          
+--  How to use the Trace : 
+--  ----------------------
+--    
+--  In a Test.cxx program using  the Draw command interpretor, dealing
+--  a set of commands theCommands (Draw_CommandManager theCommands)  :
+--
+--  TestTopOpeTools::TraceCommands();
+--  
+--  Compile your Test.cxx, run and then, under the command manager prompt : 
+--
+--  Trace : prints the list of the Trace flags available on top.ope. kernel
+--  Trace <flag> : activates Trace code of <flag>
+--  Trace <flag> <1 | 0> : activates/desactivates Trace code of <flag>
+--  Trace <1 | 0> : activates/desactivates all Trace code of top.ope. kernel  
+--
+--  How to add Traces : 
+--  -------------------
+--   
+--  It it possible to add your own "Traced" portions of code in your code.
+--  In your test program, simply add :  
+--  
+--  #include <TestTopOpeTools_AddTrace.hxx>
+--
+--  and see the file TestTopOpeTools_Trace.hxx for explanations.
+
+
+uses 
+
+    MMgt,
+    TopoDS,
+    Draw,
+    DrawTrSurf,
+    DBRep,
+    TCollection,
+    Geom,
+    gp,
+    TColgp,
+    Standard,
+    TopTrans,
+    TColStd
+    
+is
+    
+    class Mesure;
+    
+    pointer PMesure to Mesure from TestTopOpeTools;
+    class Array1OfMesure instantiates Array1 from TCollection
+    (Mesure from TestTopOpeTools);
+    
+    class HArray1OfMesure instantiates HArray1 from TCollection
+    (Mesure from TestTopOpeTools, Array1OfMesure from TestTopOpeTools);
+    
+    AllCommands(I : in out Interpretor from Draw);
+    ---Purpose: Defines all topological operation test commands
+
+
+    TraceCommands(I : in out Interpretor from Draw);
+    ---Purpose: Defines the dump commands on 
+    --          topological operation packages.
+
+    OtherCommands(I : in out Interpretor from Draw);
+    ---Purpose: Defines auxiliary commands
+
+
+end TestTopOpeTools;

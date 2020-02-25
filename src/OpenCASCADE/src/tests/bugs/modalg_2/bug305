@@ -1,0 +1,37 @@
+puts "TODO OCC12345 ALL: Tcl Exception: result is not a topological shape!!!"
+puts "TODO OCC12345 ALL: TEST INCOMPLETE"
+
+puts "========"
+puts "OCC305"
+puts "========"
+puts ""
+######################################################
+# BRepOffsetAPI_MakeOffset: problem with offsetting a wire
+######################################################
+
+puts ""
+puts "Bug's attributes"
+puts "################"
+puts ""
+puts "Summary:  BRepOffsetAPI_MakeOffset: problem with offsetting a wire"
+
+catch {pload XDE}
+
+restore [locate_data_file OCC305.brep] a 
+checkshape a
+
+if [catch {mkoffset result a 1 0.5 } catch_result] {
+    puts "Faulty OCC305 : function MKOFFSET works wrongly"
+} else {
+    decho off
+    set che [checkshape result]
+    decho on
+    if { [regexp {This shape seems to be valid} $che] == 1} {
+	puts "OCC305  OK"
+    } else {
+	puts "Faulty OCC305"
+    }
+}
+set square 0
+set 2dviewer 0
+

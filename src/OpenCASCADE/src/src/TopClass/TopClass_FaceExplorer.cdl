@@ -1,0 +1,90 @@
+-- Created on: 1992-11-17
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred generic class FaceExplorer from TopClass 
+     (TheEdge as any)
+
+	---Purpose: Describe an exploration of a 2D face  suitable for
+	--          classification.
+
+uses
+    Orientation from TopAbs,
+    Pnt2d from gp,
+    Lin2d from gp
+
+is
+    Reject(me;  P : Pnt2d from gp) returns Boolean
+	---Purpose: Should  return  True  if the  point  is  outside a
+	--          bounding volume of the face.
+    is deferred;
+    
+    Segment(me;  P :  Pnt2d from gp;
+    	         L : out Lin2d from gp; Par : out  Real)
+	 ---Purpose: Returns  in <L>, <Par>  a segment having at least
+	 --          one  intersection  with  the   face  boundary  to
+	 --          compute  intersections. 
+    is deferred;
+    
+    InitWires(me : in out)
+	---Purpose: Starts an exploration of the wires.
+    is deferred;
+    
+    MoreWires(me) returns Boolean
+	---Purpose: Returns True if there is  a current wire.
+	---C++: inline
+    is deferred;
+    	
+    NextWire(me : in out)
+	---Purpose: Sets the explorer  to the  next  wire and  returns
+	--          False if there are no more wires.
+    is deferred;
+    
+    RejectWire(me; L :  Lin2d from gp; Par : Real) returns Boolean
+	---Purpose: Returns True  if the wire  bounding volume does not
+	--          intersect the segment.
+    is deferred;
+    
+    InitEdges(me : in out)
+	---Purpose: Starts an exploration of the  edges of the current
+	--          wire.
+    is deferred;
+    
+    MoreEdges(me) returns Boolean
+	---Purpose: Returns True if there is a current edge.
+	---C++: inline
+    is deferred;
+    
+    NextEdge(me  : in out)
+	---Purpose: Sets the explorer  to the  next  wire and  returns
+	--          False if there are no more wires.
+    is deferred;
+
+    RejectEdge(me; L :  Lin2d from gp; Par : Real) returns Boolean
+	---Purpose: Returns True  if the edge  bounding volume does not
+	--          intersect the segment.
+    is deferred;
+    
+    CurrentEdge(me; E : out TheEdge; Or : out Orientation from TopAbs)
+	---Purpose: Curent edge in current wire and its orientation
+    is deferred;
+    
+end FaceExplorer;

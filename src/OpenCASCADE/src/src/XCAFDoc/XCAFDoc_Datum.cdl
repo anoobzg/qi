@@ -1,0 +1,73 @@
+-- Created on: 2004-01-15
+-- Created by: Sergey KUUL
+-- Copyright (c) 2004-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Datum from XCAFDoc inherits Attribute from TDF
+
+	---Purpose: 
+
+uses
+    Label from TDF,
+    RelocationTable from TDF,
+    HAsciiString from TCollection
+
+is
+    Create returns Datum from XCAFDoc;
+    
+    ---Category: class methods
+    --           =============
+
+    GetID (myclass)   
+    	---C++: return const &  
+    returns GUID from Standard;
+    
+    Set (myclass; label : Label from TDF;
+    	    	  aName : HAsciiString from TCollection;
+    	    	  aDescription : HAsciiString from TCollection;
+    	    	  anIdentification : HAsciiString from TCollection)
+    returns Datum from XCAFDoc;
+
+    Set (me : mutable; aName : HAsciiString from TCollection;
+    	    	       aDescription : HAsciiString from TCollection;
+    	    	       anIdentification : HAsciiString from TCollection);
+	     
+    GetName (me) returns HAsciiString from TCollection;
+
+    GetDescription (me) returns HAsciiString from TCollection;
+
+    GetIdentification (me) returns HAsciiString from TCollection;
+
+    ID (me)
+    	---C++: return const & 
+    returns GUID from Standard;
+
+    Restore (me: mutable; With : Attribute from TDF);
+
+    NewEmpty (me)
+    returns mutable Attribute from TDF;
+
+    Paste (me; Into : mutable Attribute from TDF;
+	       RT   : mutable RelocationTable from TDF);    
+
+fields
+    myName : HAsciiString from TCollection;
+    myDescription : HAsciiString from TCollection;
+    myIdentification : HAsciiString from TCollection;
+
+end Datum;

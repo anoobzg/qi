@@ -1,0 +1,113 @@
+-- Created on: 1999-04-26
+-- Created by: Pavel DURANDIN
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ShapeDivide from ShapeUpgrade
+
+    	---Purpose: Divides a all faces in shell with given criteria Shell.
+
+uses
+    Shape   from TopoDS,
+    Status  from ShapeExtend,
+    ReShape from ShapeBuild,
+    FaceDivide from ShapeUpgrade
+
+is
+    Create returns ShapeDivide from ShapeUpgrade;
+    	---Purpose:
+    
+    Create (S: Shape from TopoDS)
+    returns ShapeDivide from ShapeUpgrade;
+    	---Purpose: Initialize by a Shape.
+    
+    Init (me: in out; S: Shape from TopoDS);
+    	---Purpose: Initialize by a Shape.
+	
+    Delete(me:out) is virtual;
+    ---C++: alias "Standard_EXPORT virtual ~ShapeUpgrade_ShapeDivide(){Delete();}"
+    
+    SetPrecision (me: in out; Prec: Real);
+    	---Purpose: Defines the spatial precision used for splitting
+    
+    SetMaxTolerance(me: in out; maxtol: Real);
+    	---Purpose: Sets maximal allowed tolerance
+    
+    SetMinTolerance (me: in out; mintol: Real);
+    	---Purpose: Sets minimal allowed tolerance
+    
+    SetSurfaceSegmentMode(me: in out; Segment: Boolean);
+    	---Purpose: Purpose sets mode for trimming (segment) surface by
+	--          wire UV bounds.
+    
+    Perform (me: in out; newContext: Boolean = Standard_True) 
+    returns Boolean is virtual;
+    	---Purpose: Performs splitting and computes the resulting shape
+	--          If newContext is True (default), the internal context
+        --          will be cleared at start, else previous substitutions
+        --          will be acting.
+    
+    Result (me) returns Shape from TopoDS;
+    	---Purpose: Gives the resulting Shape, or Null shape if not done.
+    
+    GetContext (me) returns ReShape from ShapeBuild;
+        ---Purpose: Returns context with all the modifications made during
+        --          last call(s) to Perform() recorded
+    
+    SetContext (me: in out; context: ReShape from ShapeBuild);
+        ---Purpose: Sets context with recorded modifications to be applied
+        --          during next call(s) to Perform(shape,Standard_False)
+    
+    Status (me; status: Status from ShapeExtend) returns Boolean;
+	---Purpose: Queries the status of last call to Perform
+	-- OK   : no splitting was done (or no call to Perform)
+	-- DONE1: some edges were splitted
+	-- DONE2: surface was splitted
+	-- FAIL1: some errors occured
+    
+    ---Level: Internal
+    
+    SetSplitFaceTool (me: in out; splitFaceTool: FaceDivide from ShapeUpgrade);
+    	---Purpose: Sets the tool for splitting faces.
+    
+    GetSplitFaceTool (me) returns FaceDivide from ShapeUpgrade
+    is virtual protected;
+    	---Purpose: Returns the tool for splitting faces. 
+	
+    SetEdgeMode(me: in out; aEdgeMode : Integer); 
+    	---Purpose:Sets mode for splitting 3d curves from edges.
+    	-- 0 - only curve 3d from free edges.
+    	-- 1 - only curve 3d from shared edges.
+    	-- 2 -  all curve 3d. 
+    
+fields
+
+    mySplitFaceTool: FaceDivide from ShapeUpgrade; 
+    myContext    : ReShape from ShapeBuild is protected;
+    myShape      : Shape from TopoDS  is protected;
+    myResult     : Shape from TopoDS is protected;
+    myPrecision  : Real is protected;
+    myMinTol     : Real is protected;       
+    myMaxTol     : Real is protected;
+    mySegmentMode: Boolean is protected;
+    myStatus     : Integer is protected;
+    myEdgeMode: Integer is protected;
+    
+end ShapeDivide;
+    

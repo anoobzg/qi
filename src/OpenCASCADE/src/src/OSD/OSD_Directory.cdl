@@ -1,0 +1,61 @@
+-- Created on: 1992-05-18
+-- Created by: Stephan GARNAUD (ARM)
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+-- Updated:       J.P. TIRAULT August 1993
+--                All classes are static class.
+
+
+class Directory from OSD 
+
+ ---Purpose: Management of directories 
+ 
+inherits FileNode 
+
+uses Protection, Path 
+
+is
+ Create returns Directory;
+    ---Purpose: Creates Directory object.
+    --          It is initiliazed to an empty name.
+    ---Level: Public
+
+ Create (Name : Path) returns Directory;
+    ---Purpose: Creates Directory object initialized with Name.
+    ---Level: Public
+
+ Build (me : in out ; Protect : Protection) is static;
+    ---Purpose: Creates (physically) a directory.
+    --          When a directory of the same name already exists, no error is
+    --          returned, and only <Protect> is applied to the existing directory.
+    --
+    --          If Build is used and <me> is instantiated without a name,
+    --          OSDError is raised.
+    ---Level: Public
+
+ BuildTemporary (myclass ) returns Directory;
+    ---Purpose: Creates a temporary Directory in current directory.
+    --          This directory is automatically removed when object dies.
+    ---Level: Public
+                                                    
+end Directory from OSD;
+
+

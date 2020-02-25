@@ -1,0 +1,75 @@
+-- Created on: 1995-01-25
+-- Created by: Jean-Louis Frenkel
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+package PrsMgr
+    	---Purpose: The PrsMgr package provides low level services
+    	-- and is only to be used when you do not want to use
+    	-- the services provided by AIS.
+    	-- PrsMgr manages display through the following services:
+    	-- -   supplying a graphic structure for the object to be presented
+    	-- -   recalculating presentations when required, e.g. by
+    	--   moving the object or changing its color
+    	-- -   defining the display mode of the object to be
+    	--   presented; in the case of AIS_Shape, for example,
+    	--   this determines whether the object is to be displayed in:
+    	--   -   wireframe 0
+    	--   -   shading 1.
+    	-- Note that each new Interactive Object must have all its display modes defined.
+        
+uses
+
+    MMgt,TCollection,
+    TopLoc,
+    Prs3d,Graphic3d,
+    Quantity,Geom,
+    V3d, 
+    TColStd, 
+    gp
+ 
+is
+
+    enumeration KindOfPrs is KOP_2D,KOP_3D
+    end KindOfPrs;
+
+    enumeration TypeOfPresentation3d is TOP_AllView, TOP_ProjectorDependant
+    end TypeOfPresentation3d;
+    	---Purpose: To declare the type of presentation as follows
+    	-- -   AllView for display involving no recalculation for
+    	--   new projectors (points of view)in hidden line removal mode
+    	-- -   ProjectorDependant for display in hidden line
+    	--   removal mode, where every new point of view
+    	--   entails recalculation of the display.
+
+    deferred class PresentationManager;
+    deferred class Presentation;
+    deferred class PresentableObject;
+    
+    class PresentationManager3d;
+    
+    class Prs;
+    class Presentation3d;
+
+    class ModedPresentation;
+    class Presentations  instantiates Sequence from TCollection
+    	(ModedPresentation from PrsMgr);
+    pointer Presentation3dPointer to Presentation3d from PrsMgr;
+    pointer PresentableObjectPointer to PresentableObject from PrsMgr;
+end PrsMgr;

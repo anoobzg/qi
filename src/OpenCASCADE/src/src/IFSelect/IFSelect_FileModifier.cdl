@@ -1,0 +1,64 @@
+-- Created on: 1994-03-21
+-- Created by: Christian CAILLET
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred generic class  FileModifier  from IFSelect
+    	 (Writer   as any)  -- according each Interface
+    inherits GeneralModifier
+
+    ---Purpose : Allows to precise the frame work for File Modifiers able to
+    --           run with an Interface (such as STEP, VDA, IGES ...)
+    --           
+    --           Remember that File Modifiers are activated by a WorkLibrary :
+    --           if they inherit from an instantiation of FileModifier with the
+    --           data from this Interface, this will be easier to do.
+    --           They are activated before sending the file, in the order
+    --           given by the ModielCopier.
+    --           
+    --           For each Interface on which File Modifiers have to be defined,
+    --           The way to follow is firstly to instantiate FileModifier with
+    --           its specific data :
+    --           Model is the InterfaceModel specific to the considered norm
+    --           Writer is the Writer specific to the considered norm
+    --           Then to define the various classes which inherit from it and
+    --           define their method Perform
+
+uses ContextWrite
+
+is
+
+    Initialize;
+    ---Purpose : Sets a File Modifier to keep the graph of dependences
+    --           unchanges (because it works on the model already produced)
+
+    Perform (me; ctx : in out ContextWrite; writer : in out Writer)
+    	is deferred;
+    ---Purpose : Perform the action specific to each class of File Modifier
+    --           <ctx> is the ContextWrite, which brings : the model, the
+    --           protocol, the file name, plus the object AppliedModifiers
+    --           (not used here) and the CheckList
+    --           Remark that the model has to be casted for specific access
+    --           
+    --           <writer> is the Writer and is specific to each norm, on which
+    --             to act
+
+
+end FileModifier;

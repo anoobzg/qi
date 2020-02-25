@@ -1,0 +1,102 @@
+-- Created on: 1999-11-29
+-- Created by: Peter KURNEV
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class VertexInfo from TopOpeBRepBuild 
+
+	---Purpose: 
+
+uses
+    Vertex  from  TopoDS,  
+    Edge    from  TopoDS,
+    SequenceOfInteger  from  TColStd, 
+    IndexedMapOfOrientedShape from TopTools,
+    ListOfShape  from TopTools
+--raises
+
+is
+    Create     returns VertexInfo from TopOpeBRepBuild; 
+     
+    SetVertex    (me:out;  aV:Vertex  from  TopoDS); 
+     
+    Vertex       (me)  returns  Vertex  from  TopoDS;  
+    ---C++: return const & 
+     
+    SetSmart     (me:out;  aFlag: Boolean  from  Standard);
+     
+    Smart        (me)  returns Boolean  from  Standard; 
+     
+    NbCases    (me) returns  Integer  from  Standard; 
+     
+    FoundOut   (me) returns  Integer  from  Standard; 
+     
+    AddIn        (me:out;  anE:  Edge  from  TopoDS);	      
+     
+    AddOut       (me:out;  anE:  Edge  from  TopoDS);	      
+
+    SetCurrentIn (me:out;  anE:  Edge  from  TopoDS);	 
+     
+    EdgesIn    (me) returns IndexedMapOfOrientedShape from TopTools;    
+    ---C++: return const & 
+     
+    EdgesOut   (me) returns IndexedMapOfOrientedShape from TopTools;      
+    ---C++: return const & 
+
+    ChangeEdgesOut   (me:out) returns IndexedMapOfOrientedShape from TopTools;      
+    ---C++: return &  
+    
+    Dump       (me); 
+   
+    CurrentOut (me:out)  returns  Edge from  TopoDS; 
+    ---C++: return const &  
+     
+    AppendPassed  (me:out; anE:  Edge  from  TopoDS); 
+     
+    RemovePassed  (me:out);  
+     
+    ListPassed    (me)  returns  ListOfShape  from TopTools;
+    ---C++: return const &  
+     
+    Prepare(me:  out;  aL  :   ListOfShape  from TopTools);
+    
+fields
+    myVertex         :  Vertex  from  TopoDS; 
+    myCurrent        :  Edge  from  TopoDS;  
+    myCurrentIn      :  Edge  from  TopoDS;  
+
+    mySmart          :  Boolean  from  Standard; 
+    
+    myEdgesIn        :  IndexedMapOfOrientedShape from TopTools; 
+    myEdgesOut       :  IndexedMapOfOrientedShape from TopTools;  
+    myLocalEdgesOut  :  IndexedMapOfOrientedShape from TopTools; 
+    myEdgesPassed    :  ListOfShape  from TopTools; 
+    
+    myFoundOut  :  Integer from Standard;    
+    
+end VertexInfo;
+
+
+
+
+
+
+
+

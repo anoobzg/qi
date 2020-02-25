@@ -1,0 +1,52 @@
+-- Created on: 1993-12-24
+-- Created by: Jacques GOUSSARD
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class S from Law inherits BSpFunc from Law
+
+	---Purpose: Describes an "S" evolution law. 
+
+is
+
+    Create
+    returns mutable S from Law;
+
+    	---Purpose: Constructs an empty "S" evolution law.
+    Set(me: mutable; Pdeb,Valdeb,Pfin,Valfin: Real from Standard)
+    is static;
+    	---Purpose:
+    	-- Defines this S evolution law by assigning both:
+    	-- -   the bounds Pdeb and Pfin of the parameter, and
+    	-- -   the values Valdeb and Valfin of the function at these
+    	--   two parametric bounds.
+    	-- The function is assumed to have the first derivatives
+    	-- equal to 0 at the two parameter points Pdeb and Pfin.
+
+    Set(me: mutable; Pdeb,Valdeb,Ddeb,Pfin,Valfin,Dfin: Real from Standard)
+    is static;
+    	---Purpose: Defines this S evolution law by assigning
+    	-- -   the bounds Pdeb and Pfin of the parameter,
+    	-- -   the values Valdeb and Valfin of the function at these
+    	--   two parametric bounds, and
+	-- -   the values Ddeb and Dfin of the first derivative of the
+    	--   function at these two parametric bounds.
+
+end S;

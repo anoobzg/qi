@@ -1,0 +1,120 @@
+-- Created on: 1992-03-04
+-- Created by: Laurent BUCHARD
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+package IntCurve
+
+    ---Purpose: This package provides algorithmes to intersect 2D curves,
+    --          with domains.
+    --          
+    --          class IntConicConic : Algorithm used to intersect 2 conics 
+    --                                from gp with domains.
+    --                                
+    --          class IntConicCurveGen : Generic algorithm used to intersect 
+    --                                   a conic from gp, and a parametrised
+    --                                   curve.
+    --                                   The parametrised Curve can 
+    --                                   not be a Composite curve and 
+    --                                   can not be a conic.
+    --                                   
+    --          class IntCurveCurveGen : Generic algorithm used to intersect 2
+    --                                   curves. The resources on a curve are
+    --                                   discribed in the class CurveTool.
+    --
+    --          class UserIntConicCurveGen: Generic algorithm used to  
+    --                                      intersect a Conic from gp 
+    --                                      and a parametrised curve. 
+    --                                      This curve can be either a  
+    --                                      composite curve or a conic. 
+    --
+
+
+    ---Level: Advanced 
+    -- 
+    -- The Classes <PConicTool,
+    --              IConicTool,
+    --              PConic,
+    --              ProjectOnPConicTool,
+    --              IntConicCurveGen, 
+    --              ProjPCurGen,
+    --              UserIntConicCurveGen,
+    --              IntPolyPolyGen,
+    --              Polygon2dGen,
+    --              DistBetweenPCurvesGen>    are  Internal 
+    --
+    -- The Classe   <IntCurveCurveGen>        is   Advanced 
+    --
+    --
+
+
+
+uses Standard , math, gp, TColgp, GeomAbs,
+     IntImpParGen, IntRes2d, Extrema,
+     StdFail, Bnd, Intf, TColStd
+     
+
+is 
+
+    class IntConicConic;
+    ---Purpose: Intersection between 2 conics from gp.
+
+    generic class DistBetweenPCurvesGen;
+    
+    generic class Polygon2dGen;
+
+    generic class IntPolyPolyGen,ThePolygon2d,
+                                 TheDistBetweenPCurves, 
+    	    	    	    	 ExactIntersectionPoint;
+
+    generic class UserIntConicCurveGen;
+
+    generic class ProjPCurGen,TheCurveLocator,TheLocateExtPC;
+    
+    generic class IntConicCurveGen,TheIntersector;
+    ---Purpose: Intersection between a conic from gp and a bounded parametric curve.
+
+    generic class IntCurveCurveGen,TheProjPCur,
+                                   TheIntConicCurve,
+                                   IntConicCurve,
+                                   TheIntPCurvePCurve;
+				   
+    ---Purpose: Intersection between 2 2d curves.
+    
+    private class ProjectOnPConicTool;
+    
+    class PConic;
+
+    class IConicTool;
+
+    private class PConicTool;
+	      
+    private class IntImpConicParConic
+         instantiates Intersector from IntImpParGen
+             (IConicTool           from IntCurve,
+	      PConic               from IntCurve,
+	      PConicTool           from IntCurve,
+    	      ProjectOnPConicTool  from IntCurve);
+	
+
+ 	
+end IntCurve;    
+

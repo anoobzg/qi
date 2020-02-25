@@ -1,0 +1,182 @@
+-- Created on: 1995-03-15
+-- Created by: Robert COUBLANC
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Modified by rob jun 25 98 : Add Method : Reactivate projector...		
+
+
+
+class ViewerSelector3d from StdSelect inherits ViewerSelector from SelectMgr
+
+	---Purpose: Selector Usable by Viewers from V3d 
+	--          
+
+uses
+    View      from V3d,
+    Selection from SelectMgr,
+    Projector from Select3D,
+    Group     from Graphic3d,
+    Structure from Graphic3d,
+    Array1OfReal    from TColStd, 
+    Array1OfPnt2d from TColgp,
+    SensitivityMode from StdSelect
+
+is
+
+    Create  returns mutable ViewerSelector3d from StdSelect;
+    	---Purpose: Constructs an empty 3D selector object.
+    Create(aProj : Projector from Select3D) returns mutable ViewerSelector3d from StdSelect;
+    	---Purpose: Constructs a 3D selector object defined by the projector aProj. 
+
+    Convert(me:mutable;aSelection:mutable Selection from SelectMgr)
+    is redefined static;
+    	---Level: Public 
+    	---Purpose: Processes the projection of the sensitive  primitives
+    	--          in the active view ; to be done before the selection action...
+
+
+    Set(me:mutable; aProj: Projector from Select3D) is static;
+    	---Purpose: Sets the new projector aProj to replace the one used at construction time.
+    
+
+    SetSensitivityMode(me    : mutable;
+                       aMode : SensitivityMode from StdSelect) is static;
+        ---Purpose: Sets the selection sensitivity mode. SM_WINDOW mode
+        -- uses the specified pixel tolerance to compute the sensitivity
+        -- value, SM_VIEW mode allows to define the sensitivity manually.
+
+    SensitivityMode(me) returns SensitivityMode from StdSelect;
+        ---C++: inline
+        ---Purpose: Returns the selection sensitivity mode.
+
+    SetPixelTolerance(me         : mutable;
+                      aTolerance : Integer) is static;
+    	---Purpose: Sets the pixel tolerance aTolerance.
+
+    PixelTolerance(me) returns Integer from Standard;
+        ---C++: inline
+        ---Purpose: Returns the pixel tolerance.
+
+
+    Pick (me           : mutable;XPix,YPix:Integer;
+    	  aView        : View from V3d) is static;
+    	---Level: Public 
+    	---Purpose: Picks the sensitive entity at the pixel coordinates of
+    	-- the mouse Xpix and Ypix.   The selector looks for touched areas and owners.
+
+
+    Pick (me:mutable;XPMin,YPMin,XPMax,YPMax:Integer;aView:View from V3d) is static;
+	---Purpose: Picks the sensitive entity according to the minimum
+    	-- and maximum pixel values XPMin, YPMin, XPMax
+    	-- and YPMax   defining a 2D area for selection in the 3D view aView.
+        
+    Pick (me:mutable;Polyline:Array1OfPnt2d from TColgp;aView:View from V3d) is static;
+    	---Level: Public 
+    	---Purpose: pick action  - input pixel values for polyline selection for selection.
+
+
+
+
+    ---Category: Inquire Methods
+
+    Projector (me) returns Projector from Select3D;
+    	---Level: Public 
+    	---Purpose: Returns the current Projector.
+    	---C++: inline
+    	---C++: return const&
+
+
+
+    ---Category: Internal Methods
+    --           -----------------
+
+    ReactivateProjector(me:mutable);
+    	---Level: Internal 
+    	---Purpose: Puts back the address of the current projector in sensitive primitives...
+
+    UpdateProj(me   :mutable;
+    	       aView: View from V3d) returns Boolean is static private;
+    	---Level: Internal 
+
+
+    DisplayAreas(me   :mutable;
+    	    	 aView: View from V3d) is static;
+    	---Purpose: Displays sensitive areas found in the view aView.
+
+    ClearAreas (me   :mutable;
+    	    	aView: View from V3d) is static;
+    	---Purpose: Clears the view aView of sensitive areas found in it.
+    
+    DisplaySensitive(me:mutable;aView : View from V3d) is static; 
+  
+    	--- Purpose: Displays the selection aSel found in the view aView.
+        
+    ClearSensitive(me:mutable;aView:View from V3d) is static;
+
+
+
+
+    DisplaySensitive(me:mutable;
+    	    	     aSel        : Selection from SelectMgr;
+		     aView       : View from V3d;
+    	    	     ClearOthers : Boolean from Standard = Standard_True)
+    is static;
+    
+    DisplayAreas(me:mutable;
+    	         aSel        :Selection from SelectMgr;
+		 aView       : View from V3d;
+    	         ClearOthers : Boolean from Standard = Standard_True)
+    is static;
+    
+    
+    ComputeSensitivePrs(me:mutable;aSel: Selection from SelectMgr)
+    is static private;
+    	---Level: Internal 
+
+    ComputeAreasPrs(me:mutable;aSel:Selection from SelectMgr)
+     is static private;
+    	---Level: Internal 
+
+	
+
+
+fields
+
+    myprj         : Projector    from Select3D;
+    mycoeff       : Real from Standard[14];
+    myprevcoeff   : Real from Standard[14];
+    mycenter      : Real from Standard[2];
+    myprevcenter  : Real from Standard[2];
+    mylastzoom    : Real from Standard;
+    mysensmode    : SensitivityMode from StdSelect;
+    mypixtol      : Integer ;
+    myupdatetol   : Boolean;
+    
+    
+             --areas verification...
+
+    myareagroup : Group            from Graphic3d;
+    mysensgroup : Group            from Graphic3d;
+    mystruct: Structure        from Graphic3d;
+
+    
+end ViewerSelector3d;
+
+
+

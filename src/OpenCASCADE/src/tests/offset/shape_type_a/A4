@@ -1,0 +1,8 @@
+puts "TODO ?OCC23086 ALL: Error : The offset is not valid. The volume is 0."
+puts "TODO ?OCC23086 ALL: Error : The volume of the resulting shape is"
+
+pcone s 10 5 20
+
+OFFSETSHAPE -1 {} $calcul $type
+
+set volume 2462.04

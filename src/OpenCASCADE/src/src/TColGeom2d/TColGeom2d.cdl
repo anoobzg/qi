@@ -1,0 +1,82 @@
+-- Created on: 1993-04-15
+-- Created by: Philippe DAUTRY
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package TColGeom2d
+
+
+        ---Purpose : 
+-- The package TColGeom2d provides standard and
+-- frequently used instantiations of generic classes from
+-- the TCollection package with geometric objects from the Geom2d package.
+
+uses TCollection, Geom2d
+
+is
+
+
+    class Array1OfGeometry 
+    	instantiates Array1 from TCollection (Geometry from Geom2d);
+    class Array1OfCurve 
+    	instantiates Array1 from TCollection (Curve from Geom2d);
+    class Array1OfBoundedCurve 
+    	instantiates Array1 from TCollection (BoundedCurve from Geom2d);
+    class Array1OfBezierCurve 
+    	instantiates Array1 from TCollection (BezierCurve from Geom2d);
+    class Array1OfBSplineCurve 
+    	instantiates Array1 from TCollection (BSplineCurve from Geom2d);
+
+    class HArray1OfGeometry
+    	instantiates HArray1 from TCollection (Geometry from Geom2d,
+    	    	    	    	Array1OfGeometry from TColGeom2d);
+    class HArray1OfCurve
+    	instantiates HArray1 from TCollection (Curve from Geom2d,
+    	    	    	    	Array1OfCurve from TColGeom2d);
+    class HArray1OfBoundedCurve 
+    	instantiates HArray1 from TCollection (BoundedCurve from Geom2d,
+    	    	    	    	Array1OfBoundedCurve from TColGeom2d);
+    class HArray1OfBezierCurve  
+    	instantiates HArray1 from TCollection (BezierCurve from Geom2d,
+    	    	    	    	Array1OfBezierCurve from TColGeom2d);
+    class HArray1OfBSplineCurve 
+    	instantiates HArray1 from TCollection (BSplineCurve from Geom2d,
+    	    	    	    	Array1OfBSplineCurve from TColGeom2d);
+
+
+    class SequenceOfGeometry  
+    	instantiates Sequence from TCollection (Geometry from Geom2d);
+    class SequenceOfCurve  
+    	instantiates Sequence from TCollection (Curve from Geom2d);
+    class SequenceOfBoundedCurve  
+    	instantiates Sequence from TCollection (BoundedCurve from Geom2d);
+
+    class HSequenceOfGeometry  
+    	instantiates HSequence from TCollection (Geometry from Geom2d,
+    	    	    	    	SequenceOfGeometry from TColGeom2d);
+    class HSequenceOfCurve  
+    	instantiates HSequence from TCollection (Curve from Geom2d,
+    	    	    	    	SequenceOfCurve from TColGeom2d);
+    class HSequenceOfBoundedCurve  
+    	instantiates HSequence from TCollection (BoundedCurve from Geom2d,
+    	    	    	    	SequenceOfBoundedCurve from TColGeom2d);
+
+
+end TColGeom2d;

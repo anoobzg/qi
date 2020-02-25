@@ -1,0 +1,127 @@
+-- Created on: 1995-01-04
+-- Created by: Bruno DUMORTIER
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class MakeSolid from BRepLib  inherits MakeShape from BRepLib
+
+	---Purpose: Makes a solid from compsolid  or  shells.
+
+uses
+    Solid             from TopoDS,
+    CompSolid         from TopoDS,
+    Shell             from TopoDS, 
+    Face              from TopoDS,
+    ListOfShape       from TopTools,
+    ShapeModification from BRepLib
+
+raises
+    NotDone from StdFail
+    
+is
+
+    Create
+	---Level: Public
+	---Purpose: Solid covers whole space.
+    returns MakeSolid from BRepLib;
+
+    ----------------------------------------------
+    -- From CompSolid
+    ----------------------------------------------
+
+    Create(S : CompSolid from TopoDS)
+	---Purpose: Make a solid from a CompSolid.
+	---Level: Public
+    returns MakeSolid from BRepLib;
+
+    
+
+    ----------------------------------------------
+    -- From shells
+    ----------------------------------------------
+
+    Create(S : Shell from TopoDS)
+	---Purpose: Make a solid from a shell.
+	---Level: Public
+    returns MakeSolid from BRepLib;
+
+    
+    Create(S1,S2 : Shell from TopoDS)
+	---Purpose: Make a solid from two shells.
+	---Level: Public
+    returns MakeSolid from BRepLib;
+    
+    Create(S1,S2,S3 : Shell from TopoDS)
+	---Purpose: Make a solid from three shells.
+	---Level: Public
+    returns MakeSolid from BRepLib;
+    
+
+    ----------------------------------------------
+    -- From solid and shells
+    ----------------------------------------------
+
+    Create(So : Solid from TopoDS)
+	---Purpose: Make a solid from a solid. Usefull for adding later.
+	---Level: Public
+    returns MakeSolid from BRepLib;
+    
+    Create(So : Solid from TopoDS; S : Shell from TopoDS)
+	---Purpose: Add a shell to a solid.
+	---Level: Public
+    returns MakeSolid from BRepLib;
+    
+	
+    ----------------------------------------------
+    -- Auxiliary methods
+    ----------------------------------------------
+
+    Add(me : in out; S : Shell from TopoDS)
+	---Purpose: Add the shell to the current solid.
+	---Level: Public
+    is static;
+    
+    ----------------------------------------------
+    -- Results
+    ----------------------------------------------
+
+    Solid(me) returns Solid from TopoDS
+	---Purpose: Returns the new Solid.
+	--          
+	---C++: return const &
+	---C++: alias "Standard_EXPORT operator TopoDS_Solid() const;"
+ 	---Level: Public
+    raises
+    	NotDone from StdFail
+    is static;
+
+    FaceStatus(me; F: Face from TopoDS) 
+    	---Purpose: returns the status of the Face after
+    	--          the shape creation. 
+	---Level: Public
+    returns ShapeModification from BRepLib
+    is redefined;
+ 
+fields  
+
+    myDeletedFaces: ListOfShape   from TopTools is protected;
+
+end MakeSolid;

@@ -1,0 +1,146 @@
+// Created on: 1993-11-30
+// Created by: Isabelle GRIGNON
+// Copyright (c) 1993-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+
+//=======================================================================
+//function : SetVertex
+//purpose  : 
+//=======================================================================
+
+inline void  ChFiDS_CommonPoint::SetVertex(const TopoDS_Vertex& V)
+{
+  isvtx = Standard_True;
+  vtx = V;
+}
+
+
+//=======================================================================
+//function : SetPoint
+//purpose  : 
+//=======================================================================
+
+ inline void  ChFiDS_CommonPoint::SetPoint(const gp_Pnt& Point)
+{
+  point = Point;
+}
+
+//=======================================================================
+//function : SetVector
+//purpose  : 
+//=======================================================================
+
+ inline void  ChFiDS_CommonPoint::SetVector(const gp_Vec& Vector)
+{
+  hasvector = Standard_True;
+  vector = Vector;
+}
+
+//=======================================================================
+//function : SetTolerance
+//purpose  : 
+// PMN : 30/09/1997 : On se contente d'updater la tolerance.
+//=======================================================================
+
+ inline void  ChFiDS_CommonPoint::SetTolerance(const Standard_Real Tol)
+{
+  if (Tol>tol) tol = Tol;
+}
+
+
+//=======================================================================
+//function : Tolerance
+//purpose  : 
+//=======================================================================
+
+ inline Standard_Real  ChFiDS_CommonPoint::Tolerance()const 
+{
+  return tol;
+}
+
+
+//=======================================================================
+//function : IsVertex
+//purpose  : 
+//=======================================================================
+
+ inline Standard_Boolean  ChFiDS_CommonPoint::IsVertex()const 
+{
+  return isvtx;
+}
+
+
+//=======================================================================
+//function : Vertex
+//purpose  : 
+//=======================================================================
+
+ inline const TopoDS_Vertex&  ChFiDS_CommonPoint::Vertex()const 
+{
+  if (!isvtx) {Standard_DomainError::Raise();}
+  return vtx;
+}
+
+//=======================================================================
+//function : Point
+//purpose  : 
+//=======================================================================
+
+ inline const gp_Pnt&  ChFiDS_CommonPoint::Point()const 
+{
+  return point;
+}
+
+//=======================================================================
+//function : HasVector
+//purpose  : 
+//=======================================================================
+
+ inline Standard_Boolean  ChFiDS_CommonPoint::HasVector()const 
+{
+  return hasvector;
+}
+
+//=======================================================================
+//function : Vector
+//purpose  : 
+//=======================================================================
+
+ inline const gp_Vec&  ChFiDS_CommonPoint::Vector()const 
+{
+  if (!hasvector) {
+    Standard_DomainError::Raise("ChFiDS_CommonPoint::Vector");
+  }
+  return vector;
+}
+
+//=======================================================================
+//function : IsOnArc
+//purpose  : 
+//=======================================================================
+
+ inline Standard_Boolean  ChFiDS_CommonPoint::IsOnArc()const 
+{
+  return isonarc;
+}
+
+
+
+

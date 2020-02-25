@@ -1,0 +1,94 @@
+-- Created on: 2004-05-18
+-- Created by: Sergey ZARITCHNY <szy@opencascade.com>
+-- Copyright (c) 2004-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Curve2dSet from BinTools 
+
+	---Purpose: Stores a set of Curves from Geom2d in binary format
+
+uses
+    Curve from Geom2d,
+    IndexedMapOfTransient from TColStd
+    
+raises
+    OutOfRange from Standard
+
+is
+
+    Create returns Curve2dSet from BinTools;
+	---Purpose: Returns an empty set of Curves.
+	
+    Clear(me : in out)
+	---Purpose: Clears the content of the set.
+    is static;
+	
+    Add(me : in out; C : Curve from Geom2d) returns Integer
+	---Purpose: Incorporate a new Curve in the  set and returns
+	--          its index.
+    is static;
+    
+    Curve2d(me; I : Integer) returns Curve from Geom2d
+	---Purpose: Returns the Curve of index <I>.
+    raises
+    	OutOfRange from Standard
+    is static;
+
+    Index(me; C : Curve from Geom2d) returns Integer
+	---Purpose: Returns the index of <L>.
+    is static;
+    
+    Dump(me; OS : in out OStream)
+	---Purpose: Dumps the content of me on the stream <OS>.
+    is static;
+	
+    Write(me; OS : in out OStream)
+	---Purpose: Writes the content of  me  on the stream <OS> in a
+	--          format that can be read back by Read.
+    is static;
+	
+    Read(me : in out; IS : in out IStream)
+	---Purpose: Reads the content of me from the  stream  <IS>. me
+	--          is first cleared.
+	--          
+    is static;
+    
+    --
+    -- 	class methods to write an read curves
+    -- 	
+    
+    WriteCurve2d(myclass; C  : Curve from Geom2d;
+    	    	    	  OS : in out OStream);
+	---Purpose: Dumps the curve on the binary stream, that can be read back.
+	
+    ReadCurve2d(myclass; IS : in out IStream;
+    	    	    	 C  : in out Curve from Geom2d)
+    returns IStream;
+	---Purpose: Reads the curve  from  the stream.  The  curve  is
+	--          assumed   to have  been  written  with  the Write
+	--          method.
+	--          
+	---C++: return &
+	
+fields
+
+    myMap : IndexedMapOfTransient from TColStd; 
+    
+end Curve2dSet;
+

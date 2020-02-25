@@ -1,0 +1,129 @@
+// Created on: 1993-04-29
+// Created by: Bruno DUMORTIER
+// Copyright (c) 1993-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include <gp_Pnt.hxx>
+#include <Geom_Curve.hxx>
+#include <Standard_NullObject.hxx>
+#include <Standard_ConstructionError.hxx>
+
+
+//=======================================================================
+//function : GeomAdaptor_Curve
+//purpose  : 
+//=======================================================================
+
+inline GeomAdaptor_Curve::GeomAdaptor_Curve()
+ : myTypeCurve(GeomAbs_OtherCurve),
+   myFirst(0.),
+   myLast(0.)
+{
+}
+
+//=======================================================================
+//function : GeomAdaptor_Curve
+//purpose  : 
+//=======================================================================
+
+inline GeomAdaptor_Curve::GeomAdaptor_Curve(const Handle(Geom_Curve)& C)
+{
+  Load(C);
+}
+
+//=======================================================================
+//function : GeomAdaptor_Curve
+//purpose  : 
+//=======================================================================
+
+inline GeomAdaptor_Curve::GeomAdaptor_Curve(const Handle(Geom_Curve)& C,
+                                            const Standard_Real UFirst,
+                                            const Standard_Real ULast)
+{
+  Load(C,UFirst,ULast);
+}
+
+//=======================================================================
+//function : Load
+//purpose  : 
+//=======================================================================
+
+inline void GeomAdaptor_Curve::Load(const Handle(Geom_Curve)& C)
+{
+  if ( C.IsNull()) Standard_NullObject::Raise();
+  
+  load(C,C->FirstParameter(),C->LastParameter());
+}
+
+//=======================================================================
+//function : Load
+//purpose  : 
+//=======================================================================
+
+inline void GeomAdaptor_Curve::Load(const Handle(Geom_Curve)& C,
+                                    const Standard_Real UFirst,
+                                    const Standard_Real ULast)
+{
+  if ( C.IsNull()) Standard_NullObject::Raise();
+  
+  if ( UFirst > ULast) Standard_ConstructionError::Raise();
+  
+  load(C,UFirst,ULast);
+}
+
+
+//=======================================================================
+//function : FirstParameter
+//purpose  : 
+//=======================================================================
+
+inline Standard_Real GeomAdaptor_Curve::FirstParameter() const
+{
+  return myFirst;
+}
+
+//=======================================================================
+//function : LastParameter
+//purpose  : 
+//=======================================================================
+
+inline Standard_Real GeomAdaptor_Curve::LastParameter() const
+{
+  return myLast;
+}
+
+//=======================================================================
+//function : Curve
+//purpose  : 
+//=======================================================================
+
+inline const Handle(Geom_Curve)& GeomAdaptor_Curve::Curve() const 
+{ 
+  return myCurve;
+}
+
+//=======================================================================
+//function : GetType
+//purpose  : 
+//=======================================================================
+
+inline GeomAbs_CurveType GeomAdaptor_Curve::GetType() const
+{
+  return myTypeCurve;
+}

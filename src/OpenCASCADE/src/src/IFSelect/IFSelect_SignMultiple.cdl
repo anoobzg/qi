@@ -1,0 +1,65 @@
+-- Created on: 1998-01-28
+-- Created by: Christian CAILLET
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SignMultiple  from IFSelect    inherits Signature  from IFSelect
+
+    ---Purpose : Multiple Signature : ordered list of other Signatures
+    --           It concatenates on a same line the result of its sub-items
+    --           separated by sets of 3 blanks
+    --           It is possible to define tabulations between sub-items
+    --           Moreover, match rules are specific
+
+uses CString, Transient, AsciiString, InterfaceModel,
+     SequenceOfTransient, SequenceOfInteger
+
+is
+
+    Create (name : CString) returns mutable SignMultiple;
+    ---Purpose : Creates an empty SignMultiple with a Name
+    --           This name should take expected tabulations into account
+
+    Add (me : mutable; subsign : Signature;
+    	 width : Integer = 0; maxi : Boolean = Standard_False);
+    ---Purpose : Adds a Signature. Width, if given, gives the tabulation
+    --           If <maxi> is True, it is a forced tabulation (overlength is
+    --           replaced by a final dot)
+    --           If <maxi> is False, just 3 blanks follow an overlength
+
+    Value (me; ent : any Transient; model : InterfaceModel)  returns CString;
+    ---Purpose : Concatenates the values of sub-signatures, with their
+    --           tabulations
+
+    Matches (me; ent : Transient; model : InterfaceModel;
+    	    	 text : AsciiString; exact : Boolean)
+	returns Boolean  is redefined;
+    ---Purpose : Specialized Match Rule
+    --           If <exact> is False, simply checks if at least one sub-item
+    --           matches
+    --           If <exact> is True, standard match with Value
+    --           (i.e. tabulations must be respected)
+
+fields
+
+    thesubs : SequenceOfTransient;
+    thetabs : SequenceOfInteger;
+
+end SignMultiple;

@@ -1,0 +1,85 @@
+// Created on: 1994-07-06
+// Created by: Laurent PAINNOT
+// Copyright (c) 1994-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include Extrema_ELCC_hxx
+#include Extrema_LocECC_hxx
+#include <StdFail_NotDone.hxx>
+#include <Extrema_POnCurv.hxx>
+#include <Precision.hxx>
+
+Extrema_GLocateExtCC::Extrema_GLocateExtCC (const Curve1&       C1,
+					    const Curve2&       C2,
+					    const Standard_Real U0,
+					    const Standard_Real V0)
+{
+
+#ifdef DEB
+  GeomAbs_CurveType type1 = Tool1::GetType(C1);
+  GeomAbs_CurveType type2 = Tool2::GetType(C2);
+#else
+  Tool1::GetType(C1);
+  Tool2::GetType(C2);
+#endif
+  Standard_Real TolU = C1.Resolution(Precision::Confusion());
+  Standard_Real TolV = C2.Resolution(Precision::Confusion());
+  Extrema_POnCurv P1, P2;
+
+  // Non implemente pour l instant: l appel a Extrema_ELCC.
+
+
+  Extrema_LocECC Xtrem(C1, C2,
+		       U0, V0, TolU, TolV);	
+  // Exploitation
+
+  myDone = Xtrem.IsDone();
+  if (Xtrem.IsDone()) {
+    mySqDist = Xtrem.SquareDistance();
+    Xtrem.Point(P1, P2);
+    myPoint1 = P1;
+    myPoint2 = P2;
+  }
+
+}
+
+
+
+
+Standard_Boolean Extrema_GLocateExtCC::IsDone () const {
+
+  return myDone;
+}
+
+
+Standard_Real Extrema_GLocateExtCC::SquareDistance() const {
+
+  if (!myDone) { StdFail_NotDone::Raise(); }
+  return mySqDist;
+}
+
+
+
+void Extrema_GLocateExtCC::Point (Extrema_POnCurv& P1, Extrema_POnCurv& P2) const {
+
+  if (!myDone) { StdFail_NotDone::Raise(); }
+  P1 = myPoint1;
+  P2 = myPoint2;
+}
+

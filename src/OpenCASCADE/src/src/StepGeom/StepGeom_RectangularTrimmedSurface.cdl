@@ -1,0 +1,79 @@
+-- Created on: 1995-12-01
+-- Created by: EXPRESS->CDL V0.2 Translator
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class RectangularTrimmedSurface from StepGeom 
+
+inherits BoundedSurface from StepGeom 
+
+uses
+
+	Surface from StepGeom, 
+	Real from Standard, 
+	Boolean from Standard, 
+	HAsciiString from TCollection
+is
+
+	Create returns mutable RectangularTrimmedSurface;
+	---Purpose: Returns a RectangularTrimmedSurface
+
+
+	Init (me : mutable;
+	      aName : mutable HAsciiString from TCollection) is redefined;
+
+	Init (me : mutable;
+	      aName : mutable HAsciiString from TCollection;
+	      aBasisSurface : mutable Surface from StepGeom;
+	      aU1 : Real from Standard;
+	      aU2 : Real from Standard;
+	      aV1 : Real from Standard;
+	      aV2 : Real from Standard;
+	      aUsense : Boolean from Standard;
+	      aVsense : Boolean from Standard) is virtual;
+
+	-- Specific Methods for Field Data Access --
+
+	SetBasisSurface(me : mutable; aBasisSurface : mutable Surface);
+	BasisSurface (me) returns mutable Surface;
+	SetU1(me : mutable; aU1 : Real);
+	U1 (me) returns Real;
+	SetU2(me : mutable; aU2 : Real);
+	U2 (me) returns Real;
+	SetV1(me : mutable; aV1 : Real);
+	V1 (me) returns Real;
+	SetV2(me : mutable; aV2 : Real);
+	V2 (me) returns Real;
+	SetUsense(me : mutable; aUsense : Boolean);
+	Usense (me) returns Boolean;
+	SetVsense(me : mutable; aVsense : Boolean);
+	Vsense (me) returns Boolean;
+
+fields
+
+	basisSurface : Surface from StepGeom;
+	u1 : Real from Standard;
+	u2 : Real from Standard;
+	v1 : Real from Standard;
+	v2 : Real from Standard;
+	usense : Boolean from Standard;
+	vsense : Boolean from Standard;
+
+end RectangularTrimmedSurface;

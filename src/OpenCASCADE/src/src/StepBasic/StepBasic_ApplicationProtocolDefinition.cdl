@@ -1,0 +1,61 @@
+-- Created on: 1995-12-01
+-- Created by: EXPRESS->CDL V0.2 Translator
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ApplicationProtocolDefinition from StepBasic 
+
+inherits TShared from MMgt
+
+uses
+
+	HAsciiString from TCollection, 
+	Integer from Standard, 
+	ApplicationContext from StepBasic
+is
+
+	Create returns mutable ApplicationProtocolDefinition;
+	---Purpose: Returns a ApplicationProtocolDefinition
+
+	Init (me : mutable;
+	      aStatus : mutable HAsciiString from TCollection;
+	      aApplicationInterpretedModelSchemaName : mutable HAsciiString from TCollection;
+	      aApplicationProtocolYear : Integer from Standard;
+	      aApplication : mutable ApplicationContext from StepBasic) is virtual;
+
+	-- Specific Methods for Field Data Access --
+
+	SetStatus(me : mutable; aStatus : mutable HAsciiString);
+	Status (me) returns mutable HAsciiString;
+	SetApplicationInterpretedModelSchemaName(me : mutable; aApplicationInterpretedModelSchemaName : mutable HAsciiString);
+	ApplicationInterpretedModelSchemaName (me) returns mutable HAsciiString;
+	SetApplicationProtocolYear(me : mutable; aApplicationProtocolYear : Integer);
+	ApplicationProtocolYear (me) returns Integer;
+	SetApplication(me : mutable; aApplication : mutable ApplicationContext);
+	Application (me) returns mutable ApplicationContext;
+
+fields
+
+	status : HAsciiString from TCollection;
+	applicationInterpretedModelSchemaName : HAsciiString from TCollection;
+	applicationProtocolYear : Integer from Standard;
+	application : ApplicationContext from StepBasic;
+
+end ApplicationProtocolDefinition;

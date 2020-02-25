@@ -1,0 +1,88 @@
+-- Created on: 1998-01-17
+-- Created by: Julia GERASIMOVA
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class EqualRadiusRelation from AIS inherits Relation from AIS 
+
+	---Purpose: 
+
+uses
+    Edge from TopoDS,
+    Plane from Geom,
+    PresentationManager3d from PrsMgr,
+    Presentation from Prs3d,
+    Projector from Prs3d,
+    Transformation        from Geom,
+    Selection from SelectMgr,
+    Pnt from gp
+    
+is
+    Create( aFirstEdge  : Edge from TopoDS;
+    	    aSecondEdge : Edge from TopoDS; 
+	    aPlane      : Plane from Geom ) 
+	    ---Purpose: Creates equal relation of two arc's radiuses.
+	    --          If one of edges is not in the given plane,
+    	    --	        the presentation method projects it onto the plane.
+    returns mutable EqualRadiusRelation from AIS;
+   
+-- Methods from PresentableObject
+
+    Compute( me            : mutable;
+  	     aPresentationManager: PresentationManager3d from PrsMgr;
+    	     aPresentation : mutable Presentation from Prs3d;
+    	     aMode         : Integer from Standard= 0 ) 
+    is redefined static private;
+    
+    Compute( me            : mutable;
+    	     aProjector    : Projector from Prs3d;
+             aPresentation : mutable Presentation from Prs3d )
+    is redefined static private;
+    
+    Compute(me            : mutable;
+    	    aProjector    : Projector from Prs3d;
+    	    aTrsf         : Transformation from Geom;
+	    aPresentation : mutable Presentation from Prs3d)
+    is redefined;
+    	---Purpose: computes the presentation according to a point of view
+    	--          given by <aProjector>. 
+   	--          To be Used when the associated degenerated Presentations 
+   	--          have been transformed by <aTrsf> which is not a Pure
+    	--          Translation. The HLR Prs can't be deducted automatically
+    	--          WARNING :<aTrsf> must be applied
+    	--          to the object to display before computation  !!!
+
+-- Methods from SelectableObject
+
+    ComputeSelection( me         : mutable;
+    	    	      aSelection : mutable Selection from SelectMgr;
+    	    	      aMode      : Integer from Standard)
+    is private;
+    
+    ComputeRadiusPosition(me: mutable) is private;
+
+fields
+    
+    myFirstCenter  : Pnt from gp;
+    mySecondCenter : Pnt from gp;
+    myFirstPoint   : Pnt from gp;
+    mySecondPoint  : Pnt from gp;
+
+end EqualRadiusRelation;

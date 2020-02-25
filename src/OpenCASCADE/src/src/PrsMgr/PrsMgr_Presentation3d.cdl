@@ -1,0 +1,165 @@
+-- Created on: 1993-10-21
+-- Created by: Jean-Louis FRENKEL
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Modified by  rob 09-oct-96
+
+
+
+class Presentation3d from PrsMgr inherits Presentation from PrsMgr
+
+uses
+    PresentationManager3d from PrsMgr,
+    Presentation from Prs3d,
+    NameOfColor from Quantity,
+    Transformation from Geom,
+    Length from Quantity,
+    ShadingAspect from Prs3d,
+    TypeOfPresentation3d from PrsMgr,
+    DataStructureManager from Graphic3d,
+    Structure from Graphic3d,
+    PresentableObjectPointer from PrsMgr,PresentableObject from PrsMgr,
+    Prs from PrsMgr,
+    Projector from Prs3d,
+    KindOfPrs from PrsMgr
+is
+    Create(aPresentationManager: PresentationManager3d from PrsMgr;
+           aPresentableObject: PresentableObject from PrsMgr)
+    returns mutable Presentation3d  from  PrsMgr
+    is private;
+
+    KindOfPresentation(me) returns KindOfPrs from PrsMgr is redefined static;
+
+    Destroy(me: mutable) is redefined;
+    ---Level: Public
+    ---Purpose: Destructor
+    ---C++:     alias ~
+
+    Display(me: mutable) 
+    is redefined static private;
+    
+    Erase(me) is redefined static private;
+    
+    Highlight(me: mutable) is redefined static private;
+    
+    Unhighlight (me) is redefined static private;
+    
+    IsDisplayed (me) returns Boolean from Standard
+    is redefined static private;
+
+    IsHighlighted (me) returns Boolean from Standard
+    is redefined static private;
+
+
+    DisplayPriority(me) returns Integer from Standard
+    is redefined static private;
+    
+    SetDisplayPriority(me:mutable;aNewPrior:Integer from Standard)
+    is redefined static private;
+
+    SetZLayer ( me : mutable;
+                theLayerId : Integer from Standard )
+      is redefined static private;
+    ---Purpose: Set Z layer ID for the presentation
+
+    GetZLayer ( me )
+      returns Integer from Standard is redefined static private;
+    ---Purpose: Get Z layer ID for the presentation
+
+    Clear(me:mutable)
+    ---Purpose: removes the whole content of the presentation.
+    --          Does not remove the other connected presentations.
+    --          
+    is redefined static private;
+
+
+    Color(me:mutable; aColor: NameOfColor from Quantity)
+    is static private;
+    
+    BoundBox(me)
+    is static private;
+    
+---Category: references to other presentation.
+
+    Connect(me; anOtherPresentation: Presentation3d from PrsMgr)
+    is static private;
+    
+---Category: Transformation methods.
+
+    Transform (me; aTransformation: Transformation from Geom)
+    is static private;
+
+    Place (me; X,Y,Z: Length from Quantity)
+    is static private;
+
+    Multiply (me; aTransformation: Transformation from Geom)
+    is static private;
+
+    Move (me; X,Y,Z: Length from Quantity)
+    is static private;
+    	
+ ---Category: Global Aspect methods
+
+    SetShadingAspect(me;
+    	             aShadingAspect: ShadingAspect from Prs3d)
+    is static private;
+
+    Presentation (me) returns mutable Presentation from Prs3d
+    is static;
+
+
+	    ---Category:  Computed Structures
+
+    Compute(me : mutable; aProjector: DataStructureManager from Graphic3d)
+    returns Structure from Graphic3d
+    is static private;
+
+    Compute(me           : mutable; 
+    	    aProjector   : DataStructureManager from Graphic3d;
+	    TheTrsf      : Transformation from Geom)
+    returns Structure from Graphic3d
+    is static private;
+
+    Compute(me           :  mutable; 
+    	    aProjector   :  DataStructureManager from Graphic3d;
+    	    aGivenStruct :  Structure from Graphic3d)
+    is static private;
+
+    Compute(me           : mutable; 
+    	    aProjector   : DataStructureManager from Graphic3d;
+	    TheTrsf      : Transformation from Geom;
+    	    aGivenStruct : Structure from Graphic3d)
+    is static private;
+
+
+
+    Projector(myclass; aProjector: DataStructureManager from Graphic3d)
+    returns Projector from Prs3d
+    is private;
+    
+fields
+
+    myStructure: Prs from PrsMgr;
+    myDisplayReason: Boolean from Standard;
+    myPresentableObject: PresentableObjectPointer from PrsMgr;
+friends 
+    class PresentationManager3d from PrsMgr,
+    class PresentableObject from PrsMgr,
+    class Prs from PrsMgr
+end Presentation3d from PrsMgr;

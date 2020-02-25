@@ -1,0 +1,109 @@
+// Created on: 1991-05-23
+// Created by: Jean-Pierre TIRAULT
+// Copyright (c) 1991-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+//		Transient implementation
+
+#include <Standard_Address.hxx>           
+
+// Global variable
+static Standard_Address LastNode;                
+// Global variable
+
+
+void TCollection_AVLIterator::InOrderTraversal (const Standard_Address A)  {
+  if (A) {
+    InOrderTraversal (((TCollection_AVLNode*)A)->Left());
+    TCollection_AVLList* S     = new TCollection_AVLList;
+    S->Value()       = ((TCollection_AVLNode*)A)->Value();
+    if (!FirstNode) { 
+      FirstNode = (Standard_Address*)S; 
+      LastNode = FirstNode; 
+    }
+    else { 
+      ((TCollection_AVLList*)LastNode)->Next() = S;
+      LastNode = (Standard_Address)S; 
+    }
+    InOrderTraversal (((TCollection_AVLNode*)A)->Right());
+  }
+}   
+
+
+
+
+//-----------------------------------------------------------------------------
+TCollection_AVLIterator::
+              TCollection_AVLIterator ( const TCollection_AVLSearchTree& aTree) 
+{
+  LastNode  = FirstNode = NULL;
+  Standard_Address Root = (Standard_Address) aTree.GetRoot();     // Current node = root of tree
+  if (!Root) {
+    HasMore = Standard_False;
+  }
+  else {
+    HasMore = Standard_True;
+    InOrderTraversal(Root);
+  }
+}
+//-----------------------------------------------------------------------------
+TCollection_AVLIterator::TCollection_AVLIterator ( const TCollection_AVLSearchTree&   aTree, const Item&   anItem) 
+{
+  LastNode  = FirstNode = NULL;
+  Standard_Address  Root;
+  
+  if (aTree.Find(anItem,Root)) {
+    HasMore = Standard_True;
+    InOrderTraversal(Root);
+  }
+  else {   
+    HasMore = Standard_False;
+  }
+}
+
+//-----------------------------------------------------------------------------
+void TCollection_AVLIterator::Clear () 
+{
+  LastNode     = NULL ;
+  TCollection_AVLList* S   = (TCollection_AVLList*)FirstNode;
+  TCollection_AVLList* P;
+  while (S) {     // Memory management
+    P = S;
+    S = (TCollection_AVLList*)S->Next();
+    delete P;
+  }
+  FirstNode    = NULL ;
+  HasMore      = Standard_False;
+}
+
+//-----------------------------------------------------------------------------
+const Item& TCollection_AVLIterator::Value () const 
+{
+  Standard_NoSuchObject_Raise_if(!HasMore,"TCollection_AVLIterator - No more object");
+  return ((TCollection_AVLList*)FirstNode)->Value();
+}
+
+//-----------------------------------------------------------------------------
+void TCollection_AVLIterator::Next () 
+{
+  Standard_NoSuchObject_Raise_if(!HasMore,"TCollection_AVLIterator - No more object");
+  TCollection_AVLList* S = (TCollection_AVLList*)FirstNode;
+  FirstNode  = ((TCollection_AVLList*)FirstNode)->Next();
+  HasMore    = (FirstNode != NULL);
+  delete S;
+}

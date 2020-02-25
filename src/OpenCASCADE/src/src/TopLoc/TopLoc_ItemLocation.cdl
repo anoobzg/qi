@@ -1,0 +1,67 @@
+-- Created on: 1991-01-21
+-- Created by: Christophe MARION
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+private class ItemLocation from TopLoc
+
+	---Purpose: An ItemLocation is an elementary coordinate system
+	--          in a Location.
+	--          
+	--          The  ItemLocation     contains :
+	--          
+	--          * The elementary Datum.
+	--          
+	--          * The exponent of the elementary Datum.
+	--          
+	--          * The transformation associated to the composition.
+	--          
+
+uses
+    Datum3D   from TopLoc,
+    Trsf      from gp,
+    TrsfPtr from TopLoc
+    
+is
+    Create(D : Datum3D      from TopLoc; 
+    	   P : Integer      from Standard;
+           fromTrsf : Boolean from Standard = Standard_False) returns ItemLocation from TopLoc;
+	---Purpose: Sets the elementary Datum to <D>
+	--          Sets the exponent to <P>
+
+    Create(anOther : ItemLocation from TopLoc) returns ItemLocation from TopLoc;
+    
+    Assign(me : in out; anOther : ItemLocation from TopLoc) returns ItemLocation from TopLoc;
+    ---C++: alias operator=
+    ---C++: return &
+
+    Destroy(me : in out);
+    ---C++: alias ~
+
+fields
+    myDatum  : Datum3D   from TopLoc;
+    myPower  : Integer   from Standard;
+    myTrsf   : TrsfPtr   from TopLoc;
+
+friends
+    class Location from TopLoc
+    
+end ItemLocation;

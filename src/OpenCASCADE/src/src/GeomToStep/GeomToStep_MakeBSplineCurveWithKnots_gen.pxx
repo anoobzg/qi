@@ -1,0 +1,89 @@
+// Created on: 1993-08-05
+// Created by: Martine LANGLOIS
+// Copyright (c) 1993-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+
+Handle(StepGeom_BSplineCurveWithKnots) BSWK;
+  Standard_Integer Deg, N, i, Nknots, itampon;
+  Standard_Real rtampon;
+  Handle(StepGeom_CartesianPoint) Pt = new StepGeom_CartesianPoint; 
+  Handle(StepGeom_HArray1OfCartesianPoint) Listpoints;
+  StepGeom_BSplineCurveForm Form;
+  StepData_Logical Fermeture, Selfinter;
+  Handle(TColStd_HArray1OfInteger) Mult;
+  Handle(TColStd_HArray1OfReal) ListKnots, ListWeights;
+  GeomAbs_BSplKnotDistribution Distribution;
+  StepGeom_KnotType KnotSpec;
+
+  Deg = BS->Degree();
+
+  N   = BS->NbPoles();
+  Array1OfPnt_gen P(1,N);
+  BS->Poles(P);
+  Listpoints = new StepGeom_HArray1OfCartesianPoint(1,N);
+  for ( i=P.Lower(); i<=P.Upper(); i++) {
+    GeomToStep_MakeCartesianPoint MkPoint(P.Value(i));
+    Pt = MkPoint.Value();
+    Listpoints->SetValue(i, Pt);
+  }
+
+  Form = StepGeom_bscfUnspecified;
+
+  if (BS->IsClosed())
+    Fermeture = StepData_LTrue;
+  else
+    Fermeture = StepData_LFalse;
+
+  Selfinter = StepData_LFalse;
+
+  Nknots = BS->NbKnots();
+  TColStd_Array1OfInteger M(1,Nknots);
+  BS->Multiplicities(M);
+  Mult = new TColStd_HArray1OfInteger(1,Nknots);
+  for ( i=M.Lower(); i<=M.Upper(); i++) { 
+    itampon = M.Value(i);
+    Mult->SetValue(i, itampon);
+  }
+
+  TColStd_Array1OfReal K(1,Nknots);
+  BS->Knots(K);
+  ListKnots = new TColStd_HArray1OfReal(1,Nknots);
+  for ( i=K.Lower(); i<=K.Upper(); i++) { 
+    rtampon = K.Value(i);
+    ListKnots->SetValue(i, rtampon);
+  }
+
+  Distribution = BS->KnotDistribution();
+  if ( Distribution == GeomAbs_NonUniform )
+    KnotSpec = StepGeom_ktUnspecified;
+  else if ( Distribution == GeomAbs_Uniform )
+    KnotSpec = StepGeom_ktUniformKnots;
+  else if ( Distribution == GeomAbs_QuasiUniform )
+    KnotSpec = StepGeom_ktQuasiUniformKnots;
+  else 
+    KnotSpec = StepGeom_ktPiecewiseBezierKnots;
+  
+  BSWK = new StepGeom_BSplineCurveWithKnots; 
+  Handle(TCollection_HAsciiString) name = new TCollection_HAsciiString("");
+  BSWK->Init(name, Deg, Listpoints, Form, Fermeture, Selfinter, Mult, 
+	     ListKnots, KnotSpec );
+
+  theBSplineCurveWithKnots = BSWK;
+  done = Standard_True;

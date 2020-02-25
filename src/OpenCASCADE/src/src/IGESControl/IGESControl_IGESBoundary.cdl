@@ -1,0 +1,71 @@
+-- Created on: 2000-02-05
+-- Created by: data exchange team
+-- Copyright (c) 2000-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class IGESBoundary from IGESControl inherits IGESBoundary from IGESToBRep
+
+    ---Purpose: Translates IGES boundary entity (types 141, 142 and 508)
+    --          in Advanced Data Exchange.
+    --          Redefines translation and treatment methods from inherited
+    --          open class IGESToBRep_IGESBoundary.
+
+uses
+
+    IGESEntity          from IGESData,
+    HArray1OfIGESEntity from IGESData,
+    CurveAndSurface     from IGESToBRep,
+    WireData            from ShapeExtend
+
+is
+
+    Create returns mutable IGESBoundary from IGESControl;
+    	---Purpose: Creates an object and calls inherited constuctor.
+
+    Create (CS: CurveAndSurface from IGESToBRep) returns mutable IGESBoundary from IGESControl;
+    	---Purpose: Creates an object and calls inherited constuctor.
+	
+    Check (me: mutable; result, checkclosure, okCurve3d, okCurve2d: Boolean) is redefined;
+    	---Purpose: Checks result of translation of IGES boundary entities
+    	--          (types 141, 142 or 508).
+	--          Checks consistency of 2D and 3D representations and keeps
+	--          only one if they are inconsistent.
+	--          Checks the closure of resulting wire and if it is not closed,
+    	--          checks 2D and 3D representation and updates the resulting
+    	--          wire to contain only closed representation.
+	---Remark : If resulting representation will be 3D, some edges may still
+    	--          contain pcurves which are consistent with 3D curves for the
+	--          given edge.
+	
+    ---Level: Internal
+		    
+    Transfer (me: mutable; okCurve    : in out Boolean;
+			   okCurve3d  : in out Boolean;
+			   okCurve2d  : in out Boolean;
+    	    	    	   icurve3d   : IGESEntity from IGESData;
+    	    	    	   scurve3d   : WireData from ShapeExtend;
+			   usescurve  : Boolean;
+			   toreverse3d: Boolean;
+			   curves2d   : HArray1OfIGESEntity from IGESData;
+			   toreverse2d: Boolean;
+    	    	    	   number     : Integer;
+    	    	    	   lsewd      : out WireData from ShapeExtend)
+    returns Boolean is redefined protected;
+    
+end IGESBoundary;

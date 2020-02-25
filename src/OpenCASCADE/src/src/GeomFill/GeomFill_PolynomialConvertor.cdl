@@ -1,0 +1,87 @@
+-- Created on: 1997-07-18
+-- Created by: Philippe MANGIN
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+private  class PolynomialConvertor from GeomFill 
+
+	---Purpose:  To convert circular section in polynome
+
+uses
+    Matrix from math,
+    Pnt from gp,
+    Vec from gp,
+    Array1OfPnt from TColgp,
+    Array1OfVec from TColgp
+
+raises NotDone from StdFail
+
+is
+    Create returns PolynomialConvertor from GeomFill;
+    
+    Initialized(me) 
+    ---Purpose: say if <me> is Initialized
+    returns Boolean;
+    
+    Init(me: in out);
+    
+    Section(me;
+    	    FirstPnt : Pnt from gp;
+	    Center   : Pnt from gp;
+	    Dir      : Vec from gp;
+	    Angle    : Real from Standard;
+            Poles    : out Array1OfPnt   from TColgp);
+	    
+    Section(me;
+    	    FirstPnt  : Pnt from gp;
+	    DFirstPnt : Vec from gp;
+	    Center    : Pnt from gp;
+	    DCenter   : Vec from gp;
+	    Dir       : Vec from gp;
+	    DDir      : Vec from gp;
+	    Angle     : Real from Standard;
+	    DAngle    : Real from Standard;
+            Poles     : out Array1OfPnt   from TColgp;
+            DPoles    : out Array1OfVec   from TColgp);
+	    
+     Section(me;
+    	    FirstPnt  : Pnt from gp;
+	    DFirstPnt : Vec from gp;
+	    D2FirstPnt: Vec from gp;
+	    Center    : Pnt from gp;
+	    DCenter   : Vec from gp;
+	    D2Center  : Vec from gp;
+	    Dir       : Vec from gp;
+	    DDir      : Vec from gp;
+	    D2Dir     : Vec from gp;
+	    Angle     : Real from Standard;
+	    DAngle    : Real from Standard;
+	    D2Angle   : Real from Standard;
+            Poles     : out Array1OfPnt   from TColgp;
+            DPoles    : out Array1OfVec   from TColgp;
+            D2Poles   : out Array1OfVec   from TColgp);  	    
+ 
+fields
+    Ordre  : Integer from Standard;
+    myinit : Boolean from Standard;
+    BH     : Matrix from math; 
+
+
+end PolynomialConvertor;

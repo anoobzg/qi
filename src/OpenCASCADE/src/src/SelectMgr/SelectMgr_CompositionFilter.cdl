@@ -1,0 +1,62 @@
+-- Created on: 1996-01-29
+-- Created by: Robert COUBLANC
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+deferred class CompositionFilter from SelectMgr inherits Filter from SelectMgr
+    	---Purpose: A framework to define a compound filter composed of
+    	-- two or more simple filters.
+
+uses
+    Boolean      from Standard,
+    ListOfFilter from SelectMgr,
+    ShapeEnum from TopAbs
+is
+
+    Add(me : mutable; afilter : Filter from SelectMgr);
+    	--- Purpose: Adds the filter afilter to a filter object created by a
+    	-- filter class inheriting this framework.   
+    Remove(me:mutable;aFilter : Filter from SelectMgr);
+
+    	--- Purpose: Removes the filter aFilter from this framework.
+    IsEmpty(me) returns Boolean;
+    	---Purpose: Returns true if this framework is empty.
+    IsIn(me;aFilter : Filter from SelectMgr)
+    returns Boolean;
+
+    	--- Purpose: Returns true if the filter aFilter is in this framework.
+    
+    StoredFilters(me) returns ListOfFilter from SelectMgr;
+    	---C++: return const &
+    	---C++: inline
+    	---Purpose: Returns the list of stored filters from this framework.
+
+    Clear(me:mutable);
+    	---Purpose: Clears the filters used in this framework.
+    ActsOn(me; aStandardMode : ShapeEnum from TopAbs)
+    returns Boolean from Standard is redefined virtual;
+
+
+fields
+
+    myFilters : ListOfFilter from SelectMgr is protected;
+
+end CompositionFilter;

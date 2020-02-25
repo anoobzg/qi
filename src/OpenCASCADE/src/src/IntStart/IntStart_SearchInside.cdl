@@ -1,0 +1,111 @@
+-- Created on: 1992-05-15
+-- Created by: Jacques GOUSSARD
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+generic class SearchInside from IntStart (
+       ThePSurface     as any;
+       ThePSurfaceTool as any;  -- as PSurfaceTool from IntStart (ThePSurface)
+       TheTopolTool    as Transient; -- as SITopolTool from IntStart
+       TheSITool       as any;  -- as SITool       from IntStart (ThePSurface)
+       TheFunction     as any)  -- as SIFunction from IntStart(ThePSurface)
+
+
+	---Purpose: 
+
+uses InteriorPoint           from IntSurf,
+     SequenceOfInteriorPoint from IntSurf
+
+
+raises NotDone    from StdFail,
+       OutOfRange from Standard
+
+
+is
+
+    Create
+    
+    	returns SearchInside from IntStart;
+
+
+    Create (F: in out TheFunction; Surf: ThePSurface; T: TheTopolTool;
+            Epsilon : Real from Standard)
+    
+    	returns SearchInside from IntStart;
+
+
+    Perform(me: in out; F: in out TheFunction; Surf: ThePSurface;
+                        T: TheTopolTool;
+                        Epsilon: Real from Standard)
+    
+    	is static;
+
+    Perform(me: in out; F: in out TheFunction; Surf: ThePSurface;
+                        UStart,VStart: Real from Standard)
+    
+    	is static;
+
+
+    IsDone(me)
+    
+    	returns Boolean
+	---C++: inline
+	
+	is static;
+
+
+    NbPoints(me)
+    
+	---Purpose: Returns the number of points.
+	--          The exception NotDone if raised if IsDone 
+	--          returns False.
+    
+    	returns Integer
+	---C++: inline
+	
+	raises NotDone from StdFail
+	
+	is static;
+
+
+    Value(me; Index: Integer)
+    
+	---Purpose: Returns the point of range Index.
+	--          The exception NotDone if raised if IsDone 
+	--          returns False.
+	--          The exception OutOfRange if raised if
+	--          Index <= 0 or Index > NbPoints.
+
+    	returns InteriorPoint from IntSurf
+	---C++: return const&
+	---C++: inline
+	
+	raises NotDone from StdFail,
+	       OutOfRange from Standard
+
+    	is static;
+
+
+fields
+
+    done : Boolean                 from Standard;
+    list : SequenceOfInteriorPoint from IntSurf;
+
+end SearchInside;

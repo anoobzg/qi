@@ -1,0 +1,60 @@
+-- Created on: 1997-03-26
+-- Created by: Christian CAILLET
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ItemDefinedTransformation  from StepRepr    inherits TShared
+
+    ---Purpose : Added from StepRepr Rev2 to Rev4
+
+uses
+     HAsciiString from TCollection,
+     RepresentationItem from StepRepr
+
+is
+
+    Create returns mutable ItemDefinedTransformation;
+
+    Init (me : mutable;
+    	  aName : HAsciiString from TCollection;
+	  aDescription : HAsciiString from TCollection;
+	  aTransformItem1 : RepresentationItem from StepRepr;
+	  aTransformItem2 : RepresentationItem from StepRepr);
+
+    SetName (me : mutable; aName : HAsciiString from TCollection);
+    Name    (me) returns HAsciiString from TCollection;
+
+    SetDescription (me : mutable; aDescription : HAsciiString from TCollection);
+    Description    (me) returns HAsciiString from TCollection;
+
+    SetTransformItem1 (me : mutable; aItem : RepresentationItem from StepRepr);
+    TransformItem1    (me) returns RepresentationItem;
+
+    SetTransformItem2 (me : mutable; aItem : RepresentationItem from StepRepr);
+    TransformItem2    (me) returns RepresentationItem;
+
+fields
+
+    theName : HAsciiString from TCollection;
+    theDescription : HAsciiString from TCollection;
+    theTransformItem1 : RepresentationItem from StepRepr;
+    theTransformItem2 : RepresentationItem from StepRepr;
+
+end ItemDefinedTransformation;

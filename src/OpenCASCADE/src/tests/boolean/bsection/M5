@@ -1,0 +1,10 @@
+puts "TODO ?CR23797 ALL: An exception was caught"
+puts "TODO ?CR23797 ALL: \\*\\* Exception"
+puts "TODO ?CR23797 ALL: Tcl Exception"
+puts "TODO ?CR23797 ALL: TEST INCOMPLETE"
+
+restore [locate_data_file GEN776_nofog.rle] a
+explode a
+bsection result a_1 a_2
+
+set length 226.487

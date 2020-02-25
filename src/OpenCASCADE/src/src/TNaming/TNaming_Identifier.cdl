@@ -1,0 +1,118 @@
+-- Created on: 1997-03-03
+-- Created by: Yves FRICAUD
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+private class Identifier from TNaming 
+
+	---Purpose: 
+
+uses
+
+    Label            from TDF,
+    Shape            from TopoDS,
+    NamedShape       from TNaming,
+    ListOfNamedShape from TNaming,
+    ListOfShape      from TopTools,
+    NameType         from TNaming,
+    Localizer        from TNaming
+is
+
+    Create (Lab     : Label   from TDF;
+    	    S	    : Shape   from TopoDS;
+	    Context     : Shape   from TopoDS;
+	    Geom        : Boolean from Standard)
+    returns Identifier from TNaming;	    
+    
+    Create (Lab     : Label      from TDF;
+    	    S	    : Shape      from TopoDS;
+	    ContextNS   : NamedShape from TNaming;
+	    Geom        : Boolean    from Standard)
+    returns Identifier from TNaming;	    
+    
+    
+    
+    ---Category: Querying
+
+    IsDone (me) returns Boolean from Standard;
+
+    Type (me) returns NameType from TNaming;
+
+    IsFeature (me : in out) returns Boolean from Standard;
+  
+    Feature   (me) returns NamedShape  from TNaming;
+    
+    
+    InitArgs (me : in out);
+    
+    MoreArgs (me) returns Boolean from Standard;
+    
+    NextArg (me : in out);
+    
+    ArgIsFeature(me) returns Boolean from Standard;	
+    
+    FeatureArg (me : in out) returns NamedShape from TNaming;
+
+    ShapeArg (me : in out) returns Shape from TopoDS;
+    
+    ShapeContext (me) returns Shape from TopoDS;
+
+    NamedShapeOfGeneration  (me) returns NamedShape from TNaming;
+
+    ---Category: Private methods.
+
+    AncestorIdentification(me        : in out; 
+    	    	    	   Localizer : in out Localizer from TNaming;
+    	    	    	   Context   :        Shape     from TopoDS);
+			   
+    PrimitiveIdentification(me        : in out; 
+    	    	    	    Localizer : in out Localizer  from TNaming;
+    	    	    	    NS        :        NamedShape from TNaming);
+
+    GeneratedIdentification(me        : in out; 
+    	    	    	    Localizer : in out Localizer  from TNaming;
+			    NS        :        NamedShape from TNaming);
+
+
+    Identification(me        : in out; 
+    	    	   Localizer : in out Localizer  from TNaming;	
+    	    	   NS        :        NamedShape from TNaming);
+
+
+    Init(me : in out; Context : Shape   from TopoDS) is private;
+		  
+fields
+    
+    myTDFAcces       : Label   from TDF;	
+    myShape          : Shape   from TopoDS;
+    myOneOnly        : Boolean from Standard;
+    
+    myDone           : Boolean from Standard;
+
+    myIsFeature      : Boolean          from Standard;
+    myType           : NameType         from TNaming;
+    myFeature        : NamedShape       from TNaming;
+    myPrimitiveArgs  : ListOfNamedShape from TNaming;	
+    myShapeArgs      : ListOfShape      from TopTools;
+    myNSContext      : NamedShape       from TNaming;
+    
+end Identifier;
+
+

@@ -1,0 +1,179 @@
+-- Created on: 1992-10-19
+-- Created by: Laurent BUCHARD
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+generic class IntPolyPolyGen from IntCurve (
+    TheCurve       as any;
+    TheCurveTool   as any; -- as CurveTool from IntCurve (TheCurve)
+    TheProjPCur    as any) -- as ProjPCurGen from IntCurve
+    
+inherits Intersection from IntRes2d
+
+
+
+    ---Level: Internal
+
+uses Domain       from IntRes2d  
+
+
+    class ThePolygon2d instantiates Polygon2dGen from IntCurve
+    	    	    	    	   (TheCurve,
+                                    TheCurveTool);
+				    
+    class TheDistBetweenPCurves instantiates DistBetweenPCurvesGen
+    	                           (TheCurve,
+                                    TheCurveTool);
+
+    class  ExactIntersectionPoint 
+
+    	uses  Vector        from  math , 
+	      ThePolygon2d  from  IntCurve  
+    	is  
+    	    Create  ( C1  :  TheCurve; 
+	    	      C2  :  TheCurve;  
+    	    	      Tol :   Real  from  Standard ) 
+		returns  ExactIntersectionPoint from  IntCurve    ; 
+    	    
+    	    Perform ( me: in out ;
+    	    	      Poly1       :  ThePolygon2d  from  IntCurve  ; 
+	    	      Poly2       :  ThePolygon2d  from  IntCurve  ;  
+		      NumSegOn1   :  out  Integer  from  Standard  ; 
+		      NumSegOn2   :  out  Integer  from  Standard  ; 
+		      ParamOnSeg1 :  out  Real     from  Standard  ; 
+		      ParamOnSeg2 :  out  Real     from  Standard );
+
+    	    Perform (  me: in out ;
+    	    	       Uo  :  Real  from  Standard  ; 
+	    	       Vo  :  Real  from  Standard  ; 
+		       UInf  :  Real  from  Standard  ; 
+		       VInf  :  Real  from  Standard  ;  
+		       USup  :  Real  from  Standard  ;   
+		       VSup  :  Real  from  Standard  );
+		       
+    	    NbRoots  ( me )  
+    	    	returns  Integer  from  Standard  ;
+
+    	    Roots  (  me  : in out ; 
+    	    	      U   : out  Real from  Standard  ; 
+    	    	      V   : out  Real from  Standard  ) ;
+    	
+	    MathPerform  ( me : in out )  is  private ; 
+	    
+    	    AnErrorOccurred  (  me  ) 
+	     	returns  Boolean                from  Standard  ;
+	    	
+    	    fields 
+	     
+	    	done             :  Boolean                from  Standard  ; 
+		nbroots          :  Integer                from  Standard  ;  
+		myTol            :  Real                   from  Standard  ;  
+		FctDist          :  TheDistBetweenPCurves  from  IntCurve  ; 
+		ToleranceVector  :  Vector                 from  math  ; 
+		BInfVector       :  Vector                 from  math  ;  
+		BSupVector       :  Vector                 from  math  ; 
+		StartingPoint    :  Vector                 from  math  ;  
+		Root             :  Vector                 from  math  ;  
+    	        anErrorOccurred  :  Boolean                from  Standard  ;
+	     end ExactIntersectionPoint from  IntCurve; 	
+
+
+is
+
+    Create  
+	returns IntPolyPolyGen from IntCurve;
+    
+    
+    Perform(me: in out;
+           Curve1 :    TheCurve;
+           Domain1:    Domain      from IntRes2d;
+	   Curve2 :    TheCurve;
+           Domain2:    Domain      from IntRes2d;
+	   TolConf:    Real        from Standard;
+	   Tol    :    Real        from Standard)
+	   
+           is static; 
+
+    Perform(me: in out;
+           Curve1 :    TheCurve;
+           Domain1:    Domain      from IntRes2d;
+	   TolConf:    Real        from Standard;
+	   Tol    :    Real        from Standard)
+	   
+           is static; 
+
+
+    Perform(me: in out;
+           Curve1 :    TheCurve;
+           Domain1:    Domain      from IntRes2d;
+	   Curve2 :    TheCurve;
+           Domain2:    Domain      from IntRes2d;
+	   TolConf:    Real        from Standard;
+	   Tol    :    Real        from Standard;
+           NbIter :    Integer     from Standard;
+           DeltaU :    Real        from Standard;
+           DeltaV :    Real        from Standard)
+	   
+           is static protected;    
+
+
+    Perform(me: in out;
+           Curve1 :    TheCurve;
+           Domain1:    Domain      from IntRes2d;
+	   TolConf:    Real        from Standard;
+	   Tol    :    Real        from Standard;
+           NbIter :    Integer     from Standard;
+           DeltaU :    Real        from Standard;
+           DeltaV :    Real        from Standard)
+	   
+           is static protected; 
+           
+       findIntersect( me: in out ;
+           Curve1 :    TheCurve;
+           Domain1:    Domain      from IntRes2d;
+           Curve2 :    TheCurve;
+           Domain2:    Domain      from IntRes2d;
+		   TolConf:    Real        from Standard;
+	       Tol    :    Real        from Standard;
+           NbIter :    Integer     from Standard;
+           DeltaU :    Real        from Standard;
+           DeltaV :    Real        from Standard;
+    	  thePoly1 :  ThePolygon2d  from  IntCurve; 
+	      thePoly2 :  ThePolygon2d  from  IntCurve;
+	      isFullRepresentation : Boolean from Standard)
+	      returns Boolean is private;  
+	      ---Purpose : Method to find intersection between two curves
+	      --         :  returns false for case when some points of polygon
+	      --         : were replaced on line and exact point of intersection was not found
+	      --         : for case when point of intersection was found
+	      --         : during prelimanary search for line (case of bad paramerization of Bspline for example). 
+    
+fields    
+
+     DomainOnCurve1 : Domain from IntRes2d;      
+     DomainOnCurve2 : Domain from IntRes2d;      
+	  
+end IntPolyPolyGen;
+
+
+
+
+

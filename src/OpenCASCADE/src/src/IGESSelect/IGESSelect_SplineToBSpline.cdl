@@ -1,0 +1,78 @@
+-- Created on: 1994-06-02
+-- Created by: Christian CAILLET
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SplineToBSpline  from IGESSelect  inherits Transformer
+
+    ---Purpose : This type of Transformer allows to convert Spline Curves (IGES
+    --           type 112) and Surfaces (IGES Type 126) to BSpline Curves (IGES
+    --           type 114) and Surfac (IGES Type 128). All other entities are
+    --           rebuilt as identical but on the basis of this conversion.
+    --           
+    --           It also gives an option to, either convert as such (i.e. each
+    --           starting part of the spline becomes a segment of the bspline,
+    --           with continuity C0 between segments), or try to increase
+    --           continuity as far as possible to C1 or to C2.
+    --           
+    --           It does nothing if the starting model contains no Spline
+    --           Curve (IGES Type 112) or Surface (IGES Type 126). Else,
+    --           converting and rebuilding implies copying of entities.
+
+uses AsciiString from TCollection,
+     CheckIterator, Graph, CopyControl, Protocol from Interface, InterfaceModel
+
+is
+
+    Create (tryC2 : Boolean) returns mutable SplineToBSpline;
+    ---Purpose : Creates a Transformer SplineToBSpline. If <tryC2> is True,
+    --           it will in addition try to upgrade continuity up to C2.
+
+    OptionTryC2 (me) returns Boolean;
+    ---Purpose : Returns the option TryC2 given at creation time
+
+    Perform (me : mutable; G : Graph; protocol : Protocol from Interface;
+    	     checks : in out CheckIterator;
+    	     newmod : out mutable InterfaceModel)  returns Boolean;
+    ---Purpose : Performs the transformation, if there is at least one Spline
+    --           Curve (112) or Surface (126). Does nothing if there is none.
+
+    Updated (me; entfrom : Transient; entto : out mutable Transient)
+    	returns Boolean;
+    ---Purpose : Returns the transformed entities.
+    --           If original data contained no Spline Curve or Surface,
+    --           the result is identity : <entto> = <entfrom>
+    --           Else, the copied counterpart is returned : for a Spline Curve
+    --           or Surface, it is a converted BSpline Curve or Surface. Else,
+    --           it is the result of general service Copy (rebuilt as necessary
+    --           by BSPlines replacing Splines).
+
+    Label (me) returns AsciiString from TCollection;
+    ---Purpose : Returns a text which defines the way a Transformer works :
+    --           "Conversion Spline to BSpline" and as opted,
+    --           " trying to upgrade continuity"
+
+fields
+
+    thetryc2 : Boolean;
+    thefound : Boolean;        -- at least one Spline found and converted
+    themap   : CopyControl;
+
+end SplineToBSpline;

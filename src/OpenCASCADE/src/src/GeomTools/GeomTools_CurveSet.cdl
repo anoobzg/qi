@@ -1,0 +1,106 @@
+-- Created on: 1993-07-19
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+
+class CurveSet from GeomTools 
+
+	---Purpose: Stores a set of Curves from Geom.
+
+uses
+    Curve                 from Geom,
+    IndexedMapOfTransient from TColStd,
+    ProgressIndicator     from Message
+    
+raises
+    OutOfRange from Standard
+
+is
+
+    Create returns CurveSet from GeomTools;
+	---Purpose: Returns an empty set of Curves.
+	
+    Clear(me : in out)
+	---Purpose: Clears the content of the set.
+    is static;
+	
+    Add(me : in out; C : Curve from Geom) returns Integer
+	---Purpose: Incorporate a new Curve in the  set and returns
+	--          its index.
+    is static;
+    
+    Curve(me; I : Integer) returns Curve from Geom
+	---Purpose: Returns the Curve of index <I>.
+    raises
+    	OutOfRange from Standard
+    is static;
+
+    Index(me; C : Curve from Geom) returns Integer
+	---Purpose: Returns the index of <L>.
+    is static;
+    
+    Dump(me; OS : in out OStream)
+	---Purpose: Dumps the content of me on the stream <OS>.
+    is static;
+	
+    Write(me; OS : in out OStream)
+	---Purpose: Writes the content of  me  on the stream <OS> in a
+	--          format that can be read back by Read.
+    is static;
+	
+    Read(me : in out; IS : in out IStream)
+	---Purpose: Reads the content of me from the  stream  <IS>. me
+	--          is first cleared.
+	--          
+    is static;
+	
+    --
+    -- 	class methods to write an read curves
+    -- 	
+    
+    PrintCurve(myclass; C  : Curve from Geom;
+    	    	    	OS : in out OStream;
+			compact : Boolean = Standard_False);
+	---Purpose: Dumps the curve on the stream,  if compact is True
+	--          use the compact format that can be read back.
+	
+    ReadCurve(myclass; IS : in out IStream;
+    	    	       C  : in out Curve from Geom)
+    returns IStream;
+	---Purpose: Reads the curve  from  the stream.  The  curve  is
+	--          assumed   to have  been  writtent  with  the Print
+	--          method (compact = True).
+	--          
+	---C++: return &
+	
+    SetProgress(me : in out; PR : ProgressIndicator from Message);
+
+    GetProgress(me) returns ProgressIndicator from Message;
+
+fields
+
+    myMap : IndexedMapOfTransient from TColStd;
+    myProgress : ProgressIndicator from Message;
+
+end CurveSet;
+
+

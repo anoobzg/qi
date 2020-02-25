@@ -1,0 +1,91 @@
+-- Created on: 1992-11-05
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Cylinder from BRepPrim inherits Revolution from BRepPrim
+
+	---Purpose: Cylinder primitive.
+
+uses
+    Face from TopoDS,
+    
+    Pnt from gp,
+    Ax2 from gp    
+
+raises
+    DomainError
+
+is
+
+    Create(Position : Ax2 from gp; Radius : Real; Height : Real)
+    returns Cylinder from BRepPrim
+	   ---Purpose: the STEP definition
+	   --          Position : center of a Face and Axis
+	   --          Radius : radius of cylinder
+	   --          Height : distance between faces
+	   --                   on positive side
+	   --          
+	   --          Errors : Height < Resolution
+	   --                   Radius < Resolution
+    raises DomainError;
+
+    Create(Radius : Real)
+    returns Cylinder from BRepPrim
+	---Purpose: infinite Cylinder at origin on Z negative
+    raises DomainError;
+    
+    Create(Center : Pnt from gp; Radius : Real)
+    returns Cylinder from BRepPrim
+	---Purpose: infinite Cylinder at Center on Z negative
+    raises DomainError;
+    
+    Create(Axes : Ax2 from gp; Radius : Real)
+    returns Cylinder from BRepPrim
+	---Purpose: infinite Cylinder at Axes on Z negative
+    raises DomainError;
+    
+    Create(R,H : Real)
+    returns Cylinder from BRepPrim
+	---Purpose: create a Cylinder  at origin on Z  axis, of  
+	--          height H and radius R
+	--          Error  : Radius  < Resolution
+	--                   H < Resolution
+	--                   H negative
+    raises DomainError;
+    
+    Create(Center : Pnt from gp; R,H : Real)
+    returns Cylinder from BRepPrim
+	---Purpose: same as above but at a given point
+    raises DomainError;
+    
+    MakeEmptyLateralFace(me) returns Face from TopoDS
+	---Purpose: The surface normal should be directed  towards the
+	--          outside.
+    is redefined;
+    
+    SetMeridian(me : in out)
+    is static private;
+    
+fields
+    myRadius : Real;
+
+end Cylinder;
+

@@ -1,0 +1,96 @@
+-- Created on: 1994-04-01
+-- Created by: Modelistation
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class HVertex from BRepTopAdaptor 
+
+	---Purpose: 
+
+
+inherits HVertex from Adaptor3d
+
+uses Pnt2d       from gp,
+     Orientation from TopAbs,
+     Vertex      from TopoDS,
+     HCurve2d    from Adaptor2d,
+     HCurve2d    from BRepAdaptor
+
+is
+
+    Create(Vtx: Vertex from TopoDS; Curve: HCurve2d from BRepAdaptor)
+
+    	returns mutable HVertex from BRepTopAdaptor;
+
+
+    Vertex(me)
+    
+    	returns Vertex from TopoDS
+	---C++: inline
+	---C++: return const&
+	is static;
+
+
+    ChangeVertex(me: mutable)
+    
+    	returns Vertex from TopoDS
+	---C++: inline
+	---C++: return&
+	is static;
+
+
+    Value(me: mutable)
+    
+    	returns Pnt2d from gp
+	is redefined;
+
+
+    Parameter(me: mutable; C: HCurve2d from Adaptor2d)
+    
+    	returns Real from Standard
+	is redefined;
+
+
+    Resolution(me: mutable; C: HCurve2d from Adaptor2d)
+    
+	---Purpose: Parametric resolution (2d).
+
+    	returns Real from Standard
+	is redefined;
+
+
+    Orientation(me: mutable)
+    
+    	returns Orientation from TopAbs
+	is redefined;
+
+
+    IsSame(me: mutable; Other: mutable like me)
+    
+    	returns Boolean from Standard
+	is redefined;
+
+
+fields -- redefined from HVertex from Adaptor3d
+
+    myVtx   : Vertex   from TopoDS;
+    myCurve : HCurve2d from BRepAdaptor;
+
+end HVertex;

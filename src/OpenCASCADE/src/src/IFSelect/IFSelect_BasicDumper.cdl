@@ -1,0 +1,46 @@
+-- Created on: 1993-11-04
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class BasicDumper  from IFSelect  inherits SessionDumper
+
+    ---Purpose : BasicDumper takes into account, for SessionFile, all the
+    --           classes defined in the package IFSelect : Selections,
+    --           Dispatches (there is no Modifier)
+
+uses Transient, AsciiString from TCollection, SessionFile
+
+is
+
+    Create returns mutable BasicDumper;
+    ---Purpose : Creates a BasicDumper and puts it into the Library of Dumper
+
+    WriteOwn (me; file : in out SessionFile; item : Transient) returns Boolean;
+    ---Purpose : Write the Own Parameters of Types defined in package IFSelect
+    --           Returns True if <item> has been processed, False else
+
+    ReadOwn  (me; file : in out SessionFile;
+    	    type : AsciiString from TCollection; item : out mutable Transient)
+    	returns Boolean;
+    ---Purpose : Recognizes and Read Own Parameters for Types of package
+    --           IFSelect. Returns True if done and <item> created, False else
+
+end BasicDumper;

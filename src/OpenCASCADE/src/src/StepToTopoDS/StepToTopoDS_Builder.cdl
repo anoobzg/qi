@@ -1,0 +1,122 @@
+-- Created on: 1994-12-16
+-- Created by: Frederic MAUPAS
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Builder from StepToTopoDS
+    inherits Root from StepToTopoDS
+    
+    ---Purpose:
+    --         
+
+
+uses
+
+    ManifoldSolidBrep           from StepShape,
+    BrepWithVoids               from StepShape,
+    FacetedBrep                 from StepShape,
+    FacetedBrepAndBrepWithVoids from StepShape,
+    ShellBasedSurfaceModel      from StepShape,
+    EdgeBasedWireframeModel     from StepShape,
+    FaceBasedSurfaceModel       from StepShape,
+    GeometricSet                from StepShape,
+    Shape                       from TopoDS,
+    BuilderError                from StepToTopoDS,
+    TransientProcess            from Transfer,
+    NMTool                      from StepToTopoDS
+    
+    raises NotDone from StdFail
+     
+is 
+
+    Create returns Builder from StepToTopoDS;
+    
+    Create (S  : ManifoldSolidBrep from StepShape;
+       	    TP : TransientProcess  from Transfer )
+	returns Builder from StepToTopoDS;
+     
+    Create (S  : BrepWithVoids from StepShape;
+            TP : TransientProcess  from Transfer )
+    	returns Builder from StepToTopoDS;
+
+    Create ( S : FacetedBrep from StepShape;
+            TP : TransientProcess  from Transfer )
+    	returns Builder from StepToTopoDS;
+
+    Create (S  : FacetedBrepAndBrepWithVoids from StepShape;
+            TP : TransientProcess  from Transfer )
+    	returns Builder from StepToTopoDS;
+
+    Create (S      : ShellBasedSurfaceModel from StepShape;
+            TP     : TransientProcess  from Transfer;
+            NMTool : in out NMTool from StepToTopoDS )
+    	returns Builder from StepToTopoDS;
+
+    Create ( S : GeometricSet from StepShape;
+            TP : TransientProcess  from Transfer )
+    	returns Builder from StepToTopoDS;
+
+    Init (me : in out;
+    	  S  : ManifoldSolidBrep from StepShape;
+          TP : TransientProcess  from Transfer );
+
+    Init (me : in out;
+    	  S  : BrepWithVoids from StepShape;
+          TP : TransientProcess  from Transfer );
+
+    Init (me : in out;
+    	  S  : FacetedBrep from StepShape;
+          TP : TransientProcess  from Transfer );
+
+    Init (me : in out;
+    	  S  : FacetedBrepAndBrepWithVoids from StepShape;
+          TP : TransientProcess  from Transfer );
+	  
+    Init (me     : in out;
+    	   S     : ShellBasedSurfaceModel from StepShape;
+          TP     : TransientProcess  from Transfer;
+	  NMTool : in out NMTool from StepToTopoDS );
+	  
+    Init (me : in out;
+    	  S  : EdgeBasedWireframeModel from StepShape;
+          TP : TransientProcess  from Transfer );
+	  
+    Init (me : in out;
+    	  S  : FaceBasedSurfaceModel from StepShape;
+          TP : TransientProcess  from Transfer );
+	  
+    Init (me : in out;
+    	  S  : GeometricSet from StepShape;
+          TP : TransientProcess  from Transfer );
+	  
+    Value (me) returns Shape from TopoDS
+    	raises NotDone
+    	is static;
+    	---C++: return const&
+    
+    Error (me) returns BuilderError from StepToTopoDS
+    	is static;
+
+fields
+
+    myError  : BuilderError from StepToTopoDS;    
+    
+    myResult : Shape from TopoDS;
+    
+end Builder;

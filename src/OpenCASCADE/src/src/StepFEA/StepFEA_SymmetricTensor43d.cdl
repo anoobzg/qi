@@ -1,0 +1,71 @@
+-- Created on: 2002-12-12
+-- Created by: data exchange team
+-- Copyright (c) 2002-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Generator:	ExpToCas (EXPRESS -> CASCADE/XSTEP Translator) V1.2
+
+class SymmetricTensor43d from StepFEA
+inherits SelectType from StepData
+
+    ---Purpose: Representation of STEP SELECT type SymmetricTensor43d
+
+uses
+    SelectMember from StepData,
+    HArray1OfReal from TColStd
+    
+
+is
+    Create returns SymmetricTensor43d from StepFEA;
+	---Purpose: Empty constructor
+
+    CaseNum (me; ent: Transient) returns Integer;
+	---Purpose: return 0
+    
+    CaseMem (me; ent: SelectMember from StepData) returns Integer is redefined;
+    	---Purpose: Recognizes a items of select member CurveElementFreedomMember
+	--          1 -> AnisotropicSymmetricTensor43d
+	--          2 -> FeaIsotropicSymmetricTensor43d
+	--          3 -> FeaIsoOrthotropicSymmetricTensor43d
+	--          4 -> FeaTransverseIsotropicSymmetricTensor43d
+	--          5 -> FeaColumnNormalisedOrthotropicSymmetricTensor43d
+	--          6 -> FeaColumnNormalisedMonoclinicSymmetricTensor43d
+	--          0 else
+    
+    NewMember(me) returns SelectMember from StepData is redefined;
+
+    AnisotropicSymmetricTensor43d (me) returns HArray1OfReal from TColStd;
+	---Purpose: Returns Value as AnisotropicSymmetricTensor43d (or Null if another type)
+	
+    SetFeaIsotropicSymmetricTensor43d(me: in out; val: HArray1OfReal from TColStd);
+
+    FeaIsotropicSymmetricTensor43d (me) returns HArray1OfReal from TColStd;
+	---Purpose: Returns Value as FeaIsotropicSymmetricTensor43d (or Null if another type)
+
+    FeaIsoOrthotropicSymmetricTensor43d (me) returns HArray1OfReal from TColStd;
+	---Purpose: Returns Value as FeaIsoOrthotropicSymmetricTensor43d (or Null if another type)
+
+    FeaTransverseIsotropicSymmetricTensor43d (me) returns HArray1OfReal from TColStd;
+	---Purpose: Returns Value as FeaTransverseIsotropicSymmetricTensor43d (or Null if another type)
+
+    FeaColumnNormalisedOrthotropicSymmetricTensor43d (me) returns HArray1OfReal from TColStd;
+	---Purpose: Returns Value as FeaColumnNormalisedOrthotropicSymmetricTensor43d (or Null if another type)
+
+    FeaColumnNormalisedMonoclinicSymmetricTensor43d (me) returns HArray1OfReal from TColStd;
+	---Purpose: Returns Value as FeaColumnNormalisedMonoclinicSymmetricTensor43d (or Null if another type)
+
+end SymmetricTensor43d;

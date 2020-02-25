@@ -1,0 +1,242 @@
+// Created on: 1995-07-18
+// Created by: Modelistation
+// Copyright (c) 1995-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+
+#include <StdFail_NotDone.hxx>
+#include <math_DirectPolynomialRoots.hxx>
+#include <math_FunctionRoots.hxx>
+#include <Standard_OutOfRange.hxx>
+#include <Standard_NotImplemented.hxx>
+
+
+//=======================================================================
+//function : Extrema_GenExtPC
+//purpose  : 
+//=======================================================================
+
+Extrema_GenExtPC::Extrema_GenExtPC () { 
+  myDone = Standard_False;
+  myInit = Standard_False;
+}
+
+
+
+//=======================================================================
+//function : Extrema_GenExtPC
+//purpose  : 
+//=======================================================================
+
+Extrema_GenExtPC::Extrema_GenExtPC (const Pnt&             P, 
+				    const Curve&           C,
+				    const Standard_Integer NbSample, 
+				    const Standard_Real    TolU,
+				    const Standard_Real    TolF) : myF (P,C)
+{
+  Initialize(C, NbSample, TolU, TolF);
+  Perform(P);
+}
+
+
+//=======================================================================
+//function : Extrema_GenExtPC
+//purpose  : 
+//=======================================================================
+
+Extrema_GenExtPC::Extrema_GenExtPC (const Pnt&             P, 
+				    const Curve&           C,
+				    const Standard_Integer NbSample, 
+				    const Standard_Real    Umin, 
+				    const Standard_Real    Usup,
+				    const Standard_Real    TolU,
+				    const Standard_Real    TolF) : myF (P,C)
+{
+  Initialize(C, NbSample, Umin, Usup, TolU, TolF);
+  Perform(P);
+}
+
+
+//=======================================================================
+//function : Initialize
+//purpose  : 
+//=======================================================================
+
+void Extrema_GenExtPC::Initialize(const Curve&           C,
+				  const Standard_Integer NbU,
+				  const Standard_Real    TolU,
+				  const Standard_Real    TolF)
+{
+  myInit = Standard_True;
+  mynbsample = NbU;
+  mytolu = TolU;
+  mytolF = TolF;
+  myF.Initialize(C);
+  myumin = Tool::FirstParameter(C);
+  myusup = Tool::LastParameter(C);
+}
+
+//=======================================================================
+//function : Initialize
+//purpose  : 
+//=======================================================================
+
+void Extrema_GenExtPC::Initialize(const Curve&           C,
+				  const Standard_Integer NbU,
+				  const Standard_Real    Umin,
+				  const Standard_Real    Usup,
+				  const Standard_Real    TolU,
+				  const Standard_Real    TolF)
+{
+  myInit = Standard_True;
+  mynbsample = NbU;
+  mytolu = TolU;
+  mytolF = TolF;
+  myF.Initialize(C);
+  myumin = Umin;
+  myusup = Usup;
+}
+
+
+//=======================================================================
+//function : Initialize
+//purpose  : 
+//=======================================================================
+
+void Extrema_GenExtPC::Initialize(const Standard_Integer NbU,
+				  const Standard_Real    Umin,
+				  const Standard_Real    Usup,
+				  const Standard_Real    TolU,
+				  const Standard_Real    TolF)
+{
+  mynbsample = NbU;
+  mytolu = TolU;
+  mytolF = TolF;
+  myumin = Umin;
+  myusup = Usup;
+}
+
+//=======================================================================
+//function : Initialize
+//purpose  : 
+//=======================================================================
+
+void Extrema_GenExtPC::Initialize(const Curve& C)
+{
+  myF.Initialize(C);
+}
+
+
+
+//=======================================================================
+//function : Perform
+//purpose  : 
+//=======================================================================
+
+void Extrema_GenExtPC::Perform(const Pnt& P)
+/*-----------------------------------------------------------------------------
+Fonction:
+  Recherche des valeurs de parametre u telle que dist(P,C(u)) passe
+  par un extremum.
+
+Methode:
+  Si U est solution, alors (C(U)-P).C'(U) = 0.
+  Le probleme consiste a rechercher les racines de cette fonction
+  dans l'intervalle de definition de la courbe.
+  On utilise la classe math_FunctionRoots avec les arguments de
+  construction suivant:
+  - F: Extrema_FuncExtPC cree a partir de P et C,
+  - Uinf: borne inferieure de l'intervalle de definition,
+  - Usup: borne superieure de l'intervalle de definition,
+  - NbSample,
+  - TolU,
+  - TolF,
+  - TolF.
+-----------------------------------------------------------------------------*/
+{
+  myF.SetPoint(P);
+  myDone = Standard_False;
+
+  math_FunctionRoots S (myF, myumin, myusup, mynbsample, mytolu, mytolF, mytolF);
+  if (!S.IsDone() ||
+      S.IsAllNull()) { return; }
+
+  myDone = Standard_True;
+}
+
+
+
+//=======================================================================
+//function : IsDone
+//purpose  : 
+//=======================================================================
+
+Standard_Boolean Extrema_GenExtPC::IsDone () const {
+
+  return myDone;
+}
+
+
+//=======================================================================
+//function : NbExt
+//purpose  : 
+//=======================================================================
+
+Standard_Integer Extrema_GenExtPC::NbExt () const {
+
+  if (!IsDone()) { StdFail_NotDone::Raise(); }
+  return myF.NbExt();
+}
+
+
+//=======================================================================
+//function : Value
+//purpose  : 
+//=======================================================================
+
+Standard_Real Extrema_GenExtPC::SquareDistance (const Standard_Integer N) const {
+
+  if (!IsDone()) { StdFail_NotDone::Raise(); }
+  return myF.SquareDistance(N);
+}
+
+
+//=======================================================================
+//function : IsMin
+//purpose  : 
+//=======================================================================
+
+Standard_Boolean Extrema_GenExtPC::IsMin (const Standard_Integer N) const {
+
+  if (!IsDone()) { StdFail_NotDone::Raise(); }
+  return myF.IsMin(N);
+}
+
+
+//=======================================================================
+//function : Point
+//purpose  : 
+//=======================================================================
+
+POnC Extrema_GenExtPC::Point (const Standard_Integer N) const 
+{
+  if (!IsDone()) { StdFail_NotDone::Raise(); }
+  return myF.Point(N);
+}
+//=============================================================================

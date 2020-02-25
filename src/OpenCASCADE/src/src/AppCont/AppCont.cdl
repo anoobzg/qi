@@ -1,0 +1,115 @@
+-- Created on: 1993-04-22
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+package AppCont
+
+    ---Purpose: This package provides the least square algorithms 
+    --          necessary to approximate a set of continous curves
+    --          or a continous surface.
+    --          
+    --          
+    --          It also provides an instantiation of these algorithms 
+    --          for a class Function, a function f(t).
+    --          The user will have to inherit class Function to use it.
+
+
+    ---Level : Advanced.  
+    --  All methods of all  classes will be advanced.
+
+
+
+
+uses AppParCurves, Geom, math, StdFail, TCollection, TColStd, gp, 
+     TColgp, Standard
+
+
+is
+
+
+    deferred generic class TheLineTool; --- Template
+    	---Purpose: Tool describing a continous MultiLine.
+   	 --          The MultiLine is described by a parameter.
+
+    deferred generic class TheSurfTool; --- Template
+    	---Purpose: Tool describing a continous Surface.
+	    --          The Surface is described by a couple of parameters.
+
+
+
+    -------------------------------
+    --- Algorithms:
+    -------------------------------
+  
+    ---Purpose: The two following algorithms are using the same recipe:
+    --          Minimizing the difference between the approximate result 
+    --          Curve or Surface and respectively a continous MultiLine 
+    --          or a continous surface.
+
+    generic class LeastSquare;
+	    ---Purpose: makes an approximation of a continous Line described by
+	    --          the tool TheLineTool.
+
+    generic class SurfLeastSquare;
+	    ---Purpose: makes an approximation of a continous Surface 
+	    --          described by the tool TheSurfaceTool.
+
+
+
+    ------------------------------------------------------
+    --- Necessary class for approximation a function f(t):
+    ------------------------------------------------------
+
+    deferred class Function;
+	    ---Purpose: This class must be provided by the user to use the
+	    --          approximation algorithm FittingCurve.
+
+
+    class FunctionTool;
+	    ---Purpose: This class is the inteface between the Function 
+	    --          class and the tool asked by LeastSquare.
+
+
+    ---------------------------------------------------------
+    --- Necessary class for approximation a 2d function f(t):
+    ---------------------------------------------------------
+
+    deferred class Function2d;
+	    ---Purpose: This class must be provided by the user to use the
+	    --          approximation algorithm FittingCurve2d.
+
+
+    class FunctionTool2d;
+	    ---Purpose: This class is the inteface between the Function2d 
+	    --          class and the tool asked by LeastSquare.
+
+
+
+    class FitFunction instantiates LeastSquare from AppCont
+	    (Function from AppCont, FunctionTool from AppCont);
+
+    class FitFunction2d instantiates LeastSquare from AppCont
+	    (Function2d from AppCont, FunctionTool2d from AppCont);
+
+
+end AppCont;
+

@@ -1,0 +1,64 @@
+-- Created on: 2000-08-31
+-- Created by: Andrey BETENEV
+-- Copyright (c) 2000-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class OperLibrary from ShapeProcess 
+
+    ---Purpose: Provides a set of following operators
+    --
+    --          DirectFaces
+    --          FixShape
+    --          SameParameter
+    --          SetTolerance
+    --          SplitAngle
+    --          BSplineRestriction
+    --          ElementaryToRevolution
+    --          SurfaceToBSpline
+    --          ToBezier
+    --          SplitContinuity
+    --          SplitClosedFaces
+    --          FixWireGaps
+    --          FixFaceSize
+    --          DropSmallEdges
+    --          FixShape
+    --          SplitClosedEdges
+
+uses
+
+    Shape               from TopoDS,
+    UOperator           from ShapeProcess,
+    ShapeContext        from ShapeProcess,
+    Modification        from BRepTools,
+    DataMapOfShapeShape from TopTools
+
+is
+
+    Init (myclass);
+    	---Purpose: Registers all the operators
+
+    ApplyModifier (myclass; S: Shape from TopoDS;
+    	    	    	    context: ShapeContext from ShapeProcess;
+			    M: Modification from BRepTools;
+			    map: in out DataMapOfShapeShape from TopTools)
+    	---Purpose: Applies BRepTools_Modification to a shape,
+	--          taking into account sharing of components of compounds.
+    returns Shape from TopoDS;
+
+end OperLibrary;

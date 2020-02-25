@@ -1,0 +1,61 @@
+-- Created on: 1993-07-28
+-- Created by: Martine LANGLOIS
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+private deferred class Root from StepToTopoDS
+
+    ---Purpose : This class implements the common services for
+    --           all classes of StepToTopoDS which report error
+    --	    	  and sets and returns precision.
+
+is
+
+    Initialize returns Root from StepToTopoDS;
+
+    IsDone(me) returns Boolean is static;
+    ---C++: inline
+    
+    Precision(me) returns Real from Standard is static;
+    ---Purpose : Returns the value of "MyPrecision"
+    ---C++: inline
+        
+    SetPrecision(me : in out ; preci : Real from Standard) is static;
+    ---Purpose : Sets the value of "MyPrecision"
+    ---C++: inline
+    
+    MaxTol(me) returns Real from Standard is static;
+    ---Purpose : Returns the value of "MaxTol"
+    ---C++: inline
+    
+    SetMaxTol(me : in out ; maxpreci : Real from Standard) is static;
+    ---Purpose : Sets the value of MaxTol
+    ---C++: inline
+
+fields
+
+    done     : Boolean is protected;
+    --Equal True if everything is ok, False otherwise.
+    myPrecision : Real from Standard;    
+    myMaxTol    : Real from Standard;
+
+end Root;
+
+
+

@@ -1,0 +1,166 @@
+-- Created on: 1993-11-05
+-- Created by: Jean Marc LACHAUME
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Domain from HatchGen
+
+uses
+    PointOnHatching from HatchGen
+
+raises
+    DomainError from Standard
+
+is
+
+    Create
+    
+    	---Purpose: Creates an infinite domain.
+
+        returns Domain from HatchGen ;
+	
+
+    Create (P1, P2 : PointOnHatching from HatchGen)
+    
+    	---Purpose: Creates a domain for the curve associated to a hatching.
+
+    	returns Domain from HatchGen ;
+
+
+    Create (P : PointOnHatching from HatchGen ; First : Boolean from Standard)
+    
+    	---Purpose: Creates a semi-infinite domain for the curve associated
+    	--          to a hatching. The `First' flag means that the given
+    	--          point is the first one.
+
+    	returns Domain from HatchGen ;
+
+
+    SetPoints (me : in out ; P1, P2 : PointOnHatching from HatchGen)
+    
+    	---Purpose: Sets the first and the second points of the domain.
+
+      	---C++: inline
+	is static ;
+
+
+    SetPoints (me : in out)
+    
+    	---Purpose: Sets the first and the second points of the domain
+    	--          as the infinite.
+
+    	---C++: inline
+	is static ;
+
+
+    SetFirstPoint (me : in out ; P : PointOnHatching from HatchGen)
+    
+    	---Purpose: Sets the first point of the domain.
+
+    	---C++: inline
+	is static ;
+
+
+    SetFirstPoint (me : in out)
+    
+    	---Purpose: Sets the first point of the domain at the
+    	--          infinite.
+
+    	---C++: inline
+	is static ;
+
+
+    SetSecondPoint (me : in out ; P : PointOnHatching from HatchGen)
+    
+    	---Purpose: Sets the second point of the domain.
+
+    	---C++: inline
+	is static ;
+
+
+    SetSecondPoint (me : in out)
+    
+    	---Purpose: Sets the second point of the domain at the
+    	--          infinite.
+
+    	---C++: inline
+	is static ;
+
+
+    HasFirstPoint (me)
+
+    	---Purpose: Returns True if the domain has a first point.
+ 
+    	---C++: inline
+   	returns Boolean from Standard
+	is static ;
+
+
+    FirstPoint (me)
+    
+    	---Purpose: Returns the first point of the domain.
+    	--          The exception DomainError is raised if
+    	--          HasFirstPoint returns False.
+
+    	---C++: inline
+    	---C++: return const &
+
+    	returns PointOnHatching from HatchGen
+	raises DomainError from Standard
+	is static ;
+
+
+    HasSecondPoint (me)
+
+    	---Purpose: Returns True if the domain has a second point.
+
+    	---C++: inline
+    	returns Boolean from Standard
+	is static ;
+
+
+    SecondPoint (me)
+    
+    	---Purpose: Returns the second point of the domain.
+    	--          The exception DomainError is raised if
+    	--          HasSecondPoint returns False.
+
+    	---C++: inline
+    	---C++: return const &
+
+    	returns PointOnHatching from HatchGen
+	raises DomainError from Standard
+	is static ;
+
+
+    Dump (me; Index : Integer from Standard = 0)
+    
+    	---Purpose: Dump of the domain.
+
+    	is static ;
+	
+
+fields
+
+    myHasFirstPoint  : Boolean         from Standard ;
+    myFirstPoint     : PointOnHatching from HatchGen ;
+    myHasSecondPoint : Boolean         from Standard ;
+    mySecondPoint    : PointOnHatching from HatchGen ;
+    
+end Domain from HatchGen ;

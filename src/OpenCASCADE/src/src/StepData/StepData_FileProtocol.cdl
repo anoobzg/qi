@@ -1,0 +1,74 @@
+-- Created on: 1993-07-23
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class FileProtocol  from StepData  inherits Protocol from StepData
+
+    ---Purpose : A FileProtocol is defined as the addition of several already
+    --           existing Protocols. It corresponds to the definition of a
+    --           SchemaName with several Names, each one being attached to a
+    --           specific Protocol. Thus, a File defined with a compound Schema
+    --           is processed as any other one, once built the equivalent
+    --           compound Protocol, a FileProtocol
+
+uses Type, CString, SequenceOfTransient,
+     Graph from Interface, Check from Interface,
+     Protocol from Interface, Protocol from StepData
+
+is
+
+    Create returns mutable FileProtocol;
+    ---Purpose : Creates an empty FileProtocol
+
+    Add (me : mutable; protocol : Protocol from StepData);
+    ---Purpose : Adds a Protocol to the definition list of the FileProtocol
+    --           But ensures that each class of Protocol is present only once
+    --           in this list
+
+    NbResources (me) returns Integer  is redefined;
+    ---Purpose : Gives the count of Protocols used as Resource (can be zero)
+    --           i.e. the count of Protocol recorded by calling the method Add
+
+    Resource (me; num : Integer) returns Protocol from Interface  is redefined;
+    ---Purpose : Returns a Resource, given a rank. Here, rank of calling Add
+
+    TypeNumber (me; atype : any Type) returns Integer  is redefined;
+    ---Purpose : Returns a Case Number, specific of each recognized Type
+    --           Here, NO Type at all is recognized properly : all Types are
+    --           recognized by the resources
+
+    GlobalCheck (me; G : Graph; ach : in out Check)
+    	returns Boolean  is redefined;
+    ---Purpose : Calls GlobalCheck for each of its recorded ressources
+
+    	-- --    Specific for StepData    -- --
+
+    SchemaName (me) returns CString  is redefined;
+    ---Purpose : Returns the Schema Name attached to each class of Protocol
+    --           To be redefined by each sub-class
+    --           Here, SchemaName returns "" (empty String)
+    -- was C++ : return const
+
+fields
+
+    thecomps : SequenceOfTransient;
+
+end FileProtocol;

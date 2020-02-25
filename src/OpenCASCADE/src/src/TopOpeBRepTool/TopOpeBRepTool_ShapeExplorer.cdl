@@ -1,0 +1,84 @@
+-- Created on: 1995-07-13
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ShapeExplorer from TopOpeBRepTool
+
+uses
+
+    Explorer  from TopExp,
+    ShapeEnum from TopAbs,
+    Shape     from TopoDS
+
+is
+
+    Create returns ShapeExplorer from TopOpeBRepTool;
+	---Purpose: Creates an empty explorer, becomes usefull after Init.
+    
+    Create(S       : Shape     from TopoDS;
+    	   ToFind  : ShapeEnum from TopAbs;
+	   ToAvoid : ShapeEnum from TopAbs = TopAbs_SHAPE)
+    returns ShapeExplorer from TopOpeBRepTool;
+	---Purpose: Creates an Explorer on the Shape <S>. 
+	--          
+	--          <ToFind> is the type of shapes to search. 
+	--              TopAbs_VERTEX, TopAbs_EDGE, ...
+	--           
+	--          <ToAvoid>   is the type   of shape to  skip in the
+	--          exploration.   If   <ToAvoid>  is  equal  or  less
+	--          complex than <ToFind> or if  <ToAVoid> is SHAPE it
+	--          has no effect on the exploration.
+	--          
+
+    Init(me : in out; S       : Shape       from TopoDS;
+    	              ToFind  : ShapeEnum from TopAbs;
+	              ToAvoid : ShapeEnum from TopAbs = TopAbs_SHAPE)
+    is static;
+
+    More(me) returns Boolean
+	---Purpose: Returns  True if  there are   more  shapes in  the
+	--          exploration. 
+    is static;
+	
+    Next(me : in out)
+	---Purpose: Moves to the next Shape in the exploration.
+    is static;
+
+    Current(me) returns Shape from TopoDS
+	---Purpose: Returns the current shape in the exploration.
+	---C++: return const &
+    is static;
+
+    -- debug
+    NbShapes(me) returns Integer from Standard is static;
+    Index(me) returns Integer from Standard is static;
+    DumpCurrent(me; OS : in out OStream) returns OStream 
+	---C++: return &
+    is static;
+
+fields
+
+    myExplorer : Explorer from TopExp;
+    myIndex    : Integer from Standard;
+    myNbShapes : Integer from Standard;
+
+end ShapeExplorer from TopOpeBRepTool;
+

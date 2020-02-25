@@ -1,0 +1,117 @@
+-- Created on: 1992-11-05
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class ShiftedToken from Units 
+
+	---Purpose: The  ShiftedToken class  inherits   from Token and
+	--          describes tokens which have  a gap in  addition of
+	--          the  multiplicative factor.   This kind  of  token
+	--          allows  the  description of linear functions which
+	--          do not pass through the origin, of the form :
+	--          
+	--           y = ax  +b
+	--           
+	--          where <x> and  <y>  are the unknown variables, <a>
+	--          the mutiplicative factor, and <b> the gap relative
+	--          to the ordinate axis.
+	--          
+	--          An example is the  tranlation between the  Celsius
+	--          and Fahrenheit degree of temperature.
+
+inherits
+
+    Token from Units
+    
+uses
+
+    Dimensions from Units
+
+--raises
+
+is
+
+    Create(aword , amean : CString ; avalue , amove : Real ; adimensions : Dimensions from Units)
+    
+    ---Level: Internal 
+    
+    ---Purpose: Creates and returns a  shifted   token.  <aword> is  a
+    --          string containing the   available word, <amean>  gives
+    --          the signification   of the   token,  <avalue> is   the
+    --          numeric value  of the  dimension, <amove> is  the gap,
+    --          and <adimensions> is  the dimension of the given  word
+    --          <aword>.
+    
+    returns mutable ShiftedToken from Units;
+    
+    Creates(me) returns mutable Token from Units
+    
+    ---Level: Internal 
+    
+    ---Purpose: Creates and returns a  token, which is a ShiftedToken. 
+    
+    is redefined;
+    
+    Move(me) returns Real
+    
+    ---Level: Internal 
+    
+    ---Purpose: Returns the gap <themove>
+    
+    is static;
+    
+    Multiplied(me ; avalue : Real) returns Real
+    
+    ---Level: Internal 
+    
+    ---Purpose: This  virtual   method  is  called  by the Measurement
+    --          methods,  to   compute  the   measurement    during  a
+    --          conversion.
+    
+    is redefined;
+    
+    Divided(me ; avalue : Real) returns Real
+    
+    ---Level: Internal 
+    
+    ---Purpose: This   virtual  method is  called  by  the Measurement
+    --          methods,   to   compute   the   measurement   during a
+    --          conversion.
+    
+    is redefined;
+
+    Destroy ( me : mutable ) is redefined;
+    ---Level: Internal
+    ---Purpose: Destroies the Token
+    ---C++: alias ~
+    
+    Dump(me ; ashift , alevel : Integer)
+    
+    ---Level: Internal 
+    
+    is redefined;
+    
+fields
+
+    themove : Real;
+
+end ShiftedToken;

@@ -1,0 +1,90 @@
+-- Created on: 1993-06-17
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ShellFaceClassifier from TopOpeBRepBuild
+    inherits CompositeClassifier from TopOpeBRepBuild
+
+---Purpose: 
+-- Classify faces and shells.
+-- shapes are Shells, Elements are Faces.
+
+uses
+    
+    ShapeEnum from TopAbs,
+    State from TopAbs,
+    Shape from TopoDS,
+    Shell from TopoDS,
+    Pnt from gp,
+    DataMapOfShapeShape from TopTools,
+    Builder from BRep,
+    SolidClassifier from TopOpeBRepTool,
+    BlockBuilder from TopOpeBRepBuild,
+    Loop from TopOpeBRepBuild
+    
+is
+
+    Create(BB : BlockBuilder) returns ShellFaceClassifier;
+    ---Purpose: Creates a classifier in 3D space, to compare : 
+    -- a face with a set of faces
+    -- a shell with a set of faces
+    -- a shell with a shell
+
+    Clear(me : in out) is static;
+    
+    CompareShapes(me : in out; B1,B2 : Shape from TopoDS)
+    ---Purpose: classify shell <B1> with shell <B2>
+    returns State from TopAbs;
+    
+    CompareElementToShape(me : in out; F : Shape; S : Shape)
+    ---Purpose: classify face <F> with shell <S>
+    returns State from TopAbs;
+    
+    ResetShape(me : in out; S : Shape);
+    ---Purpose: prepare classification involving shell <S>
+    -- calls ResetElement on first face of <S>
+    
+    ResetElement(me : in out; F : Shape);
+    ---Purpose: prepare classification involving face <F>
+    -- define 3D point (later used in Compare()) on first vertex of face <F>.
+    
+    CompareElement(me : in out; F : Shape) 
+    returns  Boolean from Standard; 
+    ---Purpose: Add the face <F> in the set of faces used in 3D point
+    -- classification. Returns FALSE if the face <F> has been already  
+    -- added to the set of faces, otherwise returns TRUE.
+
+ 
+    State(me : in out) returns State from TopAbs;
+    ---Purpose: Returns state of classification of 3D point, defined by 
+    -- ResetElement, with the current set of faces, defined by Compare.
+
+fields
+    
+    myFirstCompare : Boolean from Standard;
+    myPoint3d : Pnt from gp;
+    myShell : Shell from TopoDS;
+    myBuilder : Builder from BRep;
+    mySolidClassifier : SolidClassifier from TopOpeBRepTool;
+    myFaceShellMap : DataMapOfShapeShape from TopTools; 
+    myShape : Shape from TopoDS;
+   
+end ShellFaceClassifier from TopOpeBRepBuild;
+    

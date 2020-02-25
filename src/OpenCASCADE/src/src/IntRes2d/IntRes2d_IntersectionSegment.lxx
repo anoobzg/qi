@@ -1,0 +1,105 @@
+// Copyright (c) 1995-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+#include <Standard_DomainError.hxx>
+
+inline IntRes2d_IntersectionSegment::IntRes2d_IntersectionSegment (
+	 const IntRes2d_IntersectionPoint& P1, 
+	 const IntRes2d_IntersectionPoint& P2,
+	 const Standard_Boolean Oppos,
+	 const Standard_Boolean ReverseFlag):
+
+  oppos(Oppos),
+  first(Standard_True),
+  last(Standard_True),
+  ptfirst(P1),
+  ptlast(P2)
+{ 
+  if(ReverseFlag) {
+    if(Oppos) {
+      ptfirst= P2;
+      ptlast = P1;
+    }
+  }
+}
+
+inline IntRes2d_IntersectionSegment::IntRes2d_IntersectionSegment (
+	 const IntRes2d_IntersectionPoint& P, 
+	 const Standard_Boolean First,
+	 const Standard_Boolean Oppos,
+	 const Standard_Boolean ReverseFlag):
+
+  oppos(Oppos),
+  ptfirst(),
+  ptlast()
+    {
+      if(ReverseFlag && Oppos) {
+	if (First) {
+	  first=Standard_False; last=Standard_True; ptlast=P;
+	}
+	else {
+	  first=Standard_True; last=Standard_False; ptfirst=P;
+	}
+      }
+      else {
+	if (First) {
+	  first=Standard_True; last=Standard_False; ptfirst=P;
+	}
+	else {
+	  first=Standard_False; last=Standard_True; ptlast=P;
+	}
+      }
+    }
+
+inline IntRes2d_IntersectionSegment::IntRes2d_IntersectionSegment (
+                                            const Standard_Boolean Oppos):
+  oppos(Oppos),
+  first(Standard_False),
+  last(Standard_False),
+  ptfirst(),
+  ptlast()
+{ }
+
+inline Standard_Boolean IntRes2d_IntersectionSegment::IsOpposite () const {
+  return oppos;
+}
+
+inline Standard_Boolean IntRes2d_IntersectionSegment::HasFirstPoint () const {
+  return first; 
+}
+
+inline Standard_Boolean IntRes2d_IntersectionSegment::HasLastPoint () const {
+  return last;
+}
+
+inline const IntRes2d_IntersectionPoint& 
+        IntRes2d_IntersectionSegment::FirstPoint () const {
+
+  if (!first) { Standard_DomainError::Raise(); }
+  return ptfirst;
+}
+
+
+inline const IntRes2d_IntersectionPoint&
+        IntRes2d_IntersectionSegment::LastPoint () const {
+
+  if (!last) { Standard_DomainError::Raise();}
+  return ptlast;
+}
+
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{6E1D3023-0C4C-18A7-02FF-73BB9F230518}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\XDEDRAW">
+      <UniqueIdentifier>{236E5111-10BF-05C6-14F4-D275B42D8FD2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\XDEDRAW\XDEDRAW.cxx">
+      <Filter>Source files\XDEDRAW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\XDEDRAW\XDEDRAW_Colors.cxx">
+      <Filter>Source files\XDEDRAW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\XDEDRAW\XDEDRAW_Common.cxx">
+      <Filter>Source files\XDEDRAW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\XDEDRAW\XDEDRAW_Layers.cxx">
+      <Filter>Source files\XDEDRAW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\XDEDRAW\XDEDRAW_Props.cxx">
+      <Filter>Source files\XDEDRAW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\XDEDRAW\XDEDRAW_Shapes.cxx">
+      <Filter>Source files\XDEDRAW</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

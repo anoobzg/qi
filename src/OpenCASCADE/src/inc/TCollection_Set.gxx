@@ -1,0 +1,179 @@
+// Created on: 1993-03-02
+// Created by: Remi LEQUETTE
+// Copyright (c) 1993-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+//=======================================================================
+//function : TCollection_Set
+//purpose  : 
+//=======================================================================
+
+TCollection_Set::TCollection_Set()
+{
+}
+
+//=======================================================================
+//function : TCollection_Set
+//purpose  : 
+//=======================================================================
+
+TCollection_Set::TCollection_Set(const TCollection_Set& )
+{
+}
+
+
+//=======================================================================
+//function : Add
+//purpose  : 
+//=======================================================================
+
+Standard_Boolean TCollection_Set::Add(const Item& T)
+{
+  if (Contains(T)) 
+    return Standard_False;
+  else {
+    myItems.Prepend(T);
+    return Standard_True;
+  }
+}
+
+//=======================================================================
+//function : Remove
+//purpose  : 
+//=======================================================================
+
+Standard_Boolean TCollection_Set::Remove(const Item& T)
+{
+  TCollection_ListIteratorOfSetList It(myItems);
+  while (It.More()) {
+    if (It.Value() == T) {
+      myItems.Remove(It);
+      return Standard_True;
+    }
+    It.Next();
+  }
+  return Standard_False;
+}
+
+//=======================================================================
+//function : Union
+//purpose  : 
+//=======================================================================
+
+void TCollection_Set::Union(const TCollection_Set& B)
+{
+  Standard_Integer N = Extent();
+  Standard_Integer i;
+  TCollection_ListIteratorOfSetList It1,It2;
+  
+  // for each item in B
+  for (It1.Initialize(B.myItems); It1.More(); It1.Next()) {
+    // test with the N first items of me
+    // because the other ones are imported from B
+    It2.Initialize(myItems);
+    Standard_Boolean found = Standard_False;
+    for (i = 1; i <= N; i++) {
+      if (It1.Value() == It2.Value()) {
+	found = Standard_True;
+	break;
+      }
+      It2.Next();
+    }
+    if (!found)
+      myItems.Append(It1.Value());
+  }
+}
+
+//=======================================================================
+//function : Intersection
+//purpose  : 
+//=======================================================================
+
+void TCollection_Set::Intersection(const TCollection_Set& B)
+{
+  TCollection_ListIteratorOfSetList It(myItems);
+  while (It.More()) {
+    if (B.Contains(It.Value()))
+      It.Next();
+    else
+      myItems.Remove(It);
+  }
+}
+
+//=======================================================================
+//function : Difference
+//purpose  : 
+//=======================================================================
+
+void TCollection_Set::Difference(const TCollection_Set& B)
+{
+  TCollection_ListIteratorOfSetList It(myItems);
+  while (It.More()) {
+    if (B.Contains(It.Value()))
+      myItems.Remove(It);
+    else
+      It.Next();
+  }
+}
+
+//=======================================================================
+//function : Contains
+//purpose  : 
+//=======================================================================
+
+Standard_Boolean TCollection_Set::Contains(const Item& T) const
+{
+  TCollection_ListIteratorOfSetList It(myItems);
+  while (It.More()) {
+    if (It.Value() == T) return Standard_True;
+    It.Next();
+  }
+  return Standard_False;
+}
+
+//=======================================================================
+//function : IsASubset
+//purpose  : 
+//=======================================================================
+
+Standard_Boolean TCollection_Set::IsASubset(const TCollection_Set& S) const
+{
+  if (S.Extent() > Extent()) return Standard_False;
+  TCollection_ListIteratorOfSetList It(S.myItems);
+  while (It.More()) {
+    if (!Contains(It.Value())) return Standard_False;
+    It.Next();
+  }
+  return Standard_True;
+}
+
+
+//=======================================================================
+//function : IsAProperSubset
+//purpose  : 
+//=======================================================================
+
+Standard_Boolean TCollection_Set::IsAProperSubset
+  (const TCollection_Set& S) const
+{
+  if (S.Extent() >= Extent()) return Standard_False;
+  return IsASubset(S);
+}
+
+

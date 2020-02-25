@@ -1,0 +1,81 @@
+-- Created on: 1993-06-11
+-- Created by: Martine LANGLOIS
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+package StepToGeom
+
+--- Purpose: Creation des entites geometriques de Geom a partir du schema 
+--  StepGeom (Part42, geometric)
+
+uses  gp, Geom, Geom2d, StepGeom, StdFail
+
+is
+
+private deferred class Root;
+class MakeCartesianPoint;
+class MakeCartesianPoint2d;
+class MakeAxisPlacement;
+class MakeAxis1Placement;
+class MakeAxis2Placement;
+class MakeDirection;
+class MakeDirection2d;
+class MakeVectorWithMagnitude;
+class MakeVectorWithMagnitude2d;
+class MakeCurve;
+class MakeTrimmedCurve;
+class MakeTrimmedCurve2d;
+class MakeCurve2d;
+class MakeConic;
+class MakeConic2d;
+class MakeBoundedCurve;
+class MakeBoundedCurve2d;
+class MakeEllipse;
+class MakeEllipse2d;
+class MakeHyperbola;
+class MakeHyperbola2d;
+class MakeParabola;
+class MakeParabola2d;
+class MakeCircle;
+class MakeCircle2d;
+class MakeBSplineCurve;
+class MakeBSplineCurve2d;
+class MakeLine;
+class MakeLine2d;
+class MakePolyline;
+class MakePolyline2d;
+class MakePlane;
+class MakeSurface;
+class MakeBoundedSurface;
+class MakeElementarySurface;
+class MakeSweptSurface;
+class MakeConicalSurface;
+class MakeCylindricalSurface;
+class MakeRectangularTrimmedSurface;
+class MakeSphericalSurface;
+class MakeSurfaceOfLinearExtrusion;
+class MakeSurfaceOfRevolution;
+class MakeToroidalSurface;
+class MakeBSplineSurface;
+class MakeTransformation3d;
+class MakeTransformation2d;
+
+-- class CheckSurfaceClosure;
+
+end StepToGeom;

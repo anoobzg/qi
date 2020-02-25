@@ -1,0 +1,65 @@
+-- Created on: 1997-03-05
+-- Created by: Robert COUBLANC
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred class Filter from SelectMgr inherits TShared from MMgt
+
+	---Purpose: The root class to define filter objects for selection.
+    	-- Advance handling of objects requires the services of
+    	-- filters. These only allow dynamic detection and
+    	-- selection of objects which correspond to the criteria defined in each.
+    	-- Eight standard filters inheriting SelectMgr_Filter are
+    	-- defined in Open CASCADE.
+    	--  You can create your own filters by defining new filter
+    	-- classes inheriting this framework. You use these
+    	-- filters by loading them into an AIS interactive context. 
+
+uses
+     EntityOwner from SelectMgr,
+     ShapeEnum from TopAbs
+is
+    IsOk(me; anObj : EntityOwner from SelectMgr)
+    returns Boolean from Standard
+    is deferred;
+    	---Purpose: Indicates that the selected Interactive Object
+    	-- passes the filter. The owner, anObj, can be either
+    	-- direct or user. A direct owner is the corresponding
+    	-- construction element, whereas a user is the
+    	-- compound shape of which the entity forms a part.
+    	-- When an object is detected by the mouse - in AIS,
+    	-- this is done through a context selector - its owner
+    	-- is passed to the filter as an argument.
+    	-- If the object returns Standard_True, it is kept; if
+    	-- not, it is rejected.
+    	-- If you are creating a filter class inheriting this
+    	-- framework, and the daughter class is to be used in
+    	-- an AIS local context, you will need to implement the
+    	-- virtual function ActsOn.
+        
+    ActsOn(me; aStandardMode : ShapeEnum from TopAbs)
+    returns Boolean from Standard is virtual;
+	---Purpose: Returns true in an AIS local context, if this filter
+    	-- operates on a type of subshape defined in a filter
+    	-- class inheriting this framework.
+    	-- This function completes IsOk in an AIS local context.
+    
+
+end Filter;

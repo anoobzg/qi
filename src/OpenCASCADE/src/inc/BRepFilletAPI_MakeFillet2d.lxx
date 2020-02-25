@@ -1,0 +1,101 @@
+// Created on: 1995-08-31
+// Created by: Remi LEQUETTE
+// Copyright (c) 1995-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+//=======================================================================
+//function : IsModified
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean BRepFilletAPI_MakeFillet2d::IsModified(const TopoDS_Edge& E) const 
+{
+  return myMakeChFi2d.IsModified(E);
+}
+
+//=======================================================================
+//function : FilletEdges
+//purpose  : 
+//=======================================================================
+
+inline const TopTools_SequenceOfShape& BRepFilletAPI_MakeFillet2d::FilletEdges() const 
+{
+  return myMakeChFi2d.FilletEdges();
+}
+
+//=======================================================================
+//function : NbFillet
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer BRepFilletAPI_MakeFillet2d::NbFillet() const 
+{
+  return myMakeChFi2d.NbFillet();
+}
+
+//=======================================================================
+//function : ChamferEdges
+//purpose  : 
+//=======================================================================
+
+inline const TopTools_SequenceOfShape& BRepFilletAPI_MakeFillet2d::ChamferEdges() const 
+{
+  return myMakeChFi2d.ChamferEdges();
+}
+
+//=======================================================================
+//function : NbChamfer
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer BRepFilletAPI_MakeFillet2d::NbChamfer() const 
+{
+    return myMakeChFi2d.NbChamfer();
+}
+
+//=======================================================================
+//function : HasDescendant
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean BRepFilletAPI_MakeFillet2d::HasDescendant(const TopoDS_Edge& E) const 
+{
+  return myMakeChFi2d.HasDescendant(E);
+}
+
+//=======================================================================
+//function : DescendantEdge
+//purpose  : 
+//=======================================================================
+
+inline const TopoDS_Edge& BRepFilletAPI_MakeFillet2d::DescendantEdge(const TopoDS_Edge& E) const 
+{
+  return myMakeChFi2d.DescendantEdge(E);
+}
+
+//=======================================================================
+//function : Status
+//purpose  : 
+//=======================================================================
+
+inline ChFi2d_ConstructionError BRepFilletAPI_MakeFillet2d::Status() const 
+{
+  return myMakeChFi2d.Status();
+}
+

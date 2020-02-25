@@ -1,0 +1,164 @@
+-- Created on: 1993-02-10
+-- Created by: Mireille MERCIEN
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+generic class HQueue from PCollection (Item as Storable)
+inherits Persistent
+
+     ---Purpose: A queue is a sequence of items in which items 
+     -- are added at one end (called the back of the
+     -- queue) and removed at the other end (called
+     -- the front)
+     -- The Queue is empty if there are no elements.
+
+raises   NoSuchObject from Standard
+
+
+    class QueueNode instantiates HSingleList from PCollection(Item);
+
+    class QueueIterator from PCollection 
+    	    	    	    	    	   
+        ---Purpose: Iterator of the class Queue.
+
+    raises NoMoreObject from Standard,
+           NoSuchObject from Standard
+    is     
+ 
+     	Create(Q : HQueue from PCollection) 
+    	returns QueueIterator from PCollection;
+        ---Purpose: Creates an iterator on the queue Q.
+        -- Sets the iterator at the beginning of the Queue Q.
+
+     	More(me) returns Boolean from Standard;
+        ---Level: Public
+        ---Purpose: Returns True if there are other items.
+
+     	Next(me: in out) raises NoMoreObject from Standard;
+        ---Level: Public
+	---Purpose: Sets the iterator to the next item.
+	    
+     	Value(me) returns any Item raises NoSuchObject from Standard;
+        ---Level: Public
+	---Purpose: Returns the item value corresponding to 
+	-- the current position of the iterator.
+
+    fields
+    	 TheIterator : QueueNode;
+    end;
+
+
+is	
+     Create returns mutable HQueue from PCollection;
+	---Purpose: Creates an empty queue.
+
+     Length(me) returns Integer from Standard;
+        ---Level: Public
+	---Purpose: Returns the number of items in the queue.
+	---Example: before
+	--   me = (A B C) 
+	-- returns 3
+
+     IsEmpty(me) returns Boolean from Standard;
+        ---Level: Public
+	---Purpose: Returns True if the queue contains no element.
+
+     Front(me) returns any Item raises NoSuchObject from Standard; 
+        ---Level: Public
+	---Purpose: Returns the item at the front of the queue.
+	-- Raises an exception if the queue is empty.
+        ---Example: before
+	--   me = (A B C) 
+        -- after
+	--   me = (A B C)
+       	-- returns 
+	--   A
+     
+     FFront(me) returns QueueNode; 
+        ---Level: Public
+	---Purpose: Returns the field TheFront(the front of the queue).
+
+     FBack(me) returns QueueNode; 
+        ---Level: Public
+	---Purpose: Returns the field Theback(the back of the queue).
+
+     Clear(me : mutable);
+        ---Level: Public
+	---Purpose: Removes all the elements from the queue
+	---Example: before
+	--   me = (A B C) 
+        -- after
+        --   me = ()
+
+     Push(me : mutable; T : Item);
+        ---Level: Public
+	---Purpose: Inserts an item at the back of the queue.
+	---Example: before
+	--   me = (A B) , T = C
+        -- after
+	--   me = (A B C)
+
+     Pop(me : mutable) raises NoSuchObject from Standard;
+        ---Level: Public
+	---Purpose: Removes an item from the front of the queue.
+	-- Raises an exception if the queue is empty
+	---Example: before
+	--   me = (A B C)
+        -- after
+	--   me = (B C)
+	-- returns 
+	--   A
+ 
+     ChangeFront(me:mutable ; T : Item) raises NoSuchObject from Standard;
+        ---Level: Public
+	---Purpose: Replaces the front element of the queue with T.
+	-- Raises an exception if the queue is empty.
+	---Example: before
+	--   me = (A B C) , T = D
+        -- after
+	--   me = (D B C)
+
+     ShallowCopy(me) 
+        returns mutable like me 
+        is redefined;
+        ---Level: Advanced
+	---C++: function call
+
+
+     ShallowDump (me; s: in out OStream) 
+        is redefined;
+        ---Level: Advanced
+    	---C++: function call
+
+
+    Destroy(me : mutable);
+    ---C++: alias ~
+    
+fields
+     TheFront   : QueueNode;
+     TheBack    : QueueNode;
+     TheLength  : Integer from Standard;  
+end; 
+
+
+
+
+
+

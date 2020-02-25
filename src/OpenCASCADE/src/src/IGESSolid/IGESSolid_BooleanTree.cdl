@@ -1,0 +1,90 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( SIVA )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class BooleanTree from IGESSolid  inherits IGESEntity
+
+        ---Purpose: defines BooleanTree, Type <180> Form Number <0>
+        --          in package IGESSolid
+        --          The Boolean tree describes a binary tree structure
+        --          composed of regularized Boolean operations and operands,
+        --          in post-order notation.
+
+uses
+
+        HArray1OfInteger     from TColStd,
+        HArray1OfIGESEntity  from IGESData
+
+raises OutOfRange
+
+is
+
+        Create returns mutable BooleanTree;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me         : mutable;
+              operands   : HArray1OfIGESEntity;
+              operations : HArray1OfInteger);
+        ---Purpose : This method is used to set the fields of the class
+        --           BooleanTree
+        --       - operands   : Array containing pointer to DE of operands
+        --       - operations : Array containing integer type for operations
+
+        Length (me) returns Integer;
+        ---Purpose : returns the length of the post-order list
+
+        IsOperand (me; Index: Integer) returns Boolean
+        raises OutOfRange;
+        ---Purpose : returns True if Index'th value in the post-order list is an Operand;
+        -- else returns False if it is an Integer Operations
+        -- raises exception if Index < 1 or Index > Length()
+
+        Operand (me; Index : Integer) returns IGESEntity
+        raises OutOfRange;
+        ---Purpose : returns the Index'th value in the post-order list only if it is 
+        -- an operand else returns NULL
+        -- raises exception if Index < 1 or Index > Length()
+
+        Operation (me; Index : Integer) returns Integer
+        raises OutOfRange;
+        ---Purpose : returns the Index'th value in the post-order list only if it is 
+        -- an operation else returns 0
+        -- raises exception if Index < 1 or Index > Length()
+
+fields
+
+--
+-- Class    : IGESSolid_BooleanTree
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class BooleanTree.
+--
+-- Reminder : A BooleanTree instance is defined by :
+--            - a list having operation codes (integers) or pointers to
+--            - operands. A positive value in the data entry implies an
+--            - operation code; a negative value implies the absolute value
+--            - is to be taken as a pointer to an operand.
+
+        theOperands   : HArray1OfIGESEntity;
+
+        theOperations : HArray1OfInteger;
+
+end BooleanTree;

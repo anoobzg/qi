@@ -1,0 +1,116 @@
+-- Created on: 1994-07-22
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class FindSurface from BRepLib 
+
+	---Purpose: Provides an  algorithm to find  a Surface  through a
+	--          set of edges.
+	--          
+	--          The edges  of  the  shape  given  as  argument are
+	--          explored if they are not coplanar at  the required
+	--          tolerance  the method Found returns false.
+	--          
+	--          If a null tolerance is given the max of the  edges
+	--          tolerances is used.
+	--          
+	--          The method Tolerance returns the true distance  of
+	--          the edges to the Surface.
+	--          
+	--          The method Surface returns the Surface if found.
+	--          
+	--          The method Existed  returns returns  True  if  the
+	--          Surface was already attached to some of the edges.
+	--          
+	--          When Existed  returns True  the  Surface  may have a
+	--          location given by the Location method.
+
+uses
+    
+    Shape    from TopoDS,
+    Location from TopLoc,
+    Surface    from Geom
+
+raises
+
+    NoSuchObject from Standard
+
+is
+
+    Create returns FindSurface from BRepLib;
+    
+    Create (S         : Shape   from TopoDS; 
+    	    Tol       : Real    from Standard = -1;
+    	    OnlyPlane : Boolean from Standard = Standard_False;
+            OnlyClosed: Boolean from Standard = Standard_False)
+	---Purpose: Computes the Surface from the edges of  <S> with the
+	--          given tolerance.
+	--          if <OnlyPlane> is true, the computed surface will be
+	--          a plane. If it is not possible to find a plane, the
+	--          flag NotDone will be set.
+	--          If <OnlyClosed> is true,  then  S  sould be a wire
+	--          and the existing surface,  on  which wire S is not
+	--          closed in 2D, will be ignored.
+    returns FindSurface from BRepLib;
+    
+    Init (me : in out; 
+          S         : Shape   from TopoDS; 
+    	  Tol       : Real    from Standard = -1;
+    	  OnlyPlane : Boolean from Standard = Standard_False;
+          OnlyClosed: Boolean from Standard = Standard_False)
+	---Purpose: Computes the Surface from the edges of  <S> with the
+	--          given tolerance.
+	--          if <OnlyPlane> is true, the computed surface will be
+	--          a plane. If it is not possible to find a plane, the
+	--          flag NotDone will be set.
+	--          If <OnlyClosed> is true,  then  S  sould be a wire
+	--          and the existing surface,  on  which wire S is not
+	--          closed in 2D, will be ignored.
+    is static;
+
+    Found(me) returns Boolean
+    is static;
+    
+    Surface(me) returns mutable Surface from Geom
+    is static;
+    
+    Tolerance(me) returns Real
+    is static;
+    
+    ToleranceReached(me) returns Real
+    is static;
+    
+    Existed(me) returns Boolean
+    is static;
+    
+    Location(me) returns Location from TopLoc
+    is static;
+    
+fields
+
+    mySurface    : Surface from Geom;
+    myTolerance  : Real;
+    myTolReached : Real;
+    isExisted    : Boolean;
+    myLocation   : Location from TopLoc;
+
+end FindSurface;

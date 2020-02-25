@@ -1,0 +1,72 @@
+// Created on: 1993-11-08
+// Created by: lbr
+// Copyright (c) 1993-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+
+
+
+ApproxInt_WLine::ApproxInt_WLine(const TheCurve&    CurveXYZ,
+				 const TheCurve2d&  CurveUV1,
+				 const TheCurve2d&  CurveUV2) { 
+  curvxyz = CurveXYZ;
+  curvuv1 = CurveUV1;
+  curvuv2 = CurveUV2;
+}
+
+
+ApproxInt_WLine::ApproxInt_WLine(const Handle(IntSurf_LineOn2S)& lin,
+				 const Standard_Boolean )
+     :linon2s(lin) 
+{ 
+}
+
+Standard_Integer ApproxInt_WLine::NbPnts() const {
+  if(!curvxyz.IsNull())
+    return(curvxyz->NbPoles());
+  if(!curvuv1.IsNull())
+    return(curvuv1->NbPoles());
+  if(!curvuv2.IsNull())
+    return(curvuv2->NbPoles());
+  return(linon2s->NbPoints());
+}
+
+IntSurf_PntOn2S ApproxInt_WLine::Point(const Standard_Integer Index) {
+  if(!linon2s.IsNull()) { 
+    if(linon2s->NbPoints()) { 
+      return(linon2s->Value(Index));
+    }
+  }
+  gp_Pnt2d P1,P2;
+  gp_Pnt   P;
+  if(!curvxyz.IsNull()) 
+    P = curvxyz->Pole(Index);
+  if(!curvuv1.IsNull())
+    P1 = curvuv1->Pole(Index);
+  if(!curvuv2.IsNull())
+    P2 = curvuv2->Pole(Index);
+
+  pnton2s.SetValue(P,
+		   P1.X(),
+		   P1.Y(),
+		   P2.X(),
+		   P2.Y());
+  return(pnton2s);
+}
+  

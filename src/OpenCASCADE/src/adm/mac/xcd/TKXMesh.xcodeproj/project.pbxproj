@@ -1,0 +1,253 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+		0C5D117B0F8F0F6C02C71243 = {isa = PBXBuildFile; fileRef = 16E300BB191112AD118D191A ;};
+
+		080F149F014C0E8C11FC055E = {isa = PBXBuildFile; fileRef = 15CD11F312A7013F08970229 ; };
+		17B5058E16E6107607AC05EA = {isa = PBXBuildFile; fileRef = 164C00A11944060010AE0292 ; };
+		090C0D2D169C092A0B360B92 = {isa = PBXBuildFile; fileRef = 02A50E1C0F550E06014C0CDB ; };
+		138114D6157D089903F700A0 = {isa = PBXBuildFile; fileRef = 084C148E04940D0B16D50C65 ; };
+		167818C506D10BC00F051117 = {isa = PBXBuildFile; fileRef = 0C7B08C00297122607C61561 ; };
+
+		0C660538197609CF0F761515 = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libTKXMesh.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+
+		16E300BB191112AD118D191A = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XBRepMesh.cxx; path = ../../../src/XBRepMesh/XBRepMesh.cxx; sourceTree = "<group>"; };
+
+		15CD11F312A7013F08970229 = {isa = PBXFileReference; lastKnownFileType = file; name = libTKBRep.dylib; path = libTKBRep.dylib; sourceTree = "<group>"; };
+		164C00A11944060010AE0292 = {isa = PBXFileReference; lastKnownFileType = file; name = libTKMath.dylib; path = libTKMath.dylib; sourceTree = "<group>"; };
+		02A50E1C0F550E06014C0CDB = {isa = PBXFileReference; lastKnownFileType = file; name = libTKernel.dylib; path = libTKernel.dylib; sourceTree = "<group>"; };
+		084C148E04940D0B16D50C65 = {isa = PBXFileReference; lastKnownFileType = file; name = libTKG2d.dylib; path = libTKG2d.dylib; sourceTree = "<group>"; };
+		0C7B08C00297122607C61561 = {isa = PBXFileReference; lastKnownFileType = file; name = libTKMesh.dylib; path = libTKMesh.dylib; sourceTree = "<group>"; };
+
+		135F1484012D0293135A1134 = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				080F149F014C0E8C11FC055E ,
+				17B5058E16E6107607AC05EA ,
+				090C0D2D169C092A0B360B92 ,
+				138114D6157D089903F700A0 ,
+				167818C506D10BC00F051117 ,
+
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+
+		13B9078000610D710D580059 = {
+			isa = PBXGroup;
+			children = (
+				16E300BB191112AD118D191A ,
+			);
+			name = XBRepMesh;
+			sourceTree = "<group>";
+		};
+
+		04580E6515D40E6610F212AB = {
+			isa = PBXGroup;
+			children = (
+				15CD11F312A7013F08970229 ,
+				164C00A11944060010AE0292 ,
+				02A50E1C0F550E06014C0CDB ,
+				084C148E04940D0B16D50C65 ,
+				0C7B08C00297122607C61561 ,
+
+				189307CA09FC07A309240F92 ,
+				0C660538197609CF0F761515 ,
+			);
+			sourceTree = "<group>";
+		};
+		189307CA09FC07A309240F92 = {
+			isa = PBXGroup;
+			children = (
+				13B9078000610D710D580059 ,
+			);
+			name = "Source files";
+			sourceTree = "<group>";
+		};
+
+		073A066A0BA216D6019715C7 = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+
+		0FEA10BF006F0AC005BE0225 = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 057F07E0042216FF0A47174A ;
+			buildPhases = (
+				12F80CBA07B0065E186E0744 ,
+				135F1484012D0293135A1134 ,
+				073A066A0BA216D6019715C7 ,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TKXMesh;
+			productName = TKXMesh;
+			productReference = 0C660538197609CF0F761515 ;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+
+		08CB0CCE012D03C2168C142C = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 165803E60BE40CDB0A1F005E ;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 04580E6515D40E6610F212AB;
+			productRefGroup = 04580E6515D40E6610F212AB;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0FEA10BF006F0AC005BE0225 ,
+			);
+		};
+
+		12F80CBA07B0065E186E0744 = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C5D117B0F8F0F6C02C71243 ,
+
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+
+		034600E702A110660F930BC6 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_LDFLAGS = "$(CSF_OPT_LNK64)"; 
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		13310A4217E902EA18AB0931 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_LDFLAGS = "$(CSF_OPT_LNK64D)";
+			};
+			name = Release;
+		};
+		11111916049D01650CB50626 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_EXTENSION = dylib;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					CSFDB ,
+					HAVE_WOK_CONFIG_H ,
+					HAVE_CONFIG_H ,
+					OCC_CONVERT_SIGNALS ,
+				);
+				HEADER_SEARCH_PATHS = (
+					../../../inc,
+					../../../drv/XBRepMesh,
+					../../../src/XBRepMesh,
+					"$(CSF_OPT_INC)",
+				);
+				OTHER_CFLAGS = (
+					"$(CSF_OPT_CMPL)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = " ../../../inc ../../../drv/XBRepMesh ../../../src/XBRepMesh";
+				WRAPPER_EXTENSION = dylib;
+			};
+			name = Debug;
+		};
+		027505AF17E00AD9009615E1 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_EXTENSION = dylib;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					CSFDB ,
+					HAVE_WOK_CONFIG_H ,
+					HAVE_CONFIG_H ,
+					OCC_CONVERT_SIGNALS ,
+				);
+				HEADER_SEARCH_PATHS = (
+					../../../inc,
+					../../../drv/XBRepMesh,
+					../../../src/XBRepMesh,
+					"$(CSF_OPT_INC)",
+				);
+				OTHER_CFLAGS = (
+					"$(CSF_OPT_CMPL)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = " ../../../inc ../../../drv/XBRepMesh ../../../src/XBRepMesh";
+				WRAPPER_EXTENSION = dylib;
+			};
+			name = Release;
+		};
+
+		165803E60BE40CDB0A1F005E = {
+			isa = XCConfigurationList;
+		buildConfigurations = (
+				034600E702A110660F930BC6 ,
+				13310A4217E902EA18AB0931 ,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		057F07E0042216FF0A47174A = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				11111916049D01650CB50626 ,
+				027505AF17E00AD9009615E1 ,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+
+	};
+	rootObject = 08CB0CCE012D03C2168C142C ;
+}

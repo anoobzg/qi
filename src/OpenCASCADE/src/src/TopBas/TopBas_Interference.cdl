@@ -1,0 +1,122 @@
+-- Created on: 1992-08-13
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+
+generic class Interference from TopBas (TheSubShape as any;
+    	    	    	    	    	TheShape    as any)
+
+	---Purpose: An  Interference  is an   Intersection on a  Shape
+	--          called  the Reference, it contains :
+	--          
+	--          * The  Intersection : The  SubShape describing the
+	--          intersection. For example a Vertex.
+	--          
+	--          * The   Boundary : The  Shape  that  generated the
+	--          intersection with the referrence.  For  example an
+	--          Edge.
+	--          
+	--          *   The  Orientation  :  The  orientation  of  the
+	--          Intersection relative to the Boundary.
+	--          
+	--          * The Transition : How the referrence  crosses the
+	--          Boundary at the Intersection.
+	--          
+	--          * The  BoundaryTransition  : How the Referrence is
+	--          on the boundary at the Intersection.
+	--          
+	--          *    Next : The    Next Interference  on  the same
+	--          Reference. Used to make lists.
+
+
+uses
+    Orientation from TopAbs
+    
+is
+   Create returns Interference;
+
+   Create(Inters : TheSubShape;
+   	  Bound  : TheShape;
+	  Orient : Orientation from TopAbs;
+	  Trans  : Orientation from TopAbs;
+	  BTrans : Orientation from TopAbs) returns Interference; 
+	   
+   Intersection(me : in out; I : TheSubShape)
+    	---C++: inline
+   is static;
+   
+   Boundary(me : in out; B : TheShape)
+    	---C++: inline
+   is static;
+   
+   Orientation(me : in out; O : Orientation from TopAbs)
+    	---C++: inline
+   is static;
+   
+   Transition(me : in out; Tr : Orientation from TopAbs)
+    	---C++: inline
+   is static;
+   
+   BoundaryTransition(me : in out; BTr : Orientation from TopAbs)
+    	---C++: inline
+   is static;
+   
+   Intersection(me) returns TheSubShape
+    	---C++: inline
+	---C++: return const &
+   is static;
+   
+   ChangeIntersection(me : in out) returns TheSubShape
+    	---C++: inline
+	---C++: return &
+   is static;
+   
+   Boundary(me) returns TheShape
+    	---C++: inline
+	---C++: return const &
+   is static;
+   
+   ChangeBoundary(me : in out) returns TheShape
+    	---C++: inline
+	---C++: return &
+   is static;
+   
+   Orientation(me) returns Orientation from TopAbs
+    	---C++: inline
+   is static;
+   
+   Transition(me) returns Orientation from TopAbs
+    	---C++: inline
+   is static;
+   
+   BoundaryTransition(me) returns Orientation from TopAbs
+    	---C++: inline
+   is static;
+   
+fields
+    myIntersection : TheSubShape;
+    myBoundary     : TheShape;
+    myOrientation  : Orientation from TopAbs;
+    myTransition   : Orientation from TopAbs;
+    myBTransition  : Orientation from TopAbs;
+
+end Interference;

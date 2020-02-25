@@ -1,0 +1,58 @@
+-- Created on: 1993-06-23
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class CurvePointInterference from TopOpeBRepDS 
+    inherits Interference from TopOpeBRepDS
+
+    ---Purpose: An interference with a parameter.
+
+uses
+
+    Transition  from TopOpeBRepDS,
+    Kind        from TopOpeBRepDS,
+    OStream     from Standard    
+    
+is
+
+    Create(T  : Transition from TopOpeBRepDS;
+	   ST : Kind from TopOpeBRepDS;
+	   S  : Integer from Standard;
+	   GT : Kind from TopOpeBRepDS;
+	   G  : Integer from Standard;
+	   P  : Real from Standard) 
+    returns mutable CurvePointInterference from TopOpeBRepDS; 
+	    
+    Parameter(me) returns Real from Standard
+    is static;
+    
+    Parameter(me : mutable; P : Real from Standard)
+    is static;
+
+    Dump(me; OS : in out OStream from Standard) returns OStream
+    is redefined;
+    ---C++: return &
+    
+fields
+
+    myParam : Real from Standard;
+
+end CurvePointInterference from TopOpeBRepDS;

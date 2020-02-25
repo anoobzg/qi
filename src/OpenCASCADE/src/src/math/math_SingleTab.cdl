@@ -1,0 +1,67 @@
+-- Created on: 1992-02-04
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+generic class SingleTab from math (Item as any)
+uses Address from Standard
+is
+
+    Create(LowerIndex, UpperIndex: Integer)
+       returns SingleTab;    	
+    
+    Create(Tab : Item; LowerIndex, UpperIndex: Integer)
+       returns SingleTab;    	
+    
+    Init(me : in out;  InitValue: Item) is static;
+
+    Create(Other: SingleTab)
+    	returns SingleTab;
+	
+    Copy(me; Other : in out SingleTab)
+    	---C++: inline
+    is static;
+
+    SetLower(me: in out; LowerIndex : Integer)
+    is static;
+    
+    Value(me; Index: Integer)
+    	---C++: alias operator()
+    	---C++: return &
+    	---C++: inline
+       returns Item
+    is static;
+
+
+    Free(me: in out)
+    	---C++: alias ~
+
+    is static;
+
+fields
+
+Addr        : Address;
+isAllocated : Boolean;
+First       : Integer;
+Last        : Integer;
+
+end;
+

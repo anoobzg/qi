@@ -1,0 +1,65 @@
+-- Created on: 1996-01-22
+-- Created by: Philippe MANGIN
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package FairCurve 
+
+	---Purpose: this  package is  used  to  make  "FairCurve"  by
+	--          no linear optimization.
+	--          - Batten
+	--          - [Curve with] MinimalVariation [of curvature] or "MVC".
+
+uses Standard, math, TColStd, TColgp, gp, Geom2d
+
+is
+    enumeration AnalysisCode is
+    	OK,
+	NotConverged,
+	InfiniteSliding,
+	NullHeight
+    end  AnalysisCode;
+---Purpose:
+-- To deal with different results in the computation of curvatures.
+-- -   FairCurve_OK describes the case where computation is successfully
+--   completed
+-- -   FairCurve_NotConverged describes
+--   the case where the algorithm does not
+--   converge. In this case, you can not be
+--   certain of the result quality and should
+--   resume computation if you want to make use of the curve.
+-- -   FairCurve_InfiniteSliding describes the case where sliding is infinite, and,
+--   consequently, computation stops. The solution is to use an imposed sliding value.
+-- -   FairCurve_NullHeight describes the case where no matter is left at one of the
+--   ends of the curve, and as a result, computation stops. The solution is to
+--   change (increase or reduce) the slope value by increasing or decreasing it.
+        
+    class Batten;
+    class MinimalVariation;                      -- inherit from Batten
+    private class BattenLaw;                     -- inherit from Function
+    deferred class DistributionOfEnergy;         -- inherit from FuctionSet 
+    private class DistributionOfSagging;         -- inherit from DistributionOfEnergy  
+    private class DistributionOfTension;         -- inherit from DistributionOfEnergy 
+    private class DistributionOfJerk;            -- inherit from DistributionOfEnergy 
+    deferred class Energy;                       -- inherit from MultipleVarFunctionWithHessian  
+    private class EnergyOfBatten;                -- inherit from Energy  
+    private class EnergyOfMVC;                   -- inherits from Energy 
+    private class Newton;
+  end FairCurve;

@@ -1,0 +1,85 @@
+-- Created on: 1997-11-06
+-- Created by: Roman BORISOV
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+private  class PrjFunc from ProjLib inherits  FunctionSetWithDerivatives from math
+
+	---Purpose: 
+
+uses   
+    Vector from math,  
+    Matrix from math, 
+    CurvePtr  from  Adaptor3d,
+    SurfacePtr  from  Adaptor3d,
+    Pnt2d  from  gp 
+
+raises  ConstructionError
+
+is
+    Create  (C: CurvePtr  from  Adaptor3d; FixVal:  Real  from  Standard;  S:  SurfacePtr  from  Adaptor3d; Fix: Integer)   
+    returns  PrjFunc 
+    raises  ConstructionError;
+
+    NbVariables(me)
+    	---Purpose: returns the number of variables of the function.
+
+    returns Integer;
+    
+    NbEquations(me)
+    	---Purpose: returns the number of equations of the function.
+
+    returns Integer;
+    
+    Value(me: in out; X: Vector  from  math; F: out Vector  from  math)
+    	---Purpose: computes the values <F> of the Functions for the 
+    	--          variable <X>.
+    	--          Returns True if the computation was done successfully, 
+    	--          False otherwise.
+
+    returns Boolean;
+    
+    Derivatives(me: in out; X: Vector  from  math; D: out Matrix  from  math)
+    	---Purpose: returns the values <D> of the derivatives for the 
+    	--          variable <X>.
+    	--          Returns True if the computation was done successfully, 
+    	--          False otherwise.
+
+    returns Boolean;
+    
+    Values(me: in out; X: Vector  from  math; F: out Vector  from  math; D: out Matrix  from  math)
+    	---Purpose: returns the values <F> of the functions and the derivatives
+    	--          <D> for the variable <X>.
+    	--          Returns True if the computation was done successfully, 
+    	--          False otherwise.
+
+    returns Boolean;
+  
+    Solution(me)  returns  Pnt2d  from  gp; 
+    	---Purpose:  returns  point  on  surface
+
+fields 
+
+    myCurve      :  CurvePtr    from  Adaptor3d; 
+    mySurface    :  SurfacePtr  from  Adaptor3d; 
+    myt          :  Real        from  Standard;
+    myU,  myV    :  Real        from  Standard;	
+    myFix        :  Integer     from  Standard; 
+    myNorm       :  Real        from  Standard;     
+end PrjFunc;

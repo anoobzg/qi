@@ -1,0 +1,64 @@
+-- Created on: 1994-05-31
+-- Created by: Christian CAILLET
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SelectLevelNumber  from IGESSelect  inherits SelectExtract
+
+    ---Purpose : This selection looks at Level Number of IGES Entities :
+    --           it considers items attached, either to a single level with a
+    --           given value, or to a level list which contains this value
+    --           
+    --           Level = 0  means entities not attached to any level
+    --           
+    --           Remark : the class CounterOfLevelNumber gives informations
+    --             about present levels in a file.
+
+uses AsciiString from TCollection, Transient, InterfaceModel, IntParam
+
+is
+
+    Create returns mutable SelectLevelNumber;
+    ---Purpose : Creates a SelectLevelNumber, with no Level criterium : see
+    --           SetLevelNumber. Empty, this selection filters nothing.
+
+    SetLevelNumber (me : mutable; levnum : mutable IntParam);
+    ---Purpose : Sets a Parameter as Level criterium
+
+    LevelNumber (me) returns mutable IntParam;
+    ---Purpose : Returns the Level criterium. NullHandle if not yet set
+    --           (interpreted as Level = 0 : no level number attached)
+
+    Sort (me; rank : Integer; ent : Transient; model : InterfaceModel)
+    	returns Boolean;
+    ---Purpose : Returns True if <ent> is an IGES Entity with Level Number
+    --           admits the criterium (= value if single level, or one of the
+    --           attached level numbers = value if level list)
+
+    ExtractLabel (me) returns AsciiString from TCollection;
+    ---Purpose : Returns the Selection criterium :
+    --           "IGES Entity, Level Number admits <nn>" (if nn > 0) or
+    --           "IGES Entity attached to no Level" (if nn = 0)
+
+fields
+
+    thelevnum : IntParam;
+
+end SelectLevelNumber;

@@ -1,0 +1,103 @@
+-- Created on: 1991-01-14
+-- Created by: Arnaud BOUZY
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+deferred class GeneralFunction from Expr
+   
+inherits TShared from MMgt
+
+    ---Purpose: Defines the general purposes of any function.
+ 
+uses NamedUnknown from Expr,
+    GeneralExpression from Expr,
+    Array1OfNamedUnknown from Expr,
+    Array1OfReal from TColStd,
+    AsciiString from TCollection
+
+raises OutOfRange from Standard,
+    DimensionMismatch from Standard,
+    NumericError from Standard,
+    NotEvaluable from Expr
+
+is
+
+	
+    NbOfVariables(me)
+    ---Purpose: Returns the number of variables of <me>.
+    ---Level: Advanced 
+    returns Integer
+    is deferred;
+
+    Variable(me ; index : Integer)
+    ---Purpose: Returns the variable denoted by <index> in <me>.
+    --          Raises OutOfRange if index > NbOfVariables.
+    ---Level: Advanced 
+    returns NamedUnknown
+    raises OutOfRange
+    is deferred;
+    
+    Copy(me)
+    ---Purpose: Returns a copy of <me> with the same form.
+    ---Level: Advanced 
+    returns mutable like me
+    is deferred;
+    
+    Derivative(me; var : NamedUnknown)
+    ---Purpose: Returns Derivative of <me> for variable <var>.
+    ---Level: Advanced 
+    returns GeneralFunction
+    is deferred;
+    
+    Derivative(me; var : NamedUnknown; deg : Integer)
+    ---Purpose: Returns Derivative of <me> for variable <var> with 
+    --          degree <deg>.
+    ---Level: Advanced 
+    returns GeneralFunction
+    is deferred;
+    
+    Evaluate(me; vars : Array1OfNamedUnknown; 
+    	    	 vals : Array1OfReal)
+    ---Purpose: Computes the value of <me> with the given variables.
+    --          Raises NotEvaluable if <vars> does not match all variables
+    --          of <me>.
+    ---Level: Advanced 
+    returns Real
+    raises NotEvaluable,NumericError,DimensionMismatch
+    is deferred;
+
+    IsIdentical(me; func : GeneralFunction)
+    ---Purpose: Tests if <me> and <func> are similar functions (same 
+    --          name and same used expression).
+    ---Level: Internal
+    returns Boolean
+    is deferred;
+    
+    IsLinearOnVariable(me; index : Integer)
+    ---Purpose: Tests if <me> is linear on variable on range <index>
+    ---Level: Internal 
+    returns Boolean
+    is deferred;
+    
+    GetStringName(me)
+    ---Level: Internal 
+    returns AsciiString
+    is deferred;
+    
+end GeneralFunction;

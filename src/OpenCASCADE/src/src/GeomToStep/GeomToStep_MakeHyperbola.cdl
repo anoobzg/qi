@@ -1,0 +1,54 @@
+-- Created on: 1995-05-04
+-- Created by: Dieter THIEMANN
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class MakeHyperbola from GeomToStep inherits Root from GeomToStep
+
+    ---Purpose: This class implements the mapping between the class
+    --          Hyperbola from Geom and the class Hyperbola from
+    --          StepGeom which describes a Hyperbola from ProSTEP
+
+
+uses Hyperbola from Geom,
+     Hyperbola from Geom2d,
+     Hyperbola from StepGeom
+     
+raises NotDone from StdFail
+
+is
+
+Create ( C : Hyperbola from Geom2d) returns MakeHyperbola;
+
+Create ( C : Hyperbola from Geom) returns MakeHyperbola;
+
+
+Value (me) returns Hyperbola from StepGeom
+    raises NotDone
+    is static;
+    ---C++: return const&
+
+
+fields
+
+    theHyperbola : Hyperbola from StepGeom;
+    	-- The solution from StepGeom
+
+end MakeHyperbola;

@@ -1,0 +1,106 @@
+-- Created on: 1992-09-22
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+package MAT
+
+uses
+    MMgt,
+    TCollection,
+    TColStd
+
+is
+
+    generic class Tool;
+  	--- Purpose: The template class used in Mat.
+   
+    generic class Mat;
+        --- Purpose: The Algorithm of Computation of the Map of 
+        --           bisecting locus.
+
+
+    --------------------------------------------------
+    --  Classes of exploration of the Bisecting Locus.
+    --------------------------------------------------
+    enumeration Side is Left,Right end Side;
+    	--- Purpose: Definition on the Left and the Right on the Fig.
+
+    class Graph;
+	--- Purpose: Graph of exploration of the Bisecting Locus.
+
+    class Arc;
+    	--- Purpose: Arc of Graph. 
+    
+    class Node;
+    	--- Purpose: Node of Graph.
+  
+    class BasicElt;
+	--- Purpose: BasicElt of Graph.
+    
+    class Zone;
+	--- Purpose: Class Zone contains the frontiere of the Zone of proximity
+	--           of a BasicElt.
+
+    class SequenceOfBasicElt instantiates Sequence from TCollection
+                                                         (BasicElt from MAT); 
+						     
+    class SequenceOfArc instantiates Sequence from TCollection
+                                                         (Arc from  MAT) ;  
+
+    class DataMapOfIntegerArc instantiates
+    	DataMap from TCollection(Integer          from Standard,
+	    	    	    	 Arc              from MAT     ,
+				 MapIntegerHasher from TColStd);
+
+    class DataMapOfIntegerBasicElt instantiates
+    	DataMap from TCollection(Integer          from Standard,
+	    	    	    	 BasicElt         from MAT     ,
+				 MapIntegerHasher from TColStd);
+ 
+    class DataMapOfIntegerNode instantiates
+    	DataMap from TCollection(Integer          from Standard,
+	    	    	    	 Node             from MAT     ,
+				 MapIntegerHasher from TColStd);
+ 
+ 
+    --------------------------------------------------- 
+    --  Classes used for the computation of the Mat.
+    --------------------------------------------------- 
+
+    generic class TList, TListNode;
+
+    class Bisector;
+	
+    class DataMapOfIntegerBisector instantiates
+    	DataMap from TCollection(Integer          from Standard,
+	    	    	    	 Bisector         from MAT     ,
+				 MapIntegerHasher from TColStd);
+				 
+    class ListOfBisector instantiates TList from MAT (Bisector from MAT);
+    
+    class Edge;
+    
+    class ListOfEdge instantiates TList from MAT (Edge from MAT);
+    
+end MAT;
+
+
+
+

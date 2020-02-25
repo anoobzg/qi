@@ -1,0 +1,128 @@
+-- Created on: 2007-05-29
+-- Created by: Vlad Romashko
+-- Copyright (c) 2007-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ReferenceList from TDataStd inherits Attribute from TDF
+
+    ---Purpose: Contains a list of references.
+
+uses 
+
+    Attribute from TDF,
+    GUID from Standard,
+    Label from TDF,
+    DataSet from TDF,
+    RelocationTable from TDF,
+    LabelList from TDF
+
+is 
+
+    ---Purpose: Static methods
+    --          ==============
+
+    GetID (myclass)   
+    ---C++: return const & 
+    ---Purpose: Returns the ID of the list of references (labels) attribute.
+    returns GUID from Standard;
+
+    Set (myclass; label : Label from TDF)
+    ---Purpose: Finds or creates a list of reference values (labels) attribute.
+    returns ReferenceList from TDataStd;
+
+    
+    ---Category: ReferenceList methods
+    --           =====================
+
+    Create
+    returns mutable ReferenceList from TDataStd; 
+
+    IsEmpty (me)
+    returns Boolean from Standard;
+    
+    Extent (me)
+    returns Integer from Standard;
+    
+    Prepend (me : mutable;
+    	     value : Label from TDF);
+	     
+    Append (me : mutable;
+    	    value : Label from TDF);
+	    
+    InsertBefore (me : mutable;
+    	    	  value : Label from TDF;
+		  before_value : Label from TDF)
+    ---Purpose: Inserts the <value> before the first meet of <before_value>.
+    returns Boolean from Standard;
+
+    InsertAfter (me : mutable;
+    	    	 value : Label from TDF;
+		 after_value : Label from TDF)
+    ---Purpose: Inserts the <value> after the first meet of <after_value>.
+    returns Boolean from Standard;
+
+    Remove (me : mutable;
+    	    value : Label from TDF)
+    ---Purpose: Removes the first meet of the <value>.
+    returns Boolean from Standard;
+    
+    Clear (me : mutable);
+    
+    First (me)
+    ---C++: return const &
+    returns Label from TDF;
+    
+    Last (me)
+    ---C++: return const &
+    returns Label from TDF;
+
+    List (me)
+    ---C++: return const &
+    returns LabelList from TDF;
+    
+    
+    ---Category: Methodes of TDF_Attribute
+    --           =========================
+    
+    ID (me)
+    ---C++: return const & 
+    returns GUID from Standard;
+
+    Restore (me: mutable; With : Attribute from TDF);
+
+    NewEmpty (me)
+    returns mutable Attribute from TDF;
+
+    Paste (me; Into : mutable Attribute from TDF;
+	       RT   : mutable RelocationTable from TDF);    
+
+    References (me; DS : DataSet from TDF) 
+    is redefined;
+    
+    Dump(me; anOS : in out OStream from Standard)
+    returns OStream from Standard
+    is redefined;
+    ---C++: return &
+
+
+fields
+
+    myList : LabelList from TDF;
+
+
+end ReferenceList;

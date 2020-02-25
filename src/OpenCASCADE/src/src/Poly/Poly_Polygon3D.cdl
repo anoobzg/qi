@@ -1,0 +1,101 @@
+-- Created on: 1995-03-07
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Polygon3D from Poly inherits TShared from MMgt
+
+    	---Purpose: This class Provides a polygon in 3D space. It is generally an approximate representation of a curve.
+    	-- A Polygon3D is defined by a table of nodes. Each node is
+    	-- a 3D point. If the polygon is closed, the point of closure is
+    	-- repeated at the end of the table of nodes.
+    	-- If the polygon is an approximate representation of a curve,
+    	-- you can associate with each of its nodes the value of the
+    	-- parameter of the corresponding point on the curve.
+
+uses Array1OfPnt   from TColgp,
+     Array1OfReal  from TColStd,
+     HArray1OfReal from TColStd
+
+raises NullObject from Standard
+
+is
+
+    Create(Nodes: Array1OfPnt from TColgp) 
+    returns mutable Polygon3D from Poly;
+    	---Purpose: onstructs a 3D polygon defined by the table of points, Nodes.
+    
+    Create(Nodes:      Array1OfPnt  from TColgp;
+           Parameters: Array1OfReal from TColStd) 
+    returns mutable Polygon3D from Poly;
+    	---Purpose: Constructs a 3D polygon defined by
+    	-- the table of points, Nodes, and the parallel table of
+    	--  parameters, Parameters, where each value of the table
+    	--  Parameters is the parameter of the corresponding point
+    	--  on the curve approximated by the constructed polygon.
+    	-- Warning
+    	-- Both the Nodes and Parameters tables must have the
+    	-- same bounds. This property is not checked at construction time.
+    
+    Deflection(me) returns Real;
+    	---Purpose: Returns the deflection of this polygon
+    Deflection(me : mutable; D : Real);
+    	---Purpose: Sets the deflection of this polygon to D. See more on deflection in Poly_Polygon2D
+    
+    NbNodes(me) returns Integer;
+    	---Purpose: Returns the number of nodes in this polygon.
+    	-- Note: If the polygon is closed, the point of closure is
+    	-- repeated at the end of its table of nodes. Thus, on a closed
+    	-- triangle the function NbNodes returns 4.
+    	---C++: inline
+    
+    Nodes(me) returns Array1OfPnt from TColgp
+	---Purpose:  Returns the table of nodes for this polygon.
+	---C++: return const &
+    raises NullObject from Standard;
+    	
+    
+    HasParameters(me) returns Boolean from Standard;
+    	---Purpose: Returns the table of the parameters associated with each node in this polygon.
+    	--  HasParameters function checks if   parameters are associated with the nodes of this polygon.
+    
+    Parameters(me) returns Array1OfReal from TColStd
+	---Purpose: Returns true if parameters are associated with the nodes
+    	-- in this polygon.
+	---C++: return const &
+    raises NullObject from Standard;
+    
+    ChangeParameters(me) returns Array1OfReal from TColStd
+   	---Purpose: Returns the table of the parameters associated with each node in this polygon.
+   	--        ChangeParameters function returnes the  array as shared. Therefore if the table is selected by
+   	--   reference you can, by simply modifying it, directly modify
+  	--   the data structure of this polygon.	
+        ---C++: return &
+    raises NullObject from Standard;
+    
+    
+    
+fields
+
+    myDeflection: Real          from Standard;
+    myNodes:      Array1OfPnt   from TColgp;
+    myParameters: HArray1OfReal from TColStd;
+    
+end Polygon3D;

@@ -1,0 +1,77 @@
+-- Created on: 1994-09-05
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class VariableInstance from Dynamic
+
+inherits
+
+    AbstractVariableInstance from Dynamic
+    
+	---Purpose: This    class  is set   in     the fields of   the
+	--          MethodInstance  class.  When   a MethodInstance is
+	--          done each  variable of   the definition   must  be
+	--          defined in the instance by a VariableInstance with
+	--          the same name as in the definition.  If the method
+	--          instance is directly  used  by an application  the
+	--          user    value    is   directly    set   into   the
+	--          VariableInstance. If now the MethodInstance enters
+	--          in  the   definition of    a CompositMethod It  is
+	--          necessary to define the correspondance between the
+	--          variables of the CompositMethod definition and the
+	--          use throughout the MethodInstance.
+
+uses
+
+    Variable from Dynamic
+
+
+is
+
+    Create returns mutable VariableInstance from Dynamic;
+    
+    ---Level: Public 
+    
+    ---Purpose: Returns a new empty instance of this class.
+    
+    Variable(me : mutable ; avariable : Variable from Dynamic)
+    
+    ---Level: Public 
+    
+    ---Purpose: Sets    the    variable  <avariable>     into      the
+    --          VariableInstance <me>.
+    
+    is redefined;
+    
+    Variable(me) returns Variable from Dynamic
+    
+    ---Level: Public 
+    
+    ---Purpose: Returns       the      variable contained     into the
+    --          VariableInstance <me>.
+    
+    is static;
+
+fields
+
+    thevariable : Variable from Dynamic;
+
+end VariableInstance;

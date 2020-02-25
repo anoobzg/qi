@@ -1,0 +1,75 @@
+-- Created on: 1994-10-27
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class FFTransitionTool from TopOpeBRep
+
+
+uses
+
+    LineInter from TopOpeBRep,
+    VPointInter from TopOpeBRep,
+    Orientation from TopAbs,
+    Transition from TopOpeBRepDS,
+    Shape from TopoDS
+    
+is
+
+    ProcessLineTransition(myclass;
+    	                  P : VPointInter from TopOpeBRep;
+    	      	    	  Index : Integer from Standard;
+              	    	  EdgeOrientation : Orientation from TopAbs)
+    returns Transition from TopOpeBRepDS;
+
+    ProcessLineTransition(myclass;
+    	      	    	  P : VPointInter from TopOpeBRep;
+    	      	    	  L : LineInter from TopOpeBRep)
+    returns Transition from TopOpeBRepDS;
+
+    ProcessEdgeTransition(myclass;
+    	      	    	  P : VPointInter from TopOpeBRep;
+    	      	    	  Index : Integer from Standard; 
+              	    	  LineOrientation : Orientation from TopAbs)
+    returns Transition from TopOpeBRepDS;
+
+    ProcessFaceTransition(myclass;
+    	      	    	  L : LineInter from TopOpeBRep;
+    	      	    	  Index : Integer from Standard; 
+    	      	    	  FaceOrientation : Orientation from TopAbs)
+    returns Transition from TopOpeBRepDS;
+
+    ProcessEdgeONTransition(myclass;
+    	    	    	    VP : VPointInter from TopOpeBRep;
+			    Index : Integer;       -- index of face <F>
+			    R : Shape from TopoDS; -- edge "IntPatch_Restriction"
+			    E : Shape from TopoDS; -- edge supporting <VP>
+			    F : Shape from TopoDS) -- face <Index> containing E
+    ---Purpose: compute transition on "IntPatch_Restriction line" edge <R>
+    -- when crossing edge <E> of face <F> at point <VP>. 
+    -- VP is given on edge <E> of face <F> of index <Index> (1 or 2).
+    -- <VP> has been classified by FacesFiller as TopAbs_ON an edge <R>
+    -- of the other face than <F> of current (face/face) intersection.
+    -- Transition depends on the orientation of E in F.
+    -- This method should be provided by IntPatch_Line (NYI)
+    returns Transition from TopOpeBRepDS;
+
+    
+end FFTransitionTool from TopOpeBRep;

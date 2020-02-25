@@ -1,0 +1,65 @@
+-- Created on: 1993-03-17
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred generic class ProtocolTemplate  from LibCtl
+      (TheObject as any)
+    	inherits Transient
+
+    ---Purpose : This class is a Template class for Library : there is no
+    --           obligation to inherit it for instantiate a Library class.
+    --         
+    --           A Protocol class defines a data scheme by gathering a set of
+    --           Object Classes. This set is made of :
+    --           - As necessary, other sets already defined by other Protocols.
+    --             These Protocols are the Resources of <myclass>
+    --             This definition can be recurrent : each Protocol class
+    --             defines its Resources at immediate level
+    --           - The list of Object Classes it identifies DIRECTLY (itself),
+    --             i.e. not through its Resources.
+    --          
+    --          A classic Selection criterium is DynamicType (for a Transient
+    --          or Persistent Object), this gives a Case Number per Class. If
+    --          another criterium is taken, it must assume unique and non-
+    --          ambiguous binding between an object state and a Cse Number.
+    --          
+    --          For each Object Class (or recognized state) it identifies
+    --          directly, it provides a unique positive Number, which can be
+    --          used as Case Number.
+    --          
+    --          A Module bound with a Protocol class is assumed to accept any
+    --          Object of a Class it defines DIRECTLY (not its Resources).
+
+uses Type
+
+is
+
+    NbResources (me) returns Integer  is deferred;
+    ---Purpose : Gives the count of Protocols used as Resource (can be zero)
+
+    Resource (me; num : Integer) returns ProtocolTemplate  is deferred;
+    ---Purpose : Returns a Resource, given a rank.
+
+    CaseNumber (me; obj : any TheObject) returns Integer  is deferred;
+    ---Purpose : Returns a Case Number, specific of each recognized Object
+    --           This is a positive number. Zero means "<obj> not recognized"
+
+end ProtocolTemplate;

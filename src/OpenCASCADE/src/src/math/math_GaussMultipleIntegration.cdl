@@ -1,0 +1,77 @@
+-- Created on: 1991-05-14
+-- Created by: Laurent PAINNOT
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class GaussMultipleIntegration from math
+    ---Purpose:
+    -- This class implements the integration of a function of multiple 
+    -- variables between the parameter bounds Lower[a..b] and Upper[a..b].
+    --  Warning: Each element of Order must be inferior or equal to 61.
+
+
+uses Vector from math, 
+     IntegerVector from math, 
+     MultipleVarFunction from math,
+     OStream from Standard
+
+raises NotDone from StdFail
+
+is
+
+     Create(F: in out MultipleVarFunction; Lower, Upper: Vector;
+     	    Order: IntegerVector)
+     ---Purpose:
+     -- The Gauss-Legendre integration with Order = points of 
+     -- integration for each unknow, is done on the function F 
+     -- between the bounds Lower and Upper.
+     
+     returns GaussMultipleIntegration;
+     
+     IsDone(me)
+     	---Purpose: returns True if all has been correctly done.
+    	---C++: inline
+
+     returns Boolean
+     is static;
+     
+     Value(me)
+     	---Purpose: returns the value of the integral.
+    	---C++: inline
+
+     returns Real
+     raises NotDone
+     is static;
+
+
+    Dump(me; o: in out OStream)
+    	---Purpose: Prints information on the current state of the object.
+
+    is static;
+
+
+
+fields
+
+Val: Real;
+Done: Boolean;
+
+end GaussMultipleIntegration;

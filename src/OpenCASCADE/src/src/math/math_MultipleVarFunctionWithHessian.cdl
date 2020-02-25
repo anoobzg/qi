@@ -1,0 +1,79 @@
+-- Created on: 1996-02-28
+-- Created by: Philippe MANGIN
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred class MultipleVarFunctionWithHessian from math 
+      inherits MultipleVarFunctionWithGradient  from math
+
+	---Purpose: 
+
+uses Matrix from math,
+     Vector from math
+
+is
+
+    NbVariables(me)
+    	---Purpose: returns the number of variables of the function.
+
+    returns Integer
+    is deferred;
+
+
+    Value(me: in out; X: Vector; F: out Real)
+    	---Purpose: computes the values of the Functions <F> for the 
+    	--          variable <X>.
+    	--          Returns True if the computation was done successfully, 
+    	--          False otherwise.
+
+    returns Boolean
+    is deferred;
+    
+    
+    Gradient(me: in out; X: Vector; G: out Vector)
+    	---Purpose:computes the gradient <G> of the functions for the 
+    	--         variable <X>.
+    	--         Returns True if the computation was done successfully, 
+    	--         False otherwise.
+
+    returns Boolean
+    is deferred;
+    
+    
+    Values(me: in out; X: Vector; F: out Real; G: out Vector)
+    	---Purpose: computes the value <F> and the gradient <G> of the 
+    	--          functions for the variable <X>.
+    	--          Returns True if the computation was done successfully, 
+    	--          False otherwise.
+
+    returns Boolean
+    is deferred;
+    
+    Values(me: in out; X: Vector; F: out Real; G: out Vector; H: out Matrix)
+    	---Purpose: computes the value  <F>, the gradient <G> and  the
+    	--          hessian   <H> of  the functions  for the  variable <X>.
+    	--          Returns  True  if  the computation  was  done
+    	--          successfully, False otherwise.
+
+    returns Boolean
+    is deferred;
+
+
+end MultipleVarFunctionWithHessian;

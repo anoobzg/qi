@@ -1,0 +1,58 @@
+-- Created on: 1997-03-27
+-- Created by: Alexander BRIVIN and Dmitry TARASOV
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Separator from Vrml 
+
+	---Purpose:  defines a Separator node of VRML specifying group properties.
+    	--  This group node performs a push (save) of the traversal state before traversing its children
+       	--  and a pop (restore) after traversing them. This isolates the separator's children from the
+       	--  rest of the scene graph. A separator can include lights, cameras, coordinates, normals,
+       	--  bindings, and all other properties. 
+       	--  Separators can also perform render culling. Render culling skips over traversal of the
+       	--  separator's children if they are not going to be rendered, based on the comparison of the
+       	--  separator's bounding box with the current view volume. Culling is controlled by the
+       	--  renderCulling field. These are set to AUTO by default, allowing the implementation to
+       	--  decide whether or not to cull. 
+uses
+ 
+    SeparatorRenderCulling from Vrml
+
+is
+    Create  ( aRenderCulling  :  SeparatorRenderCulling  from  Vrml ) 
+    	returns  Separator from Vrml; 
+     
+    Create  returns  Separator from Vrml; 
+    
+    SetRenderCulling ( me: in out; aRenderCulling : SeparatorRenderCulling from Vrml );
+    RenderCulling ( me )  returns  SeparatorRenderCulling from Vrml;
+
+    Print  ( me : in out;  anOStream: in out OStream from Standard)  
+    	    returns OStream from Standard;
+    ---C++:  return  & 
+
+fields
+ 
+    myRenderCulling  :  SeparatorRenderCulling  from  Vrml;
+    myFlagPrint      :  Boolean                 from  Standard; 
+    
+end Separator;
+

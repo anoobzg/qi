@@ -1,0 +1,76 @@
+-- Created on: 1994-06-16
+-- Created by: EXPRESS->CDL V0.2 Translator
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class FileName from HeaderSection 
+
+inherits TShared from MMgt
+
+uses
+
+	HAsciiString from TCollection, 
+	HArray1OfHAsciiString from Interface
+is
+
+	Create returns mutable FileName;
+	---Purpose: Returns a FileName
+
+	Init (me : mutable;
+	      aName : mutable HAsciiString from TCollection;
+	      aTimeStamp : mutable HAsciiString from TCollection;
+	      aAuthor : mutable HArray1OfHAsciiString from Interface;
+	      aOrganization : mutable HArray1OfHAsciiString from Interface;
+	      aPreprocessorVersion : mutable HAsciiString from TCollection;
+	      aOriginatingSystem : mutable HAsciiString from TCollection;
+	      aAuthorisation : mutable HAsciiString from TCollection);
+
+	-- Specific Methods for Field Data Access --
+
+	SetName(me : mutable; aName : mutable HAsciiString);
+	Name (me) returns mutable HAsciiString;
+	SetTimeStamp(me : mutable; aTimeStamp : mutable HAsciiString);
+	TimeStamp (me) returns mutable HAsciiString;
+	SetAuthor(me : mutable; aAuthor : mutable HArray1OfHAsciiString);
+	Author (me) returns mutable HArray1OfHAsciiString;
+	AuthorValue (me; num : Integer) returns mutable HAsciiString;
+	NbAuthor (me) returns Integer;
+	SetOrganization(me : mutable; aOrganization : mutable HArray1OfHAsciiString);
+	Organization (me) returns mutable HArray1OfHAsciiString;
+	OrganizationValue (me; num : Integer) returns mutable HAsciiString;
+	NbOrganization (me) returns Integer;
+	SetPreprocessorVersion(me : mutable; aPreprocessorVersion : mutable HAsciiString);
+	PreprocessorVersion (me) returns mutable HAsciiString;
+	SetOriginatingSystem(me : mutable; aOriginatingSystem : mutable HAsciiString);
+	OriginatingSystem (me) returns mutable HAsciiString;
+	SetAuthorisation(me : mutable; aAuthorisation : mutable HAsciiString);
+	Authorisation (me) returns mutable HAsciiString;
+
+fields
+
+	name : HAsciiString from TCollection;
+	timeStamp : HAsciiString from TCollection;
+	author : HArray1OfHAsciiString from Interface;
+	organization : HArray1OfHAsciiString from Interface;
+	preprocessorVersion : HAsciiString from TCollection;
+	originatingSystem : HAsciiString from TCollection;
+	authorisation : HAsciiString from TCollection;
+
+end FileName;

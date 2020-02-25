@@ -1,0 +1,51 @@
+-- Created on: 1995-02-23
+-- Created by: Christian CAILLET
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class UpdateFileName  from IGESSelect  inherits ModelModifier from IGESSelect
+
+    ---Purpose : Sets the File Name in Header to be the actual name of the file
+    --           If new file name is unknown, the former one is kept
+    --           Remark : this works well only when it is Applied and send time
+    --           If it is run immediately, new file name is unknown and nothing
+    --           is done
+    --           The Selection of the Modifier is not used : it simply acts as
+    --           a criterium to select IGES Files to touch up
+
+uses AsciiString from TCollection,
+     IGESModel, CopyTool, ContextModif
+
+is
+
+    Create returns mutable UpdateFileName;
+    ---Purpose : Creates an UpdateFileName, which uses the system Date
+
+    Performing (me; ctx : in out ContextModif;
+    	        target  : mutable IGESModel;
+                TC      : in out CopyTool);
+    ---Purpose : Specific action : only <target> is used : the system Date
+    --           is set to Global Section Item n0 18.
+
+    Label (me) returns AsciiString from TCollection;
+    ---Purpose : Returns a text which is
+    --           "Updates IGES File Name to new current one"
+
+end UpdateFileName;

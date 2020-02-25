@@ -1,0 +1,248 @@
+// Created on: 1991-07-02
+// Created by: Remi LEQUETTE
+// Copyright (c) 1991-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include <TopoDS_Face.hxx>
+#include <TopoDS_Vertex.hxx>
+#include <BRep_TFace.hxx>
+#include <BRep_TVertex.hxx>
+#include <BRep_Tool.hxx>
+
+
+//=======================================================================
+//function : MakeFace
+//purpose  : 
+//=======================================================================
+
+inline void BRep_Builder::MakeFace(TopoDS_Face& F) const
+{
+  Handle(BRep_TFace) TF = new BRep_TFace();
+  MakeShape(F,TF);
+}
+
+
+//=======================================================================
+//function : MakeEdge
+//purpose  : make edge from curve 
+//=======================================================================
+
+inline void BRep_Builder::MakeEdge(TopoDS_Edge& E, 
+                                   const Handle(Geom_Curve)& C, 
+                                   const Standard_Real Tol) const
+{
+  MakeEdge(E);
+  UpdateEdge(E,C,TopLoc_Location(),Tol);
+}
+
+
+//=======================================================================
+//function : MakeEdge
+//purpose  : make edge from curve 
+//=======================================================================
+
+inline void BRep_Builder::MakeEdge(TopoDS_Edge& E, 
+                                   const Handle(Poly_Polygon3D)& P) const
+{
+  MakeEdge(E);
+  UpdateEdge(E,P);
+}
+
+//=======================================================================
+//function : MakeEdge
+//purpose  : make edge from triangulation
+//=======================================================================
+
+inline void BRep_Builder::MakeEdge(TopoDS_Edge& E,
+                                   const Handle(Poly_PolygonOnTriangulation)& P,
+                                   const Handle(Poly_Triangulation)& T) const
+{
+  MakeEdge(E);
+  UpdateEdge(E,P,T,TopLoc_Location());
+}
+
+
+//=======================================================================
+//function : MakeEdge
+//purpose  : make edge from triangulation
+//=======================================================================
+
+inline void BRep_Builder::MakeEdge(TopoDS_Edge& E,
+                                   const Handle(Poly_PolygonOnTriangulation)& P,
+                                   const Handle(Poly_Triangulation)& T,
+                                   const TopLoc_Location& L) const
+{
+  MakeEdge(E);
+  UpdateEdge(E,P,T,L);
+}
+
+
+//=======================================================================
+//function : MakeEdge
+//purpose  : make edge from curve 
+//=======================================================================
+
+inline void BRep_Builder::MakeEdge(TopoDS_Edge& E,
+                                   const Handle(Geom_Curve)& C,
+                                   const TopLoc_Location& L,
+                                   const Standard_Real Tol) const
+{
+  MakeEdge(E);
+  UpdateEdge(E,C,L,Tol);
+}
+
+
+//=======================================================================
+//function : UpdateEdge
+//purpose  : 
+//=======================================================================
+
+inline void BRep_Builder::UpdateEdge(const TopoDS_Edge& E,
+                                     const Handle(Geom_Curve)& C,
+                                     const Standard_Real Tol) const
+{
+  UpdateEdge(E,C,TopLoc_Location(),Tol);
+}
+
+
+//=======================================================================
+//function : UpdateEdge
+//purpose  : 
+//=======================================================================
+
+inline void BRep_Builder::UpdateEdge(const TopoDS_Edge& E,
+                                     const Handle(Geom2d_Curve)& C,
+                                     const TopoDS_Face& F,
+                                     const Standard_Real Tol) const
+{
+  TopLoc_Location l;
+  UpdateEdge(E,C,BRep_Tool::Surface(F,l),l,Tol);
+}
+
+
+//=======================================================================
+//function : UpdateEdge
+//purpose  : 
+//=======================================================================
+
+inline void BRep_Builder::UpdateEdge(const TopoDS_Edge& E,
+                                     const Handle(Geom2d_Curve)& C1,
+                                     const Handle(Geom2d_Curve)& C2,
+                                     const TopoDS_Face& F,
+                                     const Standard_Real Tol) const
+{
+  TopLoc_Location l;
+  UpdateEdge(E,C1,C2,BRep_Tool::Surface(F,l),l,Tol);
+}
+
+
+//=======================================================================
+//function : UpdateEdge
+//purpose  : 
+//=======================================================================
+
+inline void BRep_Builder::UpdateEdge(const TopoDS_Edge& E,
+                                     const Handle(Poly_Polygon3D)& P) const
+{
+  UpdateEdge(E,P,TopLoc_Location());
+}
+
+
+//=======================================================================
+//function : UpdateEdge
+//purpose  : 
+//=======================================================================
+
+inline void BRep_Builder::UpdateEdge(const TopoDS_Edge& E,
+                                     const Handle(Poly_PolygonOnTriangulation)& P,
+                                     const Handle(Poly_Triangulation)& T) const
+{
+  UpdateEdge(E,P,T,TopLoc_Location());
+}
+
+
+//=======================================================================
+//function : UpdateEdge
+//purpose  : 
+//=======================================================================
+
+inline void BRep_Builder::UpdateEdge(const TopoDS_Edge& E,
+                                     const Handle(Poly_PolygonOnTriangulation)& P1,
+                                     const Handle(Poly_PolygonOnTriangulation)& P2,
+                                     const Handle(Poly_Triangulation)& T) const
+{
+  UpdateEdge(E,P1,P2,T,TopLoc_Location());
+}
+
+
+//=======================================================================
+//function : Range
+//purpose  : 
+//=======================================================================
+
+inline void BRep_Builder::Range(const TopoDS_Edge& E, 
+                                const TopoDS_Face& F, 
+                                const Standard_Real First, 
+                                const Standard_Real Last) const
+{
+  TopLoc_Location l;
+  Range(E,BRep_Tool::Surface(F,l),l,First,Last);
+}
+
+
+//=======================================================================
+//function : MakeVertex
+//purpose  : undefined vertex
+//=======================================================================
+
+inline void BRep_Builder::MakeVertex(TopoDS_Vertex& V) const
+{
+  Handle(BRep_TVertex) TV = new BRep_TVertex();
+  MakeShape(V,TV);
+}
+
+
+//=======================================================================
+//function : MakeVertex
+//purpose  : vertex from 3d point
+//=======================================================================
+
+inline void BRep_Builder::MakeVertex(TopoDS_Vertex& V,
+                                     const gp_Pnt& P,
+                                     const Standard_Real Tol) const
+{
+  MakeVertex(V);
+  UpdateVertex(V,P,Tol);
+}
+
+
+//=======================================================================
+//function : UpdateVertex
+//purpose  : update vertex with parameter on edge on face
+//=======================================================================
+
+inline void BRep_Builder::UpdateVertex(const TopoDS_Vertex& V,
+                                       const Standard_Real  Par,
+                                       const TopoDS_Edge&   E,
+                                       const TopoDS_Face&   F,
+                                       const Standard_Real  Tol) const
+{
+  TopLoc_Location l;
+  UpdateVertex(V,Par,E,BRep_Tool::Surface(F,l),l,Tol);
+}

@@ -1,0 +1,92 @@
+-- Created on: 1994-08-26
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class CompositMethod from Dynamic
+
+inherits
+
+    MethodDefinition from Dynamic    
+	---Purpose: A composite method is  defined as a collection  of
+	--          method instances. This collection describes a more
+	--          complex    program   or a  network  of  elementary
+	--          functions.   The order of  the method instances is
+	--          not significant.  It   is  the references to   the
+	--          variables  which    define the  signature  of  the
+	--          composite  method which  define  the precedence of
+	--          one method in relation with another.
+   
+uses
+
+    OStream from Standard,
+    Integer from Standard,
+    CString from Standard,
+    Method            from Dynamic, 
+    SequenceOfMethods from Dynamic
+
+
+is
+
+    Create(aname : CString from Standard) returns mutable CompositMethod from Dynamic;
+    
+    ---Level: Advanced 
+    
+    ---Purpose: Creates a composit method with <aname> as name.
+    
+    Method(me : mutable ; amethod : Method from Dynamic)
+    
+    ---Level: Advanced 
+    
+    ---Purpose: Adds <amethod>, which  is an elementary or  a composit
+    --          method to <me>.
+    
+    is static;
+    
+    NumberOfMethods(me) returns Integer from Standard
+    
+    ---Level: Advanced 
+    
+    ---Purpose: Returns the   number  of methods   referenced  by  the
+    --          composit method <me>.
+    
+    is static;
+    
+    Method(me ; anindex : Integer from Standard) returns any Method from Dynamic
+    
+    ---Level: Advanced 
+    
+    ---Purpose: Returns the method of range <anindex>.
+    
+    is static;
+
+    Dump(me ; astream : in out OStream from Standard)
+    
+    ---Level: Internal 
+    
+    ---Purpose: Useful for debugging.
+
+    is redefined;
+    
+fields
+
+    thesequenceofmethods : SequenceOfMethods from Dynamic;
+
+end CompositMethod;

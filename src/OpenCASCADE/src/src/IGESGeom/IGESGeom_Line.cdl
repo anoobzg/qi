@@ -1,0 +1,85 @@
+-- Created on: 1993-01-09
+-- Created by: CKY / Contract Toubro-Larsen ( Kiran )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Line from IGESGeom  inherits IGESEntity
+
+        ---Purpose: defines IGESLine, Type <110> Form <0>
+        --          in package IGESGeom
+        --          A line is a bounded, connected portion of a parent straight
+        --          line which consists of more than one point. A line is
+        --          defined by its end points.
+        --          
+        --          From IGES-5.3, two other Forms are admitted (same params) :
+        --          0 remains for standard limited line (the default)
+        --          1 for semi-infinite line (End is just a passing point)
+        --          2 for full infinite Line (both Start and End are abitrary)
+
+uses
+
+        Pnt         from gp,
+        XYZ         from gp
+
+is
+
+        Create returns mutable Line;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me     : mutable; aStart : XYZ; anEnd  : XYZ);
+        ---Purpose : This method is used to set the fields of the class Line
+        --       - aStart : Start point of the line
+        --       - anEnd  : End point of the line
+
+    	Infinite (me) returns Integer;
+	---Purpose : Returns the Infinite status i.e. the Form Number : 0 1 2
+
+    	SetInfinite (me : mutable; status : Integer);
+	---Purpose : Sets the Infinite status
+	--           Does nothing if <status> is not 0 1 or 2
+
+
+        StartPoint(me) returns Pnt;
+        ---Purpose : returns the start point of the line
+
+        TransformedStartPoint(me) returns Pnt;
+        ---Purpose : returns the start point of the line after applying Transf. Matrix
+
+        EndPoint(me) returns Pnt;
+        ---Purpose : returns the end point of the line
+
+        TransformedEndPoint(me) returns Pnt;
+        ---Purpose : returns the end point of the line after applying Transf. Matrix
+
+fields
+
+--
+-- Class    : IGESGeom_Line
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class Line.
+--
+-- Reminder : A Line instance is defined by :
+--            A starting and ending point
+
+        theStart : XYZ;
+        theEnd   : XYZ;
+
+end Line;

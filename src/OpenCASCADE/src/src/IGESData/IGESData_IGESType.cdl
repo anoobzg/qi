@@ -1,0 +1,54 @@
+-- Created on: 1992-04-06
+-- Created by: Christian CAILLET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class IGESType  from IGESData
+
+    ---Purpose : taken from directory part of an entity (from file or model),
+    --           gives "type" and "form" data, used to recognize entity's type
+
+uses Integer
+
+is
+
+    Create returns IGESType;  -- default constructor (gives type = form = 0)
+
+    Create (atype, aform : Integer) returns IGESType;
+
+    Type (me) returns Integer  is static;
+    ---Purpose : returns "type" data
+
+    Form (me) returns Integer  is static;
+    ---Purpose : returns "form" data
+
+    IsEqual (me; another : IGESType) returns Boolean  is static;
+    ---Purpose : compares two IGESTypes, avoiding comparing their fields
+    ---C++ : alias operator ==
+
+    Nullify (me : in out)  is static;
+    ---Purpose : resets fields (usefull when an IGESType is stored as mask)
+
+fields
+
+    thetype : Integer;
+    theform : Integer;
+
+end IGESType;

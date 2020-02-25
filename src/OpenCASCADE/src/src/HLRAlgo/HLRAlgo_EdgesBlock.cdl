@@ -1,0 +1,126 @@
+-- Created on: 1992-04-06
+-- Created by: Christophe MARION
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class EdgesBlock from HLRAlgo inherits TShared from MMgt
+
+	---Purpose: An EdgesBlock is a set of Edges. It is used by the
+	--          DataStructure to structure the Edges.
+	--          
+	--          An EdgesBlock contains :
+	--          
+	--          * An Array  of index of Edges.
+	--          
+	--          * An Array of flagsf ( Orientation
+	--                                OutLine
+	--                                Internal
+	--                                Double
+	--                                IsoLine)
+
+uses
+    Address         from Standard,
+    Boolean         from Standard,
+    Integer         from Standard,
+    Orientation     from TopAbs,
+    Array1OfInteger from TColStd,
+    Array1OfBoolean from TColStd
+    
+is
+    Create(NbEdges : Integer)
+	---Purpose: Create a Block of Edges for a wire.
+    returns mutable EdgesBlock from HLRAlgo;
+    
+    NbEdges(me) returns Integer from Standard
+    	---C++: inline
+    is static;
+    
+    Edge(me : mutable; I  : Integer from Standard;
+                       EI : Integer from Standard)
+    	---C++: inline
+    is static;		   
+
+    Edge(me; I : Integer from Standard)
+    returns Integer from Standard
+    	---C++: inline
+    is static;
+    
+    Orientation(me : mutable; I  : Integer     from Standard;
+		              Or : Orientation from TopAbs)
+    	---C++: inline
+    is static;		   
+
+    Orientation(me; I : Integer from Standard)
+    returns Orientation from TopAbs
+    	---C++: inline
+    is static;
+    
+    OutLine(me; I : Integer from Standard)
+    returns Boolean from Standard
+    	---C++: inline
+    is static;
+
+    OutLine(me : mutable; I : Integer from Standard;
+		          B : Boolean from Standard)
+    	---C++: inline
+    is static;
+
+    Internal(me; I : Integer from Standard)
+    returns Boolean from Standard
+    	---C++: inline
+    is static;
+
+    Internal(me : mutable; I : Integer from Standard;
+		           B : Boolean from Standard)
+    	---C++: inline
+    is static;
+
+    Double(me; I : Integer from Standard)
+    returns Boolean from Standard
+    	---C++: inline
+    is static;
+
+    Double(me : mutable; I : Integer from Standard;
+		         B : Boolean from Standard)
+    	---C++: inline
+    is static;
+
+    IsoLine(me; I : Integer from Standard)
+    returns Boolean from Standard
+    	---C++: inline
+    is static;
+
+    IsoLine(me : mutable; I : Integer from Standard;
+		          B : Boolean from Standard)
+    	---C++: inline
+    is static;
+
+    UpdateMinMax(me : mutable; TotMinMax : Address from Standard)
+    is static;
+
+    MinMax(me) returns Address from Standard
+	---C++: inline
+    is static;
+
+fields
+    myEdges  : Array1OfInteger from TColStd;
+    myFlags  : Array1OfBoolean from TColStd;
+    myMinMax : Integer         from Standard[16];
+
+end EdgesBlock;

@@ -1,0 +1,108 @@
+-- Created on: 1993-05-12
+-- Created by: Didier PIFFAULT
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class CircleTool from BRepMesh 
+
+  ---Purpose: Create sort   and  destroy the  circles    used in
+  --          triangulation.
+
+  uses    Boolean from Standard,
+          Integer from Standard,
+          Real from Standard,
+          XY from gp,
+          Circ2d from gp,
+          ListOfInteger from BRepMesh,
+          CellFilter from BRepMesh,
+          CircleInspector from BRepMesh,
+          BaseAllocator from BRepMesh
+
+  is      Create (theAlloc : in BaseAllocator from BRepMesh)
+          returns CircleTool from BRepMesh;
+
+
+          Create     (numberOfComponents : in Integer from Standard;
+                      theAlloc : in BaseAllocator from BRepMesh)
+             ---Purpose: Constructs a CircleTool with the maximal dimension
+             --          of  the occuped  space and  an  evaluation of  the
+             --          number of circles.
+             returns CircleTool from BRepMesh;
+
+           Initialize (me                 : in out;
+                        numberOfComponents : in Integer from Standard)
+                       ---Purpose: Constructs a CircleTool with the maximal dimension
+                       --          of  the occuped  space and  an  evaluation of  the
+                       --          number of circles.
+              is static;
+
+           SetCellSize(me                 : in out;
+                       theSize            : in Real from Standard)
+             ---Purpose: Sets new size for cellfilter
+             is static;
+
+           SetCellSize(me                 : in out;
+                        theXSize            : in Real from Standard;
+                        theYSize            : in Real from Standard)
+              ---Purpose: Sets new size for cellfilter
+              is static;
+
+            SetMinMaxSize(me                 : in out;
+                          theMin             : in XY from gp;
+                          theMax             : in XY from gp)
+             ---Purpose: Sets min and max size for circle
+             is static;
+
+           Add      (me       : in out;
+                      theCirc  : in Circ2d from gp;
+                      theIndex : in Integer from Standard)
+             ---Purpose: Adds and binds circle to the tool.
+             is static;
+
+
+           Add      (me          : in out;
+                      p1, p2, p3  : in XY from gp;
+                      theIndex    : in Integer from Standard)
+                ---Purpose: Computes adds and binds circle to the tool.
+                returns Boolean from Standard is static;
+
+            MocAdd   (me          : in out;
+                      theIndex    : in Integer from Standard);
+            ---Purpose: Adds implicit zero circle
+
+
+            Delete   (me : in out; theIndex : Integer from Standard) 
+            ---Purpose: Deletes a circle from the tool.
+            is static;
+
+
+            Select   (me : in out; thePnt : XY from gp)
+              ---Purpose: Select the circles which contains thePnt.
+              ---C++: return &
+              returns ListOfInteger from BRepMesh is static;
+
+              fields  Tolerance    : Real from Standard;
+                      Allocator    : BaseAllocator from BRepMesh;
+                      CellFilter   : CellFilter from BRepMesh;
+                      Selector     : CircleInspector from BRepMesh;
+                      FaceMax      : XY from gp;
+                      FaceMin      : XY from gp;
+
+end CircleTool;

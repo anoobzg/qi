@@ -1,0 +1,75 @@
+-- Created on: 1992-11-30
+-- Created by: Christian CAILLET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class IntParam  from IFSelect  inherits TShared
+
+    ---Purpose : This class simply allows to access an Integer value through a
+    --           Handle, as a String can be (by using HString).
+    --           Hence, this value can be accessed : read and modified, without
+    --           passing through the specific object which detains it. Thus,
+    --           parameters of a Selection or a Dispatch (according its type)
+    --           can be controlled directly from the ShareOut which contains them
+    --           
+    --           Additionnaly, an IntParam can be bound to a Static.
+    --           Remember that for a String, binding is immediate, because the
+    --           string value of a Static is a HAsciiString, it then suffices
+    --           to get its Handle.
+    --           For an Integer, an IntParam can designate (by its name) a
+    --           Static : each time its value is required or set, the Static
+    --           is aknowledged
+
+uses Integer, CString, AsciiString
+
+is
+ 
+    Create returns mutable IntParam;
+    ---Purpose : Creates an IntParam. Initial value is set to zer
+
+    SetStaticName (me : mutable; statname : CString);
+    ---Purpose : Commands this IntParam to be bound to a Static
+    --           Hence, Value will return the value if this Static if it is set
+    --           Else, Value works on the locally stored value
+    --           SetValue also will set the value of the Static
+    --           This works only for a present static of type integer or enum
+    --           Else, it is ignored
+    --           
+    --           If <statname> is empty, disconnects the IntParam from Static
+
+    StaticName (me) returns CString;
+    ---Purpose : Returns the name of static parameter to which this IntParam
+    --           is bound, empty if none
+
+    Value (me) returns Integer is static;
+    ---Purpose : Reads Integer Value of the IntParam. If a StaticName is
+    --           defined and the Static is set, looks in priority the value
+    --           of the static
+
+    SetValue (me : mutable; val : Integer) is static;
+    ---Purpose : Sets a new Integer Value for the IntParam. If a StaticName is
+    --           defined and the Static is set, also sets the value of the static
+
+fields
+
+    theval : Integer;
+    thestn : AsciiString;
+
+end IntParam;

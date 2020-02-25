@@ -1,0 +1,100 @@
+-- Created on: 1997-04-17
+-- Created by: Christophe MARION
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class ShapeBounds from HLRBRep
+    ---Purpose: Contains  a Shape and the  bounds of its vertices,
+    --          edges and faces in the DataStructure.
+
+uses
+    Integer  from Standard,
+    OutLiner from HLRTopoBRep,
+    TShared  from MMgt
+
+is
+    Create returns ShapeBounds from HLRBRep; 
+    	---C++: inline
+    
+    Create(S                 : OutLiner from HLRTopoBRep;
+ 	   SData             : TShared  from MMgt;
+           nbIso             : Integer  from Standard;
+           V1,V2,E1,E2,F1,F2 : Integer  from Standard)
+    returns ShapeBounds from HLRBRep; 
+    
+     Create(S                 : OutLiner from HLRTopoBRep;
+    	    nbIso             : Integer  from Standard;
+            V1,V2,E1,E2,F1,F2 : Integer  from Standard)
+    returns ShapeBounds from HLRBRep; 
+    
+    Translate(me : in out; NV,NE,NF : Integer from Standard)
+    is static;
+
+    Shape(me : in out; S : OutLiner from HLRTopoBRep)
+    	---C++: inline
+    is static;
+
+    Shape(me) returns OutLiner from HLRTopoBRep
+    	---C++: inline
+    	---C++: return const &
+    is static;
+
+    ShapeData(me : in out; SD : TShared from MMgt)
+    	---C++: inline
+    is static;
+
+    ShapeData(me) returns TShared from MMgt
+    	---C++: inline
+    	---C++: return const &
+    is static;
+
+    NbOfIso(me : in out;nbIso : Integer from Standard)
+    	---C++: inline
+    is static;
+
+    NbOfIso(me) returns Integer from Standard
+    	---C++: inline
+    is static;
+
+    Sizes(me; NV,NE,NF : out Integer from Standard)
+    is static;
+
+    Bounds(me; V1,V2,E1,E2,F1,F2 : out Integer from Standard)
+    	is static;
+    
+    UpdateMinMax(me : in out; TotMinMax : Address from Standard)
+    	is static;
+
+    MinMax(me) returns Address from Standard
+    	---C++: inline
+    is static;
+
+fields
+    myShape     : OutLiner from HLRTopoBRep;
+    myShapeData : TShared  from MMgt;
+    myNbIso     : Integer  from Standard;
+    myVertStart : Integer  from Standard;
+    myVertEnd   : Integer  from Standard;
+    myEdgeStart : Integer  from Standard;
+    myEdgeEnd   : Integer  from Standard;
+    myFaceStart : Integer  from Standard;
+    myFaceEnd   : Integer  from Standard;
+    myMinMax    : Integer  from Standard[16];
+
+end ShapeBounds from HLRBRep;

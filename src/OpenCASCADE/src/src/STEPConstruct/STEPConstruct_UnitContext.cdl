@@ -1,0 +1,134 @@
+-- Created on: 1996-01-18
+-- Created by: Frederic MAUPAS
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class UnitContext from STEPConstruct
+   
+    	---Purpose: Tool for creation (encoding) and decoding (for writing and reading
+	--          accordingly) context defining units and tolerances (uncerntanties)
+   
+uses
+    SiUnit    from StepBasic,
+    SiPrefix  from StepBasic,
+    NamedUnit from StepBasic,
+    GlobalUnitAssignedContext        from StepRepr,
+    GlobalUncertaintyAssignedContext from StepRepr,
+    GeomRepContextAndGlobUnitAssCtxAndGlobUncertaintyAssCtx from StepGeom
+   
+is
+    Create returns UnitContext;
+    	---Purpose: Creates empty tool
+       
+    Init (me: in out; Tol3d: Real);
+    	---Purpose: Creates new context (units are MM and radians, 
+        --          uncertainty equal to Tol3d)
+       
+    IsDone (me) returns Boolean;
+    	---Purpose: Returns True if Init was called successfully
+       
+    Value (me) returns GeomRepContextAndGlobUnitAssCtxAndGlobUncertaintyAssCtx from StepGeom;
+    	---Purpose: Returns context (or Null if not done)
+       
+    ComputeFactors(me: in out; aContext: GlobalUnitAssignedContext from StepRepr)
+    returns Integer;
+    	---Purpose: Computes the length, plane angle and solid angle conversion
+    	--          factor  .  Returns a status, 0 if OK
+    
+    ComputeFactors(me: in out; aUnit: NamedUnit from StepBasic)
+    returns Integer;
+
+    ComputeTolerance(me: in out; aContext: GlobalUncertaintyAssignedContext from StepRepr)
+    returns Integer;
+	---Purpose : Computes the uncertainty value (for length)
+
+    LengthFactor(me) returns Real;
+    	---Purpose: Returns the lengthFactor
+
+    PlaneAngleFactor(me) returns Real;
+    	---Purpose: Returns the planeAngleFactor
+
+    SolidAngleFactor(me) returns Real;
+    	---Purpose: Returns the solidAngleFactor
+
+    Uncertainty(me) returns Real;
+    	---Purpose: Returns the Uncertainty value (for length)
+    	--          It has been converted  with LengthFactor
+    
+    AreaFactor(me) returns Real;
+    	---Purpose: Returns the areaFactor
+    
+    VolumeFactor(me) returns Real;
+    	---Purpose: Returns the volumeFactor
+
+    HasUncertainty(me) returns Boolean;
+    	---Purpose: Tells if a Uncertainty (for length) is recorded
+
+    LengthDone(me) returns Boolean;
+    	---Purpose: Returns true if ComputeFactors has calculated
+    	--          a LengthFactor
+
+    PlaneAngleDone(me) returns Boolean;
+    	---Purpose: Returns true if ComputeFactors has calculated
+    	--          a PlaneAngleFactor
+
+    SolidAngleDone(me) returns Boolean;
+    	---Purpose: Returns true if ComputeFactors has calculated
+    	--          a SolidAngleFactor
+    
+    AreaDone(me) returns Boolean;
+    	---Purpose: Returns true if areaFactor is computed
+    
+    VolumeDone(me) returns Boolean;
+    	---Purpose: Returns true if volumeFactor is computed
+
+    SiUnitNameFactor(me; aSiUnit : SiUnit from StepBasic; val : out Real) 
+    returns Boolean is private;
+    	---Purpose: Fills numerical equivalent of SiUnitName (in SI value)
+    	--          Returns False if name SiUnit Name not recognized
+
+    StatusMessage (me; status :Integer) returns CString;
+    	---Purpose: Returns a message for a given status (0 - empty)
+    	--          This message can then be added as warning for transfer
+
+    ConvertSiPrefix (myclass; aPrefix: SiPrefix from StepBasic) returns Real;
+        ---Purpose: Convert SI prefix defined by enumertaion to corresponding 
+        --          real factor (e.g. 1e6 for mega)
+
+fields
+
+    -- writing (encoding)
+    done: Boolean;
+    GRC : GeomRepContextAndGlobUnitAssCtxAndGlobUncertaintyAssCtx from StepGeom;
+    
+    -- reading (decoding)
+    lengthFactor     : Real;
+    planeAngleFactor : Real;
+    solidAngleFactor : Real;
+    theUncertainty   : Real;
+    areaFactor       : Real;
+    volumeFactor     : Real;
+    areaDone         : Boolean;
+    volumeDone       : Boolean;
+    lengthDone       : Boolean;
+    planeAngleDone   : Boolean;
+    solidAngleDone   : Boolean;
+    hasUncertainty   : Boolean;
+   
+end UnitContext;

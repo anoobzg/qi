@@ -1,0 +1,89 @@
+// Created on: 1991-04-09
+// Created by: Remi LEQUETTE
+// Copyright (c) 1991-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include <TopoDS_TWire.hxx>
+#include <TopoDS_TShell.hxx>
+#include <TopoDS_TSolid.hxx>
+#include <TopoDS_TCompSolid.hxx>
+#include <TopoDS_TCompound.hxx>
+#include <TopoDS_Wire.hxx>
+#include <TopoDS_Shell.hxx>
+#include <TopoDS_Solid.hxx>
+#include <TopoDS_CompSolid.hxx>
+#include <TopoDS_Compound.hxx>
+
+
+//=======================================================================
+//function : MakeWire
+//purpose  : Make an empty wire
+//=======================================================================
+
+inline void TopoDS_Builder::MakeWire (TopoDS_Wire& W) const
+{
+  Handle(TopoDS_TWire) TW = new TopoDS_TWire();
+  MakeShape(W,TW);
+}
+
+
+//=======================================================================
+//function : MakeShell
+//purpose  : Make an empty Shell
+//=======================================================================
+
+inline void TopoDS_Builder::MakeShell (TopoDS_Shell& S) const
+{
+  Handle(TopoDS_TShell) TS = new TopoDS_TShell();
+  MakeShape(S,TS);
+}
+
+//=======================================================================
+//function : MakeSolid
+//purpose  : Make an empty Solid
+//=======================================================================
+
+inline void TopoDS_Builder::MakeSolid (TopoDS_Solid& S) const
+{
+  Handle(TopoDS_TSolid) TS = new TopoDS_TSolid();
+  MakeShape(S,TS);
+}
+
+//=======================================================================
+//function : MakeCompSolid
+//purpose  : Make an empty CompSolid
+//=======================================================================
+
+inline void TopoDS_Builder::MakeCompSolid (TopoDS_CompSolid& C) const
+{
+  Handle(TopoDS_TCompSolid) TC = new TopoDS_TCompSolid();
+  MakeShape(C,TC);
+}
+
+
+//=======================================================================
+//function : MakeCompound
+//purpose  : Make an empty Compound
+//=======================================================================
+
+inline void TopoDS_Builder::MakeCompound (TopoDS_Compound& C) const
+{
+  Handle(TopoDS_TCompound) TC = new TopoDS_TCompound();
+  MakeShape(C,TC);
+}

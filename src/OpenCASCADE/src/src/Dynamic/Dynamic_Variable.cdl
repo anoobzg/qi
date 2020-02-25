@@ -1,0 +1,111 @@
+-- Created on: 1994-08-24
+-- Created by: Gilles DEBARBOUILLE
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Variable from Dynamic
+inherits
+
+    TShared from MMgt
+    
+
+	---Purpose: This  class   is the  root   class for  describing
+	--          variables.  A   variable is useful to  specify the
+	--          signature of a method in terms of arguments and if
+	--          necessary variables and/or constants needed inside
+	--          a  function.   This  set  of information defines a
+	--          scope for  these variables. This class is directly
+	--          used   by  the MethodDefinition class.   From this
+	--          class is  derived the instances of variables which
+	--          are used by the  classes under the  MethodInstance
+	--          class. A variable is composed by :
+	--          
+	--          * an identifier for giving it a name,
+	--          * a type of expected value,
+	--          * possibly a default value,
+	--          * a mode which explains if the variable is :
+	--          
+	--            - an input and/or output argument to the method,
+	--            - an internal or  constant variable used in  the
+	--            body of the method.
+
+uses
+
+    OStream from Standard,
+    Parameter from Dynamic,
+    ModeEnum  from Dynamic 
+    
+
+is
+
+    Create returns mutable Variable from Dynamic;
+    
+    ---Level: Advanced 
+    
+    ---Purpose: Creates and returns an empty instance of this class.
+    
+    Parameter(me : mutable ; aparameter : Parameter from Dynamic)
+    
+    ---Level: Advanced 
+    
+    ---Purpose: Sets  the   parameter  <aparameter>   in  <me>.   This
+    --          parameter gives the name,  the  type of value, and  if
+    --          necessary the default value of the variable.
+    
+    is static;
+    
+    Parameter(me) returns any Parameter from Dynamic
+    
+    ---Level: Advanced 
+    
+    ---Purpose: Returns the parameter stored in <me>.
+    
+    is static;
+    
+    Mode(me : mutable ; amode : ModeEnum from Dynamic)
+    
+    ---Level: Advanced 
+    
+    ---Purpose: Sets the mode to the variable. the  mode is to take in
+    --          the enumeration  IN,  OUT, INOUT,  INTERNAL, CONSTANT,
+    --          which describes the type of the variable.
+    
+    is static;
+    
+    Mode(me) returns ModeEnum from Dynamic
+    
+    ---Level: Advanced 
+    
+    ---Purpose: Returns the mode of the variable.
+    
+    is static;
+    
+    Dump(me; astream : in out OStream from Standard);
+
+    ---Level: Internal 
+    
+    ---Purpose: Useful for debugging.
+    
+fields
+
+    theparameter    : Parameter from Dynamic;
+    themode         : ModeEnum  from Dynamic;
+
+end Variable;

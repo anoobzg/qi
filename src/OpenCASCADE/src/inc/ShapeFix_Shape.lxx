@@ -1,0 +1,129 @@
+// Created on: 1999-06-25
+// Created by: data exchange team
+// Copyright (c) 1999-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include <ShapeFix_Solid.hxx>
+#include <ShapeFix_Shell.hxx>
+#include <ShapeFix_Face.hxx>
+#include <ShapeFix_Wire.hxx>
+
+//=======================================================================
+//function : FixSolidTool
+//purpose  : 
+//=======================================================================
+
+inline Handle(ShapeFix_Solid) ShapeFix_Shape::FixSolidTool() const
+{
+  return myFixSolid;
+}
+
+//=======================================================================
+//function : FixShellTool
+//purpose  : 
+//=======================================================================
+
+inline Handle(ShapeFix_Shell) ShapeFix_Shape::FixShellTool() const 
+{
+  return myFixSolid->FixShellTool();
+}
+//=======================================================================
+//function : FixFaceTool
+//purpose  : 
+//=======================================================================
+
+inline Handle(ShapeFix_Face) ShapeFix_Shape::FixFaceTool() const
+{
+  return myFixSolid->FixShellTool()->FixFaceTool();
+}
+//=======================================================================
+//function : FixWireTool
+//purpose  : 
+//=======================================================================
+
+inline Handle(ShapeFix_Wire) ShapeFix_Shape::FixWireTool() const
+{
+  return myFixSolid->FixShellTool()->FixFaceTool()->FixWireTool();
+}
+//=======================================================================
+//function : FixEdgeTool
+//purpose  : 
+//=======================================================================
+
+inline Handle(ShapeFix_Edge) ShapeFix_Shape::FixEdgeTool() const
+{
+  return myFixSolid->FixShellTool()->FixFaceTool()->FixWireTool()->FixEdgeTool();
+}
+//=======================================================================
+//function : FixSolidMode
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer& ShapeFix_Shape::FixSolidMode() 
+{
+  return myFixSolidMode;
+}
+
+//=======================================================================
+//function : FixFreeShellMode
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer& ShapeFix_Shape::FixFreeShellMode() 
+{
+  return myFixShellMode;
+}
+//=======================================================================
+//function : FixFreeFaceMode
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer& ShapeFix_Shape::FixFreeFaceMode() 
+{
+  return myFixFaceMode;
+}
+
+//=======================================================================
+//function : FixFreeWireMode
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer& ShapeFix_Shape::FixFreeWireMode() 
+{
+  return myFixWireMode;
+}
+
+//=======================================================================
+//function : FixSameParameterMode
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer& ShapeFix_Shape::FixSameParameterMode() 
+{
+  return myFixSameParameterMode;
+}
+//=======================================================================
+//function : FixVertexPositionMode
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer& ShapeFix_Shape::FixVertexPositionMode() 
+{
+  return myFixVertexPositionMode;
+}

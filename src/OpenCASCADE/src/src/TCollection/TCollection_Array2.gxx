@@ -1,0 +1,170 @@
+// Copyright (c) 1993-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+#include <Standard_DimensionMismatch.hxx>
+#include <Standard_RangeError.hxx>
+#include <Standard_OutOfMemory.hxx>
+#include <Standard.hxx>
+
+//=======================================================================
+//function : Allocate
+//purpose  : Allocate memory for the array, set up indirection table
+//=======================================================================
+
+void TCollection_Array2::Allocate ()
+{
+  Standard_Integer RowSize    = myUpperColumn-myLowerColumn+1;
+  Standard_Integer ColumnSize = myUpperRow-myLowerRow+1;
+
+  if (myDeletable) {
+    // allocation of the data in the array
+     
+    Standard_Integer Size = RowSize * ColumnSize;
+    
+//  Modified by Sergey KHROMOV - Mon Feb 10 11:46:14 2003 Begin
+//     Standard_RangeError_Raise_if(( RowSize < 0  || ColumnSize < 0 ),
+// 				 "TCollection_Array2::Create");
+    Standard_RangeError_Raise_if(( RowSize <= 0  || ColumnSize <= 0 ),
+				 "TCollection_Array2::Create");
+//  Modified by Sergey KHROMOV - Mon Feb 10 11:46:15 2003 End
+#ifdef __OPTIM_ARRAY
+    myData = Standard::Allocate(Size*sizeof (Array2Item));
+    //    myData = (Array2Item *) new char [Size * sizeof (Array2Item)];
+#else 
+    myData = new Array2Item [Size];
+#endif
+
+    if (!myData) Standard_OutOfMemory::Raise("Array2 : Allocation failed");
+  }
+  
+  // allocation of the indirection table (pointers on rows)
+  Array2Item*  p = (Array2Item*) myData;
+  Array2Item** q = (Array2Item**)Standard::Allocate(ColumnSize * sizeof(Array2Item*));
+
+  for (Standard_Integer i = 0; i < ColumnSize; i++) {
+    q[i] = p - myLowerColumn;
+    p += RowSize;
+  }
+  
+  myData = (void*) (q - myLowerRow);
+}
+
+//=======================================================================
+//function : TCollection_Array2
+//purpose  : 
+//=======================================================================
+
+TCollection_Array2::TCollection_Array2 (const Standard_Integer R1, 
+					const Standard_Integer R2,
+					const Standard_Integer C1, 
+					const Standard_Integer C2) :
+       myLowerRow(R1),
+       myLowerColumn(C1),
+       myUpperRow(R2),
+       myUpperColumn(C2),
+       myDeletable(Standard_True)
+{
+  Allocate ();
+}
+
+//=======================================================================
+//function : TCollection_Array2
+//purpose  : User allocated data
+//=======================================================================
+
+TCollection_Array2::TCollection_Array2 (const Array2Item& Item,
+					const Standard_Integer R1, 
+					const Standard_Integer R2,
+					const Standard_Integer C1, 
+					const Standard_Integer C2) :
+       myLowerRow(R1),
+       myLowerColumn(C1),
+       myUpperRow(R2),
+       myUpperColumn(C2),
+       myDeletable(Standard_False),
+       myData((void*)&Item)
+{
+  Allocate ();
+}
+
+
+//=======================================================================
+//function : Init
+//purpose  : 
+//=======================================================================
+
+void TCollection_Array2::Init (const Array2Item& V) 
+{
+  Standard_Integer Size = RowLength() * ColLength();
+  Array2Item* p = &(ChangeValue(myLowerRow,myLowerColumn));
+  for (Standard_Integer I = 0; I < Size ; I++) p[I] = V;
+}
+
+//=======================================================================
+//function : Destroy
+//purpose  : 
+//=======================================================================
+
+void TCollection_Array2::Destroy () 
+{
+  Array2Item** anItemPtr = ((Array2Item**)myData + myLowerRow);
+  
+  // delete the data
+  //
+  if (myDeletable) 
+#ifdef __OPTIM_ARRAY
+    {
+    Standard_Integer RowSize    = myUpperColumn-myLowerColumn+1;
+    Standard_Integer ColumnSize = myUpperRow-myLowerRow+1;
+    Standard_Integer Size = RowSize * ColumnSize;
+    Standard_Address it = (Standard_Address)&((Array2Item **)myData)[myLowerRow][myLowerColumn];
+    Standard::Free(it);  
+  }
+#else
+  delete [] &ChangeValue(myLowerRow,myLowerColumn);
+#endif
+
+  // delete the indirection table
+  Standard::Free((void*&)anItemPtr);
+}
+
+//=======================================================================
+//function : Assign
+//purpose  : 
+//=======================================================================
+
+const TCollection_Array2& TCollection_Array2::Assign 
+  (const TCollection_Array2& Right)
+{
+  Standard_Integer MaxColumn = RowLength() ;
+  Standard_Integer MaxRow    = ColLength() ;
+  Standard_Integer MaxSize   = MaxColumn * MaxRow;
+
+  Standard_DimensionMismatch_Raise_if(MaxRow != Right.ColLength() ||
+                                      MaxColumn != Right.RowLength(),
+				      "Array2::Operator=");
+
+  Array2Item* p = &ChangeValue(myLowerRow,myLowerColumn);
+  const Array2Item* q = &Right.Value(Right.LowerRow(),Right.LowerCol());
+  for (Standard_Integer i=0; i<MaxSize; i++) {
+    p[i] = q[i];
+  }
+  return *this;
+}
+
+

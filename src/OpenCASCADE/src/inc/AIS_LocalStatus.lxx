@@ -1,0 +1,75 @@
+// Copyright (c) 1998-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+inline Standard_Boolean AIS_LocalStatus::Decomposed() const 
+{return myDecomposition;}
+
+inline Standard_Boolean AIS_LocalStatus::IsTemporary() const 
+{return myIsTemporary;}
+
+inline Standard_Integer AIS_LocalStatus::DisplayMode() const 
+{return myDMode;}
+
+inline const TColStd_ListOfInteger& AIS_LocalStatus::
+SelectionModes() const 
+{return mySModes;}
+
+inline Standard_Boolean AIS_LocalStatus::IsSubIntensityOn() const 
+{return mySubIntensity;}
+
+inline void AIS_LocalStatus::SetDecomposition(const Standard_Boolean astatus)
+{myDecomposition=astatus;}
+
+inline void AIS_LocalStatus::SetTemporary(const Standard_Boolean astatus)
+{myIsTemporary = astatus;}
+
+
+inline void AIS_LocalStatus::SubIntensityOn()
+{mySubIntensity = Standard_True;}
+
+inline void AIS_LocalStatus::SubIntensityOff()
+{mySubIntensity = Standard_False;}
+
+inline void AIS_LocalStatus::
+SetDisplayMode(const Standard_Integer aMode)
+{myDMode = aMode;}
+
+
+inline void AIS_LocalStatus::SetHilightMode(const Standard_Integer aMode)
+{myHMode=aMode;}
+
+inline Standard_Integer AIS_LocalStatus::HilightMode() const 
+{return myHMode;}
+inline void AIS_LocalStatus::SetPreviousState(const Handle(Standard_Transient)& stat)
+{  myPreviousState = stat;}
+
+inline const Handle(Standard_Transient)& 
+AIS_LocalStatus::PreviousState() const 
+{return myPreviousState;}
+
+inline void AIS_LocalStatus::SetFirstDisplay(const Standard_Boolean aStat)
+{myFirstDisplay = aStat;}
+
+inline Standard_Boolean AIS_LocalStatus::IsFirstDisplay() const
+{return myFirstDisplay;}
+
+inline void AIS_LocalStatus::SetHilightColor(const Quantity_NameOfColor aCol)
+{myHiCol = aCol;}
+
+inline Quantity_NameOfColor AIS_LocalStatus::HilightColor() const
+{return myHiCol;}

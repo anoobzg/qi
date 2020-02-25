@@ -1,0 +1,130 @@
+-- Created on: 1991-01-14
+-- Created by: Arnaud BOUZY
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class FunctionDerivative from Expr
+
+inherits GeneralFunction from Expr
+
+uses NamedUnknown from Expr, 
+    GeneralExpression from Expr,
+    Array1OfNamedUnknown from Expr,
+    Array1OfReal from TColStd,
+    AsciiString from TCollection
+
+raises OutOfRange from Standard,
+    DimensionMismatch from Standard,
+    NumericError from Standard,
+    NotEvaluable from Expr
+
+is
+
+    Create(func : GeneralFunction; withX : NamedUnknown; deg : Integer)
+    ---Purpose: Creates a FunctionDerivative of degree <deg> relative 
+    --          to the <withX> variable.
+    --          Raises OutOfRange if <deg> lower or equal to zero.
+    ---Level : Advanced
+    returns mutable FunctionDerivative
+    raises OutOfRange;
+
+    NbOfVariables(me)
+    ---Purpose: Returns the number of variables of <me>.
+    returns Integer;
+
+    Variable(me; index : Integer)
+    ---Purpose: Returns the variable denoted by <index> in <me>.
+    --          Raises OutOfRange if <index> greater than 
+    --          NbOfVariables of <me>. 
+    returns NamedUnknown
+    raises OutOfRange;
+    
+    Evaluate(me; vars : Array1OfNamedUnknown; 
+    	    	values : Array1OfReal)
+    ---Purpose: Computes the value of <me> with the given variables.
+    --          Raises DimensionMismatch if Length(vars) is different from 
+    --          Length(values).
+    returns Real
+    raises DimensionMismatch, NumericError,NotEvaluable;
+
+    Copy(me)
+    ---Purpose: Returns a copy of <me> with the same form.
+    returns mutable like me;
+
+    Derivative(me; var : NamedUnknown)
+    ---Purpose: Returns Derivative of <me> for variable <var>.
+    returns GeneralFunction;
+    
+    Derivative(me; var : NamedUnknown; deg : Integer)
+    ---Purpose: Returns Derivative of <me> for variable <var> with 
+    --          degree <deg>.
+    returns GeneralFunction;
+    
+    IsIdentical(me; func : GeneralFunction)
+    ---Purpose: Tests if <me> and <func> are similar functions (same 
+    --          name and same used expression).
+    returns Boolean;
+
+    IsLinearOnVariable(me; index : Integer)
+    ---Purpose: Tests if <me> is linear on variable on range <index>
+    returns Boolean;
+    
+    Function(me)
+    ---Purpose: Returns the function of which <me> is the derivative.
+    ---Level : Internal
+    returns GeneralFunction
+    is static;
+    
+    Degree(me)
+    ---Purpose: Returns the degree of derivation of <me>.
+    ---Level : Internal
+    returns Integer
+    is static;
+    
+    DerivVariable(me)
+    ---Purpose: Returns the derivation variable of <me>.
+    ---Level : Internal
+    returns NamedUnknown
+    is static;
+    
+    GetStringName(me)
+    returns AsciiString;
+    
+    Expression(me)
+    returns GeneralExpression
+    ---Level : Internal
+    is static;
+    
+    UpdateExpression(me: mutable);
+    ---Level : Internal
+
+fields
+
+    myFunction : GeneralFunction;
+    myExp : GeneralExpression;
+    myDerivate : NamedUnknown;
+    myDegree : Integer;
+
+friends
+
+    class NamedFunction from Expr
+    
+end FunctionDerivative;
+
+

@@ -1,0 +1,77 @@
+-- Created on: 1992-08-26
+-- Created by: Jean-Claude Vauthier
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+
+
+deferred generic class CurveTool from GProp (Curve as any)   
+
+    --- Purpose :
+    --  This template defines the minimum of methods required
+    --  to compute the global properties of a C1 parametric
+    --  curve in 3d space with the algorithmes of package GProp.
+    --  To compute the global properties of your curves, you 
+    --  have to define your own "CurveTool" using this template.  
+    --
+    --  Curve must be a bounded curve of continuity C1 defined in 3d
+    --  space.
+
+uses Pnt from gp,
+     Vec from gp
+
+is
+
+
+  FirstParameter (myclass; C : Curve)   returns Real;
+        --- Purpose :
+        --  Returns the parametric value of the start point of
+        --  the curve.  The curve is oriented from the start point
+        --  to the end point.
+
+
+  LastParameter (myclass; C : Curve)   returns Real;
+        --- Purpose :
+        --  Returns the parametric value of the end point of
+        --  the curve.  The curve is oriented from the start point
+        --  to the end point.
+
+
+  IntegrationOrder (myclass; C : Curve)    returns Integer;
+        --- Purpose :
+        --  Returns the number of Gauss points required to do
+        --  the integration with a good accuracy using the
+        --  Gauss method.  For a polynomial curve of degree n
+        --  the maxima of accuracy is obtained with an order
+        --  of integration equal to 2*n-1.
+
+
+  Value (myclass; C : Curve; U : Real)  returns Pnt;
+    	--- Purpose : Returns the point of parameter U on the loaded curve.
+
+
+  D1 (myclass; C : Curve; U: Real; P: out Pnt; V1: out Vec);
+    	--- Purpose : 
+    	--  Returns the point of parameter U and the first derivative
+    	--  at this point.
+
+
+end CurveTool;

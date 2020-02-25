@@ -1,0 +1,60 @@
+-- Created on: 1999-07-08
+-- Created by: Sergey RUIN
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+class AISPresentation_1 from PPrsStd 
+    inherits Attribute from PDF
+
+	---Purpose: 
+    
+uses    HExtendedString from PCollection
+is
+
+    Create returns mutable AISPresentation_1 from PPrsStd;
+	
+    IsDisplayed(me) returns Boolean from Standard;
+    SetDisplayed(me : mutable; B : Boolean from Standard);
+
+    SetDriverGUID(me: mutable; guid: HExtendedString from PCollection );     
+    GetDriverGUID(me) returns HExtendedString from PCollection; 
+    
+    Color(me) returns Integer from Standard;
+    SetColor(me : mutable; C : Integer from Standard);
+    
+    Transparency(me) returns Real from Standard;
+    SetTransparency(me : mutable; T : Real from Standard);    
+    
+    Material(me) returns Integer from Standard;
+    SetMaterial(me : mutable; M : Integer from Standard);    
+   
+    Width(me) returns Real from Standard;
+    SetWidth(me : mutable; W : Real from Standard);
+ 
+    Mode(me)    returns Integer from Standard; 
+    SetMode(me : mutable; M : Integer from Standard);    
+fields
+
+    myIsDisplayed         : Boolean              from Standard;
+    myDriverGUID          : HExtendedString      from PCollection; 
+    myTransparency        : Real                 from Standard;
+    myColor               : Integer              from Standard;
+    myMaterial            : Integer              from Standard;
+    myWidth               : Real                 from Standard; 
+    myMode                : Integer              from Standard;
+end AISPresentation_1;

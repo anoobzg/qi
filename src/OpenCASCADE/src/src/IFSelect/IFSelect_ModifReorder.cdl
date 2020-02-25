@@ -1,0 +1,56 @@
+-- Created on: 1996-03-15
+-- Created by: Christian CAILLET
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ModifReorder  from IFSelect  inherits Modifier
+
+    ---Purpose : This modifier reorders a whole model from its roots, i.e.
+    --           according to <rootlast> status, it considers each of its
+    --           roots, then it orders all its shared entities at any level,
+    --           the result begins by the lower level entities ... ends by
+    --           the roots.
+
+uses CString, AsciiString from TCollection,
+     InterfaceModel, CopyTool, Protocol from Interface, ContextModif
+
+is
+
+    Create (rootlast : Boolean = Standard_True) returns mutable ModifReorder;
+    ---Purpose : Creates a ModifReorder. It may change the graph (it does !)
+    --           If <rootlast> is True (D), roots are set at the end of packets
+    --           Else, they are set at beginning (as done by AddWithRefs)
+
+    Perform (me; ctx  : in out ContextModif;
+    	     target   : mutable InterfaceModel;
+    	     protocol : Protocol from Interface;
+    	     TC       : in out CopyTool);
+    ---Purpose : Acts by computing orders (by method All from ShareTool) then
+    --           forcing them in the model. Remark that selection is ignored :
+    --           ALL the model is processed in once
+
+    Label (me) returns AsciiString from TCollection;
+    ---Purpose : Returns Label as "Reorder, Roots (last or first)"
+
+fields
+
+    thertl : Boolean;
+
+end ModifReorder;

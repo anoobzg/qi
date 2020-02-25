@@ -1,0 +1,133 @@
+-- Created on: 1999-08-09
+-- Created by: Galina KULIKOVA
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Root from ShapeFix inherits TShared from MMgt  
+
+	---Purpose: Root class for fixing operations
+	--          Provides context for recording changes (optional),
+	--          basic precision value and limit (minimal and
+	--          maximal) values for tolerances,
+	--          and message registrator
+
+uses
+
+    Shape               from TopoDS,
+    ReShape             from ShapeBuild,
+    BasicMsgRegistrator from ShapeExtend,
+    Msg                 from Message,
+    Gravity             from Message
+
+is
+    Create returns Root from ShapeFix;
+    	---Purpose: Empty Constructor (no context is created)
+	
+    Set (me: mutable; Root: Root from ShapeFix) is virtual;
+    	---Purpose: Copy all fields from another Root object
+	
+    SetContext (me:mutable; context : ReShape from ShapeBuild) is virtual;
+	---Purpose: Sets context
+	
+    Context (me) returns ReShape from ShapeBuild;
+    	---Purpose: Returns context 
+	---C++: inline
+	
+    SetMsgRegistrator (me:mutable; msgreg: BasicMsgRegistrator from ShapeExtend) is virtual;
+	---Purpose: Sets message registrator
+	
+    MsgRegistrator (me) returns BasicMsgRegistrator from ShapeExtend;
+    	---Purpose: Returns message registrator
+	---C++: inline
+	
+    SetPrecision (me:mutable; preci: Real) is virtual;
+    	---Purpose: Sets basic precision value
+    
+    Precision (me) returns Real;
+    	---Purpose: Returns basic precision value
+	---C++: inline
+	
+    SetMinTolerance (me:mutable; mintol: Real) is virtual;
+    	---Purpose: Sets minimal allowed tolerance
+    
+    MinTolerance (me) returns Real;
+    	---Purpose: Returns minimal allowed tolerance
+	---C++: inline
+	
+    SetMaxTolerance (me:mutable; maxtol: Real) is virtual;
+    	---Purpose: Sets maximal allowed tolerance
+    
+    MaxTolerance (me) returns Real;
+    	---Purpose: Returns maximal allowed tolerance
+	---C++: inline
+
+    LimitTolerance (me; toler: Real) returns Real;
+    	---Purpose: Returns tolerance limited by [myMinTol,myMaxTol]
+	---C++: inline
+
+    -- Methods for sending messages
+
+    SendMsg (me; shape  : Shape from TopoDS;
+                 message: Msg from Message;
+                 gravity: Gravity from Message = Message_Info);
+    	---Purpose: Sends a message to be attached to the shape.
+	--          Calls corresponding message of message registrator.
+
+    SendMsg (me; message: Msg from Message;
+                 gravity: Gravity from Message = Message_Info);
+    	---Purpose: Sends a message to be attached to myShape.
+	--          Calls previous method.
+    	---C++    : inline
+
+    SendWarning (me; shape: Shape from TopoDS; message: Msg from Message);
+    	---Purpose: Sends a warning to be attached to the shape.
+	--          Calls SendMsg with gravity set to Message_Warning.
+    	---C++    : inline
+
+    SendWarning (me; message: Msg from Message);
+    	---Purpose: Calls previous method for myShape.
+    	---C++    : inline
+
+    SendFail    (me; shape: Shape from TopoDS; message: Msg from Message);
+    	---Purpose: Sends a fail to be attached to the shape.
+	--          Calls SendMsg with gravity set to Message_Fail.
+    	---C++    : inline
+
+    SendFail    (me; message: Msg from Message);
+    	---Purpose: Calls previous method for myShape.
+    	---C++    : inline
+
+
+    NeedFix (myclass; flag: Integer; def: Boolean = Standard_True)
+    returns Boolean is protected;
+    	---Purpose: Auxiliary method for work with three-position
+	--          (on/off/default) flags (modes) in ShapeFix.
+	---C++: inline
+    
+fields
+
+    myContext  : ReShape from ShapeBuild;
+    myMsgReg   : BasicMsgRegistrator from ShapeExtend;
+    myPrecision: Real;       -- basic precision
+    myMinTol   : Real;       -- minimal allowed tolerance
+    myMaxTol   : Real;       -- maximal allowed tolerance
+    myShape    : Shape from TopoDS is protected; -- current processed shape
+
+end Root;

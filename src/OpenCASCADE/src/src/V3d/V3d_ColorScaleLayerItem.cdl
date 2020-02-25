@@ -1,0 +1,62 @@
+-- Created on: 2009-03-20
+-- Created by: ABD
+-- Copyright (c) 2009-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+private class ColorScaleLayerItem from V3d inherits LayerItem from Visual3d
+
+    ---Version:
+
+    ---Purpose: This class is drawable unit of ColorScale of 2d scene
+    ---Keywords:
+    ---Warning:
+    ---References:
+
+uses
+    ColorScale from V3d
+is
+    -------------------------
+    -- Category: Constructors
+    -------------------------
+
+    Create ( aColorScale: ColorScale from V3d )
+            returns ColorScaleLayerItem;
+    ---Level: Public
+    ---Purpose: Creates a layer item
+    ---Category: Constructors
+
+    ---------------------------------------------------
+    -- Category: Methods to modify the class definition
+    ---------------------------------------------------
+    
+    ComputeLayerPrs( me : mutable )
+            is redefined;   
+    ---Level: Public
+    ---Purpose: virtual function for recompute 2D
+    --        presentation (empty by default)
+
+    RedrawLayerPrs( me : mutable )
+        is redefined;
+    ---Level: Public
+    ---Purpose: virtual function for recompute 2D
+    --        presentation (empty by default)
+
+fields
+    MyColorScale     : ColorScale from V3d;
+
+end ColorScaleLayerItem from V3d;

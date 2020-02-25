@@ -1,0 +1,46 @@
+-- Created on: 1995-08-04
+-- Created by: Modelistation
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class WFSurface from StdPrs
+
+inherits Root from Prs3d
+
+uses
+    HSurface      from Adaptor3d,
+    Presentation  from Prs3d,
+    Drawer        from Prs3d
+    	
+is
+    --- Purpose: Draws a surface by drawing the isoparametric curves with respect to 
+    -- a fixed number of points given by the Drawer.
+    -- The number of isoparametric curves to be drawn and their color are
+    -- controlled by the furnished Drawer.
+ 
+    Add(myclass; aPresentation: Presentation from Prs3d;  
+    	    	 aSurface     : HSurface     from Adaptor3d;
+    	    	 aDrawer      : Drawer       from Prs3d);
+
+end WFSurface from StdPrs;
+
+
+

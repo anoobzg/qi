@@ -1,0 +1,91 @@
+-- Created on: 1994-03-07
+-- Created by: Joelle CHAUVET
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Modified:	Thu Jul  2 16:47:35 1998
+--		add methods Generated and GeneratedShapes
+
+
+
+
+
+class Generator from BRepFill
+
+    	   ---Purpose: Compute a topological surface ( a  shell) using
+    	   --          generating wires. The face of the shell will be
+    	   --          ruled surfaces passing by the wires.
+    	   --          The wires must have the same number of edges.
+						    	
+
+uses
+
+    Wire            from TopoDS,
+    Shell           from TopoDS,
+    Shape           from TopoDS,
+    SequenceOfShape from TopTools,
+    ListOfShape from TopTools, 
+    DataMapOfShapeListOfShape from TopTools
+
+
+is 
+    
+    Create returns Generator from BRepFill;
+    
+    AddWire( me   : in out;
+    	     Wire : in Wire from TopoDS)
+    is static;
+    
+    Perform( me     : in out)
+	---Purpose: Compute the  shell.
+    is static;
+    
+    Shell(me)
+	---C++: return const&
+	---C++: inline      
+    returns Shell from TopoDS
+    is static;
+    
+    Generated (me )
+        ---Purpose: Returns  all   the shapes created 
+        ---C++ : return const &          
+    returns DataMapOfShapeListOfShape from TopTools
+    is static;			 
+    
+    GeneratedShapes (me ;
+    	    	     SSection : Shape from TopoDS)
+        ---Purpose: Returns   the  shapes  created  from   a  subshape
+        --          <SSection>  of a  section.
+        --	
+        ---C++ : return const &          
+    returns ListOfShape from TopTools
+    is static;			 
+    
+
+
+
+fields
+    myWires : SequenceOfShape from TopTools;
+    myShell : Shell           from TopoDS;
+    myMap   : DataMapOfShapeListOfShape from TopTools;  
+
+end Generator;
+
+
+
+

@@ -1,0 +1,106 @@
+-- Created on: 1992-08-26
+-- Created by: Remi GILET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class MakeParab from gce inherits Root from gce
+
+    ---Purpose :This class implements the following algorithms used to 
+    --          create Parab from gp.
+    --  Defines the parabola in the parameterization range  :
+    --  ]-infinite, +infinite[
+    --  The vertex of the parabola is the "Location" point of the 
+    --  local coordinate system (axis placement) of the parabola. 
+    --  
+    --  The "XDirection" and the "YDirection" of this system define 
+    --  the plane of the parabola.
+    --  
+    --  The "XAxis" of the parabola ("Location", "XDirection") is
+    --  the axis of symmetry of the parabola. The Xaxis is oriented 
+    --  from the vertex of the parabola to the Focus of the parabola.
+    --  
+    --  The "YAxis" of the parabola ("Location", "YDirection") is
+    --  parallel to the directrix of the parabola.
+    --  
+    --  The equation of the parabola in the local coordinates system is
+    --  Y**2 = (2*P) * X
+    --  P is the distance between the focus and the directrix of the 
+    --  parabola (called Parameter). 
+    --  The focal length F = P/2 is the distance between the vertex 
+    --  and the focus of the parabola.
+    --          
+    --          * Creates a parabola with its local coordinate system "A2"
+    --            and it's focal length "Focal".
+    --          * Create a parabola with its directrix and its focus point.
+
+uses Pnt   from gp,
+     Parab from gp,
+     Ax2   from gp,
+     Ax1   from gp
+
+raises NotDone from StdFail
+
+is
+
+Create (A2    : Ax2  from gp      ; 
+    	Focal : Real from Standard)    returns MakeParab;
+    --- Purpose ;
+    --  Creates a parabola with its local coordinate system "A2"
+    --  and it's focal length "Focal".
+    --  The XDirection of A2 defines the axis of symmetry of the 
+    --  parabola. The YDirection of A2 is parallel to the directrix
+    --  of the parabola. The Location point of A2 is the vertex of
+    --  the parabola
+    --  The status is "NullFocusLength" if Focal < 0.0
+
+
+Create (D : Ax1 from gp ; 
+    	F : Pnt from gp ) returns MakeParab;
+    --- Purpose :
+    --  D is the directrix of the parabola and F the focus point.
+    --  The symmetry axis (XAxis) of the parabola is normal to the
+    --  directrix and pass through the focus point F, but its
+    --  location point is the vertex of the parabola.
+    --  The YAxis of the parabola is parallel to D and its location
+    --  point is the vertex of the parabola. The normal to the plane
+    --  of the parabola is the cross product between the XAxis and the
+    --  YAxis.
+
+Value(me) returns Parab from gp
+    raises NotDone
+    is static;
+    ---C++: return const&
+    ---Purpose: Returns the constructed parabola.
+    -- Exceptions StdFail_NotDone if no parabola is constructed.
+    
+Operator(me) returns Parab from gp
+    is static;
+    ---C++: return const&
+    ---C++: alias "Standard_EXPORT operator gp_Parab() const;"
+
+fields
+
+    TheParab : Parab from gp;
+    --The solution from gp.
+    
+end MakeParab;
+
+
+
+

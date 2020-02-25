@@ -1,0 +1,85 @@
+-- Created on: 1993-06-24
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class CurveTool from TopOpeBRepTool
+
+uses
+
+    Shape from TopoDS,
+    Curve from Geom,
+    Curve from Geom2d,
+    Array1OfPnt from TColgp,
+    Array1OfPnt2d from TColgp,
+    GeomTool from TopOpeBRepTool,
+    OutCurveType from TopOpeBRepTool
+    
+is
+
+    Create returns CurveTool from TopOpeBRepTool;
+
+    Create (OCT:OutCurveType from TopOpeBRepTool)
+    returns CurveTool from TopOpeBRepTool;
+
+    Create(GT:GeomTool from TopOpeBRepTool)
+    returns CurveTool from TopOpeBRepTool;
+
+    ChangeGeomTool(me:in out) returns GeomTool from TopOpeBRepTool is static;
+    ---C++: return &
+    GetGeomTool(me) returns GeomTool from TopOpeBRepTool is static;
+    ---C++: return const &
+    SetGeomTool(me:in out; GT:GeomTool from TopOpeBRepTool) is static;
+
+    MakeCurves(me; 
+    	       min,max:Real from Standard;
+    	       C3D:Curve from Geom;
+    	       PC1,PC2:Curve from Geom2d;
+    	       S1,S2:Shape from TopoDS;
+	       C3DN:out Curve from Geom;
+    	       PC1N,PC2N:out Curve from Geom2d;
+    	       Tol3d,Tol2d:out Real from Standard)
+    returns Boolean from Standard is static;
+    ---Purpose: Approximates curves.
+    --          Returns False in the case of failure
+
+    -- class methods
+
+    MakeBSpline1fromPnt(myclass;P:Array1OfPnt from TColgp)
+    returns Curve from Geom;  
+
+    MakeBSpline1fromPnt2d(myclass;P:Array1OfPnt2d from TColgp)
+    returns Curve from Geom2d;
+
+    IsProjectable(myclass;S:Shape from TopoDS;C:Curve from Geom)
+    returns Boolean;
+
+    MakePCurveOnFace(myclass;
+    	    	     S:Shape from TopoDS;
+    	    	     C:Curve from Geom;
+    	    	     TolReached2d : out Real from Standard;
+		     first: Real from Standard = 0.0;
+		     last: Real from Standard = 0.0)
+    returns Curve from Geom2d;
+
+fields 
+
+    myGeomTool : GeomTool from TopOpeBRepTool is protected;
+
+end CurveTool;

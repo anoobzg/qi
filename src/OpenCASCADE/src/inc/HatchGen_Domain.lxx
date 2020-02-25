@@ -1,0 +1,133 @@
+// Created on: 1995-01-03
+// Created by: Laurent BUCHARD
+// Copyright (c) 1995-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+
+#include <Standard_DomainError.hxx>
+
+//=======================================================================
+// Function : SetPoints
+// Purpose  : Sets the first and the second points of the domain.
+//=======================================================================
+
+inline void HatchGen_Domain::SetPoints (const HatchGen_PointOnHatching& P1,
+				 const HatchGen_PointOnHatching& P2)
+{
+  myHasFirstPoint  = Standard_True ;
+  myFirstPoint     = P1 ;
+  myHasSecondPoint = Standard_True ;
+  mySecondPoint    = P2 ;
+}
+
+//=======================================================================
+// Function : SetPoints
+// Purpose  : Sets the first and the second points of the domain at the
+//            infinite.
+//=======================================================================
+
+inline void HatchGen_Domain::SetPoints ()
+{
+  myHasFirstPoint  = Standard_False ;
+  myHasSecondPoint = Standard_False ;
+}
+
+//=======================================================================
+// Function : SetFirstPoint
+// Purpose  : Sets the first point of the domain.
+//=======================================================================
+
+inline void HatchGen_Domain::SetFirstPoint (const HatchGen_PointOnHatching& P)
+{
+  myHasFirstPoint  = Standard_True ;
+  myFirstPoint     = P ;
+}
+
+//=======================================================================
+// Function : SetFirstPoint
+// Purpose  : Sets the first point of the domain at the infinite.
+//=======================================================================
+
+inline void HatchGen_Domain::SetFirstPoint ()
+{
+  myHasFirstPoint  = Standard_False ;
+}
+
+//=======================================================================
+// Function : SetSecondPoint
+// Purpose  : Sets the second point of the domain.
+//=======================================================================
+
+inline void HatchGen_Domain::SetSecondPoint (const HatchGen_PointOnHatching& P)
+{
+  myHasSecondPoint = Standard_True ;
+  mySecondPoint    = P ;
+}
+
+//=======================================================================
+// Function : SetSecondPoint
+// Purpose  : Sets the second point of the domain at the infinite.
+//=======================================================================
+
+inline void HatchGen_Domain::SetSecondPoint ()
+{
+  myHasSecondPoint = Standard_False ;
+}
+
+//=======================================================================
+// Function : HasFirstPoint
+// Purpose  : Returns True if the domain has a first point.
+//=======================================================================
+
+inline Standard_Boolean HatchGen_Domain::HasFirstPoint () const
+{
+  return myHasFirstPoint ;
+}
+
+//=======================================================================
+// Function : FirstPoint
+// Purpose  : Returns the first point of the domain.
+//=======================================================================
+
+inline const HatchGen_PointOnHatching& HatchGen_Domain::FirstPoint () const
+{
+  Standard_DomainError_Raise_if (!myHasFirstPoint, "HatchGen_Domain::FirstPoint") ;
+  return myFirstPoint ;
+}
+
+//=======================================================================
+// Function : HasSecondPoint
+// Purpose  : Returns True if the domain has a second point.
+//=======================================================================
+
+inline Standard_Boolean HatchGen_Domain::HasSecondPoint () const
+{
+  return myHasSecondPoint ;
+}
+
+//=======================================================================
+// Function : SecondPoint
+// Purpose  : Returns the second of the domain.
+//=======================================================================
+
+inline const HatchGen_PointOnHatching& HatchGen_Domain::SecondPoint () const
+{
+  Standard_DomainError_Raise_if (!myHasSecondPoint, "HatchGen_Domain::SecondPoint") ;
+  return mySecondPoint ;
+}

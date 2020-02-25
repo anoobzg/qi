@@ -1,0 +1,101 @@
+-- Created on: 1992-08-26
+-- Created by: Remi GILET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class MakeLin2d from gce inherits Root from gce
+
+    ---Purpose : This class implements the following algorithms used 
+    --           to create Lin2d from gp.
+    --           
+    --           * Create a Lin2d parallel to another and passing 
+    --             through a point.
+    --           * Create a Lin2d parallel to another at the distance 
+    --             Dist.
+    --           * Create a Lin2d passing through 2 points.
+    --           * Create a Lin2d from its axis (Ax1 from gp).
+    --           * Create a Lin2d from a point and a direction.
+    --           * Create a Lin2d from its equation.
+
+uses Pnt2d from gp,
+     Lin2d from gp,
+     Ax2d  from gp,
+     Dir2d from gp,
+     Real  from Standard
+
+raises NotDone from StdFail
+
+is
+
+Create (A : Ax2d from gp)   returns MakeLin2d;
+    --- Purpose : Creates a line located with A.
+
+Create (P : Pnt2d from gp; 
+    	V : Dir2d from gp)   returns MakeLin2d;
+    --- Purpose : 
+    --  <P> is the location point (origin) of the line and
+    --  <V> is the direction of the line.
+
+Create (A, B, C : Real)   returns MakeLin2d;
+    --- Purpose :
+    --  Creates the line from the equation A*X + B*Y + C = 0.0
+    --  the status is "NullAxis"if Sqrt(A*A + B*B) <= Resolution from gp.
+
+Create(Lin    :     Lin2d from gp      ;
+       Dist   :     Real  from Standard) returns MakeLin2d;
+    ---Purpose : Make a Lin2d from gp <TheLin> parallel to another 
+    --           Lin2d <Lin> at a distance <Dist>.
+    --           If Dist is greater than zero the result is on the 
+    --           right of the Line <Lin>, else the result is on the 
+    --           left of the Line <Lin>.
+
+Create(Lin    :     Lin2d from gp;
+       Point  :     Pnt2d from gp) returns MakeLin2d;
+    ---Purpose : Make a Lin2d from gp <TheLin> parallel to another 
+    --           Lin2d <Lin> and passing through a Pnt2d <Point>.
+
+Create(P1     :     Pnt2d from gp;
+       P2     :     Pnt2d from gp) returns MakeLin2d;
+    ---Purpose : Make a Lin2d from gp <TheLin> passing through 2 
+    --           Pnt2d <P1>,<P2>.
+    --           It returns false if <P1> and <P2> are confused.
+    -- Warning
+    -- If an error occurs (that is, when IsDone returns
+    -- false), the Status function returns:
+    -- -   gce_NullAxis if Sqrt(A*A + B*B) is less
+    --   than or equal to gp::Resolution(), or
+    -- -   gce_ConfusedPoints if points P1 and P2 are coincident.
+        
+Value(me) returns Lin2d from gp
+    raises NotDone
+    is static;
+    ---Purpose: Returns the constructed line.
+    -- Exceptions StdFail_NotDone if no line is constructed.
+    
+Operator(me) returns Lin2d from gp
+    is static;
+    ---C++: alias "Standard_EXPORT operator gp_Lin2d() const;"
+
+fields
+
+    TheLin2d : Lin2d from gp;
+    --The solution from gp.
+
+end MakeLin2d;

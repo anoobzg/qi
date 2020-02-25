@@ -1,0 +1,67 @@
+-- Created on: 1992-11-17
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+deferred generic class Intersection2d from TopClass 
+    (TheEdge as any) inherits Intersection from IntRes2d 
+
+	---Purpose: Template  class for  the  intersection   algorithm
+	--          required by the 2D classifications.
+	--          
+	--          The results should be  expressed as the  result of
+	--          Intersection   from IntRes2d.   The class used  to
+	--          instantiate the Classifier2d can be inherited from
+	--          the    Intersection  algorithms   inherited   from
+	--          Intersection from IntRes2d.
+	--          
+	--          It is not necesary to return  all the Intersection
+	--          points, the  point with   the   smallest parameter
+	--          value on the segment is enough.
+
+uses
+    Lin2d from gp,
+    Dir2d from gp
+
+is
+    Initialize;
+	---Purpose: An empty constructor is required.
+	
+    Perform(me : in out; L : Lin2d from gp; P : Real; Tol : Real; E : TheEdge)
+	---Purpose: Performs the intersection   between the  2d   line
+	--          segment (<L>, <P>) and  the  Edge <E>.   The  line
+	--          segment  is the  part  of  the  2d   line   <L> of
+	--          parameter range [0, <P>] (P is positive and can be
+	--          RealLast()). Tol is the  Tolerance on the segment.
+	--          The order  is relevant, the  first argument is the
+	--          segment, the second the Edge.
+    is deferred;
+	
+    LocalGeometry(me; E : TheEdge;  U : Real; 
+    	    	      T : out Dir2d from gp; 
+    	    	      N : out Dir2d from gp;
+                      C : out Real)
+	---Purpose: Returns in <T>,  <N> and <C>  the tangent,  normal
+	--          and  curvature of the edge  <E> at parameter value
+	--          <U>.
+    is deferred;
+
+end Intersection2d;

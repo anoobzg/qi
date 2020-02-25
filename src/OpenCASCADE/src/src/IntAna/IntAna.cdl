@@ -1,0 +1,83 @@
+-- Created on: 1992-06-30
+-- Created by: Laurent BUCHARD
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package IntAna
+
+    ---Purpose: This package provides the intersections between :
+    --          
+    --          - Natural Quadrics when the result is a conic (QuadQuadGeo)
+    --          
+    --          - A natural Quadric and a Quadric defined by its Coefficients
+    --            (IntQuadQuad)
+    --            
+    --          - 3 Pln   (Int3Pln)
+    --          
+    --          - a Line and a Torus   (IntLinTorus)
+    --          
+    --          - a Conic from gp and  a Quadric  defined by its Coefficients
+    --            (IntConicQuad)
+    --            
+
+    ---Level: Public
+    --
+    -- All the methods of the classes of this package are public.
+    --
+
+  
+uses TCollection, math, gp, StdFail, IntAna2d, GeomAbs
+
+is
+
+    enumeration ResultType  is Point,
+                               Line,
+                               Circle,
+                               PointAndCircle,
+                               Ellipse,
+                               Parabola,
+                               Hyperbola,
+                               Empty,
+			       Same,
+                               NoGeometricSolution;
+    
+
+    
+    class QuadQuadGeo;
+    
+    class IntQuadQuad;
+
+    class Int3Pln;
+
+    class IntLinTorus;
+    
+    class IntConicQuad;
+
+    class Curve;
+    
+    class Quadric;
+    --
+    class ListOfCurve  instantiates  
+    	List from TCollection(Curve from IntAna);    
+    --
+end IntAna;
+
+
+ 

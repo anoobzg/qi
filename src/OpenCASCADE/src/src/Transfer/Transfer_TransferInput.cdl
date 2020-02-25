@@ -1,0 +1,88 @@
+-- Created on: 1992-02-04
+-- Created by: Christian CAILLET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class TransferInput  from Transfer
+
+    ---Purpose : A TransferInput is a Tool which fills an InterfaceModel with
+    --           the result of the Transfer of CasCade Objects, once determined
+    --           The Result comes from a TransferProcess, either from
+    --           Transient (the Complete Result is considered, it must contain
+    --           only Transient Objects)
+
+uses InterfaceModel, EntityIterator, Protocol from Interface,
+     TransferIterator, TransientProcess, FinderProcess
+
+raises TransferFailure
+
+is
+
+    Create returns TransferInput;
+    ---Purpose : Creates a TransferInput ready to use
+
+    Entities (me; list : in out TransferIterator) returns EntityIterator
+    ---Purpose : Takes the transient items stored in a TransferIterator
+    	raises TransferFailure;
+    --           Error if one of the Resulting Objects is defined not Transient
+
+
+    FillModel (me; proc   : TransientProcess;
+    	    	   amodel : mutable InterfaceModel)
+    ---Purpose : Fills an InterfaceModel with the Complete Result of a Transfer
+    --           stored in a TransientProcess (Starting Objects are Transient)
+    --           The complete result is exactly added to the model
+    	raises TransferFailure;
+    --           Error if one of the Resulting Objects is defined not Transient
+
+    FillModel (me; proc   : TransientProcess;
+    	    	   amodel : mutable InterfaceModel;
+		   proto  : Protocol from Interface;
+		   roots  : Boolean = Standard_True)
+    ---Purpose : Fills an InterfaceModel with results of the Transfer recorded
+    --           in a TransientProcess (Starting Objects are Transient) :
+    --           Root Result if <roots> is True (Default), Complete Result else
+    --           The entities added to the model are determined from the result
+    --           by by adding the referenced entities
+    	raises TransferFailure;
+    --           Error if one of the Resulting Objects is defined not Transient
+
+
+    FillModel (me; proc   : FinderProcess;
+    	    	   amodel : mutable InterfaceModel)
+    ---Purpose : Fills an InterfaceModel with the Complete Result of a Transfer
+    --           stored in a TransientProcess (Starting Objects are Transient)
+    --           The complete result is exactly added to the model
+    	raises TransferFailure;
+    --           Error if one of the Resulting Objects is defined not Transient
+
+    FillModel (me; proc   : FinderProcess;
+    	    	   amodel : mutable InterfaceModel;
+		   proto  : Protocol from Interface;
+		   roots  : Boolean = Standard_True)
+    ---Purpose : Fills an InterfaceModel with results of the Transfer recorded
+    --           in a TransientProcess (Starting Objects are Transient) :
+    --           Root Result if <roots> is True (Default), Complete Result else
+    --           The entities added to the model are determined from the result
+    --           by by adding the referenced entities
+    	raises TransferFailure;
+    --           Error if one of the Resulting Objects is defined not Transient
+
+end TransferInput;

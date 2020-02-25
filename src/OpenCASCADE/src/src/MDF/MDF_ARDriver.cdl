@@ -1,0 +1,75 @@
+-- Created by: DAUTRY Philippe
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+--      	----------------
+
+---Version:	0.0
+--Version	Date		Purpose
+--		0.0	Apr  4 1997	Creation
+
+
+deferred class ARDriver from MDF
+    inherits TShared from MMgt
+
+	---Purpose: Attribute Retrieval Driver.
+
+uses
+
+    Attribute from TDF,
+    Attribute from PDF,
+    RRelocationTable from MDF, 
+    MessageDriver from CDM, 
+    ExtendedString from TCollection
+
+-- raises
+
+is
+    Initialize (theMessageDriver : MessageDriver from CDM);
+    
+    VersionNumber(me) returns Integer from Standard
+    	is deferred;
+	---Purpose: Returns the version number from which the driver
+	--          is available.
+
+    SourceType(me) returns Type from Standard
+    	is deferred;
+	---Purpose: Returns the type of source object, inheriting from
+	--          Attribute from PDF.
+
+    NewEmpty(me)
+    	returns mutable Attribute from TDF
+    	is deferred;
+	---Purpose: Creates a new attribute from PDF.
+
+    Paste(me;
+    	  aSource     :         Attribute from PDF;
+    	  aTarget     : mutable Attribute from TDF;
+    	  aRelocTable : RRelocationTable from MDF)
+    	is deferred;
+	---Purpose: Translate the contents of <aSource> and put it
+	--          into <aTarget>, using the relocation table
+	--          <aRelocTable> to keep the sharings. 
+	
+    WriteMessage (me; theMessage : ExtendedString from TCollection);
+        ---Purpose: To send message to Application (if MessageDriver defined)
+fields 
+
+    myMessageDriver : MessageDriver from CDM; 
+    
+end ARDriver;

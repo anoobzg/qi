@@ -1,0 +1,114 @@
+// Created on: 1993-03-11
+// Created by: Remi LEQUETTE
+// Copyright (c) 1993-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+//=======================================================================
+//function : ColLength
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer TCollection_HArray2::ColLength () const
+{
+   return myArray.ColLength();
+}
+
+//=======================================================================
+//function : LowerCol
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer TCollection_HArray2::LowerCol () const
+{
+   return myArray.LowerCol();
+}
+
+//=======================================================================
+//function : LowerRow
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer TCollection_HArray2::LowerRow () const
+{
+   return myArray.LowerRow();	
+}
+
+//=======================================================================
+//function : RowLength
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer TCollection_HArray2::RowLength () const
+{
+   return myArray.RowLength();
+}
+
+//=======================================================================
+//function : UpperRow
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer TCollection_HArray2::UpperRow () const
+{
+   return myArray.UpperRow();
+}
+
+//=======================================================================
+//function : UpperCol
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer TCollection_HArray2::UpperCol () const
+{
+   return myArray.UpperCol();
+}
+
+//=======================================================================
+//function : SetValue
+//purpose  : 
+//=======================================================================
+
+inline void TCollection_HArray2::SetValue ( const Standard_Integer Row,
+					   const Standard_Integer Col,
+					   const ItemHArray2& Value )
+{
+  myArray.SetValue(Row,Col,Value);
+}
+
+
+
+//=======================================================================
+//function : Array2
+//purpose  : 
+//=======================================================================
+
+inline const TheArray2& TCollection_HArray2::Array2() const
+{
+  return myArray;
+}
+
+//=======================================================================
+//function : ChangeArray2
+//purpose  : 
+//=======================================================================
+
+inline TheArray2& TCollection_HArray2::ChangeArray2()
+{
+  return myArray;
+}

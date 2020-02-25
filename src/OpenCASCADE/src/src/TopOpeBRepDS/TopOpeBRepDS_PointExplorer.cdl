@@ -1,0 +1,67 @@
+-- Created on: 1995-12-08
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class PointExplorer from TopOpeBRepDS
+
+uses
+
+    DataStructure from TopOpeBRepDS,
+    Point from TopOpeBRepDS
+    
+is
+
+    Create returns PointExplorer from TopOpeBRepDS;
+    Create(DS : DataStructure from TopOpeBRepDS;
+           FindOnlyKeep : Boolean from Standard = Standard_True)
+    returns PointExplorer from TopOpeBRepDS;
+    Init(me : in out; DS : DataStructure from TopOpeBRepDS;
+         FindOnlyKeep : Boolean from Standard = Standard_True) is static;
+    More(me) returns Boolean  is static;
+    Next(me : in out) is static;
+    Point(me) returns Point from TopOpeBRepDS
+    ---C++: return const &
+    is static;
+
+    IsPoint(me; I : Integer ) 
+    returns Boolean  is static;
+    IsPointKeep(me; I : Integer ) returns Boolean  is static;
+    Point(me; I : Integer ) 
+    returns Point from TopOpeBRepDS
+    ---C++: return const &
+    is static;
+    NbPoint(me : in out) returns Integer
+    is static;
+
+    Index(me) returns Integer 
+    is static;
+
+    Find(me : in out) is static private;
+        
+fields
+
+    myIndex   : Integer ;
+    myMax     : Integer ;
+    myDS      : Address ; -- (TopOpeBRepDS_DataStructure*)
+    myFound   : Boolean ;
+    myEmpty   : Point from TopOpeBRepDS;
+    myFindKeep : Boolean;
+    
+end PointExplorer from TopOpeBRepDS;

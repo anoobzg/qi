@@ -1,0 +1,65 @@
+// Created on: 1993-06-03
+// Created by: Laurent BUCHARD
+// Copyright (c) 1993-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+
+//======================================================================	   
+inline const Bnd_Box& IntCurveSurface_Polygon::Bounding(void) const {
+  return(TheBnd);
+}
+//======================================================================
+inline Standard_Real IntCurveSurface_Polygon::DeflectionOverEstimation() const {
+  return(TheDeflection);
+}
+//======================================================================
+inline void IntCurveSurface_Polygon::SetDeflectionOverEstimation
+  (const Standard_Real x) {
+  TheDeflection = x;
+  TheBnd.Enlarge(TheDeflection);
+}
+//======================================================================
+inline void IntCurveSurface_Polygon::Closed(const Standard_Boolean flag) {
+  ClosedPolygon = flag;
+}
+//======================================================================
+inline Standard_Boolean IntCurveSurface_Polygon::Closed(void) const {
+  return(Standard_False);    //-- Voir si le cas Closed est traitable
+}
+//======================================================================
+inline Standard_Integer IntCurveSurface_Polygon::NbSegments(void) const {
+  return(NbPntIn-1);
+}
+//======================================================================
+inline const gp_Pnt& IntCurveSurface_Polygon::BeginOfSeg(const Standard_Integer Index) const {
+  return ThePnts(Index);
+}
+//======================================================================
+inline const gp_Pnt& IntCurveSurface_Polygon::EndOfSeg(const Standard_Integer TheIndex) const {
+  return ThePnts(TheIndex+1);
+}
+//======================================================================
+inline Standard_Real IntCurveSurface_Polygon::InfParameter() const {
+  return(Binf);
+}
+//======================================================================
+inline Standard_Real IntCurveSurface_Polygon::SupParameter() const {
+  return(Bsup);
+}
+//======================================================================

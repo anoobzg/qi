@@ -1,0 +1,124 @@
+// Copyright (c) 1995-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+Blend_Extremity::Blend_Extremity (): 
+       pt(gp_Pnt(0,0,0)),
+       tang(gp_Vec(0,0,0)),
+       param(0.0),  u(0.0), v(0.0), tol(0.0),
+       isvtx(Standard_False), hastang(Standard_False)
+{
+}
+
+Blend_Extremity::Blend_Extremity (const gp_Pnt& P,
+				  const Standard_Real U,
+				  const Standard_Real V,
+				  const Standard_Real Param,
+				  const Standard_Real Tol) :
+       pt(P),
+       tang(gp_Vec(0,0,0)),
+       param(Param),u(U),v(V),tol(Tol),isvtx(Standard_False),
+       hastang(Standard_False)
+{
+}
+
+
+Blend_Extremity::Blend_Extremity (const gp_Pnt& P,
+				  const Standard_Real U,
+				  const Standard_Real V,
+				  const Standard_Real Param,
+				  const Standard_Real Tol,
+				  const TheVertex& Vtx) :
+       vtx(Vtx),pt(P),
+       tang(gp_Vec(0,0,0)),
+       param(Param),u(U),v(V),tol(Tol),isvtx(Standard_True),
+       hastang(Standard_False)
+{}
+
+
+Blend_Extremity::Blend_Extremity (const gp_Pnt& P,
+				  const Standard_Real W,
+				  const Standard_Real Param,
+				  const Standard_Real Tol) :
+       pt(P),
+       tang(gp_Vec(0,0,0)),
+       param(Param),u(W),tol(Tol),isvtx(Standard_False),
+       hastang(Standard_False)
+{}
+
+
+void Blend_Extremity::SetValue (const gp_Pnt& P,
+				const Standard_Real U,
+				const Standard_Real V,
+				const Standard_Real Param,
+				const Standard_Real Tol)
+{
+  pt    = P;
+  u     = U;
+  v     = V;
+  param = Param;
+  tol   = Tol;
+  isvtx = Standard_False;
+  seqpt.Clear();
+}
+
+
+void Blend_Extremity::SetValue (const gp_Pnt& P,
+				const Standard_Real U,
+				const Standard_Real V,
+				const Standard_Real Param,
+				const Standard_Real Tol,
+				const TheVertex& Vtx)
+{
+  pt    = P;
+  u     = U;
+  v     = V;
+  param = Param;
+  tol   = Tol;
+  isvtx = Standard_True;
+  vtx   = Vtx;
+  seqpt.Clear();
+}
+
+void Blend_Extremity::SetValue (const gp_Pnt& P,
+				const Standard_Real W,
+				const Standard_Real Param,
+				const Standard_Real Tol)
+{
+  pt    = P;
+  u     = W;
+  param = Param;
+  tol   = Tol;
+  isvtx = Standard_False;
+  seqpt.Clear();
+}
+
+
+void Blend_Extremity::SetVertex (const TheVertex& V)
+{
+  isvtx = Standard_True;
+  vtx   = V;
+}
+
+void Blend_Extremity::AddArc (const TheArc& A,
+			      const Standard_Real Param,
+			      const IntSurf_Transition& TLine,
+			      const IntSurf_Transition& TArc)
+{
+  seqpt.Append(ThePointOnRst(A,Param,TLine,TArc));
+}
+

@@ -1,0 +1,86 @@
+-- Created on: 1998-07-16
+-- Created by: CAL
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- Updated:	GG IMP230300 The color fields have moved Aspect_Grid
+
+private class RectangularGrid from V3d inherits RectangularGrid from Aspect
+
+uses
+	Ax3			from gp,
+	Color			from Quantity,
+	Group			from Graphic3d,
+	Structure		from Graphic3d,
+	GridDrawMode		from Aspect,
+	ViewerPointer		from V3d
+
+is
+	Create ( aViewer	: ViewerPointer from V3d;
+		 aColor		: Color from Quantity;
+		 aTenthColor	: Color from Quantity )
+	returns mutable RectangularGrid from V3d;
+
+	SetColors ( me	: mutable;
+		    aColor	: Color from Quantity;
+		    aTenthColor	: Color from Quantity )
+	is redefined static;
+
+	Display ( me	: mutable )
+	is redefined static;
+   
+	Erase ( me )
+	is redefined static;
+
+	IsDisplayed ( me )
+	returns Boolean from Standard
+	is redefined static;
+
+	GraphicValues ( me; 
+			XSize, YSize	: out Real from Standard;
+			OffSet		: out Real from Standard )
+	is static;
+
+	SetGraphicValues ( me		: mutable; 
+			   XSize, YSize	: Real from Standard;
+			   OffSet	: Real from Standard )
+	is static;
+
+	DefineLines ( me : mutable )
+	is static private;
+
+	DefinePoints ( me : mutable )
+	is static private;
+
+	UpdateDisplay ( me	: mutable )
+	is redefined static protected;
+
+fields
+	myStructure		: Structure from Graphic3d;
+	myGroup         : Group from Graphic3d;
+	myCurViewPlane	: Ax3 from gp;
+	myViewer		: ViewerPointer from V3d;
+	myCurAreDefined	: Boolean from Standard;
+	myCurDrawMode	: GridDrawMode from Aspect;
+	myCurXo, myCurYo	: Real from Standard;
+	myCurAngle		: Real from Standard;
+	myCurXStep, myCurYStep	: Real from Standard;
+	myXSize, myYSize	: Real from Standard;
+	myOffSet		: Real from Standard;
+
+end RectangularGrid from V3d;

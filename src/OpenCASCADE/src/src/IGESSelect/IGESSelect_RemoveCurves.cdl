@@ -1,0 +1,51 @@
+-- Created on: 1999-02-24
+-- Created by: Christian CAILLET
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class RemoveCurves  from IGESSelect    inherits ModelModifier from IGESSelect
+
+    ---Purpose : Removes Curves UV or 3D (not both !) from Faces, those
+    --           designated by the Selection. No Selection means all the file
+
+uses AsciiString from TCollection,
+     IGESModel, CopyTool, ContextModif
+ 
+is
+
+    Create (UV : Boolean) returns mutable RemoveCurves;
+    ---Purpose : Creates a RemoveCurves from Faces (141/142/143/144)
+    --           UV True  : Removes UV Curves (pcurves)
+    --           UV False : Removes 3D Curves
+
+    Performing (me; ctx : in out ContextModif;
+                target  : mutable IGESModel;
+                TC      : in out CopyTool);
+    ---Purpose : Specific action : Removes the Curves
+ 
+    Label (me) returns AsciiString from TCollection;
+    ---Purpose : Returns a text which is
+    --           "Remove Curves UV on Face"  or  "Remove Curves 3D on Face"
+
+fields
+
+    theUV : Boolean;
+
+end RemoveCurves;

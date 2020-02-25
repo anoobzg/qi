@@ -1,0 +1,122 @@
+-- Created by: DAUTRY Philippe
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+--      	-------------
+
+---Version:	0.0
+--Version	Date		Purpose
+--		0.0	Sep  8 1997	Creation
+
+
+class Delta from TDF inherits TShared from MMgt
+
+	---Purpose: A delta set is available at <aSourceTime>. If
+	--          applied, it restores the TDF_Data in the state it
+	--          was at <aTargetTime>.
+
+uses
+
+    OStream                  from Standard,
+    ExtendedString           from TCollection,
+    LabelList                from TDF,
+    AttributeDelta           from TDF,
+    AttributeDeltaList       from TDF
+
+raises
+
+    OutOfRange from Standard
+
+is
+
+
+    Create;
+	---Purpose: Creates a delta.
+
+    Validity(me : mutable;
+    	     aBeginTime   : Integer from Standard;
+    	     anEndTime    : Integer from Standard)
+    	is protected;
+	---Purpose: Validates <me> at <aBeginTime>. If applied, it
+	--          restores the TDF_Data in the state it was at
+	--          <anEndTime>. Reserved to TDF_Data.
+
+    
+    AddAttributeDelta (me : mutable;
+    	    	       anAttributeDelta : AttributeDelta from TDF)
+    	is protected;
+	---Purpose: Adds an AttributeDelta to the list. Reserved to
+	--          TDF_Data.
+
+    IsEmpty (me) returns Boolean from Standard;
+	---Purpose: Returns true if there is nothing to undo.
+	--          
+	---C++: inline    
+
+    BeforeOrAfterApply(me; before : Boolean from Standard) is private;
+
+    Apply (me : mutable) is private;
+    
+    IsApplicable (me; aCurrentTime : Integer from Standard)
+    	returns Boolean from Standard;
+	---Purpose: Returns true if the Undo action of <me> is
+	--          applicable at <aCurrentTime>.
+	-- 
+	---C++: inline
+
+    BeginTime (me) returns Integer;
+	---Purpose: Returns the field <myBeginTime>.
+	---C++: inline
+    
+    EndTime (me) returns Integer;
+	---Purpose: Returns the field <myEndTime>.
+	---C++: inline    
+
+    Labels(me; aLabelList : in out LabelList from TDF);
+	---Purpose: Adds in <aLabelList> the labels of the attribute deltas.
+	--          Caution: <aLabelList> is not cleared before use.
+
+    AttributeDeltas (me) returns AttributeDeltaList from TDF;
+	---Purpose: Returns the field <myAttDeltaList>.
+	---C++: inline    
+	---C++: return const &
+
+    Name(me) returns ExtendedString from TCollection;
+   	---Purpose: Returns a name associated with this delta.
+	---C++: inline   
+    
+    SetName(me : mutable; theName : ExtendedString from TCollection);
+    	---Purpose: Associates a name <theName> with this delta
+	---C++: inline
+
+
+    Dump(me; OS : in out OStream from Standard);
+
+fields
+
+    myBeginTime    : Integer            from Standard;
+    myEndTime      : Integer            from Standard;
+    myAttDeltaList : AttributeDeltaList from TDF;
+    myName         : ExtendedString     from TCollection;
+    
+friends
+
+    class Data from TDF
+
+end Delta;
+

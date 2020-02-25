@@ -1,0 +1,85 @@
+-- Created on: 1996-03-26
+-- Created by: Christian CAILLET
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class SelectForTransfer  from XSControl   inherits SelectExtract  from IFSelect
+
+    ---Purpose : This selection selects the entities which are recognised for
+    --           transfer by an Actor for Read : current one or another one.
+    --           
+    --           An Actor is an operator which runs transfers from interface
+    --           entities to objects for Imagine. It has a method to recognize
+    --           the entities it can process (by default, it recognises all,
+    --           this method can be redefined).
+    --           
+    --           A TransferReader brings an Actor, according to the currently
+    --           selected norm and transfer conditions.
+    --           
+    --           This selection considers, either the current Actor (brought by
+    --           the TransferReader, updated as required), or a precise one.
+
+uses AsciiString from TCollection, InterfaceModel,
+     ActorOfTransientProcess, TransferReader
+
+is
+
+    Create returns mutable SelectForTransfer;
+    ---Purpose : Creates a SelectForTransfer, non initialised
+    --           it sorts nothing, unless an Actor has been defined
+
+    Create (TR : TransferReader) returns mutable SelectForTransfer;
+    ---Purpose : Creates a SelectForTransfer, which will work with the
+    --           currently defined Actor brought by the TransferReader
+
+    SetReader (me : mutable; TR : TransferReader);
+    ---Purpose : Sets a TransferReader to sort entities : it brings the Actor,
+    --           which may change, while the TransferReader does not
+
+    SetActor (me : mutable; act : mutable ActorOfTransientProcess);
+    ---Purpose : Sets a precise actor to sort entities
+    --           This definition oversedes the creation with a TransferReader
+
+    Actor (me) returns ActorOfTransientProcess;
+    ---Purpose : Returns the Actor used as precised one.
+    --           Returns a Null Handle for a creation from a TransferReader
+    --           without any further setting
+
+    Reader (me) returns TransferReader;
+    ---Purpose : Returns the Reader (if created with a Reader)
+    --           Returns a Null Handle if not created with a Reader
+
+
+    Sort (me; rank : Integer; ent : Transient; model : InterfaceModel)
+        returns Boolean;
+    ---Purpose : Returns True for an Entity which is recognized by the Actor,
+    --           either the precised one, or the one defined by TransferReader
+     
+    --Sort (me;  ent : in out Transient) returns Boolean;
+     
+    ExtractLabel (me) returns AsciiString from TCollection;
+    ---Purpose : Returns a text defining the criterium : "Recognized for Transfer [(current actor)]"
+
+fields
+
+    theTR : TransferReader;
+    theAC : ActorOfTransientProcess;
+
+end SelectForTransfer;

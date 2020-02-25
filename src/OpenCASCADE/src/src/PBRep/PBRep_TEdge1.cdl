@@ -1,0 +1,94 @@
+-- Created on: 1992-05-27
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+
+class TEdge1 from PBRep inherits TEdge1 from PTopoDS
+
+	---Purpose: The TEdge1 from PBRep is  inherited from  the  TEdge1
+	--          from TopoDS. It contains the geometric data.
+	--          
+	--          The TEdge1 contains :
+	--           
+	--           * Flags : SameParameter, SameRange, Degenerated
+	--          
+	--           * A tolerance.
+	--           
+	--           * A list of representations.
+	--           
+
+uses
+    CurveRepresentation       from PBRep
+
+is
+    Create returns mutable TEdge1 from PBRep;
+	---Purpose: Creates an empty TEdge1.
+    	---Level: Internal 
+
+    Tolerance(me) returns Real
+    is static;
+    	---Level: Internal 
+    	
+    Tolerance(me : mutable; T : Real)
+    is static;
+    	---Level: Internal 
+    
+    SameParameter(me) returns Boolean
+    is static;
+    	---Level: Internal 
+    
+    SameParameter(me : mutable; S : Boolean)
+    is static;
+    	---Level: Internal 
+    
+    SameRange(me) returns Boolean
+    is static;
+    	---Level: Internal 
+    
+    SameRange(me : mutable; S : Boolean)
+    is static;
+    	---Level: Internal 
+    
+    Degenerated(me) returns Boolean
+    is static;
+    	---Level: Internal 
+    
+    Degenerated(me : mutable; S : Boolean)
+    is static;
+    	---Level: Internal 
+    
+    Curves(me) returns CurveRepresentation from PBRep
+    is static;
+    	---Level: Internal 
+    
+    Curves(me : mutable; C : CurveRepresentation from PBRep)
+    is static;
+    	---Level: Internal 
+    
+
+fields
+
+    myTolerance     : Real;
+    myFlags         : Integer;
+    myCurves        : CurveRepresentation from PBRep;
+
+end TEdge1;

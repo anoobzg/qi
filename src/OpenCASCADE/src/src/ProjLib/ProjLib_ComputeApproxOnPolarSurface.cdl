@@ -1,0 +1,90 @@
+-- Created on: 1994-10-07
+-- Created by: Bruno DUMORTIER
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ComputeApproxOnPolarSurface from ProjLib 
+
+
+
+uses
+     HCurve       from Adaptor3d,
+     HCurve2d     from Adaptor2d,
+     HSurface     from Adaptor3d,
+     BSplineCurve from Geom2d,
+     Curve        from Geom2d
+
+is
+
+    Create returns ComputeApproxOnPolarSurface from ProjLib;
+
+    Create(C : HCurve from Adaptor3d ;
+    	   S : HSurface from Adaptor3d ; 
+    	   Tol : Real = 1.0e-4)
+    returns ComputeApproxOnPolarSurface from ProjLib;
+
+--    Create(C : HCurve from Adaptor3d ;
+--    	   S : HSurface from Adaptor3d)
+    ---purpose: pour etre en phase avec ProjOnSurf 
+--    returns ComputeApproxOnPolarSurface from ProjLib;
+
+    Create(InitCurve2d : HCurve2d from Adaptor2d ;
+    	   C : HCurve from Adaptor3d ;
+    	   S : HSurface from Adaptor3d ;
+    	   Tol : Real) 
+    returns ComputeApproxOnPolarSurface from ProjLib;
+
+    Create(InitCurve2d : HCurve2d from Adaptor2d ;
+    	   InitCurve2dBis : HCurve2d from Adaptor2d ;
+    	   C : HCurve from Adaptor3d ;
+    	   S : HSurface from Adaptor3d ;
+    	   Tol : Real) 
+    returns ComputeApproxOnPolarSurface from ProjLib;
+
+    Perform(me : in out ; InitCurve2d : HCurve2d from Adaptor2d;
+    	    	    	  C : HCurve from Adaptor3d ;
+	       	    	  S : HSurface from Adaptor3d )
+    returns BSplineCurve from Geom2d;
+    
+    BuildInitialCurve2d(me : in out ; Curve :       HCurve   from Adaptor3d ;
+		       	       	      S :           HSurface from Adaptor3d )
+    returns HCurve2d from  Adaptor2d;
+
+    ProjectUsingInitialCurve2d(me : in out ; Curve :       HCurve   from Adaptor3d ;
+    	    	    	    	    	     S :           HSurface from Adaptor3d  ;
+    	    	      	    	    	     InitCurve2d : HCurve2d from  Adaptor2d )
+    returns BSplineCurve from Geom2d;
+
+    BSpline(me) returns BSplineCurve from Geom2d ;
+
+    Curve2d(me) returns Curve from Geom2d ;
+
+    IsDone(me) returns Boolean from Standard;
+ 
+fields
+
+    myProjIsDone      : Boolean      from Standard;
+    myTolerance       : Real         from Standard;
+    myBSpline         : BSplineCurve from Geom2d ;
+    my2ndCurve        : Curve        from Geom2d ;
+--    myInitCurve2d     : HCurve2d     from Adaptor3d;
+
+end ComputeApproxOnPolarSurface;
+

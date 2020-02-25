@@ -1,0 +1,122 @@
+-- Created on: 1997-08-07
+-- Created by: VAUTHIER Jean-Claude 
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- modified     Sergey Zaritchny
+
+
+
+package MDataXtd 
+
+	---Purpose: Storage    and  Retrieval  drivers   for modelling
+	--          attributes.   Transient  attributes are defined in
+	--          package TDataStd and persistent one are defined in
+	--          package PDataStd
+
+uses TDF,
+     PDF,
+     MDF, 
+     CDM,
+     TDataStd, 
+     TDataXtd,
+     Geom,  -- a supprimer des que Translate est poussee dans MgtGeom
+     PGeom  -- a supprimer des que Translate est poussee dans MgtGeom
+
+is
+
+    	---Purpose: Storage drivers for TDataXtd attributes
+    	--          =======================================
+
+        class ShapeStorageDriver;
+	
+	class PointStorageDriver;
+	
+	class AxisStorageDriver;
+	
+	class PlaneStorageDriver;
+
+    	class GeometryStorageDriver;
+
+	class ConstraintStorageDriver;
+	
+	class PlacementStorageDriver;
+	
+	class PatternStdStorageDriver;
+
+ 
+    
+    	---Purpose: Retrieval drivers for PDataXtd attributes
+    	--          =========================================
+
+	class ShapeRetrievalDriver;	
+	
+	class PointRetrievalDriver;
+	
+	class AxisRetrievalDriver;
+	
+	class PlaneRetrievalDriver;
+
+    	class GeometryRetrievalDriver;
+
+	class ConstraintRetrievalDriver;
+	
+	class PlacementRetrievalDriver;
+	
+	class PatternStdRetrievalDriver;
+
+
+
+    AddStorageDrivers(aDriverSeq : ASDriverHSequence from MDF; theMessageDriver : MessageDriver from CDM);
+	---Purpose: Adds the attribute storage drivers to <aDriverSeq>.
+
+
+    AddRetrievalDrivers(aDriverSeq : ARDriverHSequence from MDF; theMessageDriver : MessageDriver from CDM);
+	---Purpose: Adds the attribute retrieval drivers to <aDriverSeq>.
+
+
+    Translate (Geometry : Geometry from Geom)
+    	---Purpose: Method to launch in MgtGeom
+    	--           Delete MDataStd_1.cxx
+    	--           Modify MDataStd_GeometryStorageDriver::Paste
+    returns Geometry from PGeom;
+
+
+    Translate (Geometry : Geometry from PGeom)
+    	---Purpose : Method to lasunch in MgtGeom
+    	--           Delete MDataStd_1.cxx
+    	--           Modify MDataStd_GeometryRetrievalDriver::Paste
+    returns Geometry from Geom;
+
+
+    ---Purpose: Translation of TDataXtd enumerations to integer
+    --          ===============================================
+ 
+    ConstraintTypeToInteger (e : ConstraintEnum from TDataXtd)
+    returns Integer from Standard;
+
+    IntegerToConstraintType (i : Integer from Standard)
+    returns ConstraintEnum from TDataXtd;     
+    
+    GeometryTypeToInteger (e : GeometryEnum from TDataXtd)
+    returns Integer from Standard;
+
+    IntegerToGeometryType (i : Integer from Standard)
+    returns GeometryEnum from TDataXtd;     
+    
+end MDataXtd;

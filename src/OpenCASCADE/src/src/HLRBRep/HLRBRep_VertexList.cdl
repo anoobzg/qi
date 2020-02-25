@@ -1,0 +1,86 @@
+-- Created on: 1997-04-17
+-- Created by: Christophe MARION
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class VertexList from HLRBRep
+
+uses
+	Orientation                    from TopAbs,
+        Intersection                   from HLRAlgo,
+        Interference                   from HLRAlgo,
+	ListIteratorOfInterferenceList from HLRAlgo,
+	EdgeInterferenceTool           from HLRBRep 
+is
+
+    Create(T : EdgeInterferenceTool from HLRBRep;
+           I : ListIteratorOfInterferenceList from HLRAlgo)
+    returns VertexList from HLRBRep;
+
+    IsPeriodic(me) returns Boolean from Standard
+        ---Purpose: Returns True when the curve is periodic.
+    is static;
+    
+    More(me) returns Boolean from Standard
+        ---Purpose: Returns True when there are more vertices.
+    is static;
+    
+    Next(me : in out)
+        ---Purpose: Proceeds to the next vertex.
+    is static;
+    
+    Current(me) returns Intersection from HLRAlgo
+        ---Purpose: Returns the current vertex
+        --          
+	---C++: return const &
+    is static;
+    
+    IsBoundary(me) returns Boolean from Standard
+        ---Purpose: Returns True  if the current  vertex  is is on the
+        --          boundary of the edge.
+    is static;
+    
+    IsInterference(me) returns Boolean from Standard
+        ---Purpose: Returns  True   if   the current    vertex  is  an
+        --          interference. 
+    is static;
+    
+    Orientation(me) returns Orientation from TopAbs
+        ---Purpose: Returns the  orientation of the  current vertex if
+        --          it is on the boundary of the edge.
+    is static;
+    
+    Transition(me) returns Orientation from TopAbs
+        ---Purpose: Returns  the transition  of the  current vertex if
+        --          it is an interference.
+    is static;
+    
+    BoundaryTransition(me) returns Orientation from TopAbs
+        ---Purpose: Returns  the  transition  of  the  current  vertex
+        --          relative to the boundary if it is an interference.
+    is static;
+    
+fields
+	
+    myIterator   : ListIteratorOfInterferenceList from HLRAlgo;
+    myTool       : EdgeInterferenceTool           from HLRBRep;
+    fromEdge     : Boolean                        from Standard;
+    fromInterf   : Boolean                        from Standard;
+
+end VertexList;

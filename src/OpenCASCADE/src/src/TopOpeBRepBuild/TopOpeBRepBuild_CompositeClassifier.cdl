@@ -1,0 +1,74 @@
+-- Created on: 1996-01-05
+-- Created by: Jean Yves LEBEY
+-- Copyright (c) 1996-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+deferred class CompositeClassifier from TopOpeBRepBuild
+    inherits LoopClassifier from TopOpeBRepBuild
+
+---Purpose: 
+-- classify composite Loops, i.e, loops that can be either a Shape, or
+-- a block of Elements.
+
+uses
+    
+    ShapeEnum from TopAbs,
+    Shape from TopoDS,
+    State from TopAbs,
+    Loop from TopOpeBRepBuild,
+    BlockBuilder from TopOpeBRepBuild
+    
+is
+
+    Initialize(BB : BlockBuilder);
+
+    Compare(me : in out; L1,L2 : Loop) returns State from TopAbs
+    is redefined;
+
+    CompareShapes(me : in out; B1,B2 : Shape from TopoDS)
+    ---Purpose: classify shape <B1> with shape <B2>
+    returns State from TopAbs is deferred;
+    
+    CompareElementToShape(me : in out; E,B : Shape from TopoDS)
+    ---Purpose: classify element <E> with shape <B>
+    returns State from TopAbs is deferred;
+    
+    ResetShape(me : in out; B : Shape from TopoDS) is deferred;
+    ---Purpose: prepare classification involving shape <B>
+    -- calls ResetElement on first element of <B>
+    
+    ResetElement(me : in out; E : Shape from TopoDS) is deferred;
+    ---Purpose: prepare classification involving element <E>.
+    
+    CompareElement(me : in out; E : Shape from TopoDS)  
+    returns Boolean from Standard 
+    is deferred;
+    ---Purpose: Add element <E> in the set of elements used in classification.  
+    --  Returns FALSE if the element <E> has been already added to the set of elements, 
+    --  otherwise returns TRUE.
+     
+    State(me : in out) returns State from TopAbs is deferred;
+    ---Purpose: Returns state of classification of 2D point, defined by 
+    -- ResetElement, with the current set of elements, defined by Compare.
+
+fields
+
+    myBlockBuilder : Address is protected; -- (TopOpeBRepBuild_BlockBuilder*)
+
+end CompositeClassifier from TopOpeBRepBuild;

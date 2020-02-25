@@ -1,0 +1,109 @@
+-- Created on: 1998-11-13
+-- Created by: Jean-Michel BOULCOURT
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class Projection from BRepProj
+
+    	---Purpose: The  Projection   class provides  conical  and 
+        --          cylindrical projections of  Edge  or  Wire  on   
+        --          a Shape from TopoDS. The result will be a Edge    
+        --          or  Wire  from  TopoDS. 
+
+uses
+    Dir	                             from gp, 
+    Pnt	                             from gp, 
+    Shape                            from TopoDS,  
+    Edge                             from TopoDS, 
+    Wire                             from TopoDS, 
+    Face                             from TopoDS,     
+    Compound                         from TopoDS,  
+    HSequenceOfShape                 from TopTools
+	      
+raises  
+    NoSuchObject      from Standard, 
+    ConstructionError from Standard,
+    NullObject        from Standard
+
+is 
+ 	 
+    Create(Wire, Shape : Shape from TopoDS; 
+           D : Dir from gp)  
+    returns Projection from BRepProj 
+    raises NullObject        from Standard, 
+           ConstructionError from Standard;
+    ---Purpose: Makes a Cylindrical projection of Wire om Shape
+	 
+    Create(Wire, Shape : Shape from TopoDS; 
+           P : Pnt from gp)  
+    returns Projection from BRepProj     
+    raises NullObject        from Standard, 
+           ConstructionError from Standard;
+    ---Purpose: Makes a Conical projection of Wire om Shape
+     
+
+    IsDone(me)  returns Boolean from Standard 
+        ---Purpose: returns False if the section failed
+	---C++:     inline
+    is static;
+    
+    Init(me : in out)
+    	---Purpose: Resets the iterator by resulting wires.
+	---C++:     inline
+    is static; 
+    
+    More(me)  returns Boolean from Standard
+	---Purpose: Returns True if there is a current result wire
+	---C++:     inline
+    is static;
+    
+    Next(me : in out)
+    	---Purpose: Move to the next result wire.
+	---C++:     inline
+    is static;
+    
+    Current(me)
+    returns Wire from TopoDS
+    	---Purpose: Returns the current result wire.  
+	---C++:     inline
+    is static;
+	 
+    Shape(me)
+    returns Compound from TopoDS
+    	---Purpose: Returns the complete result as compound of wires.
+	---C++:     inline
+    is static;
+	 
+    BuildSection(me: in out; Shape, Tool: Shape from TopoDS)
+    is private;
+        ---Purpose: Performs section of theShape by theTool
+        ---         and stores result in the fields.
+
+fields  
+
+    myIsDone  : Boolean          from Standard; 
+    myLsh     : Shape            from TopoDS;
+    myShape   : Compound         from TopoDS; 
+    mySection : HSequenceOfShape from TopTools; 
+    myItr     : Integer          from Standard; 
+	  
+end Projection;
+

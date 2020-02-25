@@ -1,0 +1,63 @@
+-- Created on: 1993-03-16
+-- Created by: Christian CAILLET
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class CopyMap  from Interface  inherits CopyControl
+
+    ---Purpose : Manages a Map for the need of single Transfers, such as Copies
+    --           In such transfer, Starting Entities are read from a unique
+    --           Starting Model, and each transferred Entity is bound to one
+    --           and only one Result, which cannot be changed later.
+
+uses Transient,  Array1OfTransient from TColStd,    InterfaceModel
+
+raises InterfaceError
+
+is
+
+    Create (amodel : InterfaceModel) returns mutable CopyMap;
+    ---Purpose : Creates a CopyMap adapted to work from a Model
+
+    Clear (me : mutable);
+    ---Purpose : Clears Transfer List. Gets Ready to begin another Transfer
+
+    Model (me) returns InterfaceModel  is static;
+    ---Purpose : Returns the InterfaceModel used at Creation time
+
+    Bind (me : mutable; ent : Transient; res : mutable Transient)
+    ---Purpose : Binds a Starting Entity identified by its Number <num> in the
+    --           Starting Model, to a Result of Transfer <res>
+    	raises InterfaceError;
+    --           Error if <num> is already bound to a result, or is out of range
+
+    Search (me; ent : Transient; res : out mutable Transient)
+    	returns Boolean;
+    ---Purpose : Search for the result of a Starting Object (i.e. an Entity,
+    --           identified by its Number <num> in the Starting Model)
+    --           Returns True  if a  Result is Bound (and fills <res>)
+    --           Returns False if no result is Bound (and nullifies <res>)
+
+fields
+
+    themod : InterfaceModel;       -- Starting Model
+    theres : Array1OfTransient;    -- list of bound Results
+
+end CopyMap;

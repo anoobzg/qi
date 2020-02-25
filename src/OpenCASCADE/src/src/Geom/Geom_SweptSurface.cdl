@@ -1,0 +1,74 @@
+-- Created on: 1993-03-10
+-- Created by: JCV
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred class SweptSurface from Geom inherits Surface from Geom 
+
+        ---Purpose : Describes the common behavior for surfaces
+    	-- constructed by sweeping a curve with another curve.
+    	-- The Geom package provides two concrete derived
+    	-- surfaces: surface of revolution (a revolved surface),
+    	-- and surface of linear extrusion (an extruded surface).
+       
+
+uses Dir         from gp,
+     Curve       from Geom,
+     Shape       from GeomAbs
+
+is
+
+
+  Continuity (me)   returns Shape from GeomAbs;
+        ---Purpose :
+        --  returns the continuity of the surface : 
+        --  C0 : only geometric continuity,
+        --  C1 : continuity of the first derivative all along the surface,
+        --  C2 : continuity of the second derivative all along the surface,
+        --  C3 : continuity of the third derivative all along the surface,
+        --  G1 : tangency continuity all along the surface,
+        --  G2 : curvature continuity all along the surface,
+        --  CN : the order of continuity is infinite.
+
+
+  Direction (me)  returns Dir;
+        ---Purpose :
+        --  Returns the reference direction of the swept surface.
+        --  For a surface of revolution it is the direction of the 
+        --  revolution axis, for a surface of linear extrusion it is 
+        --  the direction of extrusion.
+    	---C++: return const&
+
+
+  BasisCurve (me)  returns Curve from Geom;
+        ---Purpose :
+        --  Returns the referenced curve of the surface.
+        --  For a surface of revolution it is the revolution curve,
+        --  for a surface of linear extrusion it is the extruded curve.
+
+
+fields
+
+  basisCurve : Curve       from Geom    is protected;
+  direction  : Dir         from gp      is protected;
+  smooth     : Shape       from GeomAbs is protected;
+
+
+end;

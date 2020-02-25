@@ -1,0 +1,101 @@
+-- Created on: 1995-03-17
+-- Created by: Dieter THIEMANN
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class WireframeBuilder from TopoDSToStep
+    inherits Root from TopoDSToStep
+
+    ---Purpose: This builder Class provides services to build
+    --          a ProSTEP Wireframemodel from a Cas.Cad BRep.                 
+
+uses
+
+    FinderProcess           from Transfer,
+    Edge                    from TopoDS,
+    Face                    from TopoDS,
+    Shape                   from TopoDS,
+    Tool                    from TopoDSToStep,
+    BuilderError            from TopoDSToStep,
+    HSequenceOfTransient    from TColStd,
+    DataMapOfShapeTransient from MoniTool
+
+raises NotDone from StdFail 
+    
+is 
+
+--  -----------------------------------------------------------
+--  Constructor
+--  -----------------------------------------------------------
+
+    Create returns WireframeBuilder from TopoDSToStep;
+    
+    Create(S  : Shape from TopoDS;
+    	   T  : in out Tool from TopoDSToStep;
+	   FP : mutable FinderProcess from Transfer)
+    	returns WireframeBuilder from TopoDSToStep;
+    
+    Init(me : in out;
+    	 S  : Shape from TopoDS;
+    	 T  : in out Tool from TopoDSToStep;
+	 FP : mutable FinderProcess from Transfer);
+    
+--  -----------------------------------------------------------    
+--  Get the Result
+--  -----------------------------------------------------------
+
+    Error(me) returns BuilderError from TopoDSToStep;
+    
+    Value (me) returns HSequenceOfTransient from TColStd
+    	raises NotDone
+    	is static;
+    	---C++: return const &
+
+    -- Working methods (moved from TopoDSToGBWire)
+
+    GetTrimmedCurveFromEdge (me; E: Edge from TopoDS;
+    			         F: Face from TopoDS;
+		    	         M: in out DataMapOfShapeTransient from MoniTool;
+    	    	    	         L: in out HSequenceOfTransient from TColStd)
+     	            	         returns Boolean from Standard;
+    --- Purpose: Extraction of Trimmed Curves from TopoDS_Edge for the 
+    --  Creation of a GeometricallyBoundedWireframeRepresentation
+
+    GetTrimmedCurveFromFace (me; F: Face from TopoDS;
+		    	         M: in out DataMapOfShapeTransient from MoniTool;
+    	    	    	         L: in out HSequenceOfTransient from TColStd)
+     	            	         returns Boolean from Standard;
+    --- Purpose: Extraction of Trimmed Curves from TopoDS_Face for the 
+    --  Creation of a GeometricallyBoundedWireframeRepresentation
+
+    GetTrimmedCurveFromShape (me; S: Shape from TopoDS;
+		    	          M: in out DataMapOfShapeTransient from MoniTool;
+    	    	    	          L: in out HSequenceOfTransient from TColStd)
+     	            	          returns Boolean from Standard;
+    --- Purpose: Extraction of Trimmed Curves from any TopoDS_Shape for the 
+    --  Creation of a GeometricallyBoundedWireframeRepresentation
+    
+fields
+
+    myResult : HSequenceOfTransient from TColStd;
+    
+    myError  : BuilderError         from TopoDSToStep;
+
+end WireframeBuilder;

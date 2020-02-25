@@ -1,0 +1,180 @@
+-- Created on: 1992-10-19
+-- Created by: Laurent BUCHARD
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+generic class Polygon from IntCurveSurface ( 
+    TheCurve         as any;
+    TheCurveTool     as any) 
+
+	---Purpose: Describe a polyline  as  a topology to compute the
+	--          interference beetween two polylines 2 dimension.
+	          
+
+uses    Pnt              from gp,
+    	Box              from Bnd,
+    	Array1OfPnt      from TColgp,
+    	Array1OfReal     from TColStd, 
+	HArray1OfReal    from TColStd
+
+
+raises  OutOfRange from Standard
+
+
+is  
+
+    Create         (Curve       : TheCurve;
+    	    	    NbPnt       : Integer  from Standard)
+		    
+    	    	    returns Polygon from IntCurveSurface;
+
+    Create         (Curve       : TheCurve;
+                    U1,U2       : Real from Standard;
+    	    	    NbPnt       : Integer  from Standard)
+		    
+    	    	    returns Polygon from IntCurveSurface;
+
+    Create         (Curve       : TheCurve;
+                    Upars       : Array1OfReal from TColStd)
+		    
+    	    	    returns Polygon from IntCurveSurface;
+
+    Init           (me:in out;
+    	    	    Curve       : TheCurve)
+    
+    		    is static protected;
+ 
+    Init           (me:in out;
+    	    	    Curve       : TheCurve;
+                    Upars       : Array1OfReal from TColStd)
+    
+    		    is static protected;
+
+
+    Bounding       (me)
+    	    	    returns Box from Bnd
+                    ---C++: return const &
+                    ---C++: inline
+    	    	    is static;
+    ---Purpose: Give the bounding box of the polygon.
+
+    DeflectionOverEstimation(me)
+		   returns Real from Standard
+		   ---C++: inline
+		   is static;
+	  
+
+    SetDeflectionOverEstimation(me: in out; x:Real from Standard)
+                    ---C++: inline
+		    is static;
+
+    Closed         (me : in out; clos : Boolean from Standard)
+                    ---C++: inline
+		    is static;
+
+    Closed         (me)
+    	    	    returns Boolean from Standard
+		    ---C++: inline
+		    is static;
+
+    NbSegments     (me)
+    	    	    returns Integer
+		    ---C++: inline
+    	    	    is static;
+    ---Purpose: Give the number of Segments in the polyline.
+    
+    BeginOfSeg     (me;
+    	    	    Index : in Integer)
+    	    	    returns Pnt from gp
+    	    	    raises OutOfRange from Standard
+                    ---C++: return const &
+                    ---C++: inline
+    	    	    is static;
+    ---Purpose: Give the point of range Index in the Polygon. 
+
+    EndOfSeg       (me;
+    	    	    Index : in Integer)
+    	    	    returns Pnt from gp
+    	    	    raises OutOfRange from Standard
+                    ---C++: return const &
+                    ---C++: inline
+    	    	    is static;
+    ---Purpose: Give the point of range Index in the Polygon. 
+
+-- Implementation : 
+
+
+   InfParameter(me) 
+   
+    	---Purpose: Returns the parameter (On the curve)
+    	--          of the first point of the Polygon
+   
+    	returns Real from Standard
+	---C++: inline
+	is static;
+
+   SupParameter(me) 
+
+       	---Purpose: Returns the parameter (On the curve)
+    	--          of the last point of the Polygon
+   
+   
+    	returns Real from Standard
+	---C++: inline
+	is static;
+
+
+   ApproxParamOnCurve(me; 
+                      Index       : in  Integer from Standard;
+		      ParamOnLine : in  Real    from Standard)
+    	    	      
+                      returns Real      from Standard
+    	    	     
+		      raises OutOfRange from Standard
+    	    	      is static;
+
+    ---Purpose: Give an approximation of the parameter on the curve 
+    --          according to the discretization of the Curve.
+		 
+	
+
+						 
+-- Test needings :   
+
+
+    
+    Dump           (me)
+    	    	    is static;
+
+
+fields  TheBnd        : Box                  from Bnd;
+    	TheDeflection : Real                 from Standard;
+    	NbPntIn       : Integer              from Standard;
+    	ThePnts       : Array1OfPnt          from TColgp;
+	ClosedPolygon : Boolean              from Standard;
+	
+	--- To compute an approximate parameter on the Curve
+	--  
+	Binf          : Real                 from Standard;
+	Bsup          : Real                 from Standard; 
+	 
+	myParams      : HArray1OfReal        from TColStd;
+
+end Polygon;

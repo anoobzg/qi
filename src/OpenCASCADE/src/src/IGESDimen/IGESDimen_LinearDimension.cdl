@@ -1,0 +1,108 @@
+-- Created on: 1993-01-13
+-- Created by: CKY / Contract Toubro-Larsen ( Deepak PRABHU )
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class LinearDimension from IGESDimen  inherits IGESEntity
+
+        ---Purpose: defines LinearDimension, Type <216> Form <0>
+        --          in package IGESDimen
+        --          Used for linear dimensioning
+
+uses
+
+        GeneralNote     from IGESDimen,
+        WitnessLine     from IGESDimen,
+        LeaderArrow     from IGESDimen
+
+raises OutOfRange
+
+is
+
+        Create returns mutable LinearDimension;
+
+        -- Specific Methods pertaining to the class
+
+        Init (me             : mutable;
+              aNote          : GeneralNote;
+              aLeader        : LeaderArrow;
+              anotherLeader  : LeaderArrow;
+              aWitness       : WitnessLine;
+              anotherWitness : WitnessLine);
+        ---Purpose : This method is used to set the fields of the class
+        --           LinearDimension
+        --       - aNote          : General Note Entity
+        --       - aLeader        : First Leader Entity
+        --       - anotherLeader  : Second Leader Entity
+        --       - aWitness       : First Witness Line Entity or a Null
+        --                          Handle
+        --       - anotherWitness : Second Witness Line Entity or a Null
+        --                          Handle
+
+    	SetFormNumber (me : mutable; form : Integer) raises OutOfRange;
+	---Purpose : Changes FormNumber (indicates the Nature of the Dimension
+	--           Unspecified, Diameter or Radius)
+	--           Error if not in range [0-2]
+
+
+        Note (me) returns GeneralNote;
+        ---Purpose : returns General Note Entity
+
+        FirstLeader (me) returns LeaderArrow;
+        ---Purpose : returns first Leader Entity
+
+        SecondLeader (me) returns LeaderArrow;
+        ---Purpose : returns second Leader Entity
+
+        HasFirstWitness (me) returns Boolean;
+        ---Purpose : returns False if no first witness line
+
+        FirstWitness (me) returns WitnessLine;
+        ---Purpose : returns first Witness Line Entity or a Null Handle
+
+        HasSecondWitness (me) returns Boolean;
+        ---Purpose : returns False if no second witness line
+
+        SecondWitness (me) returns WitnessLine;
+        ---Purpose : returns second Witness Line Entity or a Null Handle
+
+fields
+
+--
+-- Class    : IGESDimen_LinearDimension
+--
+-- Purpose  : Declaration of variables specific to the definition
+--            of the Class LinearDimension.
+--
+-- Reminder : A LinearDimension instance is defined by :
+--            - General Note Entity
+--            - First Leader Entity
+--            - Second Leader Entity
+--            - First Witness Line Entity or a Null Handle
+--            - Second Witness Line Entity or a Null Handle
+-- An LinearDimension Entity consists of a general note, two leaders and
+-- zero, one or two witness lines.
+
+        theNote          : GeneralNote;
+        theFirstLeader   : LeaderArrow;
+        theSecondLeader  : LeaderArrow;
+        theFirstWitness  : WitnessLine;
+        theSecondWitness : WitnessLine;
+
+end LinearDimension;

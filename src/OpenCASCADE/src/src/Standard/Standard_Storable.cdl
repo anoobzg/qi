@@ -1,0 +1,66 @@
+-- Created on: 1991-09-05
+-- Created by: jean pierre TIRAULT
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+deferred class Storable from Standard
+
+   ---Purpose: This class Storable is an abstract class that allows built-in 
+   --          primitive types to be extended. They are not themselves 
+   --          persistent, but are known by the database, therefore can be used
+   --         to define the internal representation of persistent objects.
+   --         Otherwise, all the fields of subclasses of Object MUST inherit
+   --         from Storable.
+   --         
+   --         This class provides also a framework for copying, comparing and 
+   --         printing.
+
+is    
+        Delete ( me : out ) is virtual;
+        ---C++: alias "Standard_EXPORT virtual ~Standard_Storable(){Delete();}"
+
+	HashCode (me; Upper : Integer ) returns Integer is virtual;
+	    ---Purpose: Returns a hashed value denoting <me>. This value is in
+	    --         the range 1..<Upper>.
+	    ---C++:  function call
+            ---Level: Advanced
+            
+	IsEqual (me; Other : Storable) returns Boolean
+	    ---Purpose: Returns true if the direct contents of <me> and
+	    --         <Other> are memberwise equal.
+	    ---C++:  alias operator ==
+	    ---Level: Public 
+        is static;
+
+	IsSimilar (me; Other : Storable) returns Boolean;
+	    ---Purpose: Returns true if the Deep contents of <me> and
+	    --         <Other> are memberwise equal.
+	    ---C++:  function call
+            ---Level: Public
+            
+	ShallowDump (me; S: in out OStream) is virtual;
+	    ---Purpose: Prints the contents at the first level of <me> on
+	    --         the stream <s>. The Root version of ShallowDump prints
+	    --         the name of the class <me> is instance of, followed by 
+	    --         its memory address.
+	    ---C++:  function call
+            ---Level: Public
+
+end Storable;
+

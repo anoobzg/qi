@@ -1,0 +1,159 @@
+// Created on: 1993-11-18
+// Created by: Isabelle GRIGNON
+// Copyright (c) 1993-1999 Matra Datavision
+// Copyright (c) 1999-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include <TopoDS.hxx>
+
+//=======================================================================
+//function : SetFirstStatus
+//purpose  : 
+//=======================================================================
+
+inline void  ChFiDS_Spine::SetFirstStatus(const ChFiDS_State S)
+{
+  firstState = S;
+}
+
+
+//=======================================================================
+//function : SetLastStatus
+//purpose  : 
+//=======================================================================
+
+inline void  ChFiDS_Spine::SetLastStatus(const ChFiDS_State S)
+{
+  lastState = S;
+}
+//=======================================================================
+//function : FirstStatus
+//purpose  : 
+//=======================================================================
+
+inline ChFiDS_State  ChFiDS_Spine::FirstStatus()const 
+{
+  return firstState;
+}
+
+
+//=======================================================================
+//function : LastStatus
+//purpose  : 
+//=======================================================================
+
+inline ChFiDS_State  ChFiDS_Spine::LastStatus()const 
+{
+  return lastState;
+}
+
+
+//=======================================================================
+//function : SetStatus
+//purpose  : 
+//=======================================================================
+
+inline void  ChFiDS_Spine::SetStatus(const ChFiDS_State S,
+				     const Standard_Boolean IsFirst)
+{
+  if(IsFirst) firstState = S;
+  else lastState = S;
+}
+//=======================================================================
+//function : Status
+//purpose  : 
+//=======================================================================
+
+inline ChFiDS_State  ChFiDS_Spine::Status(const Standard_Boolean IsFirst)const 
+{
+  if (IsFirst) return firstState;
+  else return lastState;
+}
+
+//=======================================================================
+//function : SetTangencyExtremity
+//purpose  : 
+//=======================================================================
+
+inline void  ChFiDS_Spine::SetTangencyExtremity(const Standard_Boolean IsTangency,
+						const Standard_Boolean IsFirst)
+{
+  if(IsFirst)  firstistgt = IsTangency ;
+  else         lastistgt = IsTangency;
+}
+//=======================================================================
+//function : IsTangencyExtremity
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean 
+ChFiDS_Spine::IsTangencyExtremity(const Standard_Boolean IsFirst)const 
+{
+  if (IsFirst) return firstistgt;
+  else return lastistgt;
+}
+
+//=======================================================================
+//function : NbEdges
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer  ChFiDS_Spine::NbEdges() const 
+{
+  return spine.Length();
+}
+
+
+//=======================================================================
+//function : Edges
+//purpose  : 
+//=======================================================================
+
+inline const TopoDS_Edge&  ChFiDS_Spine::Edges(const Standard_Integer I) const 
+{
+  return TopoDS::Edge(spine.Value(I));
+}
+
+//=======================================================================
+//function : SetEdges
+//purpose  : 
+//=======================================================================
+
+inline void  ChFiDS_Spine::SetEdges(const TopoDS_Edge& E)
+{
+  spine.Append(E);
+}
+
+//=======================================================================
+//function : PutInFirst
+//purpose  : 
+//=======================================================================
+
+inline void  ChFiDS_Spine::PutInFirst(const TopoDS_Edge& E)
+{
+  spine.InsertBefore(1,E);
+}
+
+//=======================================================================
+//function : CurrentIndexOfElementarySpine
+//purpose  : 
+//=======================================================================
+inline Standard_Integer ChFiDS_Spine::CurrentIndexOfElementarySpine() const 
+{
+  return indexofcurve;
+}

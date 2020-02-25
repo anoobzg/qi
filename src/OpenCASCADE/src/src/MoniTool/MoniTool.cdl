@@ -1,0 +1,100 @@
+-- Created on: 1998-04-01
+-- Created by: Christian CAILLET
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+package MoniTool
+
+    ---Purpose: This package provides basic tools to help monitoring of data
+    --          exchange and shapehealing process, such as:
+    --          - attaching messages to objects
+    --          - storing recorded objects with attached messages for further use
+    --          - timers for measuring the performance
+
+uses Standard, MMgt, TCollection, TColStd, Dico,
+     gp, Geom, Geom2d,
+     TopoDS, TopTools,
+     Message, Dico, OSD
+
+is
+
+    -- Element, generic Elem, and instance for Transient
+    class DataInfo;  -- used in Elem : this one is for Transient
+    deferred class Element;
+        generic class Elem;
+        class TransientElem  instantiates Elem
+            (Transient, MapTransientHasher from TColStd, DataInfo);
+    class ElemHasher;
+
+
+    class IntVal;
+    class RealVal;
+    class AttrList;
+
+    class TypedValue;
+    primitive ValueSatisfies;
+    -- (val : HAsciiString) returns Boolean,  see Satisfies from TypedValue
+    primitive ValueInterpret;
+    -- (typval : TypedValue; hval : HAsciiString; native : Boolean)
+    --   returns HAsciiString,  see Interpret from TypedValue
+
+    class CaseData;
+
+    deferred class SignText;
+    class SignShape;
+
+    class Stat;
+
+    class Option;
+    class Profile;
+    class OptValue;
+
+
+    enumeration ValueType is
+        ValueMisc, ValueInteger, ValueReal, ValueIdent, ValueVoid,   ValueText,
+        ValueEnum, ValueLogical, ValueSub,  ValueHexa,  ValueBinary;
+
+    class DataMapOfShapeTransient instantiates
+          DataMap from TCollection 
+            (Shape           from TopoDS,
+             Transient       from Standard,
+             ShapeMapHasher  from TopTools);
+
+    class IndexedDataMapOfShapeTransient instantiates
+          IndexedDataMap from TCollection 
+            (Shape           from TopoDS,
+             Transient       from Standard,
+             ShapeMapHasher  from TopTools);
+
+    class SequenceOfElement instantiates
+         Sequence from TCollection (Element);
+    class HSequenceOfElement instantiates
+        HSequence from TCollection (Element,SequenceOfElement);
+
+    -- Timers
+    class Timer;
+    class TimerSentry;
+    class MTHasher;
+    class DataMapOfTimer instantiates DataMap from TCollection 
+		    (CString   from Standard,
+	             Timer     from MoniTool,
+		     MTHasher  from MoniTool);
+
+end MoniTool;

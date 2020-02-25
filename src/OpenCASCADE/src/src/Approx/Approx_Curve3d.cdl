@@ -1,0 +1,67 @@
+-- Created on: 1998-08-20
+-- Created by: Philippe MANGIN
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class  Curve3d  from  Approx 
+
+uses
+    HCurve         from  Adaptor3d, 
+    BSplineCurve   from  Geom, 
+    Shape          from  GeomAbs,
+    OutOfRange     from  Standard          
+    
+raises  OutOfRange   from Standard, 
+        ConstructionError  from  Standard
+
+is
+ 
+    Create(Curve:  HCurve  from Adaptor3d; 
+    	    Tol3d:  Real; 
+    	    Order:  Shape  from  GeomAbs; 
+    	    MaxSegments:  Integer; 
+    	    MaxDegree:  Integer)  returns  Curve3d  from  Approx; 
+        ---Purpose: Approximation  of  a  curve  with respect of the  
+    --          requiered tolerance Tol3D. 
+     
+    Curve(me)  returns  BSplineCurve  from  Geom; 
+     
+    IsDone(me)  returns  Boolean  from  Standard; 
+    ---Purpose:  returns  Standard_True  if  the  approximation  has   
+    -- been  done  within  requiered tolerance 
+     
+    HasResult(me) returns Boolean; 
+    ---Purpose: returns  Standard_True if the approximation did come out 
+    -- with a result that  is not NECESSARELY within the required 
+    -- tolerance
+
+    MaxError(me)  returns  Real  from  Standard; 
+    ---Purpose:  returns  the  Maximum  Error  (>0 when an approximation 
+    --  has  been  done, 0  if  no  approximation) 
+     
+    Dump(me;  o:  in  out  OStream); 
+    ---Purpose:  Print on the stream  o  information about the object
+
+fields
+    myIsDone    : Boolean         from  Standard; 
+    myHasResult : Boolean         from  Standard;     
+    myBSplCurve : BSplineCurve    from  Geom; 
+    myMaxError  : Real            from  Standard; 
+    
+end Curve3d;

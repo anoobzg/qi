@@ -1,0 +1,175 @@
+// Created on: 2000-05-22
+// Created by: data exchange team
+// Copyright (c) 2000-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+//=======================================================================
+//function : GMaxDegree
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer& ShapeCustom_RestrictionParameters::GMaxDegree()
+{
+  return myGMaxDegree;
+}
+
+//=======================================================================
+//function : GMaxSeg
+//purpose  : 
+//=======================================================================
+
+inline Standard_Integer& ShapeCustom_RestrictionParameters::GMaxSeg()
+{
+  return myGMaxSeg;
+}
+
+//=======================================================================
+//function : ConvertPlane
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertPlane()
+{
+  return myConvPlane;
+}
+
+//=======================================================================
+//function : ConvertBezierSurf
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertBezierSurf()
+{
+  return myConvBezierSurf;
+}
+
+//=======================================================================
+//function : ConvertRevolutionSurf
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertRevolutionSurf()
+{
+  return myConvRevolSurf;
+}
+
+//=======================================================================
+//function : ConvertExtrusionSurf
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertExtrusionSurf()
+{
+  return myConvExtrSurf;
+}
+
+//=======================================================================
+//function : ConvertOffsetSurf
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertOffsetSurf()
+{
+  return myConvOffsetSurf;
+}
+
+//=======================================================================
+//function : SegmentSurfaceMode
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::SegmentSurfaceMode()
+{
+  return mySegmentSurfaceMode;
+}
+
+//=======================================================================
+//function : ConvertCurve3d
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertCurve3d()
+{
+  return myConvCurve3d;
+}
+
+//=======================================================================
+//function : ConvertOffsetCurv3d
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertOffsetCurv3d()
+{
+  return myConvOffsetCurv3d;
+}
+
+//=======================================================================
+//function : ConvertCurve2d
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertCurve2d()
+{
+  return myConvCurve2d;
+}
+
+//=======================================================================
+//function : ConvertOffsetCurv2d
+//purpose  : 
+//=======================================================================
+
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertOffsetCurv2d()
+{
+  return myConvOffsetCurv2d;
+}
+
+//=======================================================================
+//function : ConvertConicalSurface
+//purpose  : 
+//=======================================================================
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertConicalSurf()
+{
+  return myConvConicalSurf;
+}
+
+//=======================================================================
+//function : ConvertSphericalSurf
+//purpose  : 
+//=======================================================================
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertSphericalSurf()
+{
+  return myConvSphericalSurf;
+}
+
+//=======================================================================
+//function : ConvertToroidalSurf
+//purpose  : 
+//=======================================================================
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertToroidalSurf()
+{
+  return myConvCylindricalSurf;
+}
+
+//=======================================================================
+//function : ConvertCylindricalSurf
+//purpose  : 
+//=======================================================================
+inline Standard_Boolean& ShapeCustom_RestrictionParameters::ConvertCylindricalSurf()
+{
+  return myConvToroidalSurf;
+}

@@ -1,0 +1,74 @@
+-- Created on: 1991-10-10
+-- Created by: Jean Claude VAUTHIER
+-- Copyright (c) 1991-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+
+
+class CircleToBSplineCurve    from Convert   inherits ConicToBSplineCurve
+
+        --- Purpose :
+        --  This algorithm converts a circle into a rational B-spline curve.
+        --  The circle is a Circ2d from package gp and its parametrization is :
+        --  P (U) = Loc + R * (Cos(U) * Xdir + Sin(U) * YDir) where Loc is the
+        --  center of the circle Xdir and Ydir are the normalized directions
+        --  of the local cartesian coordinate system of the circle.
+        --  The parametrization range for the circle is U [0, 2Pi].
+        --  
+        --- Warnings :
+        --  The parametrization range for the B-spline curve is not [0, 2Pi].
+        --  
+        --- KeyWords :
+        --  Convert, Circle, BSplineCurve, 2D .
+
+
+uses Circ2d               from gp,
+     ParameterisationType from Convert 
+
+raises DomainError from Standard
+
+is
+
+  Create (C : Circ2d;
+          Parameterisation : ParameterisationType from Convert 
+    	    = Convert_TgtThetaOver2) 
+  returns CircleToBSplineCurve;
+        --- Purpose :
+        --  The equivalent B-spline curve has the same orientation
+        --  as the circle C.
+
+
+  Create (C : Circ2d; U1, U2 : Real ;
+    Parameterisation : ParameterisationType from Convert 
+    = Convert_TgtThetaOver2)     
+    returns CircleToBSplineCurve 
+        --- Purpose : 
+        --  The circle C is limited between the parametric values U1, U2
+        --  in radians. U1 and U2 [0.0, 2*Pi] .
+        --  The equivalent B-spline curve is oriented from U1 to U2 and has
+        --  the same orientation as the circle C.
+     raises DomainError;
+        --- Purpose :
+        --  Raised if U1 = U2 or U1 = U2 + 2.0 * Pi
+
+
+end CircleToBSplineCurve;
+  

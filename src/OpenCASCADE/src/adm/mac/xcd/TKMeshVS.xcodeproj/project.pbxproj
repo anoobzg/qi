@@ -1,0 +1,505 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+		0A4E14A00CB605CB07E50AF8 = {isa = PBXBuildFile; fileRef = 031305F901F5083A0EF0106A ;};
+		0890123E0D8602240FFB0E67 = {isa = PBXBuildFile; fileRef = 15FD16B4140304EA012112AD ;};
+		0EBC151A1626156509B3004B = {isa = PBXBuildFile; fileRef = 0B6C0A05033C1746068A0074 ;};
+		006F0CFE16BB0E0E0C24163A = {isa = PBXBuildFile; fileRef = 18FC0FC41661016A1539110E ;};
+		04D602311545178B17B10ED7 = {isa = PBXBuildFile; fileRef = 13F3141C0ADB06430ED40D01 ;};
+		117C06520FD40B2A04FE161A = {isa = PBXBuildFile; fileRef = 0B440E050A741298105001C3 ;};
+		0739069005F109FF10270426 = {isa = PBXBuildFile; fileRef = 135905160A18038A15AA0B0A ;};
+		16CE00E705B601A5135E0A6C = {isa = PBXBuildFile; fileRef = 1506011C0B520BF5037713C7 ;};
+		1616076B0B0B0EA4168C0353 = {isa = PBXBuildFile; fileRef = 10E10E37134C153F0D030F08 ;};
+		11850506070914D00EBB02D5 = {isa = PBXBuildFile; fileRef = 172E181D15CD0445176814EE ;};
+		01AE171B198606890DAF0590 = {isa = PBXBuildFile; fileRef = 114A0C3A125F118A062B16A6 ;};
+		084408980ADE0620112A14D6 = {isa = PBXBuildFile; fileRef = 14D0080717F8104E0B500630 ;};
+		0FCF16F510DD0AE30CCC04D7 = {isa = PBXBuildFile; fileRef = 0C110BE20E710A8F13070916 ;};
+		0BEB086F145F0F1B177909C2 = {isa = PBXBuildFile; fileRef = 0F8A11C7012000F1174001D9 ;};
+		0F620E141548040C145906CA = {isa = PBXBuildFile; fileRef = 0BE41720174D02B2173E0395 ;};
+		129F0DFA0DD00ECA05D11654 = {isa = PBXBuildFile; fileRef = 15F80A71154E01E50391099B ;};
+		155C022E178608EF0BEA06CC = {isa = PBXBuildFile; fileRef = 1093007801640C5E0EE818ED ;};
+		107C0FF61189164A13F8083F = {isa = PBXBuildFile; fileRef = 07A301DD11C60DE10CD60DE2 ;};
+		02BD11060A580937185F1122 = {isa = PBXBuildFile; fileRef = 0C9B15C80C8B0C020D5F0619 ;};
+		02B90D7B00970DD1169B189C = {isa = PBXBuildFile; fileRef = 02E6091D0D920F0F0C8C1734 ;};
+		04E20DBD16EB166B109507E9 = {isa = PBXBuildFile; fileRef = 1050171203E515221648022E ;};
+		0BD2053411FA00A105350CEF = {isa = PBXBuildFile; fileRef = 0FD114560B950CB712550084 ;};
+		02D70F600ED40A3507E70E8D = {isa = PBXBuildFile; fileRef = 164D18861754068B0B0C08A8 ;};
+		0346164218060B7D17A216D4 = {isa = PBXBuildFile; fileRef = 0EBA052206440E450A3709A4 ;};
+		067F12F1002610D903BE193F = {isa = PBXBuildFile; fileRef = 150D00170E710A4C0C550E3D ;};
+		07C5110A123408AB00F617F4 = {isa = PBXBuildFile; fileRef = 104D099D1381031016EC0BE2 ;};
+		17D1124114B2184A139E11D9 = {isa = PBXBuildFile; fileRef = 0759017C0C5E0A1E15AE0A43 ;};
+		085817650F1608B81599041B = {isa = PBXBuildFile; fileRef = 019300C70C1609AC077C012A ;};
+		043B0B41105D0B640F401940 = {isa = PBXBuildFile; fileRef = 00501015043B0AA0099A0001 ;};
+		104F0118135B02CF19451666 = {isa = PBXBuildFile; fileRef = 0E0F0740157B117F0FAD0878 ;};
+		128B01800652157814F2116A = {isa = PBXBuildFile; fileRef = 0C1017CE08A3122012B90CF6 ;};
+		0A2B098014C70144020503B9 = {isa = PBXBuildFile; fileRef = 16AB11CD04280360151608CC ;};
+		11FF063B18EF069814E5075A = {isa = PBXBuildFile; fileRef = 091A06FD117A07A005C40B16 ;};
+		0FCF10300C2501E5008B0946 = {isa = PBXBuildFile; fileRef = 084C01A40AAA107311CB0396 ;};
+		154D0DA31576159A18DD0E1B = {isa = PBXBuildFile; fileRef = 163D0A6C027D141717760B12 ;};
+		12581670134C07DB0E580963 = {isa = PBXBuildFile; fileRef = 039508A906C4150107560132 ;};
+		0B220205176F03A60549110B = {isa = PBXBuildFile; fileRef = 16861703112A039406DD1731 ;};
+		14950A2F1108046311A9159A = {isa = PBXBuildFile; fileRef = 0E2912370BA1039818A60280 ;};
+		087900A30CAC01A4037C1344 = {isa = PBXBuildFile; fileRef = 07E3135E0EA1139F0FDE0F2E ;};
+		056E17230A6D14DA0475115D = {isa = PBXBuildFile; fileRef = 03CF095210F0079E0A2C146B ;};
+		0335197809E50FC0049F0850 = {isa = PBXBuildFile; fileRef = 0469012F0A7F11F6174316C5 ;};
+		1452094117CD029B05F8150B = {isa = PBXBuildFile; fileRef = 0716008704EE087B17990F68 ;};
+		17CE09E604A818670D941331 = {isa = PBXBuildFile; fileRef = 08B503DB0E9A0464150B1443 ;};
+		0DC9136507271483050506E4 = {isa = PBXBuildFile; fileRef = 073F09AD037107F6096918A5 ;};
+		16FE009813041721111110FD = {isa = PBXBuildFile; fileRef = 103004DB0F440ED111F41213 ;};
+		0938051001FD05BA00B80BF0 = {isa = PBXBuildFile; fileRef = 155D076406FA12E4120B0E96 ;};
+		187517A8131E0F3218630DBC = {isa = PBXBuildFile; fileRef = 16CE07CD113D01570586197B ;};
+		1160089F0CF80F3615E813DF = {isa = PBXBuildFile; fileRef = 0FE603740B8608C411BD001B ;};
+		01C40D9F04B409EA00DE1734 = {isa = PBXBuildFile; fileRef = 0F4A060D07620FF518C809F8 ;};
+		0B3D02AD154800A80930046E = {isa = PBXBuildFile; fileRef = 03E40D1210FC1026104309C1 ;};
+		0F790DC40FC90CC5023D0E8F = {isa = PBXBuildFile; fileRef = 0A5D16C20E4F0EB40188096B ;};
+		178010E216BF1793041A14A2 = {isa = PBXBuildFile; fileRef = 03CE04E305AA027205D6058F ;};
+		0A130B8F0AD10F6903BD0FBE = {isa = PBXBuildFile; fileRef = 09050AF70B9D01A200510C74 ;};
+		04D411DC0C0C186E0EF409D1 = {isa = PBXBuildFile; fileRef = 055904EB029310E00B350727 ;};
+		15A3052410540D83125B073E = {isa = PBXBuildFile; fileRef = 11A1158F16600CD9092713B9 ;};
+		09BD119C0630112D03AC0098 = {isa = PBXBuildFile; fileRef = 0AED1369130D0B620FB7111C ;};
+		0B880B11062A0F28180C1199 = {isa = PBXBuildFile; fileRef = 15F306C901C012020433081F ;};
+		07E51621190413A015C00629 = {isa = PBXBuildFile; fileRef = 0ECE16E4057911E909EF0399 ;};
+		185310B80EB00CF60ABE0521 = {isa = PBXBuildFile; fileRef = 186F188F0B75131A099C1521 ;};
+		0DB2013807F606BB169914B9 = {isa = PBXBuildFile; fileRef = 1828144B129A0BB60F2813E6 ;};
+		012005360C3802550ECE04D3 = {isa = PBXBuildFile; fileRef = 088A0936028A143A014004F8 ;};
+		073508BC0FA40B9E15471970 = {isa = PBXBuildFile; fileRef = 00B8008C0B620798036501DD ;};
+		0C06031F00AF09F5032512FD = {isa = PBXBuildFile; fileRef = 06A9047908FD028915061677 ;};
+
+		0C0902D107D3149E04871167 = {isa = PBXBuildFile; fileRef = 11470198043D0D610073144B ; };
+		17B5058E16E6107607AC05EA = {isa = PBXBuildFile; fileRef = 164C00A11944060010AE0292 ; };
+		16D213770FFC0DD50F1C02CD = {isa = PBXBuildFile; fileRef = 03570028065F185509721210 ; };
+		090C0D2D169C092A0B360B92 = {isa = PBXBuildFile; fileRef = 02A50E1C0F550E06014C0CDB ; };
+		1258084801CE0429016806FD = {isa = PBXBuildFile; fileRef = 06D70DD8090D0C740AB40B26 ; };
+		138114D6157D089903F700A0 = {isa = PBXBuildFile; fileRef = 084C148E04940D0B16D50C65 ; };
+
+		0B1C01DB14980C0E155E02AF = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libTKMeshVS.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+
+		031305F901F5083A0EF0106A = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_Array1OfSequenceOfInteger_0.cxx; path = ../../../drv/MeshVS/MeshVS_Array1OfSequenceOfInteger_0.cxx; sourceTree = "<group>"; };
+		15FD16B4140304EA012112AD = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapIteratorOfDataMapOfColorMapOfInteger_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapIteratorOfDataMapOfColorMapOfInteger_0.cxx; sourceTree = "<group>"; };
+		0B6C0A05033C1746068A0074 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapIteratorOfDataMapOfHArray1OfSequenceOfInteger_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapIteratorOfDataMapOfHArray1OfSequenceOfInteger_0.cxx; sourceTree = "<group>"; };
+		18FC0FC41661016A1539110E = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapIteratorOfDataMapOfIntegerAsciiString_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapIteratorOfDataMapOfIntegerAsciiString_0.cxx; sourceTree = "<group>"; };
+		13F3141C0ADB06430ED40D01 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapIteratorOfDataMapOfIntegerBoolean_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapIteratorOfDataMapOfIntegerBoolean_0.cxx; sourceTree = "<group>"; };
+		0B440E050A741298105001C3 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapIteratorOfDataMapOfIntegerColor_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapIteratorOfDataMapOfIntegerColor_0.cxx; sourceTree = "<group>"; };
+		135905160A18038A15AA0B0A = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapIteratorOfDataMapOfIntegerMaterial_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapIteratorOfDataMapOfIntegerMaterial_0.cxx; sourceTree = "<group>"; };
+		1506011C0B520BF5037713C7 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapIteratorOfDataMapOfIntegerMeshEntityOwner_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapIteratorOfDataMapOfIntegerMeshEntityOwner_0.cxx; sourceTree = "<group>"; };
+		10E10E37134C153F0D030F08 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapIteratorOfDataMapOfIntegerOwner_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapIteratorOfDataMapOfIntegerOwner_0.cxx; sourceTree = "<group>"; };
+		172E181D15CD0445176814EE = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapIteratorOfDataMapOfIntegerTwoColors_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapIteratorOfDataMapOfIntegerTwoColors_0.cxx; sourceTree = "<group>"; };
+		114A0C3A125F118A062B16A6 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapIteratorOfDataMapOfIntegerVector_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapIteratorOfDataMapOfIntegerVector_0.cxx; sourceTree = "<group>"; };
+		14D0080717F8104E0B500630 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapIteratorOfDataMapOfTwoColorsMapOfInteger_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapIteratorOfDataMapOfTwoColorsMapOfInteger_0.cxx; sourceTree = "<group>"; };
+		0C110BE20E710A8F13070916 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapNodeOfDataMapOfColorMapOfInteger_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapNodeOfDataMapOfColorMapOfInteger_0.cxx; sourceTree = "<group>"; };
+		0F8A11C7012000F1174001D9 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapNodeOfDataMapOfHArray1OfSequenceOfInteger_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapNodeOfDataMapOfHArray1OfSequenceOfInteger_0.cxx; sourceTree = "<group>"; };
+		0BE41720174D02B2173E0395 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapNodeOfDataMapOfIntegerAsciiString_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapNodeOfDataMapOfIntegerAsciiString_0.cxx; sourceTree = "<group>"; };
+		15F80A71154E01E50391099B = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapNodeOfDataMapOfIntegerBoolean_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapNodeOfDataMapOfIntegerBoolean_0.cxx; sourceTree = "<group>"; };
+		1093007801640C5E0EE818ED = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapNodeOfDataMapOfIntegerColor_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapNodeOfDataMapOfIntegerColor_0.cxx; sourceTree = "<group>"; };
+		07A301DD11C60DE10CD60DE2 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapNodeOfDataMapOfIntegerMaterial_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapNodeOfDataMapOfIntegerMaterial_0.cxx; sourceTree = "<group>"; };
+		0C9B15C80C8B0C020D5F0619 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapNodeOfDataMapOfIntegerMeshEntityOwner_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapNodeOfDataMapOfIntegerMeshEntityOwner_0.cxx; sourceTree = "<group>"; };
+		02E6091D0D920F0F0C8C1734 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapNodeOfDataMapOfIntegerOwner_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapNodeOfDataMapOfIntegerOwner_0.cxx; sourceTree = "<group>"; };
+		1050171203E515221648022E = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapNodeOfDataMapOfIntegerTwoColors_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapNodeOfDataMapOfIntegerTwoColors_0.cxx; sourceTree = "<group>"; };
+		0FD114560B950CB712550084 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapNodeOfDataMapOfIntegerVector_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapNodeOfDataMapOfIntegerVector_0.cxx; sourceTree = "<group>"; };
+		164D18861754068B0B0C08A8 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapNodeOfDataMapOfTwoColorsMapOfInteger_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapNodeOfDataMapOfTwoColorsMapOfInteger_0.cxx; sourceTree = "<group>"; };
+		0EBA052206440E450A3709A4 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapOfColorMapOfInteger_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapOfColorMapOfInteger_0.cxx; sourceTree = "<group>"; };
+		150D00170E710A4C0C550E3D = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapOfHArray1OfSequenceOfInteger_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapOfHArray1OfSequenceOfInteger_0.cxx; sourceTree = "<group>"; };
+		104D099D1381031016EC0BE2 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapOfIntegerAsciiString_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapOfIntegerAsciiString_0.cxx; sourceTree = "<group>"; };
+		0759017C0C5E0A1E15AE0A43 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapOfIntegerBoolean_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapOfIntegerBoolean_0.cxx; sourceTree = "<group>"; };
+		019300C70C1609AC077C012A = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapOfIntegerColor_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapOfIntegerColor_0.cxx; sourceTree = "<group>"; };
+		00501015043B0AA0099A0001 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapOfIntegerMaterial_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapOfIntegerMaterial_0.cxx; sourceTree = "<group>"; };
+		0E0F0740157B117F0FAD0878 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapOfIntegerMeshEntityOwner_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapOfIntegerMeshEntityOwner_0.cxx; sourceTree = "<group>"; };
+		0C1017CE08A3122012B90CF6 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapOfIntegerOwner_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapOfIntegerOwner_0.cxx; sourceTree = "<group>"; };
+		16AB11CD04280360151608CC = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapOfIntegerTwoColors_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapOfIntegerTwoColors_0.cxx; sourceTree = "<group>"; };
+		091A06FD117A07A005C40B16 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapOfIntegerVector_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapOfIntegerVector_0.cxx; sourceTree = "<group>"; };
+		084C01A40AAA107311CB0396 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataMapOfTwoColorsMapOfInteger_0.cxx; path = ../../../drv/MeshVS/MeshVS_DataMapOfTwoColorsMapOfInteger_0.cxx; sourceTree = "<group>"; };
+		163D0A6C027D141717760B12 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_HArray1OfSequenceOfInteger_0.cxx; path = ../../../drv/MeshVS/MeshVS_HArray1OfSequenceOfInteger_0.cxx; sourceTree = "<group>"; };
+		039508A906C4150107560132 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_MapIteratorOfMapOfTwoNodes_0.cxx; path = ../../../drv/MeshVS/MeshVS_MapIteratorOfMapOfTwoNodes_0.cxx; sourceTree = "<group>"; };
+		16861703112A039406DD1731 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_MapOfTwoNodes_0.cxx; path = ../../../drv/MeshVS/MeshVS_MapOfTwoNodes_0.cxx; sourceTree = "<group>"; };
+		0E2912370BA1039818A60280 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_SequenceNodeOfSequenceOfPrsBuilder_0.cxx; path = ../../../drv/MeshVS/MeshVS_SequenceNodeOfSequenceOfPrsBuilder_0.cxx; sourceTree = "<group>"; };
+		07E3135E0EA1139F0FDE0F2E = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_SequenceOfPrsBuilder_0.cxx; path = ../../../drv/MeshVS/MeshVS_SequenceOfPrsBuilder_0.cxx; sourceTree = "<group>"; };
+		03CF095210F0079E0A2C146B = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_StdMapNodeOfMapOfTwoNodes_0.cxx; path = ../../../drv/MeshVS/MeshVS_StdMapNodeOfMapOfTwoNodes_0.cxx; sourceTree = "<group>"; };
+		0469012F0A7F11F6174316C5 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_TwoColorsHasher_0.cxx; path = ../../../drv/MeshVS/MeshVS_TwoColorsHasher_0.cxx; sourceTree = "<group>"; };
+		0716008704EE087B17990F68 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_TwoNodesHasher_0.cxx; path = ../../../drv/MeshVS/MeshVS_TwoNodesHasher_0.cxx; sourceTree = "<group>"; };
+		08B503DB0E9A0464150B1443 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_ColorHasher.cxx; path = ../../../src/MeshVS/MeshVS_ColorHasher.cxx; sourceTree = "<group>"; };
+		073F09AD037107F6096918A5 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataSource.cxx; path = ../../../src/MeshVS/MeshVS_DataSource.cxx; sourceTree = "<group>"; };
+		103004DB0F440ED111F41213 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DataSource3D.cxx; path = ../../../src/MeshVS/MeshVS_DataSource3D.cxx; sourceTree = "<group>"; };
+		155D076406FA12E4120B0E96 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DeformedDataSource.cxx; path = ../../../src/MeshVS/MeshVS_DeformedDataSource.cxx; sourceTree = "<group>"; };
+		16CE07CD113D01570586197B = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_Drawer.cxx; path = ../../../src/MeshVS/MeshVS_Drawer.cxx; sourceTree = "<group>"; };
+		0FE603740B8608C411BD001B = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_DummySensitiveEntity.cxx; path = ../../../src/MeshVS/MeshVS_DummySensitiveEntity.cxx; sourceTree = "<group>"; };
+		0F4A060D07620FF518C809F8 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_ElementalColorPrsBuilder.cxx; path = ../../../src/MeshVS/MeshVS_ElementalColorPrsBuilder.cxx; sourceTree = "<group>"; };
+		03E40D1210FC1026104309C1 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_Mesh.cxx; path = ../../../src/MeshVS/MeshVS_Mesh.cxx; sourceTree = "<group>"; };
+		0A5D16C20E4F0EB40188096B = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_MeshEntityOwner.cxx; path = ../../../src/MeshVS/MeshVS_MeshEntityOwner.cxx; sourceTree = "<group>"; };
+		03CE04E305AA027205D6058F = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_MeshOwner.cxx; path = ../../../src/MeshVS/MeshVS_MeshOwner.cxx; sourceTree = "<group>"; };
+		09050AF70B9D01A200510C74 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_MeshPrsBuilder.cxx; path = ../../../src/MeshVS/MeshVS_MeshPrsBuilder.cxx; sourceTree = "<group>"; };
+		055904EB029310E00B350727 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_NodalColorPrsBuilder.cxx; path = ../../../src/MeshVS/MeshVS_NodalColorPrsBuilder.cxx; sourceTree = "<group>"; };
+		11A1158F16600CD9092713B9 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_PrsBuilder.cxx; path = ../../../src/MeshVS/MeshVS_PrsBuilder.cxx; sourceTree = "<group>"; };
+		0AED1369130D0B620FB7111C = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_SensitiveFace.cxx; path = ../../../src/MeshVS/MeshVS_SensitiveFace.cxx; sourceTree = "<group>"; };
+		15F306C901C012020433081F = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_SensitiveMesh.cxx; path = ../../../src/MeshVS/MeshVS_SensitiveMesh.cxx; sourceTree = "<group>"; };
+		0ECE16E4057911E909EF0399 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_SensitivePolyhedron.cxx; path = ../../../src/MeshVS/MeshVS_SensitivePolyhedron.cxx; sourceTree = "<group>"; };
+		186F188F0B75131A099C1521 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_SensitiveSegment.cxx; path = ../../../src/MeshVS/MeshVS_SensitiveSegment.cxx; sourceTree = "<group>"; };
+		1828144B129A0BB60F2813E6 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_TextPrsBuilder.cxx; path = ../../../src/MeshVS/MeshVS_TextPrsBuilder.cxx; sourceTree = "<group>"; };
+		088A0936028A143A014004F8 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_Tool.cxx; path = ../../../src/MeshVS/MeshVS_Tool.cxx; sourceTree = "<group>"; };
+		00B8008C0B620798036501DD = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_TwoColors.cxx; path = ../../../src/MeshVS/MeshVS_TwoColors.cxx; sourceTree = "<group>"; };
+		06A9047908FD028915061677 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshVS_VectorPrsBuilder.cxx; path = ../../../src/MeshVS/MeshVS_VectorPrsBuilder.cxx; sourceTree = "<group>"; };
+
+		11470198043D0D610073144B = {isa = PBXFileReference; lastKnownFileType = file; name = libTKV3d.dylib; path = libTKV3d.dylib; sourceTree = "<group>"; };
+		164C00A11944060010AE0292 = {isa = PBXFileReference; lastKnownFileType = file; name = libTKMath.dylib; path = libTKMath.dylib; sourceTree = "<group>"; };
+		03570028065F185509721210 = {isa = PBXFileReference; lastKnownFileType = file; name = libTKService.dylib; path = libTKService.dylib; sourceTree = "<group>"; };
+		02A50E1C0F550E06014C0CDB = {isa = PBXFileReference; lastKnownFileType = file; name = libTKernel.dylib; path = libTKernel.dylib; sourceTree = "<group>"; };
+		06D70DD8090D0C740AB40B26 = {isa = PBXFileReference; lastKnownFileType = file; name = libTKG3d.dylib; path = libTKG3d.dylib; sourceTree = "<group>"; };
+		084C148E04940D0B16D50C65 = {isa = PBXFileReference; lastKnownFileType = file; name = libTKG2d.dylib; path = libTKG2d.dylib; sourceTree = "<group>"; };
+
+		156A187412CC082E09A9056A = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C0902D107D3149E04871167 ,
+				17B5058E16E6107607AC05EA ,
+				16D213770FFC0DD50F1C02CD ,
+				090C0D2D169C092A0B360B92 ,
+				1258084801CE0429016806FD ,
+				138114D6157D089903F700A0 ,
+
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+
+		190417B500640BC70B6801B4 = {
+			isa = PBXGroup;
+			children = (
+				031305F901F5083A0EF0106A ,
+				15FD16B4140304EA012112AD ,
+				0B6C0A05033C1746068A0074 ,
+				18FC0FC41661016A1539110E ,
+				13F3141C0ADB06430ED40D01 ,
+				0B440E050A741298105001C3 ,
+				135905160A18038A15AA0B0A ,
+				1506011C0B520BF5037713C7 ,
+				10E10E37134C153F0D030F08 ,
+				172E181D15CD0445176814EE ,
+				114A0C3A125F118A062B16A6 ,
+				14D0080717F8104E0B500630 ,
+				0C110BE20E710A8F13070916 ,
+				0F8A11C7012000F1174001D9 ,
+				0BE41720174D02B2173E0395 ,
+				15F80A71154E01E50391099B ,
+				1093007801640C5E0EE818ED ,
+				07A301DD11C60DE10CD60DE2 ,
+				0C9B15C80C8B0C020D5F0619 ,
+				02E6091D0D920F0F0C8C1734 ,
+				1050171203E515221648022E ,
+				0FD114560B950CB712550084 ,
+				164D18861754068B0B0C08A8 ,
+				0EBA052206440E450A3709A4 ,
+				150D00170E710A4C0C550E3D ,
+				104D099D1381031016EC0BE2 ,
+				0759017C0C5E0A1E15AE0A43 ,
+				019300C70C1609AC077C012A ,
+				00501015043B0AA0099A0001 ,
+				0E0F0740157B117F0FAD0878 ,
+				0C1017CE08A3122012B90CF6 ,
+				16AB11CD04280360151608CC ,
+				091A06FD117A07A005C40B16 ,
+				084C01A40AAA107311CB0396 ,
+				163D0A6C027D141717760B12 ,
+				039508A906C4150107560132 ,
+				16861703112A039406DD1731 ,
+				0E2912370BA1039818A60280 ,
+				07E3135E0EA1139F0FDE0F2E ,
+				03CF095210F0079E0A2C146B ,
+				0469012F0A7F11F6174316C5 ,
+				0716008704EE087B17990F68 ,
+				08B503DB0E9A0464150B1443 ,
+				073F09AD037107F6096918A5 ,
+				103004DB0F440ED111F41213 ,
+				155D076406FA12E4120B0E96 ,
+				16CE07CD113D01570586197B ,
+				0FE603740B8608C411BD001B ,
+				0F4A060D07620FF518C809F8 ,
+				03E40D1210FC1026104309C1 ,
+				0A5D16C20E4F0EB40188096B ,
+				03CE04E305AA027205D6058F ,
+				09050AF70B9D01A200510C74 ,
+				055904EB029310E00B350727 ,
+				11A1158F16600CD9092713B9 ,
+				0AED1369130D0B620FB7111C ,
+				15F306C901C012020433081F ,
+				0ECE16E4057911E909EF0399 ,
+				186F188F0B75131A099C1521 ,
+				1828144B129A0BB60F2813E6 ,
+				088A0936028A143A014004F8 ,
+				00B8008C0B620798036501DD ,
+				06A9047908FD028915061677 ,
+			);
+			name = MeshVS;
+			sourceTree = "<group>";
+		};
+
+		05F50DB907CB0612147904EE = {
+			isa = PBXGroup;
+			children = (
+				11470198043D0D610073144B ,
+				164C00A11944060010AE0292 ,
+				03570028065F185509721210 ,
+				02A50E1C0F550E06014C0CDB ,
+				06D70DD8090D0C740AB40B26 ,
+				084C148E04940D0B16D50C65 ,
+
+				08AC13CE123B023F1245170B ,
+				0B1C01DB14980C0E155E02AF ,
+			);
+			sourceTree = "<group>";
+		};
+		08AC13CE123B023F1245170B = {
+			isa = PBXGroup;
+			children = (
+				190417B500640BC70B6801B4 ,
+			);
+			name = "Source files";
+			sourceTree = "<group>";
+		};
+
+		0E8904ED10F615AE168F02CF = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+
+		0DBB17020D5C028B16CA09AE = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 150306670EAF1583173C18A6 ;
+			buildPhases = (
+				0CAF197300BB008C00220BAA ,
+				156A187412CC082E09A9056A ,
+				0E8904ED10F615AE168F02CF ,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TKMeshVS;
+			productName = TKMeshVS;
+			productReference = 0B1C01DB14980C0E155E02AF ;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+
+		011303EA0F93073408311839 = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 099F10F60858196408B60FD7 ;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 05F50DB907CB0612147904EE;
+			productRefGroup = 05F50DB907CB0612147904EE;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0DBB17020D5C028B16CA09AE ,
+			);
+		};
+
+		0CAF197300BB008C00220BAA = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A4E14A00CB605CB07E50AF8 ,
+				0890123E0D8602240FFB0E67 ,
+				0EBC151A1626156509B3004B ,
+				006F0CFE16BB0E0E0C24163A ,
+				04D602311545178B17B10ED7 ,
+				117C06520FD40B2A04FE161A ,
+				0739069005F109FF10270426 ,
+				16CE00E705B601A5135E0A6C ,
+				1616076B0B0B0EA4168C0353 ,
+				11850506070914D00EBB02D5 ,
+				01AE171B198606890DAF0590 ,
+				084408980ADE0620112A14D6 ,
+				0FCF16F510DD0AE30CCC04D7 ,
+				0BEB086F145F0F1B177909C2 ,
+				0F620E141548040C145906CA ,
+				129F0DFA0DD00ECA05D11654 ,
+				155C022E178608EF0BEA06CC ,
+				107C0FF61189164A13F8083F ,
+				02BD11060A580937185F1122 ,
+				02B90D7B00970DD1169B189C ,
+				04E20DBD16EB166B109507E9 ,
+				0BD2053411FA00A105350CEF ,
+				02D70F600ED40A3507E70E8D ,
+				0346164218060B7D17A216D4 ,
+				067F12F1002610D903BE193F ,
+				07C5110A123408AB00F617F4 ,
+				17D1124114B2184A139E11D9 ,
+				085817650F1608B81599041B ,
+				043B0B41105D0B640F401940 ,
+				104F0118135B02CF19451666 ,
+				128B01800652157814F2116A ,
+				0A2B098014C70144020503B9 ,
+				11FF063B18EF069814E5075A ,
+				0FCF10300C2501E5008B0946 ,
+				154D0DA31576159A18DD0E1B ,
+				12581670134C07DB0E580963 ,
+				0B220205176F03A60549110B ,
+				14950A2F1108046311A9159A ,
+				087900A30CAC01A4037C1344 ,
+				056E17230A6D14DA0475115D ,
+				0335197809E50FC0049F0850 ,
+				1452094117CD029B05F8150B ,
+				17CE09E604A818670D941331 ,
+				0DC9136507271483050506E4 ,
+				16FE009813041721111110FD ,
+				0938051001FD05BA00B80BF0 ,
+				187517A8131E0F3218630DBC ,
+				1160089F0CF80F3615E813DF ,
+				01C40D9F04B409EA00DE1734 ,
+				0B3D02AD154800A80930046E ,
+				0F790DC40FC90CC5023D0E8F ,
+				178010E216BF1793041A14A2 ,
+				0A130B8F0AD10F6903BD0FBE ,
+				04D411DC0C0C186E0EF409D1 ,
+				15A3052410540D83125B073E ,
+				09BD119C0630112D03AC0098 ,
+				0B880B11062A0F28180C1199 ,
+				07E51621190413A015C00629 ,
+				185310B80EB00CF60ABE0521 ,
+				0DB2013807F606BB169914B9 ,
+				012005360C3802550ECE04D3 ,
+				073508BC0FA40B9E15471970 ,
+				0C06031F00AF09F5032512FD ,
+
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+
+		151A11DD09C4109512DC0313 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_LDFLAGS = "$(CSF_OPT_LNK64)"; 
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		0DD40AEC070B0D5615A70480 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_LDFLAGS = "$(CSF_OPT_LNK64D)";
+			};
+			name = Release;
+		};
+		0E9506CE104702AC0AC5189B = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_EXTENSION = dylib;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					CSFDB ,
+					HAVE_WOK_CONFIG_H ,
+					HAVE_CONFIG_H ,
+					OCC_CONVERT_SIGNALS ,
+				);
+				HEADER_SEARCH_PATHS = (
+					../../../inc,
+					../../../drv/MeshVS,
+					../../../src/MeshVS,
+					"$(CSF_OPT_INC)",
+				);
+				OTHER_CFLAGS = (
+					"$(CSF_OPT_CMPL)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = " ../../../inc ../../../drv/MeshVS ../../../src/MeshVS";
+				WRAPPER_EXTENSION = dylib;
+			};
+			name = Debug;
+		};
+		046D159A0BAD0D9816E910F9 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_EXTENSION = dylib;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					CSFDB ,
+					HAVE_WOK_CONFIG_H ,
+					HAVE_CONFIG_H ,
+					OCC_CONVERT_SIGNALS ,
+				);
+				HEADER_SEARCH_PATHS = (
+					../../../inc,
+					../../../drv/MeshVS,
+					../../../src/MeshVS,
+					"$(CSF_OPT_INC)",
+				);
+				OTHER_CFLAGS = (
+					"$(CSF_OPT_CMPL)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = " ../../../inc ../../../drv/MeshVS ../../../src/MeshVS";
+				WRAPPER_EXTENSION = dylib;
+			};
+			name = Release;
+		};
+
+		099F10F60858196408B60FD7 = {
+			isa = XCConfigurationList;
+		buildConfigurations = (
+				151A11DD09C4109512DC0313 ,
+				0DD40AEC070B0D5615A70480 ,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		150306670EAF1583173C18A6 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E9506CE104702AC0AC5189B ,
+				046D159A0BAD0D9816E910F9 ,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+
+	};
+	rootObject = 011303EA0F93073408311839 ;
+}

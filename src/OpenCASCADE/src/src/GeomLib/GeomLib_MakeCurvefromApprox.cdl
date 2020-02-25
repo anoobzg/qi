@@ -1,0 +1,132 @@
+-- Created on: 1995-06-13
+-- Created by: Bruno DUMORTIER
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class MakeCurvefromApprox from GeomLib
+
+	---Purpose: this class is used to  construct the BSpline curve
+	--          from an Approximation ( ApproxAFunction from AdvApprox).
+    	
+
+uses
+
+    ApproxAFunction from AdvApprox,
+    BSplineCurve    from Geom,
+    BSplineCurve    from Geom2d
+
+raises
+
+    NotDone    from StdFail,
+    OutOfRange from Standard
+    
+is
+
+    Create( Approx : ApproxAFunction  from AdvApprox)
+    returns MakeCurvefromApprox from GeomLib;
+    
+    IsDone(me) returns Boolean from Standard
+	---C++: inline
+    is static;
+    
+    Nb1DSpaces(me) returns Integer from Standard
+	---Purpose: returns the number of 1D spaces of the Approx
+    is static;
+    
+    Nb2DSpaces(me) returns Integer from Standard
+	---Purpose: returns the number of 3D spaces of the Approx
+    is static;
+    
+    Nb3DSpaces(me) returns Integer from Standard
+	---Purpose: returns the number of 3D spaces of the Approx
+    is static;
+    
+    Curve2d(me;  Index2d : Integer from Standard) 
+    	---Purpose: returns a polynomial curve whose poles correspond to 
+    	-- the Index2d 2D space
+    returns BSplineCurve from Geom2d
+    raises 
+    	OutOfRange from Standard,
+    	---Purpose: if Index2d not in the Range [1,Nb2dSpaces]
+	NotDone    from StdFail
+	---Purpose: if the Approx is not Done
+    is static;
+    
+    Curve2dFromTwo1d(me;  Index1d : Integer from Standard;
+   		       Index2d : Integer from Standard) 
+    	---Purpose: returns a 2D curve building it from the 1D curve
+    	--          in x at Index1d and y at Index2d amongst the 
+    	--          1D curves 
+
+    returns BSplineCurve from Geom2d
+    raises
+    	OutOfRange from Standard,
+    	---Purpose: if Index1d not in the Range [1,Nb1dSpaces]
+    	--          if Index2d not in the Range [1,Nb1dSpaces]
+	NotDone    from StdFail
+	---Purpose: if the Approx is not Done
+    is static;    
+    
+    Curve2d(me;  Index1d : Integer from Standard;
+   		 Index2d : Integer from Standard) 
+    	---Purpose: returns a rational curve whose poles correspond to 
+    	-- the index2d of the 2D space and whose weights correspond
+    	-- to one dimensional space of index 1d
+    returns BSplineCurve from Geom2d
+    raises
+    	OutOfRange from Standard,
+    	---Purpose: if Index1d not in the Range [1,Nb1dSpaces]
+    	--          if Index2d not in the Range [1,Nb2dSpaces]
+	NotDone    from StdFail
+	---Purpose: if the Approx is not Done
+    is static;
+
+    Curve(me;  Index3d : Integer from Standard) 
+    ---Purpose:  returns a polynomial curve whose poles correspond to 
+    -- the Index3D 3D space
+    returns BSplineCurve from Geom
+    raises
+    	OutOfRange from Standard,
+    	---Purpose: if Index3D not in the Range [1,Nb3dSpaces]
+	NotDone    from StdFail
+	---Purpose: if the Approx is not Done
+    is static;
+ 
+    Curve  (me;  Index1D : Integer from Standard;
+   		 Index3D : Integer from Standard) 
+    ---Purpose: returns a rational curve whose poles correspond to 
+    -- the index3D of the 3D space and whose weights correspond
+    -- to the index1d 1D space.
+    returns BSplineCurve from Geom
+    raises
+    	OutOfRange from Standard,
+    	---Purpose: if Index1D not in the Range [1,Nb1dSpaces]
+    	--          if Index3D not in the Range [1,Nb3dSpaces]
+	NotDone    from StdFail
+	---Purpose: if the Approx is not Done
+    is static;
+    
+    
+fields
+
+    myApprox : ApproxAFunction from AdvApprox;
+
+end MakeCurvefromApprox;

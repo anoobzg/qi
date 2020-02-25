@@ -1,0 +1,50 @@
+-- Created on: 1997-02-12
+-- Created by: Alexander BRIVIN
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Switch from Vrml 
+
+	---Purpose: defines a Switch node of VRML specifying group properties.
+    	--  This  group  node  traverses  one,  none,  or  all  of  its  children.
+    	--  One  can  use  this  node  to  switch  on  and  off  the  effects  of  some   
+    	--  properties  or  to  switch  between  different  properties.
+    	--  The  whichChild  field  specifies  the  index  of  the  child  to  traverse, 
+	--  where  the  first  child  has  index  0.	
+    	--  A  value  of  -1  (the  default)  means  do  not  traverse  any  children. 
+	--  A  value  of  -3  traverses  all  children,  making  the  switch  behave  exactly   
+    	--  like  a  regular  Group.
+is
+ 
+    Create  ( aWhichChild  :   Integer from  Standard  =  -1 ) 
+    	returns  Switch from Vrml;
+
+    SetWhichChild ( me: in out; aWhichChild  :  Integer from  Standard );
+    WhichChild ( me  )  returns  Integer from  Standard;
+
+    Print  ( me;  anOStream: in out OStream from Standard) returns OStream from Standard;
+    ---C++:  return  & 
+
+fields
+ 
+    myWhichChild  :   Integer from  Standard;  -- Child to traverse
+
+end Switch;
+

@@ -1,0 +1,72 @@
+-- Created on: 1999-04-08
+-- Created by: Fabrice SERVANT
+-- Copyright (c) 1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class Couple from IntPolyh
+ 
+
+uses
+    
+    Pnt from gp
+
+
+is
+
+
+    Create;
+    
+    Create(i1,i2: Integer from Standard) ; 
+    
+    FirstValue(me) 
+    returns Integer from Standard
+    is static;
+
+    SecondValue(me) 
+    returns Integer from Standard
+    is static;
+    
+    AnalyseFlagValue(me)
+    returns Integer from Standard
+    is static;
+
+    AngleValue(me)
+    returns Real from Standard
+    is static;
+
+    SetCoupleValue(me: in out; v,w: Integer from Standard) 
+    is static;
+	
+    SetAnalyseFlag(me: in out; v: Integer from Standard) 
+    is static;
+    
+    SetAngleValue(me: in out; ang: Real from Standard) 
+    is static;
+	
+    Dump(me; v: Integer from Standard) 
+    is static;
+     	
+fields
+
+    t1,t2,ia : Integer from Standard;
+    angle : Real from Standard;
+    
+end Couple from IntPolyh;

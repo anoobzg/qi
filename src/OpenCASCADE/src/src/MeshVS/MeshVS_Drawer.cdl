@@ -1,0 +1,77 @@
+-- Created on: 2003-11-27
+-- Created by: Alexander SOLOVYOV
+-- Copyright (c) 2003-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class Drawer from MeshVS inherits TShared from MMgt
+
+    ---Purpose: This class provided the common interface to share between classes
+        --  big set of constants affecting to object appearance. By default, this class
+        -- can store integers, doubles, OCC colors, OCC materials. Each of OCC enum members
+        -- can be stored as integers.
+
+uses
+  DataMapOfIntegerInteger from TColStd,
+  DataMapOfIntegerReal    from TColStd,
+
+  Color from Quantity,
+
+  MaterialAspect from Graphic3d,
+  AsciiString from TCollection,
+
+
+  DataMapOfIntegerBoolean        from MeshVS,
+  DataMapOfIntegerColor          from MeshVS,
+  DataMapOfIntegerMaterial       from MeshVS,
+  DataMapOfIntegerAsciiString    from MeshVS
+
+is
+
+  Assign ( me: mutable; aDrawer : Drawer ) is virtual;
+    ---Purpose: This method copies other drawer contents to this.
+
+  SetInteger        ( me: mutable; Key : Integer; Value : Integer );
+  SetDouble         ( me: mutable; Key : Integer; Value : Real    );
+  SetBoolean        ( me: mutable; Key : Integer; Value : Boolean );
+  SetColor          ( me: mutable; Key : Integer; Value : Color from Quantity );
+  SetMaterial       ( me: mutable; Key : Integer; Value : MaterialAspect from Graphic3d );
+  SetAsciiString    ( me: mutable; Key : Integer; Value : AsciiString    from TCollection );
+
+  GetInteger        ( me; Key : Integer; Value : out Integer ) returns Boolean;
+  GetDouble         ( me; Key : Integer; Value : out Real    ) returns Boolean;
+  GetBoolean        ( me; Key : Integer; Value : out Boolean ) returns Boolean;
+  GetColor          ( me; Key : Integer; Value : out Color from Quantity ) returns Boolean;
+  GetMaterial       ( me; Key : Integer; Value : out MaterialAspect from Graphic3d ) returns Boolean;
+  GetAsciiString    ( me; Key : Integer; Value : out AsciiString from TCollection ) returns Boolean;
+
+  RemoveInteger     ( me: mutable; Key : Integer ) returns Boolean;
+  RemoveDouble      ( me: mutable; Key : Integer ) returns Boolean;
+  RemoveBoolean     ( me: mutable; Key : Integer ) returns Boolean;
+  RemoveColor       ( me: mutable; Key : Integer ) returns Boolean;
+  RemoveMaterial    ( me: mutable; Key : Integer ) returns Boolean;
+  RemoveAsciiString ( me: mutable; Key : Integer ) returns Boolean;
+
+fields
+  myIntegers    : DataMapOfIntegerInteger   from TColStd;
+  myBooleans    : DataMapOfIntegerBoolean   from MeshVS;
+  myDoubles     : DataMapOfIntegerReal      from TColStd;
+  myColors      : DataMapOfIntegerColor     from MeshVS;
+  myMaterials   : DataMapOfIntegerMaterial  from MeshVS;
+  myAsciiString : DataMapOfIntegerAsciiString   from MeshVS;
+
+end Drawer;

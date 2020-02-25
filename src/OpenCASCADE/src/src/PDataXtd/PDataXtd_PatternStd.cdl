@@ -1,0 +1,120 @@
+-- Created on: 1998-02-16
+-- Created by: Jing Cheng MEI
+-- Copyright (c) 1998-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+-- modified     Sergey Zaritchny
+
+
+class PatternStd from PDataXtd inherits Attribute from PDF
+
+	---Purpose: to create a pattern function
+
+uses
+
+
+    NamedShape      from PNaming,
+    Integer         from PDataStd,
+    Real            from PDataStd
+
+
+is
+
+    Create
+    returns mutable PatternStd from PDataXtd;
+    
+    --- Category: Set and Get methods
+
+    Signature(me: mutable; signature: Integer from Standard);
+        ---C++: inline
+
+    Axis1Reversed(me: mutable;  Axis1Reversed:  Boolean from Standard);
+        ---C++: inline
+     
+    Axis2Reversed(me: mutable;  Axis2Reversed:  Boolean from Standard);
+        ---C++: inline
+     
+    Axis1(me: mutable; Axis1: NamedShape from PNaming);
+        ---C++: inline
+
+    Axis2(me: mutable; Axis2: NamedShape from PNaming);
+        ---C++: inline
+
+    Value1(me: mutable; Value1: Real from PDataStd);
+        ---C++: inline
+
+    Value2(me: mutable; Value2: Real from PDataStd);
+        ---C++: inline
+
+    NbInstances1(me: mutable; NbInstances1: Integer from PDataStd);
+        ---C++: inline
+
+    NbInstances2(me: mutable; NbInstances2: Integer from PDataStd);
+        ---C++: inline
+
+    Mirror(me: mutable; plane: NamedShape from PNaming);
+        ---C++: inline
+
+
+
+    Signature(me) returns Integer from Standard;
+        ---C++: inline
+    
+    Axis1Reversed(me) returns Boolean from Standard;
+        ---C++: inline
+     
+    Axis2Reversed(me) returns Boolean from Standard;
+        ---C++: inline
+
+    Axis1(me) returns NamedShape from PNaming;
+        ---C++: inline
+
+    Axis2(me) returns NamedShape from PNaming;
+        ---C++: inline
+
+    Value1(me) returns Real from PDataStd;
+        ---C++: inline
+
+    Value2(me) returns Real from PDataStd;
+        ---C++: inline
+
+    NbInstances1(me) returns Integer from PDataStd;
+        ---C++: inline
+
+    NbInstances2(me) returns Integer from PDataStd;
+        ---C++: inline
+
+    Mirror(me) returns NamedShape from PNaming;
+        ---C++: inline
+
+
+fields
+
+    mySignature     : Integer         from Standard;
+    myAxis1Reversed : Boolean         from Standard;
+    myAxis2Reversed : Boolean         from Standard;
+
+    myAxis1         : NamedShape      from PNaming;
+    myAxis2         : NamedShape      from PNaming;
+    myValue1        : Real            from PDataStd;
+    myValue2        : Real            from PDataStd;
+    myNb1           : Integer         from PDataStd;
+    myNb2           : Integer         from PDataStd;
+    myMirror        : NamedShape      from PNaming;
+
+end PatternStd;

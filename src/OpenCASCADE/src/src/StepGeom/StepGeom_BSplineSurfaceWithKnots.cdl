@@ -1,0 +1,98 @@
+-- Created on: 1995-12-01
+-- Created by: EXPRESS->CDL V0.2 Translator
+-- Copyright (c) 1995-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class BSplineSurfaceWithKnots from StepGeom 
+
+inherits BSplineSurface from StepGeom 
+
+uses
+
+	HArray1OfInteger from TColStd, 
+	HArray1OfReal from TColStd, 
+	KnotType from StepGeom, 
+	Integer from Standard, 
+	Real from Standard, 
+	HAsciiString from TCollection, 
+	HArray2OfCartesianPoint from StepGeom, 
+	BSplineSurfaceForm from StepGeom, 
+	Logical from StepData
+is
+
+	Create returns mutable BSplineSurfaceWithKnots;
+	---Purpose: Returns a BSplineSurfaceWithKnots
+
+
+	Init (me : mutable;
+	      aName : mutable HAsciiString from TCollection;
+	      aUDegree : Integer from Standard;
+	      aVDegree : Integer from Standard;
+	      aControlPointsList : mutable HArray2OfCartesianPoint from StepGeom;
+	      aSurfaceForm : BSplineSurfaceForm from StepGeom;
+	      aUClosed : Logical from StepData;
+	      aVClosed : Logical from StepData;
+	      aSelfIntersect : Logical from StepData) is redefined;
+
+	Init (me : mutable;
+	      aName : mutable HAsciiString from TCollection;
+	      aUDegree : Integer from Standard;
+	      aVDegree : Integer from Standard;
+	      aControlPointsList : mutable HArray2OfCartesianPoint from StepGeom;
+	      aSurfaceForm : BSplineSurfaceForm from StepGeom;
+	      aUClosed : Logical from StepData;
+	      aVClosed : Logical from StepData;
+	      aSelfIntersect : Logical from StepData;
+	      aUMultiplicities : mutable HArray1OfInteger from TColStd;
+	      aVMultiplicities : mutable HArray1OfInteger from TColStd;
+	      aUKnots : mutable HArray1OfReal from TColStd;
+	      aVKnots : mutable HArray1OfReal from TColStd;
+	      aKnotSpec : KnotType from StepGeom) is virtual;
+
+	-- Specific Methods for Field Data Access --
+
+	SetUMultiplicities(me : mutable; aUMultiplicities : mutable HArray1OfInteger);
+	UMultiplicities (me) returns mutable HArray1OfInteger;
+	UMultiplicitiesValue (me; num : Integer) returns Integer;
+	NbUMultiplicities (me) returns Integer;
+	SetVMultiplicities(me : mutable; aVMultiplicities : mutable HArray1OfInteger);
+	VMultiplicities (me) returns mutable HArray1OfInteger;
+	VMultiplicitiesValue (me; num : Integer) returns Integer;
+	NbVMultiplicities (me) returns Integer;
+	SetUKnots(me : mutable; aUKnots : mutable HArray1OfReal);
+	UKnots (me) returns mutable HArray1OfReal;
+	UKnotsValue (me; num : Integer) returns Real;
+	NbUKnots (me) returns Integer;
+	SetVKnots(me : mutable; aVKnots : mutable HArray1OfReal);
+	VKnots (me) returns mutable HArray1OfReal;
+	VKnotsValue (me; num : Integer) returns Real;
+	NbVKnots (me) returns Integer;
+	SetKnotSpec(me : mutable; aKnotSpec : KnotType);
+	KnotSpec (me) returns KnotType;
+
+fields
+
+	uMultiplicities : HArray1OfInteger from TColStd;
+	vMultiplicities : HArray1OfInteger from TColStd;
+	uKnots : HArray1OfReal from TColStd;
+	vKnots : HArray1OfReal from TColStd;
+	knotSpec : KnotType from StepGeom; -- an Enumeration
+
+end BSplineSurfaceWithKnots;

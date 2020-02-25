@@ -1,0 +1,85 @@
+-- Created on: 1992-11-17
+-- Created by: Christian CAILLET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+deferred class SelectExtract  from IFSelect  inherits SelectDeduct
+
+    ---Purpose : A SelectExtract determines a list of Entities from an Input
+    --           Selection, as a sub-list of the Input Result
+    --           It works by applying a sort criterium on each Entity of the
+    --           Input. This criterium can be applied Direct to Pick Items
+    --           (default case) or Reverse to Remove Item
+    --           
+    --           Basic features (the unique Input) are inherited from SelectDeduct
+
+uses AsciiString from TCollection, InterfaceModel, EntityIterator,  Graph
+
+is
+
+    Initialize;
+    ---Purpose : Initializes a SelectExtract : enforces the sort to be Direct
+
+    IsDirect (me) returns Boolean;
+    ---Purpose : Returns True if Sort criterium is Direct, False if Reverse
+
+    SetDirect (me : mutable; direct : Boolean);
+    ---Purpose : Sets Sort criterium sense to a new value
+    --           (True : Direct , False : Reverse)
+
+    	-- Input : see SelectDeduct
+
+
+    RootResult (me; G : Graph) returns EntityIterator is virtual;
+    ---Purpose : Returns the list of selected entities. Works by calling the
+    --           method Sort on each input Entity : the Entity is kept as
+    --           output if Sort returns the same value as Direct status
+
+    Sort (me; rank : Integer; ent : Transient; model : InterfaceModel)
+    	returns Boolean  is deferred;
+    ---Purpose : Returns True for an Entity if it satisfies the Sort criterium
+    --           It receives :
+    --           - <rank>, the rank of the Entity in the Iteration,
+    --           - <ent> , the Entity itself, and
+    --           - <model>, the Starting Model
+    --             Hence, the Entity to check is "model->Value(num)" (but an
+    --             InterfaceModel allows other checks)
+    --           This method is specific to each class of SelectExtract
+
+    SortInGraph (me; rank : Integer; ent : Transient; G : Graph)
+    	returns Boolean  is virtual;
+    ---Purpose : Works as Sort but works on the Graph
+    --           Default directly calls Sort, but it can be redefined
+    --           If SortInGraph is redefined, Sort should be defined even if
+    --           not called (to avoid deferred methods in a final class)
+
+
+    Label (me) returns AsciiString from TCollection;
+    ---Purpose : Returns a text saying "Picked" or "Removed", plus the
+    --           specific criterium returned by ExtractLabel (see below)
+
+    ExtractLabel (me) returns AsciiString from TCollection  is deferred;
+    ---Purpose : Returns a text defining the criterium for extraction
+
+fields
+
+    thesort : Boolean;
+
+end SelectExtract;

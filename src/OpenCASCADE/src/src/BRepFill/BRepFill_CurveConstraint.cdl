@@ -1,0 +1,73 @@
+-- Created on: 1997-10-31
+-- Created by: Joelle CHAUVET
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+class  CurveConstraint  from  BRepFill  inherits  CurveConstraint  from  GeomPlate 
+
+uses 
+   Pnt  from  gp,  
+   Pnt2d  from  gp,
+   Vec   from  gp,
+   HCurveOnSurface  from  Adaptor3d,  
+   HCurve  from  Adaptor3d,
+   Surface  from  Geom, 
+   Curve  from  Geom2d, 
+   Function  from  Law, 
+   SLProps from GeomLProp  
+   
+raises   
+   ConstructionError  from  Standard
+is 
+ 
+Create (Boundary :  HCurveOnSurface  from  Adaptor3d; 
+        Order :  Integer  from  Standard ;
+        NPt  :  Integer  from  Standard  =  10;
+    	TolDist  :  Real  from  Standard  =  0.0001; 
+    	TolAng  :  Real  from  Standard  =  0.01; 
+    	TolCurv  :  Real  from  Standard  =  0.1
+ )  
+        returns  CurveConstraint from  BRepFill
+     	raises    ConstructionError;
+	--purpose : if Order is not -1 , 0,  1,  2
+	--         
+--- Purpose: Create a constraint
+--  Order is the order of the constraint. The possible values for order are -1,0,1,2.
+--  Order i means constraints Gi
+--  Npt is the number of points associated with the constraint.
+--  TolDist is the maximum error to satisfy for G0 constraints
+--  TolAng is the maximum error to satisfy for G1 constraints
+--  TolCurv is the maximum error to satisfy for G2 constraints
+--  These errors can be replaced by laws of criterion.
+
+Create (Boundary :  HCurve  from  Adaptor3d; 
+        Tang :  Integer  from  Standard; 
+        NPt  :  Integer  from  Standard  =  10;
+    	TolDist  :  Real  from  Standard  =  0.0001)
+       returns  CurveConstraint from  BRepFill 
+     	raises    ConstructionError;
+	--purpose  :  if Order  is  not  0  or  -1 
+-- Purpose: Create a constraint
+--  Order is the order of the constraint. The possible values for order are -1,0.
+--  Order i means constraints Gi
+--  Npt is the number of points associated with the constraint.
+--  TolDist is the maximum error to satisfy for G0 constraints
+--  These errors can be replaced by laws of criterion.
+
+end;

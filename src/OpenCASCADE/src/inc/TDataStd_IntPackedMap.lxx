@@ -1,0 +1,84 @@
+// Created on: 2008-01-24
+// Created by: Sergey ZARITCHNY
+// Copyright (c) 2008-2012 OPEN CASCADE SAS
+//
+// The content of this file is subject to the Open CASCADE Technology Public
+// License Version 6.5 (the "License"). You may not use the content of this file
+// except in compliance with the License. Please obtain a copy of the License
+// at http://www.opencascade.org and read it completely before using this file.
+//
+// The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+// main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+//
+// The Original Code and all software distributed under the License is
+// distributed on an "AS IS" basis, without warranty of any kind, and the
+// Initial Developer hereby disclaims all such warranties, including without
+// limitation, any warranties of merchantability, fitness for a particular
+// purpose or non-infringement. Please see the License for the specific terms
+// and conditions governing the rights and limitations under the License.
+
+
+#include <TColStd_HPackedMapOfInteger.hxx>
+//=======================================================================
+//function : GetHMap
+//purpose  : 
+//=======================================================================
+inline const Handle(TColStd_HPackedMapOfInteger)&  TDataStd_IntPackedMap::GetHMap () const
+{
+  return myMap;
+}
+
+//=======================================================================
+//function : 
+//purpose  : 
+//=======================================================================
+
+inline const TColStd_PackedMapOfInteger&  TDataStd_IntPackedMap::GetMap () const
+{
+  return  myMap->Map();
+}
+
+//=======================================================================
+//function : IsEmpty
+//purpose  : 
+//=======================================================================
+inline Standard_Boolean  TDataStd_IntPackedMap::IsEmpty() const
+{
+  return myMap->Map().IsEmpty();
+}
+
+//=======================================================================
+//function : Extent
+//purpose  : 
+//=======================================================================
+inline Standard_Integer TDataStd_IntPackedMap::Extent() const
+{
+  return myMap->Map().Extent();
+}
+
+//=======================================================================
+//function : RemoveMap
+//purpose  : 
+//=======================================================================
+inline void TDataStd_IntPackedMap::RemoveMap(void) 
+{
+  myMap.Nullify(); 
+}
+
+
+//=======================================================================
+//function : SetDelta
+//purpose  : 
+//=======================================================================
+inline void TDataStd_IntPackedMap::SetDelta(const Standard_Boolean isDelta) 
+{
+  myIsDelta = isDelta;
+}
+//=======================================================================
+//function : GetDelta
+//purpose  : 
+//=======================================================================
+inline Standard_Boolean TDataStd_IntPackedMap::GetDelta(void)  const
+{
+  return myIsDelta;
+}

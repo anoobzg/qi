@@ -1,0 +1,152 @@
+-- Created on: 1993-07-22
+-- Created by: Remi LEQUETTE
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+
+class MakeSphere from BRepPrimAPI  inherits MakeOneAxis from BRepPrimAPI 
+
+	---Purpose: Describes functions to build spheres or portions of spheres.
+    	-- A MakeSphere object provides a framework for:
+    	-- -   defining the construction of a sphere,
+    	-- -   implementing the construction algorithm, and
+    	-- -   consulting the result.
+
+uses
+    Pnt      from gp,
+    Ax2      from gp,
+    Sphere   from BRepPrim,
+    OneAxis  from BRepPrim
+
+raises
+    DomainError from Standard
+
+is
+    Create(R : Real)
+    returns MakeSphere from BRepPrimAPI
+	---Purpose: Make a sphere of radius R.
+	---Level: Public
+
+    raises
+    	DomainError from Standard; -- if R  <= Precision::Confusion()
+
+    Create(R, angle : Real)
+    returns MakeSphere from BRepPrimAPI
+	---Purpose: Make a sphere of radius R.
+	---Level: Public
+    raises
+    	DomainError from Standard; -- if R  <= Precision::Confusion()
+
+    Create(R, angle1, angle2 : Real)
+    returns MakeSphere from BRepPrimAPI
+	---Purpose: Make a sphere of radius R.
+	---Level: Public
+    raises
+    	DomainError from Standard; -- if R  <= Precision::Confusion()
+
+    Create(R, angle1, angle2, angle3 : Real)
+    returns MakeSphere from BRepPrimAPI
+	---Purpose: Make a sphere of radius R.
+	---Level: Public
+    raises
+    	DomainError from Standard; -- if R  <= Precision::Confusion()
+
+    Create(Center : Pnt from gp; R : Real)
+    returns MakeSphere from BRepPrimAPI
+	---Purpose: Make a sphere of radius R.
+	---Level: Public
+    raises
+    	DomainError from Standard; -- if R  <= Precision::Confusion()
+
+    Create(Center : Pnt from gp; R, angle : Real)
+    returns MakeSphere from BRepPrimAPI
+	---Purpose: Make a sphere of radius R.
+	---Level: Public
+    raises
+    	DomainError from Standard; -- if R  <= Precision::Confusion()
+
+    Create(Center : Pnt from gp; R, angle1, angle2 : Real)
+    returns MakeSphere from BRepPrimAPI
+	---Purpose: Make a sphere of radius R.
+	---Level: Public
+    raises
+    	DomainError from Standard; -- if R  <= Precision::Confusion()
+
+    Create(Center : Pnt from gp; R, angle1, angle2, angle3 : Real)
+    returns MakeSphere from BRepPrimAPI
+	---Purpose: Make a sphere of radius R.
+	---Level: Public
+    raises
+    	DomainError from Standard; -- if R  <= Precision::Confusion()
+
+    Create(Axis : Ax2 from gp; R : Real)
+    returns MakeSphere from BRepPrimAPI
+	---Purpose: Make a sphere of radius R.
+	---Level: Public
+    raises
+    	DomainError from Standard; -- if R  <= Precision::Confusion()
+
+    Create(Axis : Ax2 from gp; R, angle : Real)
+    returns MakeSphere from BRepPrimAPI
+	---Purpose: Make a sphere of radius R.
+	---Level: Public
+    raises
+    	DomainError from Standard; -- if R  <= Precision::Confusion()
+
+    Create(Axis : Ax2 from gp; R, angle1, angle2 : Real)
+    returns MakeSphere from BRepPrimAPI
+	---Purpose: Make a sphere of radius R.
+	---Level: Public
+    raises
+    	DomainError from Standard; -- if R  <= Precision::Confusion()
+
+    Create(Axis : Ax2 from gp; R, angle1, angle2, angle3 : Real)
+    returns MakeSphere from BRepPrimAPI
+	---Purpose: Make a sphere of radius R.
+	---Level: Public
+    raises
+    	DomainError from Standard; -- if R  <= Precision::Confusion()
+    
+    	---Purpose: For all algorithms The resulting shape is composed of
+    	-- -   a lateral spherical face,
+    	-- -   two planar faces parallel to the plane z = 0 if the
+    	--   sphere is truncated in the v parametric direction, or
+    	--   only one planar face if angle1 is equal to -p/2 or if
+    	--     angle2 is equal to p/2 (these faces are circles in
+    	--   case of a complete truncated sphere),
+    	-- -   and in case of a portion of sphere, two planar faces
+    	--   to shut the shape.(in the planes u = 0 and u = angle).   
+
+    OneAxis(me : in out) returns Address;
+	---Purpose: Returns the algorithm.
+	---Level: Advanced
+
+    Sphere(me : in out) returns Sphere from BRepPrim
+	---Purpose: Returns the algorithm.
+	--          
+	---C++: return &
+	---Level: Public 
+    is static;
+
+fields
+
+    mySphere : Sphere from BRepPrim;
+
+end MakeSphere;

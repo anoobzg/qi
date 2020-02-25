@@ -1,0 +1,65 @@
+-- Created on: 1997-05-09
+-- Created by: Christian CAILLET
+-- Copyright (c) 1997-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class ECDescr  from StepData    inherits EDescr  from StepData
+
+    ---Purpose : Describes a Complex Entity (Plex) as a list of Simple ones
+
+uses HSequenceOfAsciiString from TColStd, SequenceOfTransient from TColStd,
+     ESDescr from StepData, Described from StepData
+
+is
+
+    Create returns mutable ECDescr;
+    ---Purpose : Creates an ECDescr, empty
+
+    Add (me : mutable; member : ESDescr);
+    ---Purpose : Adds a member
+    --  Warning : members are added in alphabetic order
+
+    NbMembers (me) returns Integer;
+    ---Purpose : Returns the count of members
+
+    Member (me; num : Integer) returns ESDescr;
+    ---Purpose : Returns a Member from its rank
+
+    TypeList (me) returns HSequenceOfAsciiString;
+    ---Purpose : Returns the ordered list of types
+
+
+    	--  inherited
+
+    Matches    (me; steptype : CString) returns Boolean;
+    ---Purpose : Tells if a ESDescr matches a step type : exact or super type
+
+    IsComplex  (me) returns Boolean;
+    ---Purpose : Returns True
+
+    NewEntity  (me) returns mutable Described;
+    ---Purpose : Creates a described entity (i.e. a complex one, made of one
+    --           simple entity per member)
+
+fields
+
+    thelist : SequenceOfTransient;
+
+end ECDescr;

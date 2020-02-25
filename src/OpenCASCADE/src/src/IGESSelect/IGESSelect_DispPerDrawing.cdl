@@ -1,0 +1,60 @@
+-- Created on: 1994-05-31
+-- Created by: Christian CAILLET
+-- Copyright (c) 1994-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class DispPerDrawing  from IGESSelect  inherits Dispatch
+
+    ---Purpose : This type of dispatch defines sets of entities attached to
+    --           distinct drawings. This information is taken from attached
+    --           views which appear in the Directory Part. Also Drawing Frames
+    --           are considered when Drawings are part of input list.
+    --           
+    --           Remaining data concern entities not attached to a drawing.
+
+uses AsciiString from TCollection, EntityIterator, Graph, SubPartsIterator,
+     ViewSorter
+
+is
+
+    Create returns mutable DispPerDrawing;
+    ---Purpose : Creates a DispPerDrawing
+
+    Label (me) returns AsciiString from TCollection;
+    ---Purpose : Returns as Label, "One File per Drawing"
+
+    	    -- --    Evaluation    -- --
+
+    Packets (me; G : Graph; packs : in out SubPartsIterator);
+    ---Purpose : Computes the list of produced Packets. Packets are computed
+    --           by a ViewSorter (SortDrawings with also frames).
+
+    CanHaveRemainder (me) returns Boolean  is redefined;
+    ---Purpose : Returns True, because of entities attached to no view.
+
+    Remainder (me; G : Graph) returns EntityIterator  is redefined;
+    ---Purpose : Returns Remainder which is a set of Entities.
+    --           It is supposed to be called once Packets has been called.
+
+fields
+
+    thesorter : ViewSorter;
+
+end DispPerDrawing;

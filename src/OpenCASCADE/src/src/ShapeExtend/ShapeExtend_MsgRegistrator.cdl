@@ -1,0 +1,77 @@
+-- Created on: 2000-01-28
+-- Created by: data exchange team
+-- Copyright (c) 2000-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class MsgRegistrator from ShapeExtend inherits BasicMsgRegistrator from ShapeExtend
+
+    ---Purpose: Attaches messages to the objects (generic Transient or shape).
+    --          The objects of this class are transmitted to the Shape Healing
+    --          algorithms so that they could collect messages occurred during
+    --          processing.
+    --
+    --          Messages are added to the Maps (stored as a field) that can be
+    --          used, for instance, by Data Exchange processors to attach those
+    --          messages to initial file entities.
+
+uses
+
+    Shape                       from TopoDS,
+    Gravity                     from Message,
+    Msg                         from Message,
+    ListOfMsg                   from Message,
+    DataMapOfTransientListOfMsg from ShapeExtend,
+    DataMapOfShapeListOfMsg     from ShapeExtend
+
+is
+
+    Create returns mutable MsgRegistrator from ShapeExtend;
+    	---Purpose: Creates an object.
+	
+    
+    Send (me: mutable; object : Transient;
+    	    	       message: Msg from Message;
+    	    	       gravity: Gravity from Message) is redefined;
+    	---Purpose: Sends a message to be attached to the object.
+	--          If the object is in the map then the message is added to the
+    	--          list, otherwise the object is firstly added to the map.
+
+    Send (me: mutable; shape  : Shape from TopoDS;
+    	    	       message: Msg from Message;
+    	    	       gravity: Gravity from Message) is redefined;
+    	---Purpose: Sends a message to be attached to the shape.
+	--          If the shape is in the map then the message is added to the
+    	--          list, otherwise the shape is firstly added to the map.
+
+    MapTransient (me) returns DataMapOfTransientListOfMsg from ShapeExtend;
+    	---C++    : inline
+    	---C++    : return const&
+	---Purpose: Returns a Map of objects and message list
+	
+    MapShape (me) returns DataMapOfShapeListOfMsg from ShapeExtend;
+    	---C++    : inline
+    	---C++    : return const&
+	---Purpose: Returns a Map of shapes and message list
+
+fields
+
+    myMapTransient: DataMapOfTransientListOfMsg from ShapeExtend;
+    myMapShape: DataMapOfShapeListOfMsg from ShapeExtend;
+    
+end MsgRegistrator;

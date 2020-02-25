@@ -1,0 +1,61 @@
+-- Created on: 1993-03-19
+-- Created by: Jean-Louis FRENKEL
+-- Copyright (c) 1993-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class Projector from Prs3d inherits TShared from MMgt
+
+	---Purpose: A projector object.
+    	-- This object defines the parameters of a view for a
+    	-- visualization algorithm. It is, for example, used by the
+    	-- hidden line removal algorithms.
+
+uses
+    Projector from HLRAlgo,
+        Length    from Quantity
+is
+
+    Create(Pr: Projector from HLRAlgo)
+    returns mutable Projector from Prs3d;
+
+
+    Create ( Pers: Boolean from Standard;
+    	     Focus: Length from Quantity;
+	     DX, DY, DZ: Length from Quantity;       -- Projection Vector
+	     XAt, YAt , ZAt: Length from Quantity;   -- View Point
+	     XUp, YUp, ZUp: Length from Quantity)    -- High Point Direction
+    returns mutable Projector from Prs3d;
+    	--- Purpose: Constructs a projector framework from the following parameters
+    	-- -   Pers is true if the view is a perspective view and
+    	--   false if it is an axonometric one;
+    	-- -   Focus is the focal length if a perspective view is defined;
+    	-- -   DX, DY and DZ are the coordinates of the
+    	--   projection vector;
+    	-- -   XAt, YAt and ZAt are the coordinates of the view point;
+    	-- -   XUp, YUp and ZUp are the coordinates of the
+    	--   vertical direction vector.   
+        
+    Projector(me) returns Projector from HLRAlgo
+    is static;
+    	---Purpose: Returns a projector object for use in a hidden line removal algorithm.
+        
+fields
+    MyProjector: Projector from HLRAlgo;
+end Projector;

@@ -1,0 +1,72 @@
+-- Created on: 1992-02-07
+-- Created by: Christian CAILLET
+-- Copyright (c) 1992-1999 Matra Datavision
+-- Copyright (c) 1999-2012 OPEN CASCADE SAS
+--
+-- The content of this file is subject to the Open CASCADE Technology Public
+-- License Version 6.5 (the "License"). You may not use the content of this file
+-- except in compliance with the License. Please obtain a copy of the License
+-- at http://www.opencascade.org and read it completely before using this file.
+--
+-- The Initial Developer of the Original Code is Open CASCADE S.A.S., having its
+-- main offices at: 1, place des Freres Montgolfier, 78280 Guyancourt, France.
+--
+-- The Original Code and all software distributed under the License is
+-- distributed on an "AS IS" basis, without warranty of any kind, and the
+-- Initial Developer hereby disclaims all such warranties, including without
+-- limitation, any warranties of merchantability, fitness for a particular
+-- purpose or non-infringement. Please see the License for the specific terms
+-- and conditions governing the rights and limitations under the License.
+
+
+
+class TransferDispatch  from Transfer  inherits CopyTool
+
+    ---Purpose : A TransferDispatch is aimed to dispatch Entities between two
+    --           Interface Models, by default by copying them, as CopyTool, but
+    --           with more capabilities of adapting : Copy is redefined to
+    --           firstly pass the hand to a TransferProcess. If this gives no
+    --           result, standard Copy is called.
+    --           
+    --           This allow, for instance, to modify the copied Entity (such as
+    --           changing a Name for a VDA Entity), or to do a deeper work
+    --           (such as Substituting a kind of Entity to another one).
+    --           
+    --           For these reasons, TransferDispatch is basically a CopyTool,
+    --           but uses a more sophiscated control, which is TransferProcess,
+    --           and its method Copy is redefined
+
+uses Transient,   InterfaceModel, GeneralLib, Protocol from Interface,
+     TransientProcess
+
+raises InterfaceError
+
+is
+
+    Create (amodel : InterfaceModel; lib : GeneralLib) returns TransferDispatch;
+    ---Purpose : Creates a TransferDispatch from a Model. Works with a General
+    --           Service Library, given as an Argument
+    --           A TransferDispatch is created as a CopyTool in which the
+    --           Control is set to TransientProcess
+
+    Create (amodel : InterfaceModel; protocol : Protocol from Interface)
+    	returns TransferDispatch;
+    ---Purpose : Same as above, but Library is defined through a Protocol
+
+    Create (amodel : InterfaceModel) returns TransferDispatch
+    ---Purpose : Same as above, but works with the Active Protocol
+    	raises InterfaceError;
+    --           Error if no Active Protocol is defined
+
+    TransientProcess (me) returns mutable TransientProcess;
+    ---Purpose : Returns the content of Control Object, as a TransientProcess
+
+
+    Copy (me : in out; entfrom : Transient; entto : out mutable Transient;
+    	  mapped : Boolean; errstat : Boolean)
+    	returns Boolean is  redefined;
+    ---Purpose : Copies an Entity by calling the method Transferring from the
+    --           TransferProcess. If this called produces a Null Binder, then
+    --           the standard, inherited Copy is called
+
+end TransferDispatch;
