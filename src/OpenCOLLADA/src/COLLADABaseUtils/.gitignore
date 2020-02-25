@@ -1,0 +1,8 @@
+lib/
+obj/
+bin/
+*.ncb
+*.suo
+*.user
+OpenCOLLADABaseUtils.sln
+OpenCOLLADABaseUtils_static.vcxproj*

@@ -1,0 +1,8 @@
+lib/
+obj/
+bin/
+*.ncb
+*.suo
+*.user
+buffer.sln
+buffer_static.vcxproj*

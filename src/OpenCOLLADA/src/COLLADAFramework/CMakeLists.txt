@@ -1,0 +1,188 @@
+set(name OpenCOLLADAFramework)
+project(${name})
+
+set(libFramework_include_dirs
+	${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+set(libFramework_include_dirs ${libFramework_include_dirs} PARENT_SCOPE)  # adding include dirs to a parent scope
+
+set(INST_SRC
+	include/COLLADAFW.h
+	include/COLLADAFWAnimatable.h
+	include/COLLADAFWAnimatableFloat.h
+	include/COLLADAFWAnimation.h
+	include/COLLADAFWAnimationClip.h
+	include/COLLADAFWAnimationCurve.h
+	include/COLLADAFWAnimationList.h
+	include/COLLADAFWAnnotate.h
+	include/COLLADAFWArray.h
+	include/COLLADAFWArrayPrimitiveType.h
+	include/COLLADAFWAxisInfo.h
+	include/COLLADAFWCamera.h
+	include/COLLADAFWCode.h
+	include/COLLADAFWColor.h
+	include/COLLADAFWColorOrTexture.h
+	include/COLLADAFWConstants.h
+	include/COLLADAFWController.h
+	include/COLLADAFWEdge.h
+	include/COLLADAFWEffect.h
+	include/COLLADAFWEffectCommon.h
+	include/COLLADAFWException.h
+	include/COLLADAFWFileInfo.h
+	include/COLLADAFWFloatOrDoubleArray.h
+	include/COLLADAFWFloatOrParam.h
+	include/COLLADAFWFormula.h
+	include/COLLADAFWFormulaNewParam.h
+	include/COLLADAFWFormulas.h
+	include/COLLADAFWGeometry.h
+	include/COLLADAFWHashFunctions.h
+	include/COLLADAFWILoader.h
+	include/COLLADAFWIWriter.h
+	include/COLLADAFWImage.h
+	include/COLLADAFWImageSource.h
+	include/COLLADAFWInclude.h
+	include/COLLADAFWIndexList.h
+	include/COLLADAFWInstanceBase.h
+	include/COLLADAFWInstanceBindingBase.h
+	include/COLLADAFWInstanceCamera.h
+	include/COLLADAFWInstanceController.h
+	include/COLLADAFWInstanceGeometry.h
+	include/COLLADAFWInstanceKinematicsScene.h
+	include/COLLADAFWInstanceLight.h
+	include/COLLADAFWInstanceNode.h
+	include/COLLADAFWInstanceSceneGraph.h
+	include/COLLADAFWInstanceVisualScene.h
+	include/COLLADAFWJoint.h
+	include/COLLADAFWJointPrimitive.h
+	include/COLLADAFWKinematicsController.h
+	include/COLLADAFWKinematicsModel.h
+	include/COLLADAFWKinematicsScene.h
+	include/COLLADAFWLibraryNodes.h
+	include/COLLADAFWLight.h
+	include/COLLADAFWLines.h
+	include/COLLADAFWLinestrips.h
+	include/COLLADAFWLoaderUtils.h
+	include/COLLADAFWLookat.h
+	include/COLLADAFWMaterial.h
+	include/COLLADAFWMaterialBinding.h
+	include/COLLADAFWMatrix.h
+	include/COLLADAFWMesh.h
+	include/COLLADAFWMeshPrimitive.h
+	include/COLLADAFWMeshPrimitiveWithFaceVertexCount.h
+	include/COLLADAFWMeshVertexData.h
+	include/COLLADAFWModifier.h
+	include/COLLADAFWMorphController.h
+	include/COLLADAFWMotionProfile.h
+	include/COLLADAFWNewParam.h
+	include/COLLADAFWNode.h
+	include/COLLADAFWObject.h
+	include/COLLADAFWParam.h
+	include/COLLADAFWPass.h
+	include/COLLADAFWPassClear.h
+	include/COLLADAFWPassOutput.h
+	include/COLLADAFWPassTarget.h
+	include/COLLADAFWPointerArray.h
+	include/COLLADAFWPolygons.h
+	include/COLLADAFWPrerequisites.h
+	include/COLLADAFWRenderDraw.h
+	include/COLLADAFWRenderState.h
+	include/COLLADAFWRenderStateStatic.h
+	include/COLLADAFWRoot.h
+	include/COLLADAFWRotate.h
+	include/COLLADAFWSampler.h
+	include/COLLADAFWScale.h
+	include/COLLADAFWScene.h
+	include/COLLADAFWSemantic.h
+	include/COLLADAFWSetParam.h
+	include/COLLADAFWShader.h
+	include/COLLADAFWShaderBlinn.h
+	include/COLLADAFWShaderConstantFX.h
+	include/COLLADAFWShaderElement.h
+	include/COLLADAFWShaderLambert.h
+	include/COLLADAFWShaderPhong.h
+	include/COLLADAFWShear.h
+	include/COLLADAFWSkew.h
+	include/COLLADAFWSkinController.h
+	include/COLLADAFWSkinControllerData.h
+	include/COLLADAFWSpline.h
+	include/COLLADAFWStableHeaders.h
+	include/COLLADAFWTarget.h
+	include/COLLADAFWTargetableValue.h
+	include/COLLADAFWTechnique.h
+	include/COLLADAFWTexture.h
+	include/COLLADAFWTextureCoordinateBinding.h
+	include/COLLADAFWTransformation.h
+	include/COLLADAFWTranslate.h
+	include/COLLADAFWTriangles.h
+	include/COLLADAFWTrifans.h
+	include/COLLADAFWTristrips.h
+	include/COLLADAFWTypes.h
+	include/COLLADAFWUniqueId.h
+	include/COLLADAFWValidate.h
+	include/COLLADAFWValueType.h
+	include/COLLADAFWVisualScene.h
+)
+
+
+set(SRC
+	src/COLLADAFWAnimationClip.cpp
+	src/COLLADAFWLight.cpp
+	src/COLLADAFWEffectCommon.cpp
+	src/COLLADAFWInstanceKinematicsScene.cpp
+	src/COLLADAFWRoot.cpp
+	src/COLLADAFWFormula.cpp
+	src/COLLADAFWPrecompiledHeaders.cpp
+	src/COLLADAFWCamera.cpp
+	src/COLLADAFWTexture.cpp
+	src/COLLADAFWRenderState.cpp
+	src/COLLADAFWNode.cpp
+	src/COLLADAFWKinematicsScene.cpp
+	src/COLLADAFWMorphController.cpp
+	src/COLLADAFWRotate.cpp
+	src/COLLADAFWImage.cpp
+	src/COLLADAFWValidate.cpp
+	src/COLLADAFWVisualScene.cpp
+	src/COLLADAFWKinematicsModel.cpp
+	src/COLLADAFWEffect.cpp
+	src/COLLADAFWMeshPrimitive.cpp
+	src/COLLADAFWConstants.cpp
+	src/COLLADAFWColor.cpp
+	src/COLLADAFWUniqueId.cpp
+	src/COLLADAFWFormulas.cpp
+	src/COLLADAFWTransformation.cpp
+	src/COLLADAFWSkinController.cpp
+	src/COLLADAFWMaterial.cpp
+	src/COLLADAFWSampler.cpp
+	src/COLLADAFWScale.cpp
+	src/COLLADAFWFloatOrDoubleArray.cpp
+	src/COLLADAFWGeometry.cpp
+	src/COLLADAFWTranslate.cpp
+	src/COLLADAFWAxisInfo.cpp
+	src/COLLADAFWKinematicsController.cpp
+	src/COLLADAFWMatrix.cpp
+	src/COLLADAFWLoaderUtils.cpp
+	src/COLLADAFWFileInfo.cpp
+	src/COLLADAFWSkinControllerData.cpp
+	src/COLLADAFWMesh.cpp
+	src/COLLADAFWSpline.cpp
+
+	${INST_SRC}
+)
+
+set(TARGET_LIBS
+	OpenCOLLADABaseUtils
+	MathMLSolver
+)
+
+include_directories(
+	${libFramework_include_dirs}
+	${libBaseUtils_include_dirs}
+	${libMathMLSolver_include_dirs}
+)
+opencollada_add_lib(${name} "${SRC}" "${TARGET_LIBS}")
+
+install(
+	FILES ${INST_SRC}
+	DESTINATION ${OPENCOLLADA_INST_INCLUDE}/COLLADAFramework
+)

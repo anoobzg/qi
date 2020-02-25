@@ -1,0 +1,149 @@
+set(name OpenCOLLADAStreamWriter)
+project(${name})
+
+set(libStreamWriter_include_dirs
+	${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+set(libStreamWriter_include_dirs ${libStreamWriter_include_dirs} PARENT_SCOPE)  # adding include dirs to a parent scope
+
+set(INST_SRC
+	include/COLLADASWAnnotation.h
+	include/COLLADASWAsset.h
+	include/COLLADASWBaseElement.h
+	include/COLLADASWBaseInputElement.h
+	include/COLLADASWBindMaterial.h
+	include/COLLADASWBuffer.h
+	include/COLLADASWCamera.h
+	include/COLLADASWCameraOptic.h
+	include/COLLADASWCode.h
+	include/COLLADASWColor.h
+	include/COLLADASWColorOrTexture.h
+	include/COLLADASWConstants.h
+	include/COLLADASWControlVertices.h
+	include/COLLADASWEffectProfile.h
+	include/COLLADASWElementWriter.h
+	include/COLLADASWException.h
+	include/COLLADASWExtra.h
+	include/COLLADASWExtraTechnique.h
+	include/COLLADASWFormatHint.h
+	include/COLLADASWImage.h
+	include/COLLADASWInclude.h
+	include/COLLADASWInputList.h
+	include/COLLADASWInstanceCamera.h
+	include/COLLADASWInstanceController.h
+	include/COLLADASWInstanceEffect.h
+	include/COLLADASWInstanceGeometry.h
+	include/COLLADASWInstanceLight.h
+	include/COLLADASWInstanceMaterial.h
+	include/COLLADASWInstanceNode.h
+	include/COLLADASWLibrary.h
+	include/COLLADASWLibraryAnimationClips.h
+	include/COLLADASWLibraryAnimations.h
+	include/COLLADASWLibraryCameras.h
+	include/COLLADASWLibraryControllers.h
+	include/COLLADASWLibraryEffects.h
+	include/COLLADASWLibraryGeometries.h
+	include/COLLADASWLibraryImages.h
+	include/COLLADASWLibraryLights.h
+	include/COLLADASWLibraryMaterials.h
+	include/COLLADASWLibraryVisualScenes.h
+	include/COLLADASWLight.h
+	include/COLLADASWNode.h
+	include/COLLADASWOpenGLConstants.h
+	include/COLLADASWParamBase.h
+	include/COLLADASWParamTemplate.h
+	include/COLLADASWPass.h
+	include/COLLADASWPlatform.h
+	include/COLLADASWPrerequisites.h
+	include/COLLADASWPrimitves.h
+	include/COLLADASWRenderState.h
+	include/COLLADASWRenderStateStatic.h
+	include/COLLADASWSampler.h
+	include/COLLADASWScene.h
+	include/COLLADASWShader.h
+	include/COLLADASWSource.h
+	include/COLLADASWStreamWriter.h
+	include/COLLADASWSurfaceInitOption.h
+	include/COLLADASWTechnique.h
+	include/COLLADASWTechniqueFX.h
+	include/COLLADASWTexture.h
+	include/COLLADASWValueType.h
+	include/COLLADASWVertices.h
+)
+
+set(SRC
+	src/COLLADASWTechniqueFX.cpp
+	src/COLLADASWStreamWriter.cpp
+	src/COLLADASWImage.cpp
+	src/COLLADASWLibraryImages.cpp
+	src/COLLADASWControlVertices.cpp
+	src/COLLADASWInstanceEffect.cpp
+	src/COLLADASWException.cpp
+	src/COLLADASWBindMaterial.cpp
+	src/COLLADASWSource.cpp
+	src/COLLADASWSurfaceInitOption.cpp
+	src/COLLADASWColor.cpp
+	src/COLLADASWInstanceNode.cpp
+	src/COLLADASWInstanceCamera.cpp
+	src/COLLADASWPass.cpp
+	src/COLLADASWPrimitves.cpp
+	src/COLLADASWShader.cpp
+	src/COLLADASWLibraryLights.cpp
+	src/COLLADASWLibraryGeometries.cpp
+	src/COLLADASWScene.cpp
+	src/COLLADASWLibraryAnimationClips.cpp
+	src/COLLADASWExtra.cpp
+	src/COLLADASWLibraryMaterials.cpp
+	src/COLLADASWBaseElement.cpp
+	src/COLLADASWLibraryEffects.cpp
+	src/COLLADASWExtraTechnique.cpp
+	src/COLLADASWEffectProfile.cpp
+	src/COLLADASWFormatHint.cpp
+	src/COLLADASWLibraryControllers.cpp
+	src/COLLADASWBaseInputElement.cpp
+	src/COLLADASWInstanceMaterial.cpp
+	src/COLLADASWLight.cpp
+	src/COLLADASWCameraOptic.cpp
+	src/COLLADASWVertices.cpp
+	src/COLLADASWInstanceController.cpp
+	src/COLLADASWTechnique.cpp
+	src/COLLADASWLibraryAnimations.cpp
+	src/COLLADASWParamBase.cpp
+	src/COLLADASWLibraryVisualScenes.cpp
+	src/COLLADASWCamera.cpp
+	src/COLLADASWAsset.cpp
+	src/COLLADASWLibraryCameras.cpp
+	src/COLLADASWNode.cpp
+	src/COLLADASWInstanceGeometry.cpp
+	src/COLLADASWSampler.cpp
+	src/COLLADASWInstanceLight.cpp
+	src/COLLADASWTexture.cpp
+	src/COLLADASWRenderState.cpp
+	src/COLLADASWInputList.cpp
+	src/COLLADASWElementWriter.cpp
+	src/COLLADASWLibrary.cpp
+	src/COLLADASWConstants.cpp
+
+	${INST_SRC}
+)
+
+set(TARGET_LIBS
+	OpenCOLLADABaseUtils	
+	buffer
+	ftoa
+)
+
+include_directories(
+	${libStreamWriter_include_dirs} 
+	${libBaseUtils_include_dirs} 
+	${libftoa_include_dirs} 
+	${libBuffer_include_dirs}
+)
+
+opencollada_add_lib(${name} "${SRC}" "${TARGET_LIBS}")
+
+install(
+	FILES ${INST_SRC}
+	DESTINATION ${OPENCOLLADA_INST_INCLUDE}/COLLADAStreamWriter
+)

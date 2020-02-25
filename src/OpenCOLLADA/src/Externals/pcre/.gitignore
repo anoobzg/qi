@@ -1,0 +1,8 @@
+lib/
+obj/
+bin/
+*.ncb
+*.suo
+*.user
+pcre.sln
+pcre_static.vcxproj*
