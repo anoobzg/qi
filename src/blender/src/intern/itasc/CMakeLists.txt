@@ -1,0 +1,362 @@
+# ***** BEGIN GPL LICENSE BLOCK *****
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# The Original Code is Copyright (C) 2006, Blender Foundation
+# All rights reserved.
+# ***** END GPL LICENSE BLOCK *****
+remove_strict_flags()
+set(INC
+
+)
+
+set(INC_SYS
+  ${EIGEN3_INCLUDE_DIRS}
+)
+
+if(NOT WITH_SYSTEM_EIGEN3)
+  set(EIGEN_ROOT ${CMAKE_SOURCE_DIR}/../../Eigen/src/)
+  set(EIGEN3_HEADERS
+    # until we have another user...
+    ${EIGEN_ROOT}/Eigen/src/Cholesky/LDLT.h
+    ${EIGEN_ROOT}/Eigen/src/Cholesky/LLT.h
+    ${EIGEN_ROOT}/Eigen/src/Cholesky/LLT_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/CholmodSupport/CholmodSupport.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Array.h
+    ${EIGEN_ROOT}/Eigen/src/Core/ArrayBase.h
+    ${EIGEN_ROOT}/Eigen/src/Core/ArrayWrapper.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Assign.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Assign_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/Core/BandMatrix.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Block.h
+    ${EIGEN_ROOT}/Eigen/src/Core/BooleanRedux.h
+    ${EIGEN_ROOT}/Eigen/src/Core/CommaInitializer.h
+    ${EIGEN_ROOT}/Eigen/src/Core/CwiseBinaryOp.h
+    ${EIGEN_ROOT}/Eigen/src/Core/CwiseNullaryOp.h
+    ${EIGEN_ROOT}/Eigen/src/Core/CwiseUnaryOp.h
+    ${EIGEN_ROOT}/Eigen/src/Core/CwiseUnaryView.h
+    ${EIGEN_ROOT}/Eigen/src/Core/DenseBase.h
+    ${EIGEN_ROOT}/Eigen/src/Core/DenseCoeffsBase.h
+    ${EIGEN_ROOT}/Eigen/src/Core/DenseStorage.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Diagonal.h
+    ${EIGEN_ROOT}/Eigen/src/Core/DiagonalMatrix.h
+    ${EIGEN_ROOT}/Eigen/src/Core/DiagonalProduct.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Dot.h
+    ${EIGEN_ROOT}/Eigen/src/Core/EigenBase.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Flagged.h
+    ${EIGEN_ROOT}/Eigen/src/Core/ForceAlignedAccess.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Functors.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Fuzzy.h
+    ${EIGEN_ROOT}/Eigen/src/Core/GeneralProduct.h
+    ${EIGEN_ROOT}/Eigen/src/Core/GenericPacketMath.h
+    ${EIGEN_ROOT}/Eigen/src/Core/GlobalFunctions.h
+    ${EIGEN_ROOT}/Eigen/src/Core/IO.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Map.h
+    ${EIGEN_ROOT}/Eigen/src/Core/MapBase.h
+    ${EIGEN_ROOT}/Eigen/src/Core/MathFunctions.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Matrix.h
+    ${EIGEN_ROOT}/Eigen/src/Core/MatrixBase.h
+    ${EIGEN_ROOT}/Eigen/src/Core/NestByValue.h
+    ${EIGEN_ROOT}/Eigen/src/Core/NoAlias.h
+    ${EIGEN_ROOT}/Eigen/src/Core/NumTraits.h
+    ${EIGEN_ROOT}/Eigen/src/Core/PermutationMatrix.h
+    ${EIGEN_ROOT}/Eigen/src/Core/PlainObjectBase.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Product.h
+    ${EIGEN_ROOT}/Eigen/src/Core/ProductBase.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Random.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Redux.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Replicate.h
+    ${EIGEN_ROOT}/Eigen/src/Core/ReturnByValue.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Reverse.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Select.h
+    ${EIGEN_ROOT}/Eigen/src/Core/SelfAdjointView.h
+    ${EIGEN_ROOT}/Eigen/src/Core/SelfCwiseBinaryOp.h
+    ${EIGEN_ROOT}/Eigen/src/Core/SolveTriangular.h
+    ${EIGEN_ROOT}/Eigen/src/Core/StableNorm.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Stride.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Swap.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Transpose.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Transpositions.h
+    ${EIGEN_ROOT}/Eigen/src/Core/TriangularMatrix.h
+    ${EIGEN_ROOT}/Eigen/src/Core/VectorBlock.h
+    ${EIGEN_ROOT}/Eigen/src/Core/VectorwiseOp.h
+    ${EIGEN_ROOT}/Eigen/src/Core/Visitor.h
+    ${EIGEN_ROOT}/Eigen/src/Core/arch/AltiVec/Complex.h
+    ${EIGEN_ROOT}/Eigen/src/Core/arch/AltiVec/PacketMath.h
+    ${EIGEN_ROOT}/Eigen/src/Core/arch/Default/Settings.h
+    ${EIGEN_ROOT}/Eigen/src/Core/arch/NEON/Complex.h
+    ${EIGEN_ROOT}/Eigen/src/Core/arch/NEON/PacketMath.h
+    ${EIGEN_ROOT}/Eigen/src/Core/arch/SSE/Complex.h
+    ${EIGEN_ROOT}/Eigen/src/Core/arch/SSE/MathFunctions.h
+    ${EIGEN_ROOT}/Eigen/src/Core/arch/SSE/PacketMath.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/CoeffBasedProduct.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/GeneralMatrixMatrix.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/GeneralMatrixMatrixTriangular_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/GeneralMatrixMatrix_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/GeneralMatrixVector.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/GeneralMatrixVector_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/Parallelizer.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/SelfadjointMatrixMatrix_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/SelfadjointMatrixVector.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/SelfadjointMatrixVector_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/SelfadjointProduct.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/SelfadjointRank2Update.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/TriangularMatrixMatrix.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/TriangularMatrixMatrix_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/TriangularMatrixVector.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/TriangularMatrixVector_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/TriangularSolverMatrix.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/TriangularSolverMatrix_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/Core/products/TriangularSolverVector.h
+    ${EIGEN_ROOT}/Eigen/src/Core/util/BlasUtil.h
+    ${EIGEN_ROOT}/Eigen/src/Core/util/Constants.h
+    ${EIGEN_ROOT}/Eigen/src/Core/util/DisableStupidWarnings.h
+    ${EIGEN_ROOT}/Eigen/src/Core/util/ForwardDeclarations.h
+    ${EIGEN_ROOT}/Eigen/src/Core/util/Macros.h
+    ${EIGEN_ROOT}/Eigen/src/Core/util/Memory.h
+    ${EIGEN_ROOT}/Eigen/src/Core/util/Meta.h
+    ${EIGEN_ROOT}/Eigen/src/Core/util/MKL_support.h
+    ${EIGEN_ROOT}/Eigen/src/Core/util/NonMPL2.h
+    ${EIGEN_ROOT}/Eigen/src/Core/util/ReenableStupidWarnings.h
+    ${EIGEN_ROOT}/Eigen/src/Core/util/StaticAssert.h
+    ${EIGEN_ROOT}/Eigen/src/Core/util/XprHelper.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Block.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Cwise.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/CwiseOperators.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Lazy.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/LeastSquares.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/LU.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Macros.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/MathFunctions.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Memory.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Meta.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Minor.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/QR.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/SVD.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/TriangularSolver.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/VectorBlock.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Geometry/AlignedBox.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Geometry/All.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Geometry/AngleAxis.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Geometry/Hyperplane.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Geometry/ParametrizedLine.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Geometry/Quaternion.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Geometry/Rotation2D.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Geometry/RotationBase.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Geometry/Scaling.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Geometry/Transform.h
+    ${EIGEN_ROOT}/Eigen/src/Eigen2Support/Geometry/Translation.h
+    ${EIGEN_ROOT}/Eigen/src/Eigenvalues/ComplexEigenSolver.h
+    ${EIGEN_ROOT}/Eigen/src/Eigenvalues/ComplexSchur.h
+    ${EIGEN_ROOT}/Eigen/src/Eigenvalues/ComplexSchur_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/Eigenvalues/EigenSolver.h
+    ${EIGEN_ROOT}/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h
+    ${EIGEN_ROOT}/Eigen/src/Eigenvalues/HessenbergDecomposition.h
+    ${EIGEN_ROOT}/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h
+    ${EIGEN_ROOT}/Eigen/src/Eigenvalues/RealSchur.h
+    ${EIGEN_ROOT}/Eigen/src/Eigenvalues/RealSchur_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h
+    ${EIGEN_ROOT}/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/Eigenvalues/Tridiagonalization.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/AlignedBox.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/AngleAxis.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/EulerAngles.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/Homogeneous.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/Hyperplane.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/OrthoMethods.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/ParametrizedLine.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/Quaternion.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/Rotation2D.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/RotationBase.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/Scaling.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/Transform.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/Translation.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/Umeyama.h
+    ${EIGEN_ROOT}/Eigen/src/Geometry/arch/Geometry_SSE.h
+    ${EIGEN_ROOT}/Eigen/src/Householder/BlockHouseholder.h
+    ${EIGEN_ROOT}/Eigen/src/Householder/Householder.h
+    ${EIGEN_ROOT}/Eigen/src/Householder/HouseholderSequence.h
+    ${EIGEN_ROOT}/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h
+    ${EIGEN_ROOT}/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h
+    ${EIGEN_ROOT}/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h
+    ${EIGEN_ROOT}/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h
+    ${EIGEN_ROOT}/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h
+    ${EIGEN_ROOT}/Eigen/src/Jacobi/Jacobi.h
+    ${EIGEN_ROOT}/Eigen/src/LU/Determinant.h
+    ${EIGEN_ROOT}/Eigen/src/LU/FullPivLU.h
+    ${EIGEN_ROOT}/Eigen/src/LU/Inverse.h
+    ${EIGEN_ROOT}/Eigen/src/LU/PartialPivLU.h
+    ${EIGEN_ROOT}/Eigen/src/LU/PartialPivLU_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/LU/arch/Inverse_SSE.h
+    ${EIGEN_ROOT}/Eigen/src/misc/blas.h
+    ${EIGEN_ROOT}/Eigen/src/misc/Image.h
+    ${EIGEN_ROOT}/Eigen/src/misc/Kernel.h
+    ${EIGEN_ROOT}/Eigen/src/misc/Solve.h
+    ${EIGEN_ROOT}/Eigen/src/misc/SparseSolve.h
+    ${EIGEN_ROOT}/Eigen/src/OrderingMethods/Amd.h
+    ${EIGEN_ROOT}/Eigen/src/PardisoSupport/PardisoSupport.h
+    ${EIGEN_ROOT}/Eigen/src/PaStiXSupport/PaStiXSupport.h
+    ${EIGEN_ROOT}/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+    ${EIGEN_ROOT}/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+    ${EIGEN_ROOT}/Eigen/src/plugins/BlockMethods.h
+    ${EIGEN_ROOT}/Eigen/src/plugins/CommonCwiseBinaryOps.h
+    ${EIGEN_ROOT}/Eigen/src/plugins/CommonCwiseUnaryOps.h
+    ${EIGEN_ROOT}/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+    ${EIGEN_ROOT}/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+    ${EIGEN_ROOT}/Eigen/src/QR/ColPivHouseholderQR.h
+    ${EIGEN_ROOT}/Eigen/src/QR/ColPivHouseholderQR_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/QR/FullPivHouseholderQR.h
+    ${EIGEN_ROOT}/Eigen/src/QR/HouseholderQR.h
+    ${EIGEN_ROOT}/Eigen/src/QR/HouseholderQR_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCholesky/SimplicialCholesky.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/AmbiVector.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/CompressedStorage.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/CoreIterators.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/MappedSparseMatrix.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseAssign.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseBlock.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseCwiseBinaryOp.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseCwiseUnaryOp.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseDenseProduct.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseDiagonalProduct.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseDot.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseFuzzy.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseMatrix.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseMatrixBase.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparsePermutation.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseProduct.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseRedux.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseSelfAdjointView.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseSparseProductWithPruning.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseTranspose.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseTriangularView.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseUtil.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseVector.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/SparseView.h
+    ${EIGEN_ROOT}/Eigen/src/SparseCore/TriangularSolver.h
+    ${EIGEN_ROOT}/Eigen/src/StlSupport/details.h
+    ${EIGEN_ROOT}/Eigen/src/StlSupport/StdDeque.h
+    ${EIGEN_ROOT}/Eigen/src/StlSupport/StdList.h
+    ${EIGEN_ROOT}/Eigen/src/StlSupport/StdVector.h
+    ${EIGEN_ROOT}/Eigen/src/SuperLUSupport/SuperLUSupport.h
+    ${EIGEN_ROOT}/Eigen/src/SVD/JacobiSVD.h
+    ${EIGEN_ROOT}/Eigen/src/SVD/JacobiSVD_MKL.h
+    ${EIGEN_ROOT}/Eigen/src/SVD/UpperBidiagonalization.h
+    ${EIGEN_ROOT}/Eigen/src/UmfPackSupport/UmfPackSupport.h
+  )
+endif()
+
+set(SRC
+  Armature.cpp
+  Cache.cpp
+  ConstraintSet.cpp
+  ControlledObject.cpp
+  CopyPose.cpp
+  Distance.cpp
+  FixedObject.cpp
+  MovingFrame.cpp
+  Scene.cpp
+  UncontrolledObject.cpp
+  WDLSSolver.cpp
+  WSDLSSolver.cpp
+  WorldObject.cpp
+  eigen_types.cpp
+  ublas_types.hpp
+
+  kdl/chain.cpp
+  kdl/chainfksolverpos_recursive.cpp
+  kdl/chainjnttojacsolver.cpp
+  kdl/frameacc.cpp
+  kdl/frames.cpp
+  kdl/frames_io.cpp
+  kdl/framevel.cpp
+  kdl/inertia.cpp
+  kdl/jacobian.cpp
+  kdl/jntarray.cpp
+  kdl/jntarrayacc.cpp
+  kdl/jntarrayvel.cpp
+  kdl/joint.cpp
+  kdl/kinfam_io.cpp
+  kdl/segment.cpp
+  kdl/tree.cpp
+  kdl/treefksolverpos_recursive.cpp
+  kdl/treejnttojacsolver.cpp
+  kdl/utilities/error_stack.cpp
+  kdl/utilities/utility.cpp
+  kdl/utilities/utility_io.cpp
+
+  Armature.hpp
+  Cache.hpp
+  ConstraintSet.hpp
+  ControlledObject.hpp
+  CopyPose.hpp
+  Distance.hpp
+  FixedObject.hpp
+  MovingFrame.hpp
+  Object.hpp
+  Scene.hpp
+  Solver.hpp
+  UncontrolledObject.hpp
+  WDLSSolver.hpp
+  WSDLSSolver.hpp
+  WorldObject.hpp
+  eigen_types.hpp
+  kdl/chain.hpp
+  kdl/chainfksolver.hpp
+  kdl/chainfksolverpos_recursive.hpp
+  kdl/chainjnttojacsolver.hpp
+  kdl/frameacc.hpp
+  kdl/frames.hpp
+  kdl/frames_io.hpp
+  kdl/framevel.hpp
+  kdl/inertia.hpp
+  kdl/jacobian.hpp
+  kdl/jntarray.hpp
+  kdl/jntarrayacc.hpp
+  kdl/jntarrayvel.hpp
+  kdl/joint.hpp
+  kdl/kinfam_io.hpp
+  kdl/segment.hpp
+  kdl/tree.hpp
+  kdl/treefksolver.hpp
+  kdl/treefksolverpos_recursive.hpp
+  kdl/treejnttojacsolver.hpp
+  kdl/utilities/error.h
+  kdl/utilities/error_stack.h
+  kdl/utilities/kdl-config.h
+  kdl/utilities/rall1d.h
+  kdl/utilities/rall2d.h
+  kdl/utilities/svd_eigen_HH.hpp
+  kdl/utilities/traits.h
+  kdl/utilities/utility.h
+  kdl/utilities/utility_io.h
+
+  kdl/frameacc.inl
+  kdl/frames.inl
+  kdl/framevel.inl
+
+  ${EIGEN3_HEADERS}
+)
+
+set(LIB
+)
+
+unset(EIGEN3_HEADERS)
+
+blender_add_lib(bf_intern_itasc "${SRC}" "${INC}" "${INC_SYS}" "${LIB}")
